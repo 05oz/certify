@@ -1,0 +1,84 @@
+cff-version: 1.2.0
+message: >-
+  If you use these certificates, scripts, or results, please cite this
+  repository as below. Credit for the underlying counterexample map belongs
+  to Levent Alpöge (announcement of 2026-07-19; problem posed by Akhil
+  Mathew). The Dixmier corollary AND the symplectic cotangent lift are both
+  due to W. G. P. Mayner (2026-07-20/21). The master equation, the
+  base-point (anchor) identity, the S_3 monodromy and the exact image
+  theorem are anticipated by T. Shaska (arXiv:2607.20210), the anonymous
+  note at ulam.ai/research/jacobian.pdf, MathOverflow 513387, and Mayner.
+  What this repository claims as new is the in-class degree-minimality
+  theorem, the moment-map identity, and the no-go lemma. See PROVENANCE.md
+  §2 and §2b.
+type: software
+title: >-
+  Certify: degree minimality in the equivariant class of the Alpöge Keller
+  map, and the moment-map structure of its cotangent lift (certificates and
+  verification scripts)
+authors:
+  - family-names: Kirtchakov
+    given-names: Daniel
+    affiliation: "Independent researcher"
+    email: "daniel@halfounce.io"
+repository-code: "https://github.com/05oz/certify"
+date-released: "2026-08-04"
+version: 0.1.0
+license: Apache-2.0
+keywords:
+  - Jacobian conjecture
+  - Dixmier conjecture
+  - Poisson conjecture
+  - Weyl algebra
+  - Keller map
+  - polynomial symplectomorphism
+  - Groebner basis certificate
+  - computer-assisted proof
+  - msolve
+  - SymPy
+references:
+  - type: generic
+    title: A counterexample to the Jacobian conjecture in dimension three
+    authors:
+      - family-names: Alpöge
+        given-names: Levent
+    date-published: "2026-07-19"
+    notes: Public announcement; see the Secret Blogging Seminar and Tao posts.
+  - type: generic
+    title: >-
+      The Dixmier conjecture fails for A_n, n >= 3 (dixmier-note.tex) and
+      Structural analysis of the Jacobian conjecture counterexample in C^3
+      (REPORT.md)
+    authors:
+      - family-names: Mayner
+        given-names: W. G. P.
+    date-published: "2026-07-21"
+    url: "https://github.com/wmayner/dixmier-counterexample"
+    notes: >-
+      Two commits, 2026-07-21 05:36 and 06:41 UTC. The Dixmier statement was
+      first made in a Secret Blogging Seminar comment of 2026-07-20, 22:08.
+      REPORT.md section 8 contains the symplectic cotangent lift with
+      Phi*omega = omega exactly, det DPhi = 1, and non-injectivity, listed in
+      its priority section 12 as item 3. Not on arXiv; no DOI.
+  - type: article
+    title: Graded Keller maps and the Jacobian Conjecture
+    authors:
+      - family-names: Shaska
+        given-names: T.
+    date-published: "2026-07-22"
+    url: "https://arxiv.org/abs/2607.20210"
+    notes: >-
+      v1 2026-07-22, v2 2026-07-25. v2 Thm 8.3 is the master equation, v2
+      Lem 8.5 the base-point identity, v1 Thm 6.1 = v2 Thm 7.1 the
+      order-two vanishing on the contracted locus, v1 Thm 4.4(2) the S_3
+      monodromy, v1 Prop 5.1 the fiber counts and missed curve.
+  - type: generic
+    title: A counterexample to the Jacobian conjecture
+    authors:
+      - name: "Anonymous"
+    date-published: "2026-07-20"
+    url: "https://ulam.ai/research/jacobian.pdf"
+    notes: >-
+      Thm 4.2 gives the fiber counts 3/1/0 and the image complement
+      explicitly; Thm 5.1 and Cor 5.3 give families of every generic degree
+      at least 3. PDF timestamp 2026-07-20 05:54 EDT.

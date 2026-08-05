@@ -1,0 +1,21 @@
+a10,a11,a12,a20,a21,al0,al1,al2,be0,be1,be2,d0,d1,d2,ga0,ga1,tR
+32003
+-6*al2*d2*ga1,
+4*a12*be2*ga1 - 5*al1*d2*ga1 - 6*al2*d1*ga1 - 4*al2*d2*ga0 + 10*al2*d2*ga1,
+-a12*d2*ga1 + 8*a21*be2*ga1 - 12*al2*ga1,
+4*a11*be2*ga1 + 3*a12*be1*ga1 + 3*a12*be2*ga0 - 3*a12*be2*ga1 - 4*al0*d2*ga1 - 5*al1*d1*ga1 - 3*al1*d2*ga0 + 8*al1*d2*ga1 - 6*al2*d0*ga1 - 4*al2*d1*ga0 + 10*al2*d1*ga1 + 6*al2*d2*ga0 - 4*al2*d2*ga1,
+3*a21*d2*ga1,
+-2*a12*d1*ga1 + 8*a20*be2*ga1 + 6*a21*be1*ga1 + 6*a21*be2*ga0 - 6*a21*be2*ga1 - 10*al1*ga1 - 8*al2*ga0 + 20*al2*ga1,
+4*a10*be2*ga1 + 3*a11*be1*ga1 + 3*a11*be2*ga0 - 3*a11*be2*ga1 + 2*a12*be0*ga1 + 2*a12*be1*ga0 - 2*a12*be1*ga1 - 2*a12*be2*ga0 - 4*al0*d1*ga1 - 2*al0*d2*ga0 + 6*al0*d2*ga1 - 5*al1*d0*ga1 - 3*al1*d1*ga0 + 8*al1*d1*ga1 + 4*al1*d2*ga0 - 3*al1*d2*ga1 - 4*al2*d0*ga0 + 10*al2*d0*ga1 + 6*al2*d1*ga0 - 4*al2*d1*ga1 - 2*al2*d2*ga0,
+-7*a12*ga1 + 4*a20*d2*ga1 + a21*d1*ga1 + 3*a21*d2*ga0,
+a10*d2*ga1 - a11*d1*ga1 + a11*d2*ga0 - 3*a12*d0*ga1 - a12*d1*ga0 + 6*a20*be1*ga1 + 6*a20*be2*ga0 - 6*a20*be2*ga1 + 4*a21*be0*ga1 + 4*a21*be1*ga0 - 4*a21*be1*ga1 - 4*a21*be2*ga0 - 8*al0*ga1 - 6*al1*ga0 + 16*al1*ga1 + 12*al2*ga0 - 8*al2*ga1,
+3*a10*be1*ga1 + 3*a10*be2*ga0 - 3*a10*be2*ga1 + 2*a11*be0*ga1 + 2*a11*be1*ga0 - 2*a11*be1*ga1 - 2*a11*be2*ga0 + a12*be0*ga0 - a12*be0*ga1 - a12*be1*ga0 - 4*al0*d0*ga1 - 2*al0*d1*ga0 + 6*al0*d1*ga1 + 2*al0*d2*ga0 - 2*al0*d2*ga1 - 3*al1*d0*ga0 + 8*al1*d0*ga1 + 4*al1*d1*ga0 - 3*al1*d1*ga1 - al1*d2*ga0 + 6*al2*d0*ga0 - 4*al2*d0*ga1 - 2*al2*d1*ga0,
+-4*a21*ga1,
+-5*a11*ga1 - 4*a12*ga0 + 2*a20*d1*ga1 + 4*a20*d2*ga0 - a21*d0*ga1 + a21*d1*ga0,
+2*a10*d2*ga0 - 2*a11*d0*ga1 - 2*a12*d0*ga0 + 4*a20*be0*ga1 + 4*a20*be1*ga0 - 4*a20*be1*ga1 - 4*a20*be2*ga0 + 2*a21*be0*ga0 - 2*a21*be0*ga1 - 2*a21*be1*ga0 - 4*al0*ga0 + 12*al0*ga1 + 8*al1*ga0 - 6*al1*ga1 - 4*al2*ga0,
+2*a10*be0*ga1 + 2*a10*be1*ga0 - 2*a10*be1*ga1 - 2*a10*be2*ga0 + a11*be0*ga0 - a11*be0*ga1 - a11*be1*ga0 - 2*al0*d0*ga0 + 6*al0*d0*ga1 + 2*al0*d1*ga0 - 2*al0*d1*ga1 + 4*al1*d0*ga0 - 3*al1*d0*ga1 - al1*d1*ga0 - 2*al2*d0*ga0,
+-2*a20*ga1 - 2*a21*ga0,
+-3*a10*ga1 - 2*a11*ga0 + 2*a20*d1*ga0 - a21*d0*ga0,
+-a10*d0*ga1 + a10*d1*ga0 - a11*d0*ga0 + 2*a20*be0*ga0 - 2*a20*be0*ga1 - 2*a20*be1*ga0 + 4*al0*ga0 - 4*al0*ga1 - 2*al1*ga0,
+a10*be0*ga0 - a10*be0*ga1 - a10*be1*ga0 + 2*al0*d0*ga0 - 2*al0*d0*ga1 - al1*d0*ga0 - 1,
+ga1*tR - 1
