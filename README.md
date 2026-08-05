@@ -1,5 +1,7 @@
 # Certify: machine-verified structure of the Alpöge Keller map
 
+**Archival record:** [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112)
+
 **Degree minimality in the equivariant class of the Alpöge Keller map, and the moment-map structure of its cotangent lift — certificates, verification scripts, and preprint.**
 
 Author: Daniel Kirtchakov (Independent researcher). Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-04. All computations carried out with Claude (Fable 5), SymPy 1.14, msolve 0.10.1. Everything here is in characteristic zero.

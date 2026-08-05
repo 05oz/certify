@@ -21,6 +21,7 @@ authors:
     given-names: Daniel
     affiliation: "Independent researcher"
     email: "daniel@halfounce.io"
+doi: "10.5281/zenodo.21799112"
 repository-code: "https://github.com/05oz/certify"
 date-released: "2026-08-04"
 version: 0.1.0
