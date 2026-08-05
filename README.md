@@ -151,9 +151,18 @@ gunzip qec-certificates/bb288/*.lrat.gz
 python3 qec-scripts/check_lower.py    qec-certificates/bb288/lower_X_K9_sym.json   # d_X >= 10
 python3 qec-scripts/check_duality.py  qec-certificates/bb288/duality.json
 
-# integrity of the full audited corpus (incl. the four proofs not carried here)
-python3 qec-scripts/manifest.py
+# integrity: re-hash every artifact against the audited manifest
+python3 qec-scripts/verify_manifest.py
 ```
+
+`verify_manifest.py` reports `172 match, 0 mismatch, 10 absent` on a fresh clone: the
+ten "absent" are the six proofs that ship gzipped (decompress them and they match, since
+the manifest hashes the *uncompressed* bytes) and the four that are too large for git.
+After `gunzip qec-certificates/*/*.lrat.gz` the count is 178 match, 4 absent.
+
+Note that `qec-scripts/manifest.py` is the *pipeline's* manifest generator, not a verifier:
+it expects a `certificates/` directory beside itself and it **overwrites** `manifest.json`.
+It is included because it is part of the pipeline, and the pipeline is explicitly not trusted.
 
 `check_lower.py` never reads the shipped `.cnf`: it regenerates the CNF from the raw parity-check matrices and replays the LRAT against its own clause list. Corrupting a shipped `.cnf` changes nothing, and the audit confirmed that by doing it.
 
@@ -187,7 +196,8 @@ checker/             independent certificate checker (pending; see checker/PENDI
 
   -- Part B: quantum code distances --
 qec-certificates/    the certificate corpus, by code; manifest.json; REGENERATE.md
-qec-scripts/         the three checkers (check_witness / check_lower / check_duality) + the pipeline
+qec-scripts/         the three checkers (check_witness / check_lower / check_duality),
+                     verify_manifest.py, and the (untrusted) generating pipeline
 INDEPENDENT-VERIFICATION.md   the audit: 47/47 checks, 5.08 GiB replayed in pure Python
 SWEEP-RECORD-QEC-2026-08-04.md   the dated adversarial prior-art sweep
 ```

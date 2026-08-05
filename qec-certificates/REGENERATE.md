@@ -118,13 +118,26 @@ descriptors name the uncompressed file, so decompress first:
 gunzip bb90/*.lrat.gz bb108/*.lrat.gz bb144/*.lrat.gz bb288/*.lrat.gz
 ```
 
-`manifest.json` hashes the **uncompressed** bytes, so a successful `manifest.py`
-run after decompression also confirms the archives were intact.
+`manifest.json` hashes the **uncompressed** bytes, so a successful
+`verify_manifest.py` run after decompression also confirms the archives were
+intact.
 
 ## Integrity
 
 `manifest.json` in this directory carries the SHA-256 and byte count of all 182
-artifacts of the audited corpus, including the four proofs listed above, and
-`../qec-scripts/manifest.py` re-checks them. Two known gaps, both documented in
-the paper: the manifest predates `bb288/duality.json` and does not list it, and
-the manifest covers files that this repository does not carry.
+artifacts of the audited corpus, including the four proofs listed above.
+To re-hash everything against it:
+
+```sh
+python3 ../qec-scripts/verify_manifest.py
+```
+
+On a fresh clone that prints `172 match, 0 mismatch, 10 absent`; after
+`gunzip */*.lrat.gz` it prints `178 match, 0 mismatch, 4 absent`, the four being
+the proofs listed above. Two known gaps, both documented in the paper: the
+manifest predates `bb288/duality.json` and does not list it, and the manifest
+covers files this repository does not carry.
+
+(`../qec-scripts/manifest.py` is the pipeline's manifest *generator*, not a
+verifier — it expects a `certificates/` directory beside itself and overwrites
+`manifest.json`. Use `verify_manifest.py`.)
