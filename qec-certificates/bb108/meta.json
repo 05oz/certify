@@ -1,0 +1,36 @@
+{
+ "name": "bb108",
+ "n": 108,
+ "k": 8,
+ "d_published": 10,
+ "events": [
+  {
+   "what": "upper_X",
+   "K": 10,
+   "weight": 10,
+   "solver_s": 3.184
+  },
+  {
+   "what": "upper_Z",
+   "K": 10,
+   "weight": 10,
+   "solver_s": 0.547
+  },
+  {
+   "what": "lower_X",
+   "K": 9,
+   "solver_s": 28.232,
+   "lrat_bytes": [
+    71551704
+   ]
+  },
+  {
+   "what": "lower_Z",
+   "K": 9,
+   "solver_s": 24.702,
+   "lrat_bytes": [
+    82276680
+   ]
+  }
+ ]
+}

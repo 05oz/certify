@@ -1,0 +1,36 @@
+{
+ "name": "surface5",
+ "n": 25,
+ "k": 1,
+ "d_published": 5,
+ "events": [
+  {
+   "what": "upper_X",
+   "K": 5,
+   "weight": 5,
+   "solver_s": 0.011
+  },
+  {
+   "what": "upper_Z",
+   "K": 5,
+   "weight": 5,
+   "solver_s": 0.026
+  },
+  {
+   "what": "lower_X",
+   "K": 4,
+   "solver_s": 0.016,
+   "lrat_bytes": [
+    4685
+   ]
+  },
+  {
+   "what": "lower_Z",
+   "K": 4,
+   "solver_s": 0.024,
+   "lrat_bytes": [
+    7085
+   ]
+  }
+ ]
+}

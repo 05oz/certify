@@ -1,0 +1,1125 @@
+{
+ "bb108": {
+  "files": {
+   "HX.txt": {
+    "bytes": 5893,
+    "sha256": "0cd8b072ab3059efc9a4f5c8b2ccacf94a9b56fc6ae6090514d9244a4345e68c"
+   },
+   "HZ.txt": {
+    "bytes": 5893,
+    "sha256": "c814102b943c21c5559377405aa6c38128cb782ba8323c4ac6dbdc9a86467c7f"
+   },
+   "duality.json": {
+    "bytes": 103,
+    "sha256": "87a17e5a1216248a3a02662b5328fe3ac8c1f55cc3cd93da0b3e83575b87e87a"
+   },
+   "duality_perm.txt": {
+    "bytes": 322,
+    "sha256": "ef79170a14825c9dfc1ceb0af56180dd33da4ab429386b7a8a219745e08ce9e3"
+   },
+   "lower_X_K9.cnf": {
+    "bytes": 49272,
+    "sha256": "5f6901bbab758f3cd39b9268a909e442f99ed497f566f1cb372b0113f965a3bc"
+   },
+   "lower_X_K9.json": {
+    "bytes": 258,
+    "sha256": "89043ec292c406de72a6affdabf58f1cb1e7908632ea035eb9014b8bd5dc45ac"
+   },
+   "lower_X_K9.lrat": {
+    "bytes": 71551704,
+    "sha256": "29964cb55cc73e08e697bd3745c1a6c9d1e6f4f6fdbd59f7d8d2ce8d82dd4583"
+   },
+   "lower_Z_K9.cnf": {
+    "bytes": 50432,
+    "sha256": "d63a86542d5458244cf3ac920de8770b1478a15f40b0dbb5fd4b8ef21e0fa8ee"
+   },
+   "lower_Z_K9.json": {
+    "bytes": 258,
+    "sha256": "05e7cd9f7c0916a0fc7640da9aa6d670493dc385e2f156e18cc4b985d824d0b5"
+   },
+   "lower_Z_K9.lrat": {
+    "bytes": 82276680,
+    "sha256": "fa651a40b58cc36f47f1ffcba794da5d3495cfae7c9e050447d0439652626979"
+   },
+   "meta.json": {
+    "bytes": 442,
+    "sha256": "771c46f9cc69e10fbf10509a17b35166d1d3f8a32a2914978c707f50677040c6"
+   },
+   "pairing_X.txt": {
+    "bytes": 878,
+    "sha256": "7018d659d212b3c935a02d6273506cfdc26f8085ed6392d1536a5b560e079f00"
+   },
+   "pairing_Z.txt": {
+    "bytes": 878,
+    "sha256": "349b63d2a1c10e5f9fdbd342aaf8d96ba832590696e099bd34fbdaf4f0049119"
+   },
+   "upper_X_K10.cnf": {
+    "bytes": 52461,
+    "sha256": "cc16fd6815fe95f64abb7922b9e8d4db12a105d6f1ae7535efa970f9649e820e"
+   },
+   "upper_Z_K10.cnf": {
+    "bytes": 53621,
+    "sha256": "6bb8c800ae6d878422bbd7c2fecc25e356e453a33a25c974305067a71788b851"
+   },
+   "witness_X.json": {
+    "bytes": 754,
+    "sha256": "3c21f2601cecb518729aaa593d3138bc0e180eb11ddefc23a8025b4e64eed833"
+   },
+   "witness_Z.json": {
+    "bytes": 754,
+    "sha256": "0281660a84a4353314f81f1c26e17421632339f1c65aa3c400a73eaf18c5198a"
+   }
+  },
+  "checks": [
+   {
+    "cert": "duality.json",
+    "checker": "check_duality.py",
+    "ok": true,
+    "ms": 32.5,
+    "msg": "OK duality: d_X = d_Z (weight-preserving ZX bijection) [checked in 2.25 ms]"
+   },
+   {
+    "cert": "lower_X_K9.json",
+    "checker": "check_lower.py +lrat-check",
+    "ok": true,
+    "ms": 1532.8,
+    "msg": "OK lower bound: d_X >= 10  [checked in 1475.8 ms]  (1 instance(s), external lrat-check LRAT check)"
+   },
+   {
+    "cert": "lower_Z_K9.json",
+    "checker": "check_lower.py +lrat-check",
+    "ok": true,
+    "ms": 1885.3,
+    "msg": "OK lower bound: d_Z >= 10  [checked in 1818.0 ms]  (1 instance(s), external lrat-check LRAT check)"
+   },
+   {
+    "cert": "witness_X.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 36.9,
+    "msg": "OK upper bound: d_X <= 10  [checked in 1.50 ms]"
+   },
+   {
+    "cert": "witness_Z.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 36.7,
+    "msg": "OK upper bound: d_Z <= 10  [checked in 1.32 ms]"
+   }
+  ]
+ },
+ "bb144": {
+  "files": {
+   "HX.txt": {
+    "bytes": 10447,
+    "sha256": "731b2654344697fef23c0e1081d9de5bf300ebb693f2cb168a19772b6c9d5ca0"
+   },
+   "HZ.txt": {
+    "bytes": 10447,
+    "sha256": "65c83b50b59b249f6c6e90f4218119dd6a340ecab1b4f9cbb2b6bf5de8d27c92"
+   },
+   "duality.json": {
+    "bytes": 103,
+    "sha256": "87a17e5a1216248a3a02662b5328fe3ac8c1f55cc3cd93da0b3e83575b87e87a"
+   },
+   "duality_perm.txt": {
+    "bytes": 466,
+    "sha256": "4a41add134ac89e9ba90bb7a5ef578a9360bb1edc89e8478207db4d477e4d25f"
+   },
+   "lower_X_K11.cnf": {
+    "bytes": 82076,
+    "sha256": "05f142b0ff439c9a6e0ecf224b1c204848cf722929127d2f8800389ca1db8977"
+   },
+   "lower_X_K11.json": {
+    "bytes": 261,
+    "sha256": "3b06534e0203c7b73b8236e1ee3d7138ebe6a4f6f522de64a23f473afbd0838a"
+   },
+   "lower_X_K11.lrat": {
+    "bytes": 867803294,
+    "sha256": "017747040f2f6c74681b276b7f15df768ee2781bc3f53d1380ca46c2a01e8508"
+   },
+   "lower_X_K11_i0.cnf": {
+    "bytes": 82080,
+    "sha256": "1bd76a3f1ef936651e30c3ac94eb9d2bceba20209bc15bb4c5a9ec440abd4cb0"
+   },
+   "lower_X_K11_i0.lrat": {
+    "bytes": 123823246,
+    "sha256": "e9488c5fb342e7957fc16a000c7485d4f132ed5748abf52316aeec39e6b821c3"
+   },
+   "lower_X_K11_i1.cnf": {
+    "bytes": 82504,
+    "sha256": "5242794723aa0d04ae9643cf79c6e2ae100c6604988c7196a8e6bc4fc27893d9"
+   },
+   "lower_X_K11_i1.lrat": {
+    "bytes": 33824,
+    "sha256": "2360d210031351b722e30d555fce719b6500744f4bc4e6a9299977309a8fa609"
+   },
+   "lower_X_K11_sym.json": {
+    "bytes": 1098,
+    "sha256": "15f3f344c5d058427746fb012847594c977d75337e9ce90ea5b4ed6537104164"
+   },
+   "lower_Z_K11.cnf": {
+    "bytes": 76200,
+    "sha256": "aa35a9392690af6c92243df9d6652e59b9059c5d52de3f75f1838d11e0d35076"
+   },
+   "lower_Z_K11.json": {
+    "bytes": 261,
+    "sha256": "1acfc899a4579f9d615bfa9f2e89de26fa2c3d4c67e952aa81e8bb653273150e"
+   },
+   "lower_Z_K11.lrat": {
+    "bytes": 671988205,
+    "sha256": "a95ab0e17453a4088dc09c092fd4d0bee11245f0fb148aa35d336e4784850b6b"
+   },
+   "meta.json": {
+    "bytes": 564,
+    "sha256": "4847ce9af44de93c94d014b4b344c51edb9c266a031deb57b1454aae7d7e19e8"
+   },
+   "pairing_X.txt": {
+    "bytes": 1747,
+    "sha256": "708fa98753343276e9d3591371ac43bf8072c8f416175c6b9ebd5ab54797ad8e"
+   },
+   "pairing_Z.txt": {
+    "bytes": 1747,
+    "sha256": "2853d7cd2155703f82dab16ab08cd97b2f12f55a32a213a4d38e633c7757f762"
+   },
+   "perm_0.txt": {
+    "bytes": 466,
+    "sha256": "e31bffe14a3186442f45e74f658dfb324a879712b1956c515e3f766a0ed60d4f"
+   },
+   "perm_1.txt": {
+    "bytes": 466,
+    "sha256": "28066999ed421eacaa8cb76d52b1ec4d0687078fb1970bb1cb2ae2f56af85c81"
+   },
+   "upper_X_K12.cnf": {
+    "bytes": 86381,
+    "sha256": "a75090f7285fb7ca1f3b6653b0188f47cf49046ed32ee5a1271a036789368de7"
+   },
+   "upper_Z_K12.cnf": {
+    "bytes": 80505,
+    "sha256": "a7f5541802b2b4bfb26add5ef3535e5cd3497f287ceb75d7e2cf8bb3d532cec7"
+   },
+   "witness_X.json": {
+    "bytes": 970,
+    "sha256": "98e0f43f2d94b9565772cd84ed4db51e5137bcbc78ae8f542d8a63f7c7b1cb78"
+   },
+   "witness_Z.json": {
+    "bytes": 970,
+    "sha256": "7123b3ae5f0669223fb4def0fde836eea53551d535cfe5eec44be744b44991df"
+   }
+  },
+  "checks": [
+   {
+    "cert": "duality.json",
+    "checker": "check_duality.py",
+    "ok": true,
+    "ms": 48.3,
+    "msg": "OK duality: d_X = d_Z (weight-preserving ZX bijection) [checked in 5.20 ms]"
+   },
+   {
+    "cert": "lower_X_K11.json",
+    "checker": "check_lower.py +lrat-check",
+    "ok": true,
+    "ms": 19831.8,
+    "msg": "OK lower bound: d_X >= 12  [checked in 19769.1 ms]  (1 instance(s), external lrat-check LRAT check)"
+   },
+   {
+    "cert": "lower_X_K11_sym.json",
+    "checker": "check_lower.py +lrat-check",
+    "ok": true,
+    "ms": 2694.7,
+    "msg": "OK lower bound: d_X >= 12  [checked in 2613.1 ms]  (2 instance(s), external lrat-check LRAT check)"
+   },
+   {
+    "cert": "lower_Z_K11.json",
+    "checker": "check_lower.py +lrat-check",
+    "ok": true,
+    "ms": 15339.0,
+    "msg": "OK lower bound: d_Z >= 12  [checked in 15278.1 ms]  (1 instance(s), external lrat-check LRAT check)"
+   },
+   {
+    "cert": "witness_X.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 45.9,
+    "msg": "OK upper bound: d_X <= 12  [checked in 2.39 ms]"
+   },
+   {
+    "cert": "witness_Z.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 39.4,
+    "msg": "OK upper bound: d_Z <= 12  [checked in 2.72 ms]"
+   }
+  ]
+ },
+ "bb288": {
+  "files": {
+   "HX.txt": {
+    "bytes": 41624,
+    "sha256": "cf3dcc4dc7cd11417e15f82f4624991e2974f3e3c5943fe68f6ad25518b872f2"
+   },
+   "HZ.txt": {
+    "bytes": 41624,
+    "sha256": "e271692a2958770bc7544401a0500aa63d09ed70b62f243034815b18e3d2701e"
+   },
+   "lower_X_K11_i0.cnf": {
+    "bytes": 172172,
+    "sha256": "7ac34ed32361ff3e723afbaa099d49e74a94cd1efd38e58c43478faddfa9d3e9"
+   },
+   "lower_X_K11_i0.lrat": {
+    "bytes": 350776168,
+    "sha256": "ee582993882e2cacc54e85664e7225d15d332ae8c67ffd542bef7471c4005f3a"
+   },
+   "lower_X_K11_i1.cnf": {
+    "bytes": 173074,
+    "sha256": "45dec5832172ce3b7fc5560970f741aec38fb461235505da93804c201ff6ac87"
+   },
+   "lower_X_K11_i1.lrat": {
+    "bytes": 144738,
+    "sha256": "808994ba2171af12e7da8d5722e91e7386fd8e2eff31cc7e0ab2a490387c6fb1"
+   },
+   "lower_X_K11_sym.json": {
+    "bytes": 1793,
+    "sha256": "0369e1a96274d34c8ad5a5c20f3e047cd4e7937a4f5f841eba12fe653fa7d57b"
+   },
+   "lower_X_K13_i0.cnf": {
+    "bytes": 189708,
+    "sha256": "3caaa035596018a69b14ba35e2de149f1cd52bc232e75bbe6994a4cb871427f4"
+   },
+   "lower_X_K13_i0.lrat": {
+    "bytes": 2941958076,
+    "sha256": "1e5904a006b572a5defda9c2bc9f8f2ec39bee14b557f27671405affd0b80503"
+   },
+   "lower_X_K13_i1.cnf": {
+    "bytes": 190610,
+    "sha256": "39a231c30b4ddc1bd873aae63e8adbdd547ec82b83d82bc57290fff57eb50cd0"
+   },
+   "lower_X_K13_i1.lrat": {
+    "bytes": 191479,
+    "sha256": "2361910011a0f56e24de097f6a2e774334d8aed0c00ea4727e1e30e16b84cca4"
+   },
+   "lower_X_K13_sym.json": {
+    "bytes": 1793,
+    "sha256": "69d2dbb08173eac9302c97800c56df76ee744ed97e04b9aa8d59cd35ad4be7a9"
+   },
+   "lower_X_K9_i0.cnf": {
+    "bytes": 154636,
+    "sha256": "2a0ae51b12e04192fefec49fe2735c59741f41f188b04e461950527eba23e4b4"
+   },
+   "lower_X_K9_i0.lrat": {
+    "bytes": 65337067,
+    "sha256": "f25f0988ba4218a66a4bec7f07b14b70924b964ba85ab48534cfdb53224ae263"
+   },
+   "lower_X_K9_i1.cnf": {
+    "bytes": 155538,
+    "sha256": "2f2570b8aa4f3f499f9cb2650a553215e2c9bad126ba0a8c291003cd191d39da"
+   },
+   "lower_X_K9_i1.lrat": {
+    "bytes": 103869,
+    "sha256": "f85dc7e1032ccdc54cfe0b3283cde8be589408eb18e998634c38c3ce2889495c"
+   },
+   "lower_X_K9_sym.json": {
+    "bytes": 1788,
+    "sha256": "0adb29736158afe3598dc6e2342a3735dd1a1966e62daaa7a06c0cea47c55d95"
+   },
+   "meta.json": {
+    "bytes": 505,
+    "sha256": "bd1659f48f0c3b01476e2153d20574266d736df7caf52381089472f9576a3b03"
+   },
+   "pairing_X.txt": {
+    "bytes": 3475,
+    "sha256": "20df1e08371926bb485ada6433c95a4a19164a606cf0c77091cfa98cb37d32a3"
+   },
+   "pairing_Z.txt": {
+    "bytes": 3475,
+    "sha256": "7419229f365aa82769bd1956fe33ec6ad812986ac324d05e9418dc7eb0b32509"
+   },
+   "perm_0.txt": {
+    "bytes": 1042,
+    "sha256": "44cc69a3061545e9e8193acc9ee147cdf32004e809dd2648dc30c8e7f614d054"
+   },
+   "perm_1.txt": {
+    "bytes": 1042,
+    "sha256": "bd8ac1b7dbcf69cc043af4d571b0620541de1033bd9d2a7f001b9fa83e3060f0"
+   },
+   "upper_X_K18.cnf": {
+    "bytes": 233544,
+    "sha256": "a2b7271fa4a968068a21e081fd57291ab68454b88525795150630986eaab2b60"
+   },
+   "witness_X.json": {
+    "bytes": 1834,
+    "sha256": "32f9e0fa85b806bdaf091d3533824d2569772827d5c521192ed764f539c9a369"
+   }
+  },
+  "checks": [
+   {
+    "cert": "lower_X_K11_sym.json",
+    "checker": "check_lower.py +lrat-check",
+    "ok": true,
+    "ms": 7972.5,
+    "msg": "OK lower bound: d_X >= 12  [checked in 7890.4 ms]  (2 instance(s), external lrat-check LRAT check)"
+   },
+   {
+    "cert": "lower_X_K13_sym.json",
+    "checker": "check_lower.py +lrat-check",
+    "ok": true,
+    "ms": 69603.9,
+    "msg": "OK lower bound: d_X >= 14  [checked in 69517.4 ms]  (2 instance(s), external lrat-check LRAT check)"
+   },
+   {
+    "cert": "lower_X_K9_sym.json",
+    "checker": "check_lower.py +lrat-check",
+    "ok": true,
+    "ms": 2051.9,
+    "msg": "OK lower bound: d_X >= 10  [checked in 1957.2 ms]  (2 instance(s), external lrat-check LRAT check)"
+   },
+   {
+    "cert": "witness_X.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 54.2,
+    "msg": "OK upper bound: d_X <= 18  [checked in 10.40 ms]"
+   }
+  ]
+ },
+ "bb72": {
+  "files": {
+   "HX.txt": {
+    "bytes": 2634,
+    "sha256": "708f102f07a85ccf7e377ed3fbbcd49158504349340e8ed3dd54b5e928a6b5ba"
+   },
+   "HZ.txt": {
+    "bytes": 2634,
+    "sha256": "137c4382fed0f29d347b340c35564ed1870cef9383e44fb0354fce2818a96f44"
+   },
+   "duality.json": {
+    "bytes": 103,
+    "sha256": "87a17e5a1216248a3a02662b5328fe3ac8c1f55cc3cd93da0b3e83575b87e87a"
+   },
+   "duality_perm.txt": {
+    "bytes": 206,
+    "sha256": "bb53f3c970705df9cbd996bc0c6aa3cd9aa5c54a6126546280ca8bcd360caa9d"
+   },
+   "lower_X_K5.cnf": {
+    "bytes": 26580,
+    "sha256": "c96b91d9c77951c79dc725ecb308cf72f294f7e61a7435dc4ae4daa3aaff6c78"
+   },
+   "lower_X_K5.json": {
+    "bytes": 258,
+    "sha256": "3614fcc07a879a46d4656377abdf222a4c3773f057dcc8d0ac0169ba4cf857d1"
+   },
+   "lower_X_K5.lrat": {
+    "bytes": 1542208,
+    "sha256": "0a25a10b65b6fbdec546d6924f0c3f97eeadf9b8065eafde978c6c4623e25b5e"
+   },
+   "lower_Z_K5.cnf": {
+    "bytes": 25512,
+    "sha256": "848d3cb74bb58f72f3cafc82fe3b2fea39eb2124ee2be367144f374231d11789"
+   },
+   "lower_Z_K5.json": {
+    "bytes": 258,
+    "sha256": "204abd083f28dc5156acc4c013177ca3e84497c5081d77b828aaed53a778a857"
+   },
+   "lower_Z_K5.lrat": {
+    "bytes": 1928204,
+    "sha256": "993d027dda790e3529bbeb1eaaf8c65d217ea2b91816a9a05cb15eae4afa4962"
+   },
+   "meta.json": {
+    "bytes": 432,
+    "sha256": "1f5a8413879dab5168b3ece8486fba67c4e8e79952b6ad19d62b572052fc2b21"
+   },
+   "pairing_X.txt": {
+    "bytes": 882,
+    "sha256": "136e71f5cfc8ef674e363c5907f71044e75e8903c76eac7ee79286a73c125638"
+   },
+   "pairing_Z.txt": {
+    "bytes": 882,
+    "sha256": "8a25821adb74b85c30bc06fb0c43b3f5ad17b73e9de37168950d9eec452f415e"
+   },
+   "upper_X_K6.cnf": {
+    "bytes": 28399,
+    "sha256": "e896736f4a931b43fd3ec28000996a3e3132856ee74c6b6b044a284cfc8418b0"
+   },
+   "upper_Z_K6.cnf": {
+    "bytes": 27331,
+    "sha256": "531cc9770e634e6d9a6440046fc4d134ab5a39ce3829c8ab310b54c0bc5c45b4"
+   },
+   "witness_X.json": {
+    "bytes": 537,
+    "sha256": "4f643b530b418f54085edf52a191bcf6f6ffd54f51553527c4eeb88e54a54dbb"
+   },
+   "witness_Z.json": {
+    "bytes": 537,
+    "sha256": "f2b429802570c82ea96bcd431c61d59109dfdca7c7ece931b5511c58572b8e93"
+   }
+  },
+  "checks": [
+   {
+    "cert": "duality.json",
+    "checker": "check_duality.py",
+    "ok": true,
+    "ms": 43.9,
+    "msg": "OK duality: d_X = d_Z (weight-preserving ZX bijection) [checked in 1.49 ms]"
+   },
+   {
+    "cert": "lower_X_K5.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 294.1,
+    "msg": "OK lower bound: d_X >= 6  [checked in 227.4 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "lower_Z_K5.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 363.4,
+    "msg": "OK lower bound: d_Z >= 6  [checked in 295.7 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "witness_X.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 45.2,
+    "msg": "OK upper bound: d_X <= 6  [checked in 0.82 ms]"
+   },
+   {
+    "cert": "witness_Z.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 43.8,
+    "msg": "OK upper bound: d_Z <= 6  [checked in 0.82 ms]"
+   }
+  ]
+ },
+ "bb90": {
+  "files": {
+   "HX.txt": {
+    "bytes": 4101,
+    "sha256": "4ecfca45d7eee0fa08f3b6bb25d56ec9e0168c8d6c1f03959fa6e5f03671d050"
+   },
+   "HZ.txt": {
+    "bytes": 4101,
+    "sha256": "17ac60521f275ab73e26d63ae09d9149a9cc261b0482ec7ad38ad552988bbfab"
+   },
+   "duality.json": {
+    "bytes": 103,
+    "sha256": "87a17e5a1216248a3a02662b5328fe3ac8c1f55cc3cd93da0b3e83575b87e87a"
+   },
+   "duality_perm.txt": {
+    "bytes": 260,
+    "sha256": "216ef986e818fbae57d31b77790324131e09b0166bce43f95aa81fb003e7d552"
+   },
+   "lower_X_K9.cnf": {
+    "bytes": 40201,
+    "sha256": "ebd51133feff1288ea218bfc2e7b7ae4ccfd0f42a5bc0ffcaac3c65fff3435ab"
+   },
+   "lower_X_K9.json": {
+    "bytes": 258,
+    "sha256": "89043ec292c406de72a6affdabf58f1cb1e7908632ea035eb9014b8bd5dc45ac"
+   },
+   "lower_X_K9.lrat": {
+    "bytes": 128445595,
+    "sha256": "c6f07a74abe328df3a60b6061ba133ddbae2b387654c6819bedfba5265108ef9"
+   },
+   "lower_Z_K9.cnf": {
+    "bytes": 40481,
+    "sha256": "8a861871f24e84083b009660d5dfc433215e82a87fda743afd626b4080282ffe"
+   },
+   "lower_Z_K9.json": {
+    "bytes": 258,
+    "sha256": "05e7cd9f7c0916a0fc7640da9aa6d670493dc385e2f156e18cc4b985d824d0b5"
+   },
+   "lower_Z_K9.lrat": {
+    "bytes": 150841943,
+    "sha256": "29ac9999811003a8d98703f38e5c7f422c2c1ca5b6fc3de3722cb96c4f43e324"
+   },
+   "meta.json": {
+    "bytes": 442,
+    "sha256": "81d5a8553d1b9c8dd4b7a22b473cb0acc3b24f1b8de737c399673407f6707d6a"
+   },
+   "pairing_X.txt": {
+    "bytes": 733,
+    "sha256": "47b1adf80032fddc3088a402ee339271c5ab6ffede76410bc6e70cb9a45214b9"
+   },
+   "pairing_Z.txt": {
+    "bytes": 733,
+    "sha256": "a35d7b81ae5b4aa1a172542ce1fe46513bb3f64864472c8a8ff7ec8d7094eaec"
+   },
+   "upper_X_K10.cnf": {
+    "bytes": 42842,
+    "sha256": "c0f4d6e2a9fd26c594153d61fa229d6c2a26839f4d7143c435cbb3e0b74f71fd"
+   },
+   "upper_Z_K10.cnf": {
+    "bytes": 43122,
+    "sha256": "d64a0c2f3c28073bf8fae8964fa129b53f60bc292e78faee1c65109622ba3d69"
+   },
+   "witness_X.json": {
+    "bytes": 646,
+    "sha256": "8e39e14530123fad3bc14eea354a9892ee51dd8f484d8a4b8f93a734b10365a7"
+   },
+   "witness_Z.json": {
+    "bytes": 646,
+    "sha256": "82f373ff3329aa8c8be91962bd18fce93aad149d4316c704024f27877ea51bdf"
+   }
+  },
+  "checks": [
+   {
+    "cert": "duality.json",
+    "checker": "check_duality.py",
+    "ok": true,
+    "ms": 45.1,
+    "msg": "OK duality: d_X = d_Z (weight-preserving ZX bijection) [checked in 2.07 ms]"
+   },
+   {
+    "cert": "lower_X_K9.json",
+    "checker": "check_lower.py +lrat-check",
+    "ok": true,
+    "ms": 2875.8,
+    "msg": "OK lower bound: d_X >= 10  [checked in 2814.6 ms]  (1 instance(s), external lrat-check LRAT check)"
+   },
+   {
+    "cert": "lower_Z_K9.json",
+    "checker": "check_lower.py +lrat-check",
+    "ok": true,
+    "ms": 3325.6,
+    "msg": "OK lower bound: d_Z >= 10  [checked in 3261.6 ms]  (1 instance(s), external lrat-check LRAT check)"
+   },
+   {
+    "cert": "witness_X.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 43.4,
+    "msg": "OK upper bound: d_X <= 10  [checked in 1.26 ms]"
+   },
+   {
+    "cert": "witness_Z.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 38.3,
+    "msg": "OK upper bound: d_Z <= 10  [checked in 1.22 ms]"
+   }
+  ]
+ },
+ "five_qubit": {
+  "files": {
+   "S.txt": {
+    "bytes": 49,
+    "sha256": "bbefc6376ff3ef020becac7d12c216280b225b9a2d56df18d720e5ea023a00d2"
+   },
+   "lower_K2.cnf": {
+    "bytes": 1256,
+    "sha256": "49eac05d116c84f9e7fc17a0f81a41e43e0eed667f7e8fe323dc511f2e176063"
+   },
+   "lower_K2.json": {
+    "bytes": 194,
+    "sha256": "e59da5233572d12787ec766b38f30029e077f0feea9ce6db0563ca81a1ae86de"
+   },
+   "lower_K2.lrat": {
+    "bytes": 1514,
+    "sha256": "db5add35b876a8f4ab181f9d8f668811219e6e78283dff48705edd15ff6ff527"
+   },
+   "meta.json": {
+    "bytes": 249,
+    "sha256": "bff0d876937c8f1f157eed7e225f50baf9afaaa50bc847a70dc498b1cfa7d03f"
+   },
+   "pairing.txt": {
+    "bytes": 27,
+    "sha256": "0cf2c999855ecf27f627e129494375da227332c226bd6568d4cc3f0ace021b69"
+   },
+   "upper_K3.cnf": {
+    "bytes": 1328,
+    "sha256": "ebb5a4dbe9faad9297b6aa2032a96a69177457de46b381b84ad0304c419e2d97"
+   },
+   "witness.json": {
+    "bytes": 128,
+    "sha256": "76b37b83027b535ae1bc27ea09d8cc6215d6293e7e633fdcbaa460da65dc3041"
+   }
+  },
+  "checks": [
+   {
+    "cert": "lower_K2.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 61.1,
+    "msg": "OK lower bound: d >= 3  [checked in 0.6 ms]"
+   },
+   {
+    "cert": "witness.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 37.9,
+    "msg": "OK upper bound: d <= 3  [checked in 0.16 ms]"
+   }
+  ]
+ },
+ "golay": {
+  "files": {
+   "HX.txt": {
+    "bytes": 270,
+    "sha256": "be58867e59d1505a31a88946bfd1d5435d0421c239bdd0fbad8ecb330f5ba084"
+   },
+   "HZ.txt": {
+    "bytes": 270,
+    "sha256": "be58867e59d1505a31a88946bfd1d5435d0421c239bdd0fbad8ecb330f5ba084"
+   },
+   "lower_X_K6.cnf": {
+    "bytes": 7434,
+    "sha256": "8b15498e64ed7098696a9eb9b5345cb80607357b659c1bbfdfc91c428f9d2503"
+   },
+   "lower_X_K6.json": {
+    "bytes": 258,
+    "sha256": "e6fc4014ee4f0d1adef0e2efea7fd34446f556318de45b4bb5d287b125446565"
+   },
+   "lower_X_K6.lrat": {
+    "bytes": 226377,
+    "sha256": "d5640033dfeaa7f9d980bdfaadc6400c49ba01d660b2955dbb7b7bb08b0aec68"
+   },
+   "lower_Z_K6.cnf": {
+    "bytes": 7434,
+    "sha256": "8b15498e64ed7098696a9eb9b5345cb80607357b659c1bbfdfc91c428f9d2503"
+   },
+   "lower_Z_K6.json": {
+    "bytes": 258,
+    "sha256": "062bfeaa42614543d42550d035b00f25b3fb80d700563a0cffe52e6ca949f231"
+   },
+   "lower_Z_K6.lrat": {
+    "bytes": 226377,
+    "sha256": "d5640033dfeaa7f9d980bdfaadc6400c49ba01d660b2955dbb7b7bb08b0aec68"
+   },
+   "meta.json": {
+    "bytes": 430,
+    "sha256": "09b88956c135e71673b8b6c44c0816b4a531d4da227a81712247f0f45f1c6d0d"
+   },
+   "pairing_X.txt": {
+    "bytes": 29,
+    "sha256": "61f2b8589509a5d8616c0cf2710dc2267f1983c9c4dfe65efa36c59e2020f6ce"
+   },
+   "pairing_Z.txt": {
+    "bytes": 29,
+    "sha256": "61f2b8589509a5d8616c0cf2710dc2267f1983c9c4dfe65efa36c59e2020f6ce"
+   },
+   "upper_X_K7.cnf": {
+    "bytes": 7979,
+    "sha256": "ae749964a50927549813e30005e69a196a2055e589d3f66a58a1a7676078da70"
+   },
+   "upper_Z_K7.cnf": {
+    "bytes": 7979,
+    "sha256": "ae749964a50927549813e30005e69a196a2055e589d3f66a58a1a7676078da70"
+   },
+   "witness_X.json": {
+    "bytes": 243,
+    "sha256": "41d599919fa7484a043719f23c02d92ef348b8c22d6c7cb30cae77e0842b6051"
+   },
+   "witness_Z.json": {
+    "bytes": 243,
+    "sha256": "73358471be6dc2d72b51e1587fe3d507b944e8b4ec1e850245602457981380f0"
+   }
+  },
+  "checks": [
+   {
+    "cert": "lower_X_K6.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 93.3,
+    "msg": "OK lower bound: d_X >= 7  [checked in 33.8 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "lower_Z_K6.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 85.4,
+    "msg": "OK lower bound: d_Z >= 7  [checked in 29.9 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "witness_X.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 34.3,
+    "msg": "OK upper bound: d_X <= 7  [checked in 0.23 ms]"
+   },
+   {
+    "cert": "witness_Z.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 33.4,
+    "msg": "OK upper bound: d_Z <= 7  [checked in 0.22 ms]"
+   }
+  ]
+ },
+ "steane": {
+  "files": {
+   "HX.txt": {
+    "bytes": 28,
+    "sha256": "b78324af49833a7e6585dfce085d71b267df2d2a38da93ae93bb0e99c5a69069"
+   },
+   "HZ.txt": {
+    "bytes": 28,
+    "sha256": "b78324af49833a7e6585dfce085d71b267df2d2a38da93ae93bb0e99c5a69069"
+   },
+   "lower_X_K2.cnf": {
+    "bytes": 767,
+    "sha256": "a1daaf584901fcc8b8df8f8f918df3aeed8d90c9fc26b2983fd6ec46ddc174a1"
+   },
+   "lower_X_K2.json": {
+    "bytes": 258,
+    "sha256": "dd9c07cfdb91659c5b9b5ebd2987617562729ad91feead7bf8165aa0ab088b02"
+   },
+   "lower_X_K2.lrat": {
+    "bytes": 699,
+    "sha256": "c3b0c8fb16f52c77d98ac62b297150c5ea93529f8d297bf3e32514e3a5bc7e74"
+   },
+   "lower_Z_K2.cnf": {
+    "bytes": 767,
+    "sha256": "a1daaf584901fcc8b8df8f8f918df3aeed8d90c9fc26b2983fd6ec46ddc174a1"
+   },
+   "lower_Z_K2.json": {
+    "bytes": 258,
+    "sha256": "d00e1b539c23ea3347b279fe3928c13c21cb28b0ea3634c0ff30e7d8c6b9d740"
+   },
+   "lower_Z_K2.lrat": {
+    "bytes": 699,
+    "sha256": "c3b0c8fb16f52c77d98ac62b297150c5ea93529f8d297bf3e32514e3a5bc7e74"
+   },
+   "meta.json": {
+    "bytes": 424,
+    "sha256": "2c75c14334b25359ee943cf613f20cafb5cb83da1249f875503d3a9b1f93f035"
+   },
+   "pairing_X.txt": {
+    "bytes": 12,
+    "sha256": "2b0d9c72ffab4c4e3ee97a8bd4267143adf367bd483eb140f951901e29f88e86"
+   },
+   "pairing_Z.txt": {
+    "bytes": 12,
+    "sha256": "2b0d9c72ffab4c4e3ee97a8bd4267143adf367bd483eb140f951901e29f88e86"
+   },
+   "upper_X_K3.cnf": {
+    "bytes": 878,
+    "sha256": "83818aa2b322f0a2a196e6609439a10456beaf1707a051eb8a47aac50cc22fb0"
+   },
+   "upper_Z_K3.cnf": {
+    "bytes": 878,
+    "sha256": "83818aa2b322f0a2a196e6609439a10456beaf1707a051eb8a47aac50cc22fb0"
+   },
+   "witness_X.json": {
+    "bytes": 147,
+    "sha256": "0515856e1eeb62542a680b245334f422a4032d33ae88e199d6e9d1fdf118cf68"
+   },
+   "witness_Z.json": {
+    "bytes": 147,
+    "sha256": "ac9b78396eca5ad925078059d3375e6f0a969d181b8bfe9d96d53c787f240e74"
+   }
+  },
+  "checks": [
+   {
+    "cert": "lower_X_K2.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 51.4,
+    "msg": "OK lower bound: d_X >= 3  [checked in 0.3 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "lower_Z_K2.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 51.9,
+    "msg": "OK lower bound: d_Z >= 3  [checked in 0.4 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "witness_X.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 33.5,
+    "msg": "OK upper bound: d_X <= 3  [checked in 0.29 ms]"
+   },
+   {
+    "cert": "witness_Z.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 32.8,
+    "msg": "OK upper bound: d_Z <= 3  [checked in 0.27 ms]"
+   }
+  ]
+ },
+ "surface3": {
+  "files": {
+   "HX.txt": {
+    "bytes": 44,
+    "sha256": "e085573cf8460436f4ac78b711974c02629cd223989993c3efe7b35437ec2fa7"
+   },
+   "HZ.txt": {
+    "bytes": 44,
+    "sha256": "2e6abd3505b31b18097edebe2ff9dce77cc66f145f9ebce8759d81b93e27a77d"
+   },
+   "lower_X_K2.cnf": {
+    "bytes": 833,
+    "sha256": "ebf8acab88ad38b7058388ffc1e7db47d2ef458f89e4e4086cd5810274ff6b14"
+   },
+   "lower_X_K2.json": {
+    "bytes": 258,
+    "sha256": "dd9c07cfdb91659c5b9b5ebd2987617562729ad91feead7bf8165aa0ab088b02"
+   },
+   "lower_X_K2.lrat": {
+    "bytes": 518,
+    "sha256": "40902a8f87c4bde06c2fc3419e1f2008e64a61fd35931e270b4d809792feb9f7"
+   },
+   "lower_Z_K2.cnf": {
+    "bytes": 833,
+    "sha256": "6be63e81283fa919d4a68df940032ba7d7e52bfbcd12c8f9ed8720f3118191f9"
+   },
+   "lower_Z_K2.json": {
+    "bytes": 258,
+    "sha256": "d00e1b539c23ea3347b279fe3928c13c21cb28b0ea3634c0ff30e7d8c6b9d740"
+   },
+   "lower_Z_K2.lrat": {
+    "bytes": 746,
+    "sha256": "7cfb7b63f7c39903a777ee46a6af84d8e89ee4c74b8c537eb5f255d001e197e5"
+   },
+   "meta.json": {
+    "bytes": 426,
+    "sha256": "025449df391e00b8b78bd84fea87efae852cba22b5f8c793a9be8fd2f5e85d10"
+   },
+   "pairing_X.txt": {
+    "bytes": 14,
+    "sha256": "fd9206f72f6b10dc1d99c9de149c4000458cdc529f024f120b7413e5501f5044"
+   },
+   "pairing_Z.txt": {
+    "bytes": 14,
+    "sha256": "32e57606c9eabe0b330f80a2284a18c125e5ede8f57a0fa63890daa784c9c831"
+   },
+   "upper_X_K3.cnf": {
+    "bytes": 986,
+    "sha256": "f5cff651fffeeace2b4a3abdeefc3f4755ea78d5571c4217dbd7dade5b522bae"
+   },
+   "upper_Z_K3.cnf": {
+    "bytes": 986,
+    "sha256": "f48a03fd3d04cfdcd59dde9630d25890a0154315120cc3f702b66666e4aeda1e"
+   },
+   "witness_X.json": {
+    "bytes": 159,
+    "sha256": "390d6a2fec68a8d7f0e2b8588645cf0eba1083eae2d815783a08ab6e1e6ebfac"
+   },
+   "witness_Z.json": {
+    "bytes": 159,
+    "sha256": "722c509bd9b3752a4885d5b1a94ff7dbc6b11859bc0c83c94c4c0a18fb2049a5"
+   }
+  },
+  "checks": [
+   {
+    "cert": "lower_X_K2.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 52.0,
+    "msg": "OK lower bound: d_X >= 3  [checked in 0.4 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "lower_Z_K2.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 51.5,
+    "msg": "OK lower bound: d_Z >= 3  [checked in 0.4 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "witness_X.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 33.1,
+    "msg": "OK upper bound: d_X <= 3  [checked in 0.18 ms]"
+   },
+   {
+    "cert": "witness_Z.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 33.0,
+    "msg": "OK upper bound: d_Z <= 3  [checked in 0.23 ms]"
+   }
+  ]
+ },
+ "surface5": {
+  "files": {
+   "HX.txt": {
+    "bytes": 318,
+    "sha256": "b84827c966f23668e4f3b1ffdfcabbb8b87d23ccc85cd17aed37af1f7161d802"
+   },
+   "HZ.txt": {
+    "bytes": 318,
+    "sha256": "90d48d359261fedd87e2be200b23650eb576f9945d3a34268bc4e3c4d9fe0f0e"
+   },
+   "lower_X_K4.cnf": {
+    "bytes": 3986,
+    "sha256": "82e12b66d6803d99a97e1815ba29bf2a24e5c068bb7f84336c74e077a54e8a42"
+   },
+   "lower_X_K4.json": {
+    "bytes": 258,
+    "sha256": "f7393f058d630374bbc612ff3ea933d99443dda9adbbdad639b39ac77209ed02"
+   },
+   "lower_X_K4.lrat": {
+    "bytes": 4685,
+    "sha256": "328222769f2afddd2652037273c52faad2de3a5d4ef014d103f2feebeb0d5e36"
+   },
+   "lower_Z_K4.cnf": {
+    "bytes": 3990,
+    "sha256": "c30d14918834cf6ab401f171a7a5f902d7a5394a33a5b8a536fd0f7dc4ac7a91"
+   },
+   "lower_Z_K4.json": {
+    "bytes": 258,
+    "sha256": "c5d19c3c5ee9993b57d9eef98a88d183c837185433ac868d1cdf1d1da196dd70"
+   },
+   "lower_Z_K4.lrat": {
+    "bytes": 7085,
+    "sha256": "e7b9911abb01a8f9ffd91e75ff94fdaa697f60ee8fc04f26a9c61dc9568234b8"
+   },
+   "meta.json": {
+    "bytes": 429,
+    "sha256": "5654fa2c81da048244f0befceb527870a7d71948571a7e3e4668d928cc14b9f9"
+   },
+   "pairing_X.txt": {
+    "bytes": 31,
+    "sha256": "14182e70cdb30347a3e72c31320cf7de55a5796bc9df214213c977112a502a25"
+   },
+   "pairing_Z.txt": {
+    "bytes": 31,
+    "sha256": "63de1f7997a0d073122e9d3cb13305cb39a49b6ce6dc94c9a441f384bec1e338"
+   },
+   "upper_X_K5.cnf": {
+    "bytes": 4584,
+    "sha256": "563775e0a5ba68d24994018197df902a7ba117721bdb077dbf99aab7970931ba"
+   },
+   "upper_Z_K5.cnf": {
+    "bytes": 4588,
+    "sha256": "c1225173e6a512181d006f147001013eff0c1f8fba7c8b824f585ca471ad2da3"
+   },
+   "witness_X.json": {
+    "bytes": 255,
+    "sha256": "79e1da9e81f0eb58b4e3902ea912ab6c4cf6a493114516451dd7c474b04d3a90"
+   },
+   "witness_Z.json": {
+    "bytes": 255,
+    "sha256": "4ebffb4d0811829eb144f26afe8de75d108cd71c2f01af662a1f340f316f5cf7"
+   }
+  },
+  "checks": [
+   {
+    "cert": "lower_X_K4.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 58.7,
+    "msg": "OK lower bound: d_X >= 5  [checked in 1.5 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "lower_Z_K4.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 54.3,
+    "msg": "OK lower bound: d_Z >= 5  [checked in 1.5 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "witness_X.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 32.6,
+    "msg": "OK upper bound: d_X <= 5  [checked in 0.24 ms]"
+   },
+   {
+    "cert": "witness_Z.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 33.0,
+    "msg": "OK upper bound: d_Z <= 5  [checked in 0.24 ms]"
+   }
+  ]
+ },
+ "surface7": {
+  "files": {
+   "HX.txt": {
+    "bytes": 1206,
+    "sha256": "225b08bdbf4b5d57c854a889207382546d9fe67c5533d893020326cb51b5035f"
+   },
+   "HZ.txt": {
+    "bytes": 1206,
+    "sha256": "c8002ce64223b9d7bb302e90e591e0893fb96e6cf86bbe37919787d7a979032f"
+   },
+   "lower_X_K6.cnf": {
+    "bytes": 11117,
+    "sha256": "a6381bdfcf68e5e7cb2910ddb32b7c64bb6c51640966a135b099bb040c542264"
+   },
+   "lower_X_K6.json": {
+    "bytes": 258,
+    "sha256": "e6fc4014ee4f0d1adef0e2efea7fd34446f556318de45b4bb5d287b125446565"
+   },
+   "lower_X_K6.lrat": {
+    "bytes": 24939,
+    "sha256": "33f8f578592fd66023158f467c45aefb748caefb839c39ddc253f5c7ac00ea2a"
+   },
+   "lower_Z_K6.cnf": {
+    "bytes": 11115,
+    "sha256": "c442bc2cff71ffb8474377a327c7f3359da67b118d0537811fbb1a9e08e15d89"
+   },
+   "lower_Z_K6.json": {
+    "bytes": 258,
+    "sha256": "062bfeaa42614543d42550d035b00f25b3fb80d700563a0cffe52e6ca949f231"
+   },
+   "lower_Z_K6.lrat": {
+    "bytes": 75107,
+    "sha256": "dc3590f5e551765255b9aa6dd5c3a878ba583d3949ee23aefab865ce46266bf8"
+   },
+   "meta.json": {
+    "bytes": 431,
+    "sha256": "5e4baf5c25bf4c7733ad633d27ec8f0761fc5e8bed9eaa39ff7604274f26d741"
+   },
+   "pairing_X.txt": {
+    "bytes": 55,
+    "sha256": "e4c5f9acbc6f5fbff346fc2a3dcce0326e49217109f236967f32920989da42cc"
+   },
+   "pairing_Z.txt": {
+    "bytes": 55,
+    "sha256": "e02e2fa84810245135f870747ebbb5fc00256cb00d58219110246fd97f65307e"
+   },
+   "upper_X_K7.cnf": {
+    "bytes": 12339,
+    "sha256": "de36966c6ec8f414cb3f94384d109083e7ed79c3c86035a1c6679f7cadaf54f1"
+   },
+   "upper_Z_K7.cnf": {
+    "bytes": 12337,
+    "sha256": "8ff78565ab74b198e24d74555445e784b8205967638fae841b1fe9b7809f502c"
+   },
+   "witness_X.json": {
+    "bytes": 399,
+    "sha256": "3ee4cd0704da1337ccdeb2bb5a8125e2c51ce9d02564ae60b4b69d72b3b6a573"
+   },
+   "witness_Z.json": {
+    "bytes": 399,
+    "sha256": "94a35c9b0ffba1154e043f7cac169e3f27ba713320295f492438969e57fecaf5"
+   }
+  },
+  "checks": [
+   {
+    "cert": "lower_X_K6.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 57.6,
+    "msg": "OK lower bound: d_X >= 7  [checked in 5.7 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "lower_Z_K6.json",
+    "checker": "check_lower.py (pure python)",
+    "ok": true,
+    "ms": 61.7,
+    "msg": "OK lower bound: d_Z >= 7  [checked in 11.2 ms]  (1 instance(s), internal Python LRAT check)"
+   },
+   {
+    "cert": "witness_X.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 30.8,
+    "msg": "OK upper bound: d_X <= 7  [checked in 0.39 ms]"
+   },
+   {
+    "cert": "witness_Z.json",
+    "checker": "check_witness.py",
+    "ok": true,
+    "ms": 31.4,
+    "msg": "OK upper bound: d_Z <= 7  [checked in 0.40 ms]"
+   }
+  ]
+ }
+}

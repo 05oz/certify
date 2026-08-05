@@ -1,0 +1,6 @@
+{
+ "kind": "zx_duality",
+ "HX_file": "HX.txt",
+ "HZ_file": "HZ.txt",
+ "perm_file": "duality_perm.txt"
+}

@@ -1,0 +1,36 @@
+{
+ "name": "golay",
+ "n": 23,
+ "k": 1,
+ "d_published": 7,
+ "events": [
+  {
+   "what": "upper_X",
+   "K": 7,
+   "weight": 7,
+   "solver_s": 0.033
+  },
+  {
+   "what": "upper_Z",
+   "K": 7,
+   "weight": 7,
+   "solver_s": 0.017
+  },
+  {
+   "what": "lower_X",
+   "K": 6,
+   "solver_s": 0.042,
+   "lrat_bytes": [
+    226377
+   ]
+  },
+  {
+   "what": "lower_Z",
+   "K": 6,
+   "solver_s": 0.039,
+   "lrat_bytes": [
+    226377
+   ]
+  }
+ ]
+}

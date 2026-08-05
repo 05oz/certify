@@ -1,0 +1,16 @@
+{
+ "kind": "css_lower",
+ "sector": "X",
+ "K": 9,
+ "HX_file": "HX.txt",
+ "HZ_file": "HZ.txt",
+ "pairing_file": "pairing_X.txt",
+ "instances": [
+  {
+   "forced": [],
+   "cnf_file": "lower_X_K9.cnf",
+   "lrat_file": "lower_X_K9.lrat"
+  }
+ ],
+ "symmetry": null
+}

@@ -1,0 +1,36 @@
+{
+ "name": "bb90",
+ "n": 90,
+ "k": 8,
+ "d_published": 10,
+ "events": [
+  {
+   "what": "upper_X",
+   "K": 10,
+   "weight": 10,
+   "solver_s": 0.025
+  },
+  {
+   "what": "upper_Z",
+   "K": 10,
+   "weight": 10,
+   "solver_s": 0.297
+  },
+  {
+   "what": "lower_X",
+   "K": 9,
+   "solver_s": 48.395,
+   "lrat_bytes": [
+    128445595
+   ]
+  },
+  {
+   "what": "lower_Z",
+   "K": 9,
+   "solver_s": 50.763,
+   "lrat_bytes": [
+    150841943
+   ]
+  }
+ ]
+}

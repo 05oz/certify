@@ -1,0 +1,22 @@
+{
+ "name": "five_qubit",
+ "n": 5,
+ "k": 1,
+ "d_published": 3,
+ "events": [
+  {
+   "what": "upper",
+   "K": 3,
+   "weight": 3,
+   "solver_s": 0.046
+  },
+  {
+   "what": "lower",
+   "K": 2,
+   "solver_s": 0.02,
+   "lrat_bytes": [
+    1514
+   ]
+  }
+ ]
+}

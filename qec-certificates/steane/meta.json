@@ -1,0 +1,36 @@
+{
+ "name": "steane",
+ "n": 7,
+ "k": 1,
+ "d_published": 3,
+ "events": [
+  {
+   "what": "upper_X",
+   "K": 3,
+   "weight": 3,
+   "solver_s": 0.036
+  },
+  {
+   "what": "upper_Z",
+   "K": 3,
+   "weight": 3,
+   "solver_s": 0.048
+  },
+  {
+   "what": "lower_X",
+   "K": 2,
+   "solver_s": 0.022,
+   "lrat_bytes": [
+    699
+   ]
+  },
+  {
+   "what": "lower_Z",
+   "K": 2,
+   "solver_s": 0.065,
+   "lrat_bytes": [
+    699
+   ]
+  }
+ ]
+}

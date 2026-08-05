@@ -1,0 +1,41 @@
+{
+ "name": "bb288",
+ "n": 288,
+ "k": 12,
+ "d_published": 18,
+ "events": [
+  {
+   "what": "upper_X",
+   "K": 18,
+   "weight": 18,
+   "solver_s": 0.023
+  },
+  {
+   "what": "lower_X",
+   "K": 9,
+   "solver_s": 11.022,
+   "lrat_bytes": [
+    65337067,
+    103869
+   ]
+  },
+  {
+   "what": "lower_X",
+   "K": 11,
+   "solver_s": 85.59,
+   "lrat_bytes": [
+    350776168,
+    144738
+   ]
+  },
+  {
+   "what": "lower_X",
+   "K": 13,
+   "solver_s": 512.642,
+   "lrat_bytes": [
+    2941958076,
+    191479
+   ]
+  }
+ ]
+}

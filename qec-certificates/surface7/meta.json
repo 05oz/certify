@@ -1,0 +1,36 @@
+{
+ "name": "surface7",
+ "n": 49,
+ "k": 1,
+ "d_published": 7,
+ "events": [
+  {
+   "what": "upper_X",
+   "K": 7,
+   "weight": 7,
+   "solver_s": 0.065
+  },
+  {
+   "what": "upper_Z",
+   "K": 7,
+   "weight": 7,
+   "solver_s": 0.016
+  },
+  {
+   "what": "lower_X",
+   "K": 6,
+   "solver_s": 0.019,
+   "lrat_bytes": [
+    24939
+   ]
+  },
+  {
+   "what": "lower_Z",
+   "K": 6,
+   "solver_s": 0.021,
+   "lrat_bytes": [
+    75107
+   ]
+  }
+ ]
+}

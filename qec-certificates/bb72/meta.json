@@ -1,0 +1,36 @@
+{
+ "name": "bb72",
+ "n": 72,
+ "k": 12,
+ "d_published": 6,
+ "events": [
+  {
+   "what": "upper_X",
+   "K": 6,
+   "weight": 6,
+   "solver_s": 0.009
+  },
+  {
+   "what": "upper_Z",
+   "K": 6,
+   "weight": 6,
+   "solver_s": 0.008
+  },
+  {
+   "what": "lower_X",
+   "K": 5,
+   "solver_s": 0.257,
+   "lrat_bytes": [
+    1542208
+   ]
+  },
+  {
+   "what": "lower_Z",
+   "K": 5,
+   "solver_s": 0.297,
+   "lrat_bytes": [
+    1928204
+   ]
+  }
+ ]
+}

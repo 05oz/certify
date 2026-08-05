@@ -1,12 +1,27 @@
-# Certify: machine-verified structure of the Alpöge Keller map
+# Certify: replayable certificates for machine-checked mathematics
 
-**Archival record:** [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112)
+**Archival record (v0.1.0):** [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112)
 
-**Degree minimality in the equivariant class of the Alpöge Keller map, and the moment-map structure of its cotangent lift — certificates, verification scripts, and preprint.**
+Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-04.
 
-Author: Daniel Kirtchakov (Independent researcher). Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-04. All computations carried out with Claude (Fable 5), SymPy 1.14, msolve 0.10.1. Everything here is in characteristic zero.
+Two independent bodies of work live here, sharing a method rather than a subject: **produce an artifact a skeptic can re-check without trusting the tool that made it, then say exactly what still has to be believed.**
 
-This is the open half of the Certify project: schema, checker, certificates, verification scripts, and the preprint. Every mathematical claim in the preprint maps to a script whose `assert` statements pass, or to an msolve Gröbner-basis certificate stored verbatim in `certificates/`. Nothing is conjectural unless labeled so.
+| | Part A — Alpöge Keller map (v0.1.0) | Part B — quantum code distances (v0.2.0) |
+|---|---|---|
+| Subject | Degree minimality in the equivariant class of the Alpöge Keller map; moment-map structure of its cotangent lift | Certified minimum distances of eleven stabilizer codes, through IBM's [[288,12,18]] |
+| Artifact | 8 msolve Gröbner unit-ideal certificates + SymPy verification scripts | witness pairs + LRAT unsatisfiability proofs + ZX-duality permutations |
+| Checker | `scripts/` (SymPy) | `qec-scripts/` — 649 lines of Python, standard library only |
+| Paper | `paper/preprint-dixmier-poisson.*` | `paper/preprint-qec-distances.*` |
+| Certificates | `certificates/` | `qec-certificates/` |
+| Provenance | [PROVENANCE.md](PROVENANCE.md) §§1–4 | [PROVENANCE.md](PROVENANCE.md) §5, [SWEEP-RECORD-QEC-2026-08-04.md](SWEEP-RECORD-QEC-2026-08-04.md) |
+
+Every mathematical claim in either preprint maps to a script whose `assert` statements pass, or to a stored certificate a checker accepts. Nothing is conjectural unless labeled so.
+
+---
+
+# Part A — the Alpöge Keller map
+
+**Degree minimality in the equivariant class of the Alpöge Keller map, and the moment-map structure of its cotangent lift — certificates, verification scripts, and preprint.** All computations carried out with Claude (Fable 5), SymPy 1.14, msolve 0.10.1. Everything here is in characteristic zero.
 
 ## Credit — read this first
 
@@ -66,30 +81,124 @@ for f in certificates/ms_I-*_c32003.ms certificates/ms_II-*_c32003.ms; do msolve
 
 Every Python script must end with its `PASS` lines and no assertion failures. Every `ms_I-*`/`ms_II-*` msolve run must output the reduced basis `[1]`, matching the stored `out_*_q.txt` (char 0) and `out_*_p.txt` (mod 32003). Do not loop `ms_D7control_c32003.ms` in: that reduced-basis run does not terminate in reasonable time (see `certificates/D7CONTROL-NEGATIVE-RESULT.md`); the asserted positive control is `scripts/min_verify.py d7control`.
 
+---
+
+# Part B — certified quantum code distances
+
+**Replayable minimum-distance certificates for stabilizer codes, with no solver and no proof assistant in the trusted base: the bivariate-bicycle family through n = 288.** Paper: [`paper/preprint-qec-distances.pdf`](paper/preprint-qec-distances.pdf).
+
+This is a **verification contribution, not a discovery.** The distance values are largely known and are credited below. What did not exist is a standalone artifact anyone can replay without a SAT solver and without a proof assistant.
+
+## Lead with the audit
+
+The corpus was re-checked by a separate agent instance with no access to the generating pipeline and no shared code. Its report is [INDEPENDENT-VERIFICATION.md](INDEPENDENT-VERIFICATION.md).
+
+| | |
+|---|---|
+| Certificate checks run | **47** |
+| Passed / failed | **47 / 0** |
+| LRAT bytes replayed | **5,459,315,046 (5.08 GiB)**, in **pure Python** — no compiled code in the trusted base |
+| Peak resident set, worst case | **79 MB** (the 2.94 GB proof) |
+| IBM BB parity-check matrices vs. arXiv:2308.07915 | **byte-identical, all five codes** |
+| `manifest.json` SHA-256 entries re-hashed | **182 / 182 match** |
+| Negative controls | **11 / 11 correctly rejected** |
+| Brute-force cross-checks (codes small enough) | **6 / 6 agree** |
+
+## Results
+
+| code | n, k | certified | lower-bound proof | in this repo? |
+|---|---|---|---|---|
+| Steane [[7,1,3]] | 7, 1 | **d = 3** | 699 B each sector | yes |
+| five-qubit [[5,1,3]] (non-CSS) | 5, 1 | **d = 3** | 1,514 B | yes |
+| rotated surface d=3 / 5 / 7 | 9 / 25 / 49, 1 | **d = 3 / 5 / 7** | 518 B – 75 kB | yes |
+| Golay [[23,1,7]] | 23, 1 | **d = 7** | 226 kB each | yes |
+| IBM BB [[72,12,6]] | 72, 12 | **d = 6** | 1.5 / 1.9 MB | yes |
+| IBM BB [[90,8,10]] | 90, 8 | **d = 10** | 128 / 151 MB | yes (gzipped) |
+| IBM BB [[108,8,10]] | 108, 8 | **d = 10** | 72 / 82 MB | yes (gzipped) |
+| **IBM gross [[144,12,12]]** | 144, 12 | **d = 12** | 124 MB symmetry-broken; **868 / 672 MB symmetry-FREE** | symmetry-broken yes; symmetry-free regenerable |
+| IBM BB [[288,12,18]] | 288, 12 | **14 ≤ d ≤ 18** | 2.94 GB (K = 13) | K=9 rung yes; K=11, K=13 regenerable |
+
+Four proofs (79 MB–646 MB compressed) are too large for git. [`qec-certificates/REGENERATE.md`](qec-certificates/REGENERATE.md) gives the exact CaDiCaL command, expected byte count, and expected SHA-256 for each. Everything else ships, so a reader with nothing but CPython can still replay a certified **d = 12 for the gross code**.
+
+## Credit — read this first
+
+- **The codes and the distances are IBM's.** The bivariate-bicycle family, including the gross code, is Bravyi, Cross, Gambetta, Maslov, Rall and Yoder, *Nature* **627** (2024) 778 / arXiv:2308.07915. Their distances were computed there by the MIP method of Landahl, Anderson and Rice (arXiv:1108.5738). The gross-code value `d = 12` was confirmed exactly, at MIP gap 0, by Cruz-Benito, Cross, Kremer and Faro (IBM, arXiv:2606.02418, 1 Jun 2026). **We claim no distance value.**
+- **`d_X = d_Z` for BB codes is Bravyi et al.'s lemma**, from their supplemental material. Only the explicit permutation, packaged as a ~15 ms checkable certificate, is ours.
+- **Machine-checked quantum distance proofs are LEAN-QEC's** (arXiv:2605.16523). Their *paper* dispatches the gross code to `cvc5` outside the Lean kernel and calls kernel replay "the next concrete engineering target" — but **their repository has moved past their paper**: commit `c73827d` (2026-07-10) records a full [[144,12,12]] verification via `bv_decide` in about 30 minutes, including kernel replay. **We claim no priority for a machine-checked gross-code distance.** What differs, at that commit: their `BB144.lean` carries two `sorry`s (`BB144_X_ker_rank` L69, `BB144_Z_ker_rank` L72) that `BB144_dist_12` routes through; three lemmas use `native_decide`, which their own paper notes extends the trusted base with Lean's compiler; no LRAT artifact is committed for BB144; and their encoding is symmetry-broken only. Ours has no admitted lemmas, ships the artifacts, includes symmetry-**free** proofs, and needs no proof assistant. Their kernel-checked ladder should **not** be described as reaching n = 108 either: `BB108.lean` carries `sorry` at L120 and L132 with `--bv_decide` commented out.
+- **[[288,12,18]], stated correctly.** Bravyi et al. assert `d = 18` **exactly**, by ILP, without shipping a checkable artifact — their Table 3 lists it with no "≤", unlike [[360,12,≤24]]. Our interval [14,18] is **not** new information about the value. What is defensible, and all we claim: Chen, Jafari and Lai (arXiv:2606.12445) report `d ≥ 11` solver-asserted with no proof artifact in their repository; we certify `d_X ≥ 14` with a 2.94 GB LRAT that replays independently — improving the strongest quantity previously published *as a lower bound*, and the only machine-checkable one on record for this code.
+- **Also prior art, cited at point of use:** QDistRnd (JOSS 2022, upper bounds only, "no performance guarantee"); Stim's `search_for_undetectable_logical_errors` (documented verbatim as "THIS IS A HEURISTIC METHOD"); the Webster–Jacob–Higgott survey (arXiv:2603.22532); PBLean (arXiv:2602.08692); Heule's `drat-trim`/LRAT; Biere's CaDiCaL; Sinz's cardinality encoding; Tseitin's gate encoding.
+
+The dated adversarial sweep behind these statements is [SWEEP-RECORD-QEC-2026-08-04.md](SWEEP-RECORD-QEC-2026-08-04.md). It broke two claims of an earlier draft; both were withdrawn.
+
+## Quickstart (Part B)
+
+No virtual environment, no packages, no compiled binary — the checkers import only the Python standard library.
+
+```sh
+# small, instant
+python3 qec-scripts/check_witness.py  qec-certificates/steane/witness_X.json
+python3 qec-scripts/check_lower.py    qec-certificates/steane/lower_X_K2.json
+python3 qec-scripts/check_lower.py    qec-certificates/golay/lower_X_K6.json
+
+# the gross code, d = 12, from artifacts in this repository
+gunzip qec-certificates/bb144/*.lrat.gz
+python3 qec-scripts/check_witness.py  qec-certificates/bb144/witness_X.json     # d_X <= 12
+python3 qec-scripts/check_lower.py    qec-certificates/bb144/lower_X_K11_sym.json  # d_X >= 12
+python3 qec-scripts/check_duality.py  qec-certificates/bb144/duality.json       # d_X = d_Z
+
+# n = 288
+gunzip qec-certificates/bb288/*.lrat.gz
+python3 qec-scripts/check_lower.py    qec-certificates/bb288/lower_X_K9_sym.json   # d_X >= 10
+python3 qec-scripts/check_duality.py  qec-certificates/bb288/duality.json
+
+# integrity of the full audited corpus (incl. the four proofs not carried here)
+python3 qec-scripts/manifest.py
+```
+
+`check_lower.py` never reads the shipped `.cnf`: it regenerates the CNF from the raw parity-check matrices and replays the LRAT against its own clause list. Corrupting a shipped `.cnf` changes nothing, and the audit confirmed that by doing it.
+
+## Known gaps in Part B
+
+1. `bb288/duality.json` was generated **after** the audit closed — it passes `check_duality.py` and its permutation was independently re-verified, but it is outside the 47 audited checks and absent from `manifest.json`.
+2. `manifest.json` covers the full audited corpus including the four large proofs this repository does not carry.
+3. The shipped `check_lower.py` is 481 lines; the auditor read 419. The difference is an optional totalizer cardinality encoding that no certificate in this release selects.
+4. `run_all.sh` expects a `tools-drat-trim/lrat-check` binary that is not vendored. The pure-Python path needs nothing but CPython and is what every number in the paper reports.
+
+Three further defects the audit found are reported verbatim in §8 of the paper, including a latent soundness hole in a checker branch that no shipped certificate exercises. A paper about trusted bases that suppresses its own audit findings is not one.
+
+---
+
 ## Layout
 
 ```
 README.md            this file
-PROVENANCE.md        timeline, what is new, how to verify, what is not claimed
-PUBLISH-CHECKLIST.md publication steps (all performed by the author, not by any assistant)
+PROVENANCE.md        timeline, what is new, how to verify, what is not claimed (§§1-4 Part A, §5 Part B)
 CITATION.cff         citation metadata
 .zenodo.json         Zenodo deposit metadata
 LICENSE-CODE         Apache-2.0 (code and machine-readable certificates)
 LICENSE-DOCS         CC-BY-4.0 (prose and paper)
-paper/               preprint (LaTeX + PDF + readable Markdown mirror), draft of 2026-08-04
+paper/               both preprints (LaTeX + PDF + readable Markdown mirror)
+
+  -- Part A: Alpoge Keller --
 certificates/        17 msolve input files (ms_*.ms) + stored outputs (out_*.txt) + D7 control record
 scripts/             the verification scripts (incl. min_verify.py) + expanded Weyl operators
 schema/              certificate-schema (pending; see schema/PENDING.md)
 checker/             independent certificate checker (pending; see checker/PENDING.md)
+
+  -- Part B: quantum code distances --
+qec-certificates/    the certificate corpus, by code; manifest.json; REGENERATE.md
+qec-scripts/         the three checkers (check_witness / check_lower / check_duality) + the pipeline
+INDEPENDENT-VERIFICATION.md   the audit: 47/47 checks, 5.08 GiB replayed in pure Python
+SWEEP-RECORD-QEC-2026-08-04.md   the dated adversarial prior-art sweep
 ```
 
-The reduction library and the system generators are intentionally not part of this repository; the published claims are the certificates themselves plus the verification scripts, which are self-contained.
+For Part A, the reduction library and the system generators are intentionally not part of this repository; the published claims are the certificates themselves plus the verification scripts, which are self-contained. For Part B, the generating pipeline **is** included (`qec-scripts/certify.py`, `qec_lib.py`, `run_all.sh`) precisely because it is *not* trusted: it can be deleted and every certificate still verifies.
 
 ## Licensing
 
 Dual license by content type:
 
-- **Code and machine-readable certificate files** — everything under `scripts/`, `certificates/`, `schema/`, `checker/` — are licensed under the **Apache License 2.0** ([LICENSE-CODE](LICENSE-CODE)).
+- **Code and machine-readable certificate files** — everything under `scripts/`, `certificates/`, `schema/`, `checker/`, `qec-scripts/`, `qec-certificates/` — are licensed under the **Apache License 2.0** ([LICENSE-CODE](LICENSE-CODE)).
 - **Documentation and the paper** — `paper/`, `README.md`, `PROVENANCE.md`, and all other prose — are licensed under **CC BY 4.0** ([LICENSE-DOCS](LICENSE-DOCS)).
 
 ## Citing

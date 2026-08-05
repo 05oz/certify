@@ -1,0 +1,45 @@
+{
+ "name": "bb144",
+ "n": 144,
+ "k": 12,
+ "d_published": 12,
+ "events": [
+  {
+   "what": "upper_X",
+   "K": 12,
+   "weight": 12,
+   "solver_s": 0.025
+  },
+  {
+   "what": "upper_Z",
+   "K": 12,
+   "weight": 12,
+   "solver_s": 0.029
+  },
+  {
+   "what": "lower_X",
+   "K": 11,
+   "solver_s": 44.975,
+   "lrat_bytes": [
+    123823246,
+    33824
+   ]
+  },
+  {
+   "what": "lower_Z",
+   "K": 11,
+   "solver_s": 227.334,
+   "lrat_bytes": [
+    671988205
+   ]
+  },
+  {
+   "what": "lower_X",
+   "K": 11,
+   "solver_s": 342.252,
+   "lrat_bytes": [
+    867803294
+   ]
+  }
+ ]
+}

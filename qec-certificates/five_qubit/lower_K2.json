@@ -1,0 +1,13 @@
+{
+ "kind": "stab_lower",
+ "K": 2,
+ "S_file": "S.txt",
+ "pairing_file": "pairing.txt",
+ "instances": [
+  {
+   "forced": [],
+   "cnf_file": "lower_K2.cnf",
+   "lrat_file": "lower_K2.lrat"
+  }
+ ]
+}

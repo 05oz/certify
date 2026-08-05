@@ -1,0 +1,1240 @@
+%% ==========================================================================
+%% DRAFT -- August 4, 2026. Author byline: Daniel Kirtchakov (Independent
+%% researcher, Half Ounce Research).
+%%
+%% Claims were re-scoped on 2026-08-04 after an adversarial prior-art sweep
+%% and an independent re-verification of the certificate corpus. Sources read
+%% in full from raw form on that date:
+%%   * arXiv:2308.07915v2 (Bravyi, Cross, Gambetta, Maslov, Rall, Yoder),
+%%     main + supplemental LaTeX. Table 3 lists [[288,12,18]] WITHOUT the
+%%     "<=" that marks upper-bound-only entries; the "unlikely to be tight"
+%%     caveat in the main text is about the CIRCUIT-level distance d_circ.
+%%   * arXiv:2605.16523v1 (LEAN-QEC), all 10 source files.
+%%     ALSO: repository VerifiedQC/Lean-QEC at commit c73827d (2026-07-10),
+%%     whose notes report a completed bv_decide verification of the
+%%     [[144,12,12]] distance. The repository has moved past the paper; we
+%%     therefore claim NO priority for a machine-checked gross-code distance.
+%%   * arXiv:2606.12445 (Chen, Jafari, Lai), main.tex + result tables.
+%%     Their [[288,12,18]] table reports d >= 11 (solver-asserted, 7200 s);
+%%     repository guluchen/QDistSAT contains no proof artifacts.
+%%   * arXiv:2606.02418 (Cruz-Benito, Cross, Kremer, Faro; IBM, 1 Jun 2026):
+%%     the gross-code distance d = 12 confirmed exactly by MILP at MIP gap 0.
+%%     No certificate is emitted.
+%%   * arXiv:2603.22532 (Webster, Jacob, Higgott), full text.
+%% Independent audit: qec/INDEPENDENT-VERIFICATION.md, 47/47 checks passed,
+%%   5.08 GiB LRAT replayed in pure Python, all five BB matrices rebuilt
+%%   byte-identically from arXiv:2308.07915. Four discrepancies (D1-D4) are
+%%   reported verbatim in Section 8 of this note; D2 has since been closed.
+%% The dated sweep record is SWEEP-RECORD-QEC-2026-08-04.md, released with
+%%   the artifacts.
+%% ==========================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1.15in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\emergencystretch=3em
+\tolerance=1200
+\hbadness=4000
+
+\newcommand{\FF}{\mathbb{F}_{2}}
+\newcommand{\rowsp}{\operatorname{rowsp}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\HX}{H_{X}}
+\newcommand{\HZ}{H_{Z}}
+\newcommand{\dX}{d_{X}}
+\newcommand{\dZ}{d_{Z}}
+\newcommand{\dcirc}{d_{\mathrm{circ}}}
+\newcommand{\gross}{[[144,12,12]]}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\begin{document}
+
+\title[Replayable distance certificates for stabilizer codes]{Replayable
+minimum-distance certificates for stabilizer codes, with no solver and no
+proof assistant in the trusted base: the bivariate-bicycle family through
+$n=288$}
+
+\author{Daniel Kirtchakov}
+\address{Independent researcher, Half Ounce Research}
+\email{daniel@halfounce.io}
+
+\thanks{\emph{Computation and authorship.} All searches, encodings,
+symmetry-breaking constructions, and certificate designs in this work were
+produced by \textbf{Claude Fable~5} (Anthropic), directed by the author, on a
+single Apple~M4 laptop (10 cores, 16\,GB). The three independent checkers
+share no code with the generating pipeline, import only the Python standard
+library, and were exercised against the corpus by a separate agent instance
+that was given no access to the pipeline. This is a factual methods statement,
+and it is part of the point of the paper: the artifacts are designed so that
+the provenance of the \emph{search} is irrelevant to the validity of the
+\emph{result}. External tools used by the pipeline only: CaDiCaL~3.0.1
+(\texttt{--lrat --no-binary}), Python~3.}
+
+\thanks{\emph{Prior-art record.} The credit statements in
+\S\ref{ssec:credit} are the output of a full-text adversarial sweep completed
+on August~4, 2026, in which every source was read in raw form (arXiv LaTeX
+source, GitHub repository trees at a named commit, package documentation) and
+in which two claims of an earlier internal draft were found to be wrong and
+withdrawn. The dated record of that sweep, listing what was read and what
+changed, ships with the artifacts as
+\texttt{SWEEP-RECORD-QEC-2026-08-04.md}. \emph{Draft of August 4, 2026.}}
+
+\subjclass[2020]{Primary 81P73; Secondary 94B05, 68V15, 03B35}
+\keywords{Quantum error correction, minimum distance, stabilizer codes,
+bivariate bicycle codes, gross code, LRAT, proof certificates, SAT}
+
+\date{August 4, 2026}
+
+\begin{abstract}
+This is a verification contribution, not a discovery. The minimum distances of
+the codes treated here are already in the literature; what did not exist is a
+standalone artifact that a third party can replay without a SAT solver and
+without a proof assistant. We supply one for eleven stabilizer codes, together
+with three short checkers, and we submit the result to an independent audit:
+$47$ certificate checks run, $47$ passed, $0$ failed; $5.08$\,GiB of LRAT
+replayed in pure Python inside a $79$\,MB peak resident set; all five
+bivariate-bicycle parity-check matrices rebuilt \emph{byte-identically} from
+the published construction of Bravyi et al.; $182$ of $182$ manifest SHA-256
+entries matching; $11$ of $11$ negative controls correctly rejected.
+
+The formats are deliberately small. Upper bounds are witness pairs verified by
+three $\FF$ matrix--vector products. Lower bounds are LRAT unsatisfiability
+proofs for a canonical CNF encoding of ``some nontrivial logical has weight at
+most $K$'', in which the checker regenerates the CNF from the raw parity-check
+matrices and machine-checks the three algebraic side conditions that make the
+encoding \emph{exact}; neither the solver nor the shipped CNF is trusted, and
+for every code in the corpus, including the largest proof, replay needs
+nothing beyond the Python standard library.
+
+For the gross code $\gross$ of Bravyi et al.\ we certify $d=12$ end to end:
+weight-$12$ $X$- and $Z$-witnesses, and in each sector a single
+\emph{symmetry-free} LRAT proof ($868$\,MB for $X$, $672$\,MB for $Z$) of
+$\dX,\dZ\ge 12$, so that no symmetry lemma enters the trusted base for this
+code. For $[[288,12,18]]$ we certify $\dX\ge 14$ by a $2.94$\,GB LRAT proof,
+replayed in pure Python in $414$\,s. Bravyi et al.\ assert $d=18$ for that
+code exactly, by integer programming and without a checkable artifact; the
+strongest lower bound previously \emph{reported} by a certifying-capable
+method is $d\ge11$, solver-asserted by Chen, Jafari and Lai with no proof
+files in their repository. Our $\dX\ge14$ improves on that bound and is, as
+far as our sweep could determine, the only machine-checkable lower bound on
+record for this code. It is not evidence against $d=18$.
+
+We state the trusted base explicitly, separating what is machine-checked per
+certificate from the facts that are assumed, and we report the four defects
+the audit found, including one latent soundness hole in a checker branch.
+We claim priority neither for the distance values, which are Bravyi et al.'s,
+nor for machine-checked quantum distance proofs, which are LEAN-QEC's and
+whose public repository reports a completed gross-code verification as of
+2026-07-10. What is offered here is a certificate format and a trusted base:
+a $649$-line standard-library reader, and artifacts that outlive the tools
+that produced them.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{The problem}
+The minimum distance $d$ of a quantum error-correcting code is the single
+number that determines how many errors it can detect. It is also expensive:
+computing it is a minimum-weight problem over a coset space, intractable in
+general \cite{Vardy97}, and the standard tools for it in the quantum
+literature are of two kinds. Randomized searches such as QDistRnd
+\cite{QDistRnd} and Stim's \texttt{search\_for\_undetectable\_logical\_errors}
+\cite{Stim} return upper bounds and say so plainly; Stim's documentation is
+explicit that ``\textsc{this is a heuristic method}''. Exact methods ---
+integer programming \cite{LandahlAndersonRice}, SAT and MaxSAT
+\cite{ChenJafariLai}, branch and bound --- return a number and an implicit
+assertion that the search was exhaustive. The survey of Webster, Jacob and
+Higgott \cite{WJH} classifies the landscape carefully; what almost none of it
+produces is an artifact a third party can check.
+
+This matters more than usual here, because the published distances of the
+codes now being built into hardware are load-bearing engineering constants.
+The bivariate-bicycle (BB) codes of Bravyi, Cross, Gambetta, Maslov, Rall and
+Yoder \cite{BCGMRY} --- in particular the $\gross$ ``gross code'' --- are the
+basis of a fault-tolerant memory architecture. Their distances were computed
+by the mixed-integer-programming method of Landahl, Anderson and Rice
+\cite{LandahlAndersonRice}; the paper is explicit about this and about which
+entries of its Table~3 are upper bounds only. The gross-code value has since
+been confirmed independently, again by mathematical programming: Cruz-Benito,
+Cross, Kremer and Faro \cite{CruzBenito} close the MILP to a gap of zero and
+obtain $d=12$ exactly. Nothing is wrong with either computation. But a reader
+who wants to check them must re-run a solver and trust the re-run; neither
+emits an object that survives the solver.
+
+\subsection{What this note provides}
+An artifact-first alternative. For each code we ship files that a skeptic can
+replay in isolation, and three short Python programs that replay them. The
+design constraints were:
+
+\begin{enumerate}
+\item[(i)] \emph{No solver in the trusted base.} The checker never runs a SAT
+solver and never reads the CNF file the solver saw. It \emph{regenerates} the
+CNF from the raw parity-check matrices, then replays the LRAT proof against
+its own clause list. A corrupted shipped CNF changes nothing --- this was
+tested (\S\ref{sec:audit}).
+\item[(ii)] \emph{No proof assistant in the trusted base.} No Lean, no
+Mathlib, no toolchain fetch. The reader needs CPython and the files.
+\item[(iii)] \emph{The encoding's exactness is machine-checked, not asserted.}
+The reduction from ``$\dX\ge K+1$'' to ``this CNF is unsatisfiable'' is valid
+only under three algebraic side conditions on $(\HX,\HZ,P)$. The checker
+verifies all three, per certificate, over the raw matrices
+(Theorem~\ref{thm:exact}).
+\item[(iv)] \emph{Everything the checker assumes is written down.}
+Section~\ref{sec:tcb} is the honest inventory, including the items argued in
+prose and not machine-verified anywhere.
+\end{enumerate}
+
+\subsection{Results}\label{ssec:results}
+Table~\ref{tab:main} is the corpus. Every entry traces to a file in
+\texttt{certificates/}; the byte counts are the actual proof sizes and the
+replay times are wall clock from the independent audit of
+\S\ref{sec:audit}, measured with \texttt{/usr/bin/python3} (CPython 3.9.6, no
+\texttt{numpy}, no compiled helper of any kind).
+
+\begin{table}[t]
+\small
+\begin{tabular}{lllrrr}
+\toprule
+code & $n,k$ & certified & lower-bd.\ proof & solver & pure-Python \\
+     &       &           & (bytes)          & (s)    & replay (s)  \\
+\midrule
+Steane $[[7,1,3]]$        & $7,1$   & $d=3$ & $699 \mid 699$ & $0.02\mid0.07$ & $0.0003\mid0.0009$\\
+five-qubit $[[5,1,3]]$    & $5,1$   & $d=3$ & $1{,}514$ & $0.02$ & $0.0004$\\
+rot.\ surface $d{=}3$     & $9,1$   & $d=3$ & $518 \mid 746$ & $0.03\mid0.02$ & $0.0004\mid0.0004$\\
+rot.\ surface $d{=}5$     & $25,1$  & $d=5$ & $4{,}685 \mid 7{,}085$ & $0.02\mid0.02$ & $0.001\mid0.001$\\
+rot.\ surface $d{=}7$     & $49,1$  & $d=7$ & $24{,}939 \mid 75{,}107$ & $0.02\mid0.02$ & $0.005\mid0.009$\\
+Golay $[[23,1,7]]$        & $23,1$  & $d=7$ & $226{,}377$ each & $0.04\mid0.04$ & $0.024\mid0.024$\\
+BB $[[72,12,6]]$          & $72,12$ & $d=6$ & $1.54\mid1.93$\,MB & $0.26\mid0.30$ & $0.14\mid0.17$\\
+BB $[[90,8,10]]$          & $90,8$  & $d=10$ & $128\mid151$\,MB & $48.4\mid50.8$ & $10.9\mid13.0$\\
+BB $[[108,8,10]]$         & $108,8$ & $d=10$ & $71.6\mid82.3$\,MB & $28.2\mid24.7$ & $6.2\mid7.1$\\
+\textbf{BB} $\gross$      & $144,12$& $\mathbf{d=12}$ & $868\mid672$\,MB$^{\dagger}$ & $342\mid227$ & $176\mid72.9$\\
+BB $[[288,12,18]]$        & $288,12$& $14\le d\le 18$ & $2.94$\,GB$^{\ddagger}$ & $513$ & $414$\\
+\bottomrule
+\end{tabular}
+\medskip
+\caption{The certificate corpus. Paired entries are $X\mid Z$ sector. Solver
+times are CaDiCaL 3.0.1 on one Apple M4 laptop, recorded in each code's
+\texttt{meta.json}. Replay times are from the independent audit
+(\S\ref{sec:audit}) and use nothing outside the Python standard library.
+$^{\dagger}$Symmetry-\emph{free} single-instance proofs; a symmetry-broken
+$X$ certificate ($124$\,MB${}+{}$$34$\,kB, solver $45.0$\,s) is also shipped
+and replays in $10.1$\,s. $^{\ddagger}$Symmetry-broken, $K=13$, two instances
+($2{,}941{,}958{,}076 + 191{,}479$ bytes); the ladder rungs $\dX\ge10$
+($65$\,MB) and $\dX\ge12$ ($351$\,MB) are shipped as well. At $n=288$ the
+certified quantity is $\dX$; the passage to $d$ uses the shipped duality
+certificate together with $d=\min(\dX,\dZ)$, and that certificate was
+generated after the audit closed (Remark~\ref{rem:no288dual}).}
+\label{tab:main}
+\end{table}
+
+Three things in that table deserve to be stated precisely, because each of
+them touches published work.
+
+\smallskip
+\noindent\textbf{(A) The gross code.} We certify $d(\gross)=12$ end to end.
+The upper bound is a pair of weight-$12$ witnesses, $970$-byte JSON files,
+checked in $7$\,ms each. The lower bound is certified twice in each direction:
+once by a symmetry-broken pair of instances in the $X$ sector, and once, in
+\emph{each} sector, by a single LRAT proof with no symmetry hypothesis at all
+--- $867{,}803{,}294$ bytes for $X$ and $671{,}988{,}205$ bytes for $Z$. The
+symmetry-free pair is the one that matters for the trusted base: it removes
+the orbit lemma of \S\ref{ssec:sym} from the argument entirely, so
+$d(\gross)=12$ rests on nothing but the exactness theorem, the LRAT semantics,
+and the standard cardinality and XOR encodings.
+
+We do \emph{not} claim to be first to a machine-checked distance for this
+code. The value $d=12$ is Bravyi et al.'s \cite[Table 3]{BCGMRY}, confirmed
+exactly at MIP gap zero by Cruz-Benito, Cross, Kremer and Faro
+\cite{CruzBenito} and reproduced by SAT in \cite{ChenJafariLai}. The idea of
+a kernel-checked quantum distance proof is LEAN-QEC's \cite{LeanQEC}, and
+their public repository reports the gross code completed; see
+\S\ref{ssec:credit} for the dated record. What is ours is the certificate
+format, the symmetry-free variant, and the trusted base.
+
+\smallskip
+\noindent\textbf{(B) $[[288,12,18]]$.} We certify $\dX\ge 14$ by a
+$2.94$\,GB LRAT proof and $\dX\le 18$ by a weight-$18$ witness. The value is
+not in dispute and we are not disputing it: Bravyi et al.\ assert $d=18$ for
+this code exactly, by integer programming, and their Table~3 marks it without
+the ``$\le$'' that flags their upper-bound-only entries
+(Remark~\ref{rem:288}, which corrects a misreading an earlier draft of our
+results file contained). What they do not supply --- and what nobody supplies
+--- is an artifact. The strongest lower bound previously \emph{reported} by a
+method capable in principle of certifying is $d\ge11$, from Chen, Jafari and
+Lai \cite{ChenJafariLai} at a $7200$\,s timeout, solver-asserted, with no
+proof files in their repository. Our $\dX\ge14$ improves on that bound and is,
+as far as the sweep of \S\ref{ssec:credit} could determine, the only
+machine-checkable lower bound on record for this code. It falls four short of
+$18$, and that shortfall is a limitation of our encoding, not evidence.
+
+\smallskip
+\noindent\textbf{(C) The rest of the family.} The values $d=6,10,10$ for
+$[[72,12,6]]$, $[[90,8,10]]$, $[[108,8,10]]$, and the distances of Steane,
+Golay, the rotated surface codes and the five-qubit code, are all prior art;
+several are computed exactly, without certificates, in \cite{ChenJafariLai}.
+For Steane, Golay, $[[72,12,6]]$ and $[[90,8,10]]$, replayable proof artifacts
+also exist in the LEAN-QEC repository, so ``certified'' is shared ground
+there and our contribution for those four is the trusted base, not primacy.
+We include them because a certificate format is worth nothing without a
+regression suite, and because six of them admit an independent brute-force
+cross-check (\S\ref{ssec:brute}).
+
+\subsection{Provenance and credit}\label{ssec:credit}
+This subsection was written after a first-hand check of the prior art on
+August 4, 2026, in the course of which two claims in an earlier internal draft
+of these results turned out to be wrong. What follows is the corrected record.
+Table~\ref{tab:credit} is the claim-by-claim version.
+
+\emph{The codes.} The bivariate-bicycle family, including $\gross$, is Bravyi,
+Cross, Gambetta, Maslov, Rall and Yoder's \cite{BCGMRY}. All five parity-check
+matrices in our corpus were reconstructed from the construction in that paper
+and are byte-identical to it (\S\ref{ssec:matrices}). Their distances were
+computed there by the mixed-integer-programming method of Landahl, Anderson
+and Rice \cite{LandahlAndersonRice}. Every distance value we certify for a BB
+code, and every distance value we certify for Steane, Golay, the surface codes
+and the five-qubit code, was already known. This note contributes
+\emph{certificates for known numbers}, plus one number
+($\dX\ge14$ for $n=288$) that is new only in the sense of being machine-checkable.
+
+\emph{Machine-checked quantum distance proofs.} The approach is LEAN-QEC's
+\cite{LeanQEC} (Ehatamm, Lee, Wu and Tao, 15 May 2026): a SAT encoding of the
+distance problem whose refutation is replayed inside the Lean~4 kernel. Their
+paper is candid about the gross code: it reports $\gross$ as dispatched by an
+external \texttt{cvc5} call rather than in the kernel, states that the
+$144$-qubit instance pushes their certificate-replay budget beyond what they
+can verify in the kernel, and names kernel-side replay at that size as their
+next concrete engineering target. \textbf{Their repository has since moved past
+the paper.} At commit \texttt{c73827d} of \texttt{VerifiedQC/Lean-QEC}, dated
+2026-07-10, a notes file reports that the $\gross$ BB code distance has been
+fully verified with \texttt{bv\_decide} in about thirty minutes, by a pipeline
+whose final step translates the LRAT proof of unsatisfiability back into Lean
+and checks it with the kernel. We therefore make \emph{no} priority claim for a
+machine-checked gross-code distance, and we have removed such a claim wherever
+it appeared in our own working notes.
+
+Several differences remain, and we state them as observations of a moving
+repository at a single commit, which may already be stale. At
+\texttt{c73827d}, the file \texttt{BB144.lean} contains two \texttt{sorry}
+placeholders --- \texttt{BB144\_X\_ker\_rank} at line~$69$ and
+\texttt{BB144\_Z\_ker\_rank} at line~$72$ --- through which the end-to-end
+theorem \texttt{BB144\_dist\_12} routes, so that theorem is not
+\texttt{sorry}-free as committed; three further lemmas use
+\texttt{native\_decide}, which their own paper notes extends the trusted base
+with Lean's compiler; and no LRAT artifact is committed for the $144$-qubit
+instance, though LRATs are committed for smaller codes. Their $144$-qubit
+encoding uses sorted-location symmetry constraints, i.e.\ it is
+symmetry-broken; we found no counterpart anywhere to the symmetry-free proofs
+of \S\ref{ssec:gross}. We note also, since it would be easy to overstate their
+coverage in the other direction, that \texttt{BB108.lean} at the same commit
+carries \texttt{sorry} at lines~$120$ and~$132$ with its
+\texttt{bv\_decide} invocation commented out, so their kernel-checked ladder
+should not be described as reaching $n=108$ either. None of this is a
+criticism of work in progress; a repository ahead of its paper is a good
+problem to have. It is the reason we describe our contribution as a trusted
+base rather than a first, and we have made these statements as specific as we
+can so that they can be checked and, when they go stale, corrected.
+
+\emph{Mathematical programming, independently.} Cruz-Benito, Cross, Kremer and
+Faro \cite{CruzBenito} (1 June 2026, IBM) revisit the gross-code distance with
+a mixed-integer linear program and close it to a MIP gap of zero, confirming
+$d=12$ exactly. That is a stronger form of the same kind of evidence as
+\cite{BCGMRY}: an exhaustive search whose exhaustiveness is attested by the
+solver's own optimality certificate rather than exported as a checkable
+object. We cite it as the current reference point for the value, and note that
+the gap it leaves --- a MILP optimality proof is not a file --- is precisely
+the one this note fills.
+
+\emph{SAT-based distance computation at scale.} Chen, Jafari and Lai
+\cite{ChenJafariLai} (29 May 2026) compute BB distances with a battery of
+solvers, obtaining $d=12$ for $\gross$ exactly and, for $[[288,12,18]]$, lower
+bounds of $11$ under a $7200$\,s budget. Their results are solver-asserted ---
+their repository \texttt{guluchen/QDistSAT} contains no proof or certificate
+files --- and their $d\ge11$ is the strongest quantity previously published for
+that code \emph{as a lower bound}, as against the exact value $d=18$ asserted
+in \cite{BCGMRY}. Our $\dX\ge14$ improves on it and, for the first time,
+backs a bound for this code with a replayable artifact.
+
+\emph{Infrastructure.} The LRAT format and the checking discipline are due to
+Cruz-Filipe, Heule, Hunt, Kaufmann and Schneider-Kamp \cite{LRAT}, building on
+\texttt{drat-trim} \cite{DRATtrim}; our internal checker implements
+RUP-with-hints against that format. The solver is CaDiCaL \cite{CaDiCaL}. The
+cardinality encoding is Sinz's sequential counter \cite{Sinz05}; the XOR gates
+are Tseitin's \cite{Tseitin68}. The CSS structure is Calderbank--Shor
+\cite{CS96} and Steane \cite{Steane96}; the stabilizer formalism is
+Gottesman's \cite{Gottesman97}.
+
+\emph{Adjacent work on certificate import.} PBLean \cite{PBLean} imports
+VeriPB pseudo-Boolean certificates into Lean~4. It is not quantum, and it
+requires Lean, so it sits on the opposite side of design constraint (ii); but
+it is the closest prior art we found to the general project of making
+solver output externally checkable in a small trusted base, and we cite it as
+such.
+
+\begin{table}[t]
+\small
+\begin{tabular}{L{0.30\textwidth}L{0.40\textwidth}L{0.20\textwidth}}
+\toprule
+Item & Earliest source we verified & Status here \\
+\midrule
+The BB codes; $d=12$ for $\gross$; $d=18$ for $[[288,12,18]]$
+& Bravyi et al.\ \cite{BCGMRY}, Table 3 (MIP method of
+  \cite{LandahlAndersonRice})
+& Re-verified, not claimed \\
+$d=12$ for $\gross$ confirmed exactly by MILP, MIP gap $0$
+& Cruz-Benito, Cross, Kremer, Faro \cite{CruzBenito}, 1 June 2026
+& Re-verified, not claimed; no certificate emitted there \\
+$\dX=\dZ$ for BB codes
+& Bravyi et al.\ \cite{BCGMRY}, supplemental lemma
+& Cited; only the explicit permutation certificate is ours \\
+Kernel-checked SAT distance proofs for quantum codes
+& LEAN-QEC \cite{LeanQEC}, 15 May 2026
+& Not claimed \\
+Machine-checked $\gross$ distance
+& LEAN-QEC repository, commit \texttt{c73827d}, 2026-07-10
+& Not claimed \\
+$d$ computed exactly by SAT for $n\le144$ BB codes
+& Chen--Jafari--Lai \cite{ChenJafariLai}, 29 May 2026
+& Re-verified, not claimed \\
+$d\ge11$ for $[[288,12,18]]$ by SAT
+& Chen--Jafari--Lai \cite{ChenJafariLai}
+& Improved to $\dX\ge14$, with artifact \\
+\midrule
+\multicolumn{3}{l}{\emph{Offered as new:}}\\
+\multicolumn{3}{L{0.93\textwidth}}{The certificate format of
+\S\ref{sec:formats} and its machine-checked exactness conditions; the
+symmetry-free $\gross$ proofs; the only machine-checkable lower bound on
+record for $[[288,12,18]]$, at $\dX\ge14$; the ZX-duality permutation ---
+Bravyi et al.'s lemma, not ours --- packaged as a $\sim$$15$\,ms checkable
+certificate; and a trusted base of $649$ standard-library Python lines with
+no solver and no proof assistant in it.}\\
+\bottomrule
+\end{tabular}
+\medskip
+\caption{Claim-by-claim provenance.}
+\label{tab:credit}
+\end{table}
+
+\subsection{What is not claimed}\label{ssec:notclaimed}
+We do not claim any new distance \emph{value}. We do not claim priority for
+machine-checked quantum distance proofs. We do not claim that
+$[[288,12,18]]$ has $d<18$; our $\dX\ge14$ is a lower bound, four short of the
+literature value, and the gap is a limitation of our encoding, not evidence.
+We do not certify $k$: the code dimensions in Table~\ref{tab:main} are
+recomputed, not certified, though side condition (c) of
+Theorem~\ref{thm:exact} pins the logical dimension implicitly, and the audit
+recomputed every $k$ independently. We do not claim the corpus is free of
+defects: four are reported in \S\ref{sec:defects} --- one fixed in this
+release, three not --- including a genuine latent soundness hole in a checker
+branch that no shipped certificate exercises. And we do not claim novelty for
+the framing itself: this is a verification contribution, and the reason to
+read it is the audit of \S\ref{sec:audit}, not the numbers in
+Table~\ref{tab:main}.
+
+\section{Codes, distances, and the two certificate problems}\label{sec:prelim}
+
+We work over $\FF$. A binary vector $x\in\FF^{n}$ has weight $\wt(x)$ and
+support $\supp(x)$. For a matrix $M$, $\rowsp(M)$ is its row space, and for a
+permutation $\pi$ of $\{0,\dots,n-1\}$ we write $M\pi$ for the
+column-permuted matrix $(M\pi)_{r,i}=M_{r,\pi(i)}$.
+
+\begin{definition}[CSS code]
+A CSS code is a pair $\HX\in\FF^{m_{X}\times n}$, $\HZ\in\FF^{m_{Z}\times n}$
+with $\HX\HZ^{\mathsf T}=0$. Its dimension is $k=n-\rank\HX-\rank\HZ$. An
+\emph{$X$-logical} is a vector $x$ with $\HZ x=0$; it is \emph{nontrivial} if
+$x\notin\rowsp(\HX)$. Set
+\[
+  \dX=\min\{\wt(x): \HZ x=0,\ x\notin\rowsp(\HX)\},
+\]
+and $\dZ$ symmetrically with $X$ and $Z$ interchanged. The code distance is
+$d=\min(\dX,\dZ)$.
+\end{definition}
+
+The identity $d=\min(\dX,\dZ)$ is the standard CSS fact and we use it without
+further comment; it is item~5 in the trusted-base inventory of
+\S\ref{sec:tcb}. For a general (non-CSS) stabilizer code we use the symplectic
+form $\omega$ on $\FF^{2n}$, $\omega(p,q)=\sum_{i}(p_{i}q_{n+i}+p_{n+i}q_{i})$,
+a stabilizer matrix $S\in\FF^{m\times 2n}$ with pairwise-commuting rows, and
+qubit weight $\wt_{q}(e)=\#\{i: e_{i}=1 \text{ or } e_{n+i}=1\}$.
+
+Certifying $d$ splits into two problems of completely different character.
+An \emph{upper} bound is existential and needs only a witness. A \emph{lower}
+bound is universal: it asserts that a search space of size
+$\binom{n}{\le K}$ intersected with a coset is empty, and no small object
+witnesses that directly. The design question this note answers is what the
+smallest honest replayable object for the second problem looks like.
+
+\section{The certificate formats}\label{sec:formats}
+
+\subsection{Upper bounds: witness pairs}\label{ssec:upper}
+An $X$-sector upper-bound certificate is a pair $(x,z)\in\FF^{n}\times\FF^{n}$
+together with a declared weight $w$. The checker
+(\texttt{check\_witness.py}, $95$ lines) verifies
+\[
+  \HZ x = 0,\qquad \HX z = 0,\qquad x\cdot z = 1,\qquad \wt(x)=w .
+\]
+Soundness is immediate: $\HZ x=0$ makes $x$ an $X$-logical; every element of
+$\rowsp(\HX)$ is orthogonal to $z$ because $\HX z=0$, so $x\cdot z=1$ forces
+$x\notin\rowsp(\HX)$. Hence $\dX\le w$. Three matrix--vector products; no
+solver, no proof, no search. The gross-code witnesses are $970$-byte files and
+check in $7$\,ms.
+
+The general stabilizer form is the same shape with $\omega$ in place of the
+dot product: $(e,f)$ with $\omega(s,e)=\omega(s,f)=0$ for every stabilizer row
+$s$, and $\omega(e,f)=1$, certifies $d\le\wt_{q}(e)$. The five-qubit code
+carries this variant end to end.
+
+\subsection{Lower bounds: a CNF the checker writes itself}\label{ssec:lower}
+Fix a sector, say $X$, and a bound $K$. The canonical CNF
+$\Phi_{K}(\HZ,P)$ over variables $x_{1},\dots,x_{n}$ (plus auxiliaries)
+asserts
+\begin{enumerate}
+\item[(1)] $\HZ x=0$, one Tseitin XOR chain per row of $\HZ$, with the chain
+output forced false;
+\item[(2)] $b_{j}=z_{j}\cdot x$ for each row $z_{j}$ of a \emph{pairing}
+matrix $P$, one XOR chain each, output free;
+\item[(3)] the clause $(b_{1}\vee\cdots\vee b_{p})$;
+\item[(4)] a Sinz sequential at-most-$K$ counter \cite{Sinz05} on
+$x_{1},\dots,x_{n}$;
+\item[(5)] optionally, forced unit literals (\S\ref{ssec:sym}).
+\end{enumerate}
+A lower-bound certificate is a JSON file naming $\HX,\HZ,P$, the value $K$,
+the sector, and for each instance a list of forced literals and an LRAT file.
+The checker \texttt{check\_lower.py} ($481$ lines) does four things: verifies
+the side conditions of Theorem~\ref{thm:exact}; \emph{regenerates}
+$\Phi_{K}(\HZ,P)$ from the raw matrices in a fixed variable order; replays the
+LRAT against its own clause list; and, for symmetry-broken certificates,
+verifies the hypotheses of Lemma~\ref{lem:orbit}.
+
+The shipped \texttt{.cnf} files are never read. They are informational, and the
+audit confirmed this by appending a contradictory clause pair to one of them
+and observing the check pass unchanged (\S\ref{sec:audit}).
+
+\begin{theorem}[Exactness of the CSS encoding]\label{thm:exact}
+Let $\HX\in\FF^{m_{X}\times n}$, $\HZ\in\FF^{m_{Z}\times n}$ and
+$P\in\FF^{p\times n}$ satisfy
+\begin{enumerate}
+\item[(a)] $\HX\HZ^{\mathsf T}=0$;
+\item[(b)] $\HX P^{\mathsf T}=0$;
+\item[(c)] $\rank\begin{pmatrix}\HZ\\P\end{pmatrix}=n-\rank\HX$.
+\end{enumerate}
+Then
+\[
+  \{x\in\FF^{n}: \HZ x=0,\ Px\ne 0\}
+  \;=\;\ker\HZ\setminus\rowsp(\HX),
+\]
+the set of nontrivial $X$-logicals. Consequently $\Phi_{K}(\HZ,P)$ is
+satisfiable if and only if there is a nontrivial $X$-logical of weight at most
+$K$; an unsatisfiability proof for $\Phi_{K}(\HZ,P)$ certifies $\dX\ge K+1$.
+\end{theorem}
+
+\begin{proof}
+Put $V=\ker\HZ\cap(\rowsp P)^{\perp}=(\rowsp\HZ+\rowsp P)^{\perp}$.
+By (a), $\rowsp(\HX)\subseteq\ker\HZ$; by (b), $\rowsp(\HX)\subseteq
+(\rowsp P)^{\perp}$. Hence $\rowsp(\HX)\subseteq V$. By (c),
+\[
+  \dim V \;=\; n-\rank\begin{pmatrix}\HZ\\P\end{pmatrix}\;=\;\rank\HX
+  \;=\;\dim\rowsp(\HX),
+\]
+so $V=\rowsp(\HX)$. Now for $x\in\ker\HZ$ we have $Px\neq 0$ iff
+$x\notin(\rowsp P)^{\perp}$ iff $x\notin V=\rowsp(\HX)$, which is the claim.
+The second sentence follows because clauses (1)--(3) of $\Phi_{K}$ encode
+exactly $\HZ x=0\wedge Px\neq0$ and clause group (4) encodes $\wt(x)\le K$.
+\end{proof}
+
+Both directions of Theorem~\ref{thm:exact} are load-bearing and for different
+reasons. Condition (b) gives \emph{soundness}: without it a satisfying
+assignment need not be a nontrivial logical, and UNSAT would prove nothing
+about the code. Condition (c) gives \emph{completeness}: without it the
+encoding could miss logicals, and UNSAT would prove less than claimed. The
+checker verifies (a) and (b) by explicit $\FF$ inner products and (c) by two
+Gaussian eliminations over bitmask integers, on every certificate, before it
+looks at the proof. This is why the pairing matrix $P$ --- which the pipeline
+produced, and which a hostile pipeline could try to weaken --- is not trusted
+input. Negative control 7 of \S\ref{sec:audit} deletes one of its twelve rows
+and the checker rejects on condition (c).
+
+\subsection{Symmetry breaking, and the orbit lemma}\label{ssec:sym}
+For the largest instances the search space can be cut by the code's own
+automorphisms. A symmetry-broken certificate ships permutations
+$\pi_{1},\dots,\pi_{r}$, a block boundary $b$, and \emph{two} instances with
+prescribed forced literals.
+
+\begin{lemma}[Orbit lemma]\label{lem:orbit}
+Let $G\le S_{n}$ be generated by permutations $\pi$ such that
+\begin{enumerate}
+\item[(i)] $\pi$ preserves the partition $\{0,\dots,b-1\}\sqcup\{b,\dots,n-1\}$;
+\item[(ii)] $\rowsp(\HX\pi)=\rowsp(\HX)$ and $\rowsp(\HZ\pi)=\rowsp(\HZ)$;
+\end{enumerate}
+and suppose $G$ acts transitively on each of the two blocks. If a nontrivial
+$X$-logical of weight $\le K$ exists, then one exists whose support either
+contains qubit $0$, or is disjoint from $\{0,\dots,b-1\}$ and contains qubit
+$b$.
+\end{lemma}
+
+\begin{proof}
+By (ii), $x\mapsto x\circ\pi$ maps $\ker\HZ$ to itself and $\rowsp(\HX)$ to
+itself, hence maps nontrivial $X$-logicals to nontrivial $X$-logicals, and it
+preserves weight. Let $x$ be nontrivial of weight $\le K$. If
+$\supp(x)$ meets the left block, pick $i$ in the intersection and $g\in G$
+with $g(0)=i$, possible by transitivity; then $y=x\circ g$ has $y_{0}=1$.
+Otherwise $\supp(x)$ meets the right block, say at $i\ge b$; pick $g\in G$
+with $g(b)=i$; then $y=x\circ g$ has $y_{b}=1$, and $y$ still vanishes on the
+left block because $g$ preserves blocks.
+\end{proof}
+
+The two cases are exactly the two forced-literal patterns the checker demands:
+instance $0$ has \texttt{forced} $=[\,1\,]$ and instance $1$ has
+\texttt{forced} $=[-1,\dots,-b,\,b+1]$. Everything Lemma~\ref{lem:orbit}
+hypothesizes is machine-checked: that each shipped array is a permutation, that
+it preserves the blocks (index comparison), that it is a rowspace automorphism
+of both $\HX$ and $\HZ$ (rank identity $\rank(H)=\rank(H\cup H\pi)$),
+that the generated group is block-transitive (breadth-first search over the
+generators and their inverses), and that the two forced patterns are literally
+the two above. Only the four-line implication in the proof is human-verified.
+For $\gross$ and $[[288,12,18]]$ the two shipped permutations were
+independently identified in the audit as the torus translations $x^{1}y^{0}$
+and $x^{0}y^{1}$.
+
+\begin{remark}\label{rem:symfree}
+The gross code does not need this lemma. The $868$\,MB $X$ proof and the
+$672$\,MB $Z$ proof are single-instance certificates with empty
+\texttt{forced} lists, and the checker's non-symmetry branch asserts exactly
+that: one instance, no forced literals. So $d(\gross)=12$ is certified with
+the orbit lemma removed from the trusted base. The symmetry-broken $X$
+certificate is retained because it is $7\times$ smaller and $17\times$ faster
+to replay, and because it demonstrates the mechanism at $n=144$ before it is
+used in earnest at $n=288$.
+\end{remark}
+
+\subsection{The ZX-duality certificate}\label{ssec:duality}
+For BB codes $\dX=\dZ$. This is not our observation: it is a lemma in the
+supplemental material of Bravyi et al.\ \cite{BCGMRY}, invoked there in
+exactly the way we invoke it --- to halve the work --- with the remark that
+the hypothesis in question ``is satisfied for BB LDPC codes''. What we add is
+an artifact: an explicit permutation, shipped as a file, that turns the lemma
+into something a reader checks in about $15$\,ms instead of something a reader
+believes.
+
+\begin{lemma}[Duality]\label{lem:dual}
+Let $\Pi$ be a permutation of the $n$ qubits with
+$\rowsp(\HX\Pi)=\rowsp(\HZ)$ and $\rowsp(\HZ\Pi)=\rowsp(\HX)$. Then
+$x\mapsto y$, $y_{i}=x_{\Pi(i)}$, is a weight-preserving bijection from
+nontrivial $X$-logicals to nontrivial $Z$-logicals, and $\dX=\dZ$.
+\end{lemma}
+
+\begin{proof}
+Applying $\Pi^{-1}$ to the two hypotheses gives
+$\rowsp(\HX)=\rowsp(\HZ\Pi^{-1})$ and $\rowsp(\HZ)=\rowsp(\HX\Pi^{-1})$.
+Let $h$ be a row of $\HX$. Then $h\cdot y=\sum_{i}h_{i}x_{\Pi(i)}
+=\sum_{j}h_{\Pi^{-1}(j)}x_{j}=(h\circ\Pi^{-1})\cdot x$, and
+$h\circ\Pi^{-1}\in\rowsp(\HX\Pi^{-1})=\rowsp(\HZ)$, so $h\cdot y=0$ whenever
+$\HZ x=0$. Thus $\HX y=0$. If $y\in\rowsp(\HZ)$, say $y=c\HZ$, then
+$x_{j}=y_{\Pi^{-1}(j)}$ exhibits $x\in\rowsp(\HZ\Pi^{-1})=\rowsp(\HX)$,
+contradicting nontriviality of $x$. Weight is preserved because $\Pi$ permutes
+coordinates. The same argument with $X$ and $Z$ interchanged gives the inverse
+map, so the correspondence is a bijection and $\dX=\dZ$.
+\end{proof}
+
+The certificate is the permutation $\Pi$; the checker
+(\texttt{check\_duality.py}, $73$ lines) does two rank comparisons. The corpus
+ships one for each of the five BB codes, and each checks in a few milliseconds
+to a few tens of milliseconds --- $3.8$, $4.7$, $6.1$, $9.9$ and $37.9$\,ms
+for $n=72,90,108,144,288$ on a loaded machine. In every case $\Pi$ is the
+composite of the block swap with $(a,b)\mapsto(-a,-b)$ on the torus indices.
+
+\begin{remark}[The $n=288$ certificate, and when it appeared]\label{rem:no288dual}
+The audit of \S\ref{sec:audit} found no duality certificate for
+$[[288,12,18]]$ (discrepancy D2 of \S\ref{sec:defects}): the generator listed
+the code but had not been re-run, so what the corpus certified there was
+$14\le\dX\le18$ rather than $14\le d\le18$. The auditor independently
+confirmed that the same permutation family does satisfy both rowspace
+identities at $n=288$, so the mathematics was never in doubt --- only the
+artifact was missing, which is exactly the condition this paper exists to
+avoid. The generator has since been re-run and
+\texttt{bb288/duality.json} now ships. It is the one certificate in the
+release that is \emph{not} among the audit's $47$ checks and not among the
+$182$ hashes in \texttt{manifest.json}, both of which predate it; it passes
+\texttt{check\_duality.py}, and its permutation was verified a second time,
+from scratch, against independently loaded matrices. With it,
+$14\le d\le 18$ is certified rather than merely true, and
+Table~\ref{tab:main} is worded accordingly. No $Z$-sector witness is needed:
+$d=\min(\dX,\dZ)=\dX$ once duality is in hand.
+\end{remark}
+
+\subsection{The symplectic variant}\label{ssec:symp}
+For a general stabilizer code the encoding uses $3n$ variables --- $u_{i}$,
+$v_{i}$ for the $X$- and $Z$-components and $q_{i}$ for ``qubit $i$ is in the
+support'', tied by $(\lnot u_{i}\vee q_{i})$, $(\lnot v_{i}\vee q_{i})$,
+$(u_{i}\vee v_{i}\vee\lnot q_{i})$ --- with XOR chains for the symplectic
+products and the at-most-$K$ counter on the $q$'s.
+
+\begin{proposition}\label{prop:symp}
+Let $S\in\FF^{m\times 2n}$ have pairwise $\omega$-orthogonal rows, let
+$L\in\FF^{\ell\times2n}$ satisfy $\omega(s,\lambda)=0$ for all rows
+$s$ of $S$ and $\lambda$ of $L$, and suppose
+$\rank\binom{S}{L}=\rank S+\ell=n+k$ where $k=n-\rank S$. Then
+$\{e:\omega(s,e)=0\ \forall s,\ \exists\lambda\ \omega(e,\lambda)=1\}$ is
+exactly the set of nontrivial logical operators.
+\end{proposition}
+
+\begin{proof}
+Let $C$ be the $\omega$-centralizer of $\rowsp(S)$, of dimension
+$2n-\rank S=n+k$. The radical of $\omega|_{C}$ is $\rowsp(S)$. The rows of $S$
+and $L$ all lie in $C$ and span a subspace of dimension $\rank S+\ell=n+k$, so
+they span $C$. If $e\in C$ and $\omega(e,\lambda)=0$ for every row of $L$,
+then $\omega(e,\cdot)$ vanishes on $C$, so $e$ lies in the radical, i.e.\
+$e\in\rowsp(S)$. The converse inclusion is immediate.
+\end{proof}
+
+The five-qubit code $[[5,1,3]]$ carries this path end to end: a $128$-byte
+witness and a $1{,}514$-byte LRAT for $d\ge3$. It exists to keep the non-CSS
+branch of the checker exercised; see also defect D4 in \S\ref{sec:defects},
+which is a missing guard in exactly that branch.
+
+\section{The trusted base}\label{sec:tcb}
+
+A certificate is only as good as the list of things its reader must still
+believe. Here is that list, split into what is re-verified per certificate by
+code one can read (\textsc{checked}) and what is argued in prose and verified
+nowhere (\textsc{assumed}).
+
+\subsection{Software}
+Three files, $649$ lines of Python in total:
+\texttt{check\_witness.py} ($95$), \texttt{check\_duality.py} ($73$),
+\texttt{check\_lower.py} ($481$). Their only imports are
+\texttt{gzip}, \texttt{json}, \texttt{os}, \texttt{subprocess}, \texttt{sys},
+\texttt{tempfile} and \texttt{time}. No \texttt{numpy}, no
+compiled helper, no network. CPython and the operating system must be trusted.
+If the optional \texttt{--external} path is used to delegate LRAT replay to a
+compiled checker, that binary and the temporary-file marshalling re-enter the
+trusted base; the audit of \S\ref{sec:audit} never used it, so for that audit
+the trusted base contained no compiled code at all.
+
+\emph{Not} trusted, and demonstrably so: CaDiCaL; the generating pipeline
+(\texttt{certify.py}, \texttt{qec\_lib.py}, \texttt{gen\_duality.py},
+\texttt{manifest.py}); the shipped \texttt{.cnf} files; \texttt{meta.json};
+\texttt{manifest.json}; and the prose of this paper. All of them can be
+deleted and every certificate still verifies.
+
+\begin{remark}[The checker moved after the audit]\label{rem:checkerdrift}
+The auditor of \S\ref{sec:audit} read a $419$-line
+\texttt{check\_lower.py}; the file shipped with this release is $481$ lines.
+The difference is one addition: an optional truncated Bailleux--Boufkhad
+totalizer as an alternative to the Sinz cardinality encoding, put in for
+larger $[[288,12,18]]$ rungs that are still running and are not part of this
+release. It is selected only by a certificate that declares
+\texttt{"cardinality": "totalizer"}, and \emph{no certificate in this release
+declares it}: all take the Sinz default, which is the code path the audit
+read and exercised. A reader minimising trusted-base surface can delete the
+totalizer branch and re-run everything. We flag the drift rather than quietly
+re-using the audit's line count, because the size of that number is one of the
+claims.
+\end{remark}
+
+\subsection{Machine-checked, per certificate}
+\begin{itemize}
+\item CSS orthogonality $\HX\HZ^{\mathsf T}=0$ --- condition (a).
+\item Every pairing row in the kernel of the quotient matrix --- condition (b),
+soundness.
+\item The rank/spanning identity --- condition (c), completeness.
+\item For the symplectic branch: commutativity of $S$, $L$ in the centralizer,
+and the two rank identities of Proposition~\ref{prop:symp}.
+\item For \texttt{\_sym} certificates: that each permutation is a permutation,
+preserves blocks, is a rowspace automorphism of both $\HX$ and $\HZ$; that the
+generated group is block-transitive; and that the forced patterns are exactly
+the two Lemma~\ref{lem:orbit} licenses.
+\item For duality certificates: both rowspace identities.
+\item Regeneration of the entire CNF from the raw matrices, and RUP replay of
+the LRAT against \emph{that} clause list.
+\end{itemize}
+
+\subsection{Assumed}
+\begin{enumerate}
+\item \emph{The Sinz sequential at-most-$K$ counter is complete}
+\cite{Sinz05}: every weight-$\le K$ assignment extends to a satisfying
+assignment of the counter variables. If it were accidentally
+over-constraining, UNSAT would mean less than claimed. The emitted clause set
+was read against \cite{Sinz05} and is the standard one.
+\item \emph{The Tseitin XOR gate is definitional} \cite{Tseitin68}: the four
+clauses per gate encode $u=a\oplus b$ and are always extendable.
+\item \emph{The orbit lemma}, Lemma~\ref{lem:orbit} --- four lines, proved
+above, machine-checked hypotheses, human-verified implication. Used by the
+symmetry-broken $\gross$ $X$ certificate and all three $[[288,12,18]]$ rungs.
+\textbf{Not used by} the symmetry-free $\gross$ certificates
+(Remark~\ref{rem:symfree}).
+\item \emph{The duality lemma}, Lemma~\ref{lem:dual} --- likewise, checked
+hypotheses, human-verified implication.
+\item \emph{The CSS fact $d=\min(\dX,\dZ)$}, used to turn a certified pair
+into a statement about the code. No script touches it.
+\item \emph{LRAT semantics.} The internal checker implements RUP-with-hints:
+negate the lemma, unit-propagate through the hinted clauses in order, demand a
+conflict. It skips hints that are already satisfied or non-unit --- sound, since
+skipping can only fail to find a conflict, never invent one --- and it
+\emph{refuses} negative (RAT) hints outright, which incidentally establishes
+that every proof in the corpus is pure RUP. It requires an empty clause to be
+derived and verified.
+\item \emph{That the matrices are the intended code.} No certificate
+establishes this; the checkers take \texttt{HX.txt} and \texttt{HZ.txt} at face
+value. Section~\ref{ssec:matrices} closes this for the five BB codes at byte
+level.
+\end{enumerate}
+
+\noindent In one sentence: a skeptic must believe that three short
+standard-library Python files do what they appear to do, that CPython and the
+OS are not lying, that the Sinz and Tseitin encodings are standard and
+complete, that the four-line duality lemma and the four-line orbit lemma are
+correct, and that $d=\min(\dX,\dZ)$. Everything else can be thrown away.
+
+\section{The gross code}\label{ssec:gross}
+
+$\gross$ is the $\ell=12$, $m=6$ member of the BB family, with
+$A=x^{3}+y+y^{2}$ and $B=y^{3}+x+x^{2}$, $\HX=[A\mid B]$,
+$\HZ=[B^{\mathsf T}\mid A^{\mathsf T}]$ \cite{BCGMRY}. Its certified distance
+decomposes as follows; all byte counts are the shipped files.
+
+\begin{center}
+\small
+\begin{tabular}{llrrr}
+\toprule
+statement & artifact & bytes & solver (s) & replay \\
+\midrule
+$\dX\le 12$ & \texttt{witness\_X.json} & $970$ & $0.025$ & $7.4$\,ms\\
+$\dZ\le 12$ & \texttt{witness\_Z.json} & $970$ & $0.029$ & $7.3$\,ms\\
+$\dX\ge 12$, symmetry-broken & \texttt{lower\_X\_K11\_sym.json} $+2$ LRATs
+  & $123{,}857{,}070$ & $45.0$ & $10.1$\,s\\
+$\dZ\ge 12$, symmetry-free & \texttt{lower\_Z\_K11.json} $+1$ LRAT
+  & $671{,}988{,}205$ & $227.3$ & $72.9$\,s\\
+$\dX\ge 12$, symmetry-free & \texttt{lower\_X\_K11.json} $+1$ LRAT
+  & $867{,}803{,}294$ & $342.3$ & $176.4$\,s\\
+$\dX=\dZ$ & \texttt{duality.json} & $103+466$ & --- & $9.9$\,ms\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Total solver time for the complete symmetry-free route is
+$569.6$\,s: under ten minutes on a laptop. Total replay time for that route,
+in pure Python with no compiled code anywhere, is $249.3$\,s. The two
+symmetry-free proofs are what let us say that $d(\gross)=12$ holds on the
+trusted base of \S\ref{sec:tcb} \emph{minus} item~3.
+
+The value $d=12$ is not new; it is \cite[Table 3]{BCGMRY}, obtained by mixed
+integer programming \cite{LandahlAndersonRice}, confirmed exactly at MIP gap
+zero by \cite{CruzBenito}, and reproduced by SAT in
+\cite{ChenJafariLai}. A machine-checked proof of it is not new either: the
+LEAN-QEC repository reports one as of 2026-07-10 (\S\ref{ssec:credit}). What is
+offered here is the shape of the artifact --- an $868$\,MB file plus a
+$481$-line reader, with no symmetry hypothesis, no solver and no proof
+assistant --- and the fact that it replays inside $51$\,MB of memory.
+
+\begin{remark}[Timing variability]
+The replay times above are the audit's measurements on an otherwise idle
+machine. A re-run of the symmetry-broken $X$ certificate performed while
+writing this note, under load, took $30.4$\,s rather than $10.1$\,s. All timing
+figures in this paper should be read with a factor of three of slack; the byte
+counts and the pass/fail outcomes are exact.
+\end{remark}
+
+\section{$[[288,12,18]]$}\label{sec:288}
+
+For the $\ell=m=12$ member, $A=x^{3}+y^{2}+y^{7}$, $B=y^{3}+x+x^{2}$, we
+certify a ladder in the $X$ sector, each rung an independently valid
+symmetry-broken certificate:
+\[
+  \dX\ge 10\ (65\,\text{MB},\ 11.0\,\text{s solver}),\quad
+  \dX\ge 12\ (351\,\text{MB},\ 85.6\,\text{s}),\quad
+  \dX\ge 14\ (2.94\,\text{GB},\ 512.6\,\text{s}),
+\]
+together with a weight-$18$ witness for $\dX\le18$ and a duality certificate
+(Remark~\ref{rem:no288dual}) that converts both into statements about $d$. The
+$K=13$ proof is $2{,}941{,}958{,}076 + 191{,}479$ bytes across the two orbit
+instances and replays in pure Python in $413.6$\,s with a peak resident set of
+$79$\,MB --- the memory figure being the interesting one, since the proof is
+more than thirty times larger than the memory used to check it.
+
+\begin{remark}[What the literature says, stated correctly]\label{rem:288}
+An earlier internal draft of our results claimed that Bravyi et al.\ screened
+this code with a heuristic and conceded that its $d\le18$ ``is unlikely to be
+tight''. That is a misreading and we correct it here. In \cite{BCGMRY}, the
+quoted caveat concerns the \emph{circuit-level} distance $\dcirc\le18$, a
+different quantity from the code distance. Table~3 of that paper lists
+$[[288,12,18]]$ with no ``$\le$'', while $[[360,12,\le24]]$ and
+$[[756,16,\le34]]$ carry one, and the caption states that the notation
+``$\le d$'' marks entries for which only an upper bound is known; the
+supplemental material states that the actual distance ``of each candidate code
+was computed using the integer linear programming method''. So \cite{BCGMRY}
+asserts $d=18$ exactly for this code, by ILP and without a checkable artifact.
+Our interval $[14,18]$ is therefore \emph{not} new information about the
+value, and any suggestion that it is the first distance information produced
+for this code --- a suggestion the earlier draft made --- is withdrawn. What
+$\dX\ge14$ is, is the strongest lower bound for this code that anyone can
+check.
+\end{remark}
+
+The strongest quantity previously published for this code as a \emph{lower
+bound} is $d\ge11$, from Chen, Jafari and Lai \cite{ChenJafariLai}, obtained
+by several solvers under $7200$\,s timeouts and asserted rather than
+certified; their public repository \texttt{guluchen/QDistSAT} contains no
+proof artifacts. Our $\dX\ge14$ improves on it and adds what neither it nor
+\cite{BCGMRY} has: a file. As far as the sweep recorded in
+\S\ref{ssec:credit} could determine, it is the only machine-checkable lower
+bound on record for $[[288,12,18]]$ at any strength.
+
+Where the wall is, concretely: proof size grows roughly $8\times$ per ladder
+rung on this encoding, so $K=15$ is an overnight job at an estimated
+$25$\,GB, and $K=17$ --- the rung that would close the gap to $18$ --- is out
+of reach of this encoding on this machine. Better encodings, in particular
+the location-indexed encoding of \cite{LeanQEC}, proof compression, and
+per-rung parallelism are the obvious next moves, and none of them is ours.
+
+\section{Independent verification}\label{sec:audit}
+
+The corpus was re-checked by a separate agent instance with no access to the
+pipeline and no shared code, on the same machine, using
+\texttt{/usr/bin/python3} (CPython 3.9.6). Its report is
+\texttt{INDEPENDENT-VERIFICATION.md}. Summary: $47$ checks run, $47$ passed,
+$0$ failed; $5{,}459{,}315{,}046$ bytes ($5.08$\,GiB) of LRAT replayed in
+approximately $746$\,s of wall clock; peak resident set $79$\,MB; all $182$
+SHA-256 entries in \texttt{manifest.json} re-hashed and matching. Because
+\texttt{lrat-check} is not present in the repository (defect D3), \emph{every}
+proof --- including the $2.94$\,GB one --- was replayed with the internal
+pure-Python checker. That is the stronger result. Eleven negative controls,
+built by the auditor on scratch copies, were all correctly rejected
+(\S\ref{ssec:neg}), and six codes were cross-checked by brute force
+(\S\ref{ssec:brute}). This audit, not the distance values, is the load-bearing
+part of the paper.
+
+\subsection{Are these the right matrices?}\label{ssec:matrices}
+This is the check the certificates cannot perform on themselves, and it was
+done first. The auditor rebuilt $\HX$ and $\HZ$ for all five BB codes directly
+from the construction in \cite{BCGMRY} --- $n=2\ell m$, $x=S_{\ell}\otimes
+I_{m}$, $y=I_{\ell}\otimes S_{m}$ over $\FF$ with $S_{r}$ the cyclic shift,
+$\HX=[A\mid B]$, $\HZ=[B^{\mathsf T}\mid A^{\mathsf T}]$ --- using that
+paper's Table~3 parameters. For every one of \texttt{bb72}, \texttt{bb90},
+\texttt{bb108}, \texttt{bb144}, \texttt{bb288}, the shipped \texttt{HX.txt}
+and \texttt{HZ.txt} are \textbf{byte-identical} to the reconstruction: no row
+operations, no column permutation, no block swap. Independently recomputed
+$k=n-\rank\HX-\rank\HZ$ gives $12,8,8,12,12$, matching the published
+parameters, with row weight $6$ and column weight $3$ throughout. Every
+algebraic side condition was then re-run a second time, in the auditor's own
+implementation, against the \emph{reconstructed} matrices rather than the
+shipped ones; all agreed.
+
+\subsection{Brute force where brute force is possible}\label{ssec:brute}
+For the six codes small enough, the auditor computed the minimum distance by
+exhaustive Gray-code enumeration over a kernel basis, with code sharing
+nothing with either the pipeline or the checkers: Steane, surface $d=3$,
+surface $d=5$, Golay, the five-qubit code, and surface $d=7$ (a $2^{25}$
+search, $242$\,s). Six exact distances, six agreements with the certified
+values. From $[[72,12,6]]$ upward the search space is $2^{42}$ and beyond,
+which is the entire point of the certificates.
+
+\subsection{Negative controls}\label{ssec:neg}
+Eleven tampered artifacts were built on scratch copies and all eleven were
+rejected, each with the specific error one would want: a flipped witness bit
+(``witness does not commute''), an understated weight, a relabelled $K$
+(``LRAT lemma 2015 NOT verified''), a deleted empty clause, a truncated proof,
+a live-but-wrong hint id, a gutted pairing matrix (rejected on condition (c),
+``$31\ne42$''), a flipped bit of $\HX$ (rejected on condition (a)), a swapped
+sector label, a corrupted hint id, and an identity duality permutation. In
+addition, a contradictory clause pair was appended to
+\texttt{bb72/lower\_X\_K5.cnf} and the check passed unchanged and in the same
+time --- a positive control on the claim that the shipped CNF is genuinely
+never read.
+
+\section{Defects found}\label{sec:defects}
+
+Reported verbatim, because a paper about trusted bases that suppresses its own
+audit findings is not one.
+
+\smallskip
+\noindent\textbf{D1 (documentation).} The results file cites a
+\texttt{tamper\_test/} directory that does not exist in the repository. The
+claim is true --- the controls were rebuilt from scratch and all rejected
+(\S\ref{ssec:neg}) --- but the citation is dangling.
+
+\smallskip
+\noindent\textbf{D2 (real, touched a headline, now closed).} At audit time
+there was no duality certificate and no $Z$-witness for $[[288,12,18]]$, so
+the corpus certified $14\le\dX\le18$, not $14\le d\le18$: the generator listed
+that code and had evidently not been re-run. The underlying mathematics was
+verified independently by the auditor, so the claim was true and uncertified,
+which is precisely the condition this paper exists to avoid. This is the one
+defect of the four that is fixed in this release: the generator has been
+re-run, \texttt{bb288/duality.json} ships, it passes
+\texttt{check\_duality.py}, and its permutation has been re-verified from
+scratch. The caveats are that this certificate postdates the audit and is
+therefore outside its $47$ checks, and that \texttt{manifest.json} --- whose
+$182$ entries the audit re-hashed --- has deliberately not been regenerated,
+so it does not list the new file. See Remark~\ref{rem:no288dual}.
+
+\smallskip
+\noindent\textbf{D3 (documentation).} \texttt{run\_all.sh} requires
+\texttt{tools-drat-trim/lrat-check}, which is absent with no source or URL, so
+the \texttt{lrat-check} timings previously quoted are not reproducible from
+the repository as shipped. The pure-Python path is reproducible and is what
+Table~\ref{tab:main} reports. Two earlier pure-Python figures were also stale
+in the conservative direction ($21$\,s quoted versus $6.2$\,s measured for
+$[[108,8,10]]$; $17.3$\,s versus $10.1$\,s for the symmetry-broken $\gross$
+certificate), and the quoted throughput of $3.4$\,MB/s is closer to $12$\,MB/s.
+
+\smallskip
+\noindent\textbf{D4 (latent soundness hole).} In the CSS branch,
+\texttt{check\_lower.py} requires a certificate with no symmetry block to have
+exactly one instance with an empty forced list. The symplectic branch has
+\emph{no such guard}: it passes the certificate's forced literals straight into
+the encoder, which emits them as unit clauses. The auditor demonstrated this by
+adding \texttt{"forced": [-1,-2,-3]} to the five-qubit certificate and
+obtaining \texttt{OK lower bound: d >= 3} from a proof that now covers only
+assignments avoiding those qubits. No shipped certificate is affected --- the
+five-qubit certificate's forced list is empty, and this was checked --- but the
+checker would accept a forged one. The one-line fix is to mirror the CSS
+assertion. Two lesser observations in the same vein: the symmetry branch does
+not assert that there are exactly two instances (harmless, since each is
+replayed independently), and the CSS branch does not validate the sector label
+(a typo silently selects the other branch, whose side conditions then fail, as
+negative control 9 shows).
+
+\smallskip
+\noindent D4 is the interesting one. It is exactly the class of defect that the
+certificate discipline is supposed to make findable: a hole in $481$ lines of
+readable Python, found by reading them, rather than a hole in a solver.
+
+\section{Relation to other work}\label{sec:related}
+
+\emph{Heuristic upper bounds.} QDistRnd \cite{QDistRnd} produces upper bounds
+with no performance guarantee; Stim's logical-error search \cite{Stim} is
+documented as heuristic. Both are excellent for what they are. Our upper
+bounds differ only in shipping the witness.
+
+\emph{Exact methods without artifacts.} The mixed-integer-programming method
+of Landahl, Anderson and Rice \cite{LandahlAndersonRice} is what
+\cite{BCGMRY} used and remains the reference for the BB distances;
+Cruz-Benito, Cross, Kremer and Faro \cite{CruzBenito} re-close the gross-code
+MILP to gap zero. Chen, Jafari and Lai \cite{ChenJafariLai} push SAT and
+MaxSAT to this family at scale and explicitly do not log proofs. Webster, Jacob and Higgott \cite{WJH}
+survey the field and distinguish exact from heuristic methods carefully; their
+desiderata do not include exportable certificates, and an exhaustive search of
+their text turns up a single occurrence of certification, referring to
+internal optimality rather than to an artifact. None of these produces
+something a third party can replay. That gap, not the numbers, is what this
+note addresses.
+
+\emph{Proof-assistant approaches.} LEAN-QEC \cite{LeanQEC} is the closest work
+and the one we have most to learn from: their location-indexed encoding is
+better than ours, and we did not need it only because we stopped at $n=288$.
+The design difference is where the trust sits. Their artifact is replayable
+inside the Lean~4 kernel, which is a stronger guarantee than ours about the
+\emph{checker}, at the cost of requiring Lean and Mathlib --- a toolchain fetch
+--- to obtain it. Ours is replayable by any CPython, which is a weaker
+guarantee about the checker and a much smaller barrier to a skeptic. Neither
+dominates. PBLean \cite{PBLean} imports VeriPB certificates into Lean~4 and is
+the nearest general prior art for the certificate-import problem.
+
+\emph{What we could not find.} A search of the public record on 2026-08-04 ---
+arXiv, code search for LRAT together with quantum distance, and the issue
+trackers of Stim, \texttt{panqec}, \texttt{ldpc} and \texttt{qLDPC} --- turned
+up no standalone quantum distance certificate requiring neither a solver nor a
+proof assistant to check. A negative cannot be proved this way; we record the
+scope of the search rather than a claim.
+
+\section{Reproducibility}\label{sec:repro}
+
+The artifacts sit beside this note in \texttt{qec/}. To re-check anything:
+
+\begin{verbatim}
+gunzip certificates/bb144/*.lrat.gz
+python3 check_witness.py  certificates/bb144/witness_X.json
+python3 check_lower.py    certificates/bb144/lower_X_K11.json
+python3 check_lower.py    certificates/bb144/lower_Z_K11.json
+python3 check_duality.py  certificates/bb144/duality.json
+python3 check_lower.py    certificates/bb288/lower_X_K13_sym.json
+\end{verbatim}
+
+\noindent No virtual environment, no packages, no compiled binary. Any
+CPython~3.8 or later should do; the audit used the macOS system interpreter,
+3.9.6. Expect $176$\,s, $73$\,s and $414$\,s respectively for the three large
+replays on an idle M4, more under load. \texttt{manifest.json} carries the
+SHA-256 and byte count of all $182$ artifacts and
+\texttt{manifest.py} re-checks them.
+
+\smallskip
+\noindent\emph{What the public repository can and cannot hold.} Four of the
+proofs --- the two symmetry-free $\gross$ certificates and the first instance
+of each of the $K=11$ and $K=13$ rungs at $n=288$ --- are between $79$\,MB and
+$646$\,MB compressed and are not carried in git. Everything else is: the
+descriptors, the parity-check matrices, the pairing and permutation files, the
+witnesses, the duality certificates, the CNF inputs, the manifest, and every
+proof small enough to ship, up to and including the $30$\,MB symmetry-broken
+$\gross$ certificate and the $K=9$ rung at $n=288$. So a reader who clones and
+runs nothing but CPython can still replay a certified $d=3$ for all four
+sanity-tier codes, $d=7$ for Golay and the $d{=}7$ surface code, $d=6$ for
+$[[72,12,6]]$, $d=10$ for $[[90,8,10]]$ and $[[108,8,10]]$, $d=12$ for the
+gross code --- by the symmetry-broken $X$ certificate together with the
+duality certificate and the weight-$12$ witness, the two symmetry-free proofs
+being exactly the ones that do not fit --- and $\dX\ge10$ at $n=288$. For the
+four omitted proofs the release ships \texttt{REGENERATE.md}: the exact
+CaDiCaL invocation for each, with the expected byte count and the SHA-256 the
+result must have. Regenerating them
+puts a solver back in the loop for the \emph{production} of the proof, which
+is where a solver has always been allowed to sit; the check that follows still
+does not trust it. The generating pipeline
+(\texttt{certify.py}, \texttt{qec\_lib.py}, \texttt{run\_all.sh}) is included
+for completeness and is not needed to check anything; it requires
+\texttt{numpy} and a CaDiCaL binary, and as noted in D3 its full
+\texttt{run\_all.sh} path additionally expects an \texttt{lrat-check} binary
+that is not vendored.
+
+\section*{Acknowledgments}
+
+The debt to Bravyi, Cross, Gambetta, Maslov, Rall and Yoder is total: the codes
+are theirs, the distances are theirs, and the $\dX=\dZ$ lemma that halves the
+work at every BB instance is theirs. To Landahl, Anderson and Rice for the
+integer-programming distance method that produced the reference values, and to
+Cruz-Benito, Cross, Kremer and Faro for closing the gross-code MILP to gap
+zero and thereby fixing the value we certify. To the
+LEAN-QEC authors for putting kernel-checked quantum distance proofs on the map,
+for naming the gross code as their target in print, and for reaching it in
+their repository before we finished writing; several claims in an earlier draft
+of this note had to be withdrawn on discovering that, and the discovery was
+entirely to the good. To Chen, Jafari and Lai for the SAT benchmark against
+which our $n=288$ bound is measured. To Marijn Heule and coauthors for LRAT and
+\texttt{drat-trim}, without which none of this would have an interchange
+format, and to Armin Biere and coauthors for CaDiCaL. To Carsten Sinz for the
+cardinality encoding and to G.~S.~Tseitin for the gate encoding that the whole
+construction rests on.
+
+Finding that a result one has produced was produced first by someone else is
+the ordinary condition of working in a field that is moving faster than the
+writing; we have tried to record it accurately rather than minimally.
+
+\begin{thebibliography}{99}
+
+\bibitem[BCGMRY]{BCGMRY}
+S.~Bravyi, A.~W. Cross, J.~M. Gambetta, D.~Maslov, P.~Rall and T.~J. Yoder,
+\emph{High-threshold and low-overhead fault-tolerant quantum memory},
+Nature \textbf{627} (2024), 778--782; arXiv:2308.07915.
+
+\bibitem[Bie20]{CaDiCaL}
+A.~Biere, K.~Fazekas, M.~Fleury and M.~Heisinger,
+\emph{CaDiCaL, Kissat, Paracooba, Plingeling and Treengeling entering the SAT
+Competition 2020}, in: Proc.\ SAT Competition 2020, Dept.\ of Computer
+Science Report Series B, Univ.\ of Helsinki, 51--53.
+Version used here: CaDiCaL 3.0.1.
+
+\bibitem[CS96]{CS96}
+A.~R. Calderbank and P.~W. Shor,
+\emph{Good quantum error-correcting codes exist},
+Phys. Rev. A \textbf{54} (1996), 1098--1105.
+
+\bibitem[CJL26]{ChenJafariLai}
+Chen, Jafari and Lai,
+arXiv:2606.12445, May 29, 2026 (SAT- and MaxSAT-based computation of quantum
+code distances). Repository \texttt{guluchen/QDistSAT}; inspected
+August 4, 2026, and containing no proof or certificate artifacts.
+
+\bibitem[CCKF26]{CruzBenito}
+J.~Cruz-Benito, A.~W. Cross, F.~Kremer and I.~Faro (IBM Quantum),
+arXiv:2606.02418, June 1, 2026. Computes the minimum distance of the gross
+code $[[144,12,12]]$ exactly by mixed-integer linear programming, closing the
+MIP gap to $0$; no optimality certificate is exported.
+
+\bibitem[CFHKS17]{LRAT}
+L.~Cruz-Filipe, M.~J.~H. Heule, W.~A. Hunt~Jr., M.~Kaufmann and
+P.~Schneider-Kamp,
+\emph{Efficient certified RAT verification},
+in: Automated Deduction --- CADE-26, Lecture Notes in Comput. Sci.\
+\textbf{10395}, Springer, 2017, 220--236.
+
+\bibitem[ELWT26]{LeanQEC}
+Ehatamm, Lee, Wu and Tao,
+arXiv:2605.16523v1, May 15, 2026 (the LEAN-QEC system paper: SAT-based
+quantum code distance proofs replayed in the Lean~4 kernel). Repository
+\texttt{VerifiedQC/Lean-QEC}; statements about the repository in this note
+refer to commit \texttt{c73827d} of July 10, 2026, inspected August 4, 2026.
+Only v1 of the preprint existed at that date.
+
+\bibitem[Gid21]{Stim}
+C.~Gidney,
+\emph{Stim: a fast stabilizer circuit simulator},
+Quantum \textbf{5} (2021), 497. The documentation of
+\texttt{search\_for\_undetectable\_logical\_errors} states that the method is
+heuristic.
+
+\bibitem[Got97]{Gottesman97}
+D.~Gottesman,
+\emph{Stabilizer codes and quantum error correction},
+Ph.D. thesis, California Institute of Technology, 1997;
+arXiv:quant-ph/9705052.
+
+\bibitem[HHW13]{DRATtrim}
+M.~J.~H. Heule, W.~A. Hunt~Jr.\ and N.~Wetzler,
+\emph{Trimming while checking clausal proofs},
+in: Formal Methods in Computer-Aided Design (FMCAD), 2013, 181--188.
+
+\bibitem[LAR11]{LandahlAndersonRice}
+A.~J. Landahl, J.~T. Anderson and P.~R. Rice,
+\emph{Fault-tolerant quantum computing with color codes},
+arXiv:1108.5738, 2011. Source of the mixed-integer-programming distance
+computation used in \cite{BCGMRY}.
+
+\bibitem[PSKK22]{QDistRnd}
+L.~P. Pryadko, V.~A. Shabashov and V.~K. Kozin,
+\emph{QDistRnd: A GAP package for computing the distance of quantum
+error-correcting codes},
+J. Open Source Softw.\ \textbf{7} (2022), 4120;
+\texttt{doi:10.21105/joss.04120}. Upper bounds only, with no performance
+guarantee.
+
+\bibitem[Sin05]{Sinz05}
+C.~Sinz,
+\emph{Towards an optimal CNF encoding of Boolean cardinality constraints},
+in: Principles and Practice of Constraint Programming --- CP 2005, Lecture
+Notes in Comput. Sci.\ \textbf{3709}, Springer, 2005, 827--831.
+
+\bibitem[Ste96]{Steane96}
+A.~M. Steane,
+\emph{Error correcting codes in quantum theory},
+Phys. Rev. Lett.\ \textbf{77} (1996), 793--797.
+
+\bibitem[Sze26]{PBLean}
+S.~Szeider et al.,
+arXiv:2602.08692, 2026 (PBLean: importing VeriPB pseudo-Boolean proof
+certificates into Lean~4).
+
+\bibitem[Tse68]{Tseitin68}
+G.~S. Tseitin,
+\emph{On the complexity of derivation in propositional calculus},
+in: Studies in Constructive Mathematics and Mathematical Logic, Part II,
+1968, 115--125.
+
+\bibitem[Var97]{Vardy97}
+A.~Vardy,
+\emph{The intractability of computing the minimum distance of a code},
+IEEE Trans. Inform. Theory \textbf{43} (1997), 1757--1766.
+
+\bibitem[WJH26]{WJH}
+Webster, Jacob and Higgott,
+arXiv:2603.22532, March 23, 2026 (a survey and comparison of exact and
+heuristic methods for quantum code distance).
+
+\end{thebibliography}
+
+\end{document}

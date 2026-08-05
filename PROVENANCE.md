@@ -2,6 +2,8 @@
 
 This file states exactly who did what, when, what this repository claims as new, how each claim is verified, and what is not claimed. It is written to be checkable: every date below is either a public timestamp controlled by someone else, or a claim of ours whose external timestamp begins only when this repository is first pushed publicly or deposited with a DOI.
 
+The repository now carries **two independent bodies of work**. Part A (v0.1.0) is the Alpöge–Keller / Dixmier–Poisson material: §§1–4 below. Part B (v0.2.0) is the quantum error-correction certificate corpus: §5 below. They share nothing but an author, a method, and a discipline about credit.
+
 ## 1. Timeline
 
 | Date (2026) | Event | Actor | Evidence |
@@ -18,7 +20,11 @@ This file states exactly who did what, when, what this repository claims as new,
 | Jul 22 – Jul 31 | Further consequence papers: Jelonek arXiv:2607.20597; Migus arXiv:2607.21572; Huq-Kuruvilla arXiv:2607.20968; Meng–Yang arXiv:2607.22198; Long arXiv:2607.18186; Zhu arXiv:2607.18166; Gao arXiv:2608.00222. **None contains Dixmier, Poisson, Weyl, symplectic or moment-map content** (checked by full-text grep of the arXiv sources). | various | arXiv |
 | Aug 4 | This repository assembled: verification scripts (all asserts passing), eight Gröbner-basis emptiness certificates over ℚ reproduced mod 32003, and the preprint draft stating the results of §2 below. **A first-hand prior-art check on this date established that most of the structural material previously claimed here as new was anticipated by the July 2026 sources above; the preprint and this file were re-scoped accordingly.** Computations with Claude (Fable 5), SymPy 1.14, msolve 0.10.1. | Daniel Kirtchakov | This repository. **The external timestamp for everything in §2 begins at the first public push / DOI mint, not at this date.** |
 
+| Aug 4 | QEC certificate corpus assembled and independently audited (47/47 checks passed, 5.08 GiB of LRAT replayed in pure Python, all five bivariate-bicycle parity-check matrices rebuilt byte-identically from arXiv:2308.07915). A full-text adversarial prior-art sweep on the same date withdrew two claims of an earlier draft; see `SWEEP-RECORD-QEC-2026-08-04.md` and §5 below. | Daniel Kirtchakov | This repository; `INDEPENDENT-VERIFICATION.md`. |
+
 ## 2. What this repository claims as new (as of 2026-08-04, after the prior-art check)
+
+*(Part A — the Alpöge–Keller material. For the QEC claims see §5.)*
 
 Two results, plus one reframing. Everything else in the preprint is either downstream of Alpöge's map or anticipated by the sources in §1, and is retained for self-containedness only.
 
@@ -70,3 +76,45 @@ Two things stated plainly:
 - **The master equation, the anchor lemma, the parked square, the S₃/discriminant computation, the trace identity, and the exact image theorem.** All anticipated; see §2b for the precise sources and dates. We obtained them independently and retain them for self-containedness, with priority credited.
 - **Any of the open problems.** JC₂ (planar), DC₁ (Zheglov's claimed proof is under review at the time of writing), and DC₂ remain open. Unconditional minimality of degree 7 among all counterexamples in ℂ³ remains open — our minimality theorem is relative to the stated equivariant class.
 - **Anything beyond characteristic-zero algebra.** In particular, nothing here concerns quantum hardware or physical quantization, and nothing here has any bearing on markets, securities, or any financial instrument. The words "quantum" and "moment" above are mathematical terms of art (Weyl algebras, moment maps), nothing more.
+
+---
+
+## 5. Part B — the QEC certificate corpus (v0.2.0, 2026-08-04)
+
+Everything in this section concerns `qec-certificates/`, `qec-scripts/`, and
+`paper/preprint-qec-distances.*`. It is a **verification contribution, not a
+discovery**: the distance values are largely known and are credited below at
+full strength. What did not exist is a standalone artifact anyone can replay
+without a SAT solver and without a proof assistant.
+
+The claim strengths below are the ones the adversarial sweep of 2026-08-04 left
+standing. Two claims of an earlier draft did not survive it and were withdrawn;
+`SWEEP-RECORD-QEC-2026-08-04.md` records both, with the sources that broke them.
+
+### 5a. What is claimed, at its corrected strength
+
+| # | Claim | Origin | Certificate / artifact | Re-run |
+|---|-------|--------|------------------------|--------|
+| 16 | A certificate format for quantum minimum distance in which **neither the solver nor the shipped CNF is in the trusted base**: the checker regenerates the CNF from the raw parity-check matrices and machine-checks the three algebraic side conditions that make the encoding exact | **ours** | `qec-scripts/check_lower.py` (481 lines), Theorem 3.1 of the paper | `python3 qec-scripts/check_lower.py qec-certificates/<code>/lower_*.json` |
+| 17 | Certified `d = 3` (Steane, five-qubit, rotated surface d=3), `d = 5`, `d = 7` (rotated surface d=7, Golay) | values are textbook | witnesses + LRAT proofs, all shipped | as above |
+| 18 | Certified `d = 6` for BB [[72,12,6]]; `d = 10` for [[90,8,10]] and [[108,8,10]] | **values are Bravyi et al.**, arXiv:2308.07915 Table 3, by the MIP method of arXiv:1108.5738; also computed exactly by SAT in arXiv:2606.12445. Replayable Lean artifacts exist for several of these in the LEAN-QEC repository | witnesses, LRAT proofs, duality certificates | as above |
+| 19 | Certified `d = 12` for the IBM gross code [[144,12,12]], including a **symmetry-free** proof in each sector, so that no symmetry lemma enters the trusted base | **value is Bravyi et al.**; confirmed exactly at MIP gap 0 by Cruz-Benito, Cross, Kremer, Faro (IBM), arXiv:2606.02418; reproduced by SAT in arXiv:2606.12445. A **machine-checked** proof is **also not ours** — LEAN-QEC's repository reports a completed `bv_decide` verification incl. kernel replay at commit `c73827d`, 2026-07-10. **No priority claimed.** What is ours: the certificate format, the symmetry-free variant, and the trusted base | `bb144/witness_{X,Z}.json`, `lower_X_K11_sym.json` (shipped), `lower_{X,Z}_K11.json` (proofs regenerable, see `qec-certificates/REGENERATE.md`), `duality.json` | as above |
+| 20 | Certified `d_X >= 14` for BB [[288,12,18]] by a 2.94 GB LRAT proof — **the only machine-checkable lower bound on record for this code at any strength**, improving on the strongest quantity previously published *as a lower bound* (`d >= 11`, Chen–Jafari–Lai, arXiv:2606.12445, solver-asserted, no proof files in their repository) | the **value `d = 18` is Bravyi et al.'s**, asserted exactly by ILP without a checkable artifact. Our `[14,18]` is **not** new information about the value | `bb288/lower_X_K13_sym.json` (proof regenerable), `witness_X.json`, `duality.json` | as above |
+| 21 | An explicit ZX-duality permutation for each BB code, packaged as a ~15 ms checkable certificate | **the fact `d_X = d_Z` for BB codes is Bravyi et al.'s supplemental lemma.** Only the explicit permutation certificate is ours | `<code>/duality.json` + `duality_perm.txt` | `python3 qec-scripts/check_duality.py qec-certificates/<code>/duality.json` |
+| 22 | Independent audit: 47/47 certificate checks passed, 0 failed; 5,459,315,046 bytes (5.08 GiB) of LRAT replayed **in pure Python**, 79 MB peak RSS; all five BB parity-check matrices rebuilt **byte-identically** from the published construction; 182/182 manifest SHA-256 entries matching; 11/11 negative controls rejected; six codes cross-checked by brute force | **ours** (a separate agent instance with no access to the pipeline and no shared code) | `INDEPENDENT-VERIFICATION.md` | re-run the checkers; the report lists every command |
+
+### 5b. Explicitly **not** claimed
+
+- **Any distance value.** Every value certified here was already published. The BB codes and their distances are Bravyi, Cross, Gambetta, Maslov, Rall and Yoder's (Nature **627** (2024) 778 / arXiv:2308.07915), computed there by the MIP method of Landahl, Anderson and Rice (arXiv:1108.5738).
+- **Priority for machine-checked quantum distance proofs.** That is LEAN-QEC's (arXiv:2605.16523), and their repository reports the gross code completed at commit `c73827d`, 2026-07-10 — before this write-up was finished.
+- **That `d < 18` for [[288,12,18]].** Our `d_X >= 14` is a lower bound four short of the standing literature value, and the shortfall is a limitation of our encoding, not evidence against `d = 18`.
+- **The `d_X = d_Z` duality fact for BB codes.** Bravyi et al.'s lemma.
+- **`k`.** The code dimensions are recomputed, not certified (though side condition (c) pins the logical dimension implicitly, and the audit recomputed every `k` independently).
+- **A defect-free corpus.** Four defects are reported verbatim in §8 of the paper — one of them, D2, fixed in this release; the other three, including a latent soundness hole in an unexercised checker branch, are not.
+
+### 5c. Known gaps in this snapshot
+
+1. `bb288/duality.json` was generated **after** the audit closed. It passes `check_duality.py` and its permutation was independently re-verified, but it is not among the audit's 47 checks and not among `manifest.json`'s 182 hashes.
+2. `manifest.json` covers the full 182-file audited corpus, including four proofs (79 MB–646 MB compressed) that are too large for git and are **not** in this repository. `qec-certificates/REGENERATE.md` gives the exact CaDiCaL invocation, expected byte count, and expected SHA-256 for each.
+3. The shipped `check_lower.py` is 481 lines; the auditor read a 419-line version. The difference is an optional totalizer cardinality encoding that **no certificate in this release selects**. See Remark 4.1 of the paper.
+4. `run_all.sh` still expects a `tools-drat-trim/lrat-check` binary that is not vendored (defect D3). The pure-Python path needs nothing but CPython and is the one every number in the paper reports.

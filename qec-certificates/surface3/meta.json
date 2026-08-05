@@ -1,0 +1,36 @@
+{
+ "name": "surface3",
+ "n": 9,
+ "k": 1,
+ "d_published": 3,
+ "events": [
+  {
+   "what": "upper_X",
+   "K": 3,
+   "weight": 3,
+   "solver_s": 0.052
+  },
+  {
+   "what": "upper_Z",
+   "K": 3,
+   "weight": 3,
+   "solver_s": 0.036
+  },
+  {
+   "what": "lower_X",
+   "K": 2,
+   "solver_s": 0.026,
+   "lrat_bytes": [
+    518
+   ]
+  },
+  {
+   "what": "lower_Z",
+   "K": 2,
+   "solver_s": 0.016,
+   "lrat_bytes": [
+    746
+   ]
+  }
+ ]
+}
