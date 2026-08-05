@@ -170,7 +170,7 @@ It is included because it is part of the pipeline, and the pipeline is explicitl
 
 1. `bb288/duality.json` was generated **after** the audit closed — it passes `check_duality.py` and its permutation was independently re-verified, but it is outside the 47 audited checks and absent from `manifest.json`.
 2. `manifest.json` covers the full audited corpus including the four large proofs this repository does not carry.
-3. The shipped `check_lower.py` is 481 lines; the auditor read 419. The difference is an optional totalizer cardinality encoding that no certificate in this release selects.
+3. The shipped `check_lower.py` is 481 lines; the auditor read 419. The difference is an optional totalizer cardinality encoding that no certificate in this release selects. The whole corpus was re-run against the shipped 481-line checker before release — 20 witnesses, 5 duality certificates, 23 lower-bound certificates, **48 in all, every one accepted**, including a second pure-Python replay of the 2.94 GB proof.
 4. `run_all.sh` expects a `tools-drat-trim/lrat-check` binary that is not vendored. The pure-Python path needs nothing but CPython and is what every number in the paper reports.
 
 Three further defects the audit found are reported verbatim in §8 of the paper, including a latent soundness hole in a checker branch that no shipped certificate exercises. A paper about trusted bases that suppresses its own audit findings is not one.

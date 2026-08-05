@@ -568,7 +568,13 @@ and *no certificate in this release declares it*: all take the Sinz default,
 which is the code path the audit read and exercised. A reader minimising
 trusted-base surface can delete the totalizer branch and re-run everything. We
 flag the drift rather than quietly re-using the audit's line count, because the
-size of that number is one of the claims.
+size of that number is one of the claims. To close the loop, the entire corpus
+was re-run against the shipped 481-line checker before release — 20 witnesses,
+5 duality certificates and 23 lower-bound certificates, 48 in all, every one
+accepted, including a second pure-Python replay of the 2.94 GB proof. Those
+re-runs were made on a machine under heavy load and their wall-clock times are
+correspondingly three to five times the audit's; the pass/fail outcomes are what
+they establish.
 
 ### 4.2 Machine-checked, per certificate
 
