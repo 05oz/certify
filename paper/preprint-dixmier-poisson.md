@@ -1,7 +1,9 @@
 # Degree minimality in the equivariant class of the Alpöge Keller map, and the moment-map structure of its cotangent lift
 
-**Daniel Kirtchakov** (Independent researcher, daniel@halfounce.io) — *draft of August 4, 2026 — DRAFT ONLY, not for circulation.*
+**Daniel Kirtchakov** (Independent researcher, daniel@halfounce.io) — *draft of August 4, 2026; erratum release v0.1.2 of August 6, 2026 — DRAFT ONLY, not for circulation.*
 Readable mirror of `preprint-dixmier-poisson.tex`. All computations carried out with Claude (Fable 5), SymPy 1.14, msolve 0.10.1. Every displayed identity is asserted by a script listed in §7; nothing is conjectural unless labeled so. Coordinate with W. G. P. Mayner before any public posting (see §1.4).
+
+> **Erratum v0.1.2 (2026-08-06).** Releases v0.1.0 and v0.1.1 stated in Theorem D that the fiber of F over the pullback of {Δ₂ = 0} "drops (generically) to two" ("two sheets merge" in the proof). That was incorrect: the fiber there has **three distinct points**; {Δ₂ = 0} is an *apparent* branch locus (the invariant u = 1+xy fails to separate two of the three unramified sheets, which is why Δ₂ occurs *squared* in disc = −4Δ₁Δ₂²). The achievable set-theoretic fiber sizes are exactly **{3, 1, 0}**; the value 2 never occurs. Re-verified independently in exact arithmetic from the raw map — `scripts/erratum-check/{fibre_check.py, exhibit2.py, structural.py}`; full write-up in [`ERRATUM-v0.1.2.md`](ERRATUM-v0.1.2.md). No other claim in this note depended on the erroneous value (generic degree 3, image im F = ℂ³ ∖ Γ, and the S₃ monodromy are unaffected). This release supersedes v0.1.0 and v0.1.1 on this point only.
 
 > **Re-scoped 2026-08-04** after a first-hand prior-art check. Sources read in full and verified that day: `github.com/wmayner/dixmier-counterexample` (REPORT.md, dixmier-note.tex; both commits 2026-07-21); arXiv:2607.20210 (Shaska), LaTeX source of v1 (2026-07-22) and v2 (2026-07-25); `ulam.ai/research/jacobian.pdf` (PDF CreationDate 2026-07-20 05:54 EDT); `aaronlou.com/jacobian_counterexample_derivation.pdf` (2026-07-20 04:32); MathOverflow 513387 and 513392 (both 2026-07-20, both with zero answers). MathOverflow 513390 could not be retrieved (404, absent from the API) and is **not** cited. Several results previously claimed here as new are anticipated by those sources; §1.4 gives the claim-by-claim table.
 
@@ -71,7 +73,7 @@ The ℂ*-equivariance of F itself is not new: it is recorded by Speyer [Spe26], 
 
     Γ = { (4/(27t²), 4/(3t), t) : t ∈ ℂ* },
 
-and consequently im Φ = ℂ⁶ ∖ (Γ × ℂ³). Generic fibers of F have three points; the count drops (generically) to two over the pullback of {Δ₂ = 0} and to one over the pullback of {Δ₁ = 0} — two sheets escaping to infinity — and to zero exactly on Γ, where all three sheets have escaped. (Δ₁, Δ₂ are the explicit discriminant polynomials of §5.3.)
+and consequently im Φ = ℂ⁶ ∖ (Γ × ℂ³). Generic fibers of F have three points; over the pullback of {Δ₂ = 0} (with Δ₁ ≠ 0) the fiber still has three *distinct* points — {Δ₂ = 0} is an *apparent* branch locus, where the invariant u = 1+xy fails to separate two of the three unramified sheets, which is why Δ₂ occurs squared in disc = −4Δ₁Δ₂² (§5.3). The count drops to one over the pullback of {Δ₁ = 0} — two sheets escaping to infinity — and to zero exactly on Γ, where all three sheets have escaped. The achievable set-theoretic fiber sizes are exactly {3, 1, 0}; the value 2 does not occur. (Δ₁, Δ₂ are the explicit discriminant polynomials of §5.3.) [Corrected in v0.1.2, 2026-08-06; see the erratum note above.]
 
 *Priority.* The fiber counts 3/1/0 and the identification of the missed locus with the curve Γ were obtained first in the anonymous note [Ula26, Thm. 4.2] (PDF timestamp July 20, 2026), and independently in [May26, §4.3] and in [Sha26, Prop. 5.1], where the same curve appears in the same normalization, {(4/27·t⁻², 4/3·t⁻¹, t)}. Our proof is independent and is retained only for self-containedness and because the transfer to im Φ is used later.
 
@@ -239,7 +241,7 @@ The statement of Theorem D is not new; see the priority note in its statement an
 
 *The missed curve.* Pulling (7/3, 4/27) back through (p,q) = (1+tY, t²X) gives, for each t ≠ 0, the unique missed target (4/(27t²), 4/(3t), t) — the curve Γ. Every other target is attained, so im F = ℂ³ ∖ Γ, and im Φ = ℂ⁶ ∖ (Γ × ℂ³).
 
-*Fiber counts.* Generic fibers have three points. Over {Δ₂ = 0} (Δ₁ ≠ 0) two sheets merge; over {Δ₁ = 0} ∖ {(7/3, 4/27)} the cubic drops degree and exactly one preimage remains — two sheets escape to infinity; at (7/3, 4/27), i.e. over Γ, all three sheets have escaped and the fiber is empty. ∎
+*Fiber counts.* Generic fibers have three points. Over {Δ₂ = 0} (Δ₁ ≠ 0) the fiber still has three *distinct* points: det JG = 2C² vanishes only on {C = 0}, which G contracts to the single point (1,0), so no two of the three sheets can genuinely coincide over any (p,q) ≠ (1,0); the vanishing of disc = −4Δ₁Δ₂² on {Δ₂ = 0} is therefore *apparent*, the invariant u = 1+xy failing to separate two unramified sheets (whence Δ₂ enters squared). Over {Δ₁ = 0} ∖ {(7/3, 4/27)} the cubic drops degree 3 → 1 — its u² term being absent by the trace identity, two sheets escape to infinity at once — and exactly one preimage remains; at (7/3, 4/27), i.e. over Γ, all three sheets have escaped and the fiber is empty. The achievable set-theoretic fiber sizes are therefore exactly {3, 1, 0}. ∎  *[v0.1.2 correction, 2026-08-06.]*
 
 So F is an everywhere-local biholomorphism, generically 3:1, surjective except for one explicit punctured rational curve — over Γ the missing preimages have escaped to infinity along {Δ₁ = 0}.
 

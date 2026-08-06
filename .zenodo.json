@@ -1,23 +1,9 @@
 {
-  "title": "Certify v0.4.0: if a [[14,3,5]] stabilizer code exists, its monomial automorphism group has order 2^a 3^b 5^c — a certificate-backed exclusion of the primes 7, 11, 13",
-  "description": "A certificate-backed structure theorem on the existence question, open since 2005, for a [[14,3,5]] qubit stabilizer (GF(4)-additive) quantum code (the [[14,3]] entry of M. Grassl's codetables.de, whose distance-4 construction dates to 2005-06-30): if such a code exists, its monomial (local Clifford x permutation) automorphism group has order of the form 2^a 3^b 5^c — no automorphism of order divisible by 7, 11, or 13 is possible. Proved by exhaustive, certificate-backed elimination of every nonzero symmetry class (cyclic; quasi-cyclic of order 7; orders 11 and 13; twisted classes), with an exact-rational Krawtchouk linear-programming lemma closing the fixed-qubit branches; every candidate distance-checked; independently re-verified by an adversarial referee with separately written code. THE EXISTENCE OF [[14,3,5]] ITSELF REMAINS OPEN AND IS NOT CLAIMED. NOT CLAIMED, AND CREDITED: the CSS case is settled by Koh et al., arXiv:2601.20927 (exhaustive CSS enumeration at n <= 14; their Table VI gives maximal CSS [[14,3]] distance 4) — an in-house CSS derivation is subsumed by their strictly stronger result and appears only as a remark crediting them; the automorphism question descends from Ball-Centelles-Huber 2020 (Research Problem 1); general stabilizer enumeration at n <= 9 is Cross-Vandeth, arXiv:2501.17447. Ships 43 SHA-256-pinned certificate files, the generators, an independent checker, and the classical code tables used; scope limits and unarchived intermediate runs are disclosed in the paper (sections 5 and 7). Three-lens adversarial review preceded release (log: qec1435-paper/FIXLOG.md; dated novelty sweep: SWEEP-RECORD-1435-2026-08-05.md). Computations carried out with Claude (Fable 5).",
+  "title": "Certify v0.1.2: erratum to the Part A note — Theorem D fiber count over {Delta_2 = 0} corrected to three distinct points; achievable fiber sizes {3,1,0}",
+  "description": "Erratum release for the Part A preprint (Degree minimality in the equivariant class of the Alpoge Keller map, and the moment-map structure of its cotangent lift; v0.1.0/v0.1.1, doi:10.5281/zenodo.21799112). Releases v0.1.0 and v0.1.1 stated that the fiber of the map drops to two points over the pullback of {Delta_2 = 0}. This is wrong: that fiber has three distinct points; {Delta_2 = 0} is an apparent branch locus (Delta_2 enters squared in disc = -4 Delta_1 Delta_2^2), and the achievable set-theoretic fiber sizes are exactly {3, 1, 0} — consistent with the previously published 3/1/0 counts (ulam.ai Thm 4.2; Mayner; Shaska), which are credited, not claimed. The correction was independently re-verified in exact arithmetic from the raw map by newly written scripts (scripts/erratum-check/), and a repository-wide check confirmed no other claim depended on the erroneous value. Full statement: paper/ERRATUM-v0.1.2.md. This version supersedes v0.1.0/v0.1.1 on this point only.",
   "upload_type": "software",
-  "publication_date": "2026-08-05",
-  "creators": [
-    {
-      "name": "Kirtchakov, Daniel",
-      "affiliation": "Independent researcher"
-    }
-  ],
+  "publication_date": "2026-08-06",
+  "creators": [{ "name": "Kirtchakov, Daniel", "affiliation": "Independent researcher" }],
   "license": "Apache-2.0",
-  "keywords": [
-    "quantum error correction",
-    "stabilizer code",
-    "additive code",
-    "code equivalence",
-    "automorphism group",
-    "codetables",
-    "certified computation",
-    "linear programming bound"
-  ]
+  "keywords": ["Jacobian conjecture", "Keller map", "erratum", "certified computation"]
 }

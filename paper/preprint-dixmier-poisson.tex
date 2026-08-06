@@ -26,6 +26,22 @@
 %%     (2026-07-20 11:40 UTC, 0 answers). MO 513390 could not be retrieved
 %%     (404 / absent from the API) and is NOT cited.
 %% ==========================================================================
+%% CHANGELOG
+%%   v0.1.2  2026-08-06  ERRATUM (fiber count over {Delta_2 = 0}).
+%%     Corrected Theorem D (statement, and the "Fiber counts" paragraph of its
+%%     proof): the fiber of F over the pullback of {Delta_2 = 0} (with
+%%     Delta_1 != 0) has THREE distinct points, not two. {Delta_2 = 0} is an
+%%     apparent branch locus -- the invariant u = 1+xy fails to separate two of
+%%     the three unramified sheets, which is why Delta_2 occurs SQUARED in
+%%     disc = -4 Delta_1 Delta_2^2. The achievable set-theoretic fiber sizes
+%%     are exactly {3, 1, 0}; the value 2 never occurs. Independent
+%%     re-verification (exact arithmetic, written from the raw map): the
+%%     scripts in scripts/erratum-check/ (fibre_check.py, exhibit2.py,
+%%     structural.py). No other claim in the note depended on the erroneous
+%%     value: the generic degree 3, the image im F = C^3 \ Gamma, and the S_3
+%%     monodromy from disc = -4 Delta_1 Delta_2^2 are unaffected. Supersedes
+%%     v0.1.0 and v0.1.1 on this point only. See ERRATUM-v0.1.2.md.
+%% ==========================================================================
 \documentclass[11pt]{amsart}
 
 \usepackage[margin=1.2in]{geometry}
@@ -75,7 +91,9 @@ and the moment-map structure of its cotangent lift}
 \thanks{All computations in this note were carried out with Claude (Fable~5)
 driving SymPy~1.14 and msolve~0.10.1. Every displayed identity is asserted by
 a script listed in Section~\ref{sec:repro}; nothing is conjectural unless
-labeled so. \emph{Draft of August 4, 2026 --- not for circulation.}}
+labeled so. \emph{Draft of August 4, 2026; erratum release v0.1.2 of
+August 6, 2026 (Theorem D fiber count over $\{\Delta_{2}=0\}$; see the
+footnote there) --- not for circulation.}}
 
 \subjclass[2020]{Primary 14R15; Secondary 16S32, 17B63, 53D55}
 \keywords{Jacobian conjecture, Dixmier conjecture, Poisson conjecture,
@@ -299,11 +317,29 @@ The image of $F$ is $\CC^{3}$ minus the punctured rational curve
 t\in\Cstar\Bigr\},
 \]
 and consequently $\im\Phi=\CC^{6}\setminus(\Gamma\times\CC^{3})$. Generic
-fibers of $F$ have three points; the count drops (generically) to two over
-the pullback of $\{\Delta_{2}=0\}$ and to one over the pullback of
-$\{\Delta_{1}=0\}$ --- two sheets escaping to infinity --- and to zero
-exactly on $\Gamma$, where all three sheets have escaped. ($\Delta_{1},
-\Delta_{2}$ are the explicit discriminant polynomials of
+fibers of $F$ have three points; over the pullback of $\{\Delta_{2}=0\}$
+(with $\Delta_{1}\neq0$) the fiber still has three \emph{distinct}
+points,\footnote{\emph{Erratum, v0.1.2 (2026-08-06).} Releases v0.1.0 and
+v0.1.1 stated here that the count ``drops (generically) to two over the
+pullback of $\{\Delta_{2}=0\}$,'' and the proof below read ``two sheets
+merge.'' That was incorrect. The fiber over $\{\Delta_{2}=0\}$ (with
+$\Delta_{1}\neq0$) has three distinct points; $\{\Delta_{2}=0\}$ is an
+apparent branch locus. The achievable set-theoretic fiber sizes are exactly
+$\{3,1,0\}$; the value $2$ never occurs. This was re-verified independently
+in exact arithmetic from the raw map (scripts
+\texttt{fibre\_check.py}, \texttt{exhibit2.py}, \texttt{structural.py} in
+\texttt{scripts/erratum-check/}; see \texttt{ERRATUM-v0.1.2.md}). No other
+statement in this note used the erroneous value: the generic degree $3$, the
+image $\im F=\CC^{3}\setminus\Gamma$, and the $S_{3}$ monodromy of
+Proposition~\ref{prop:cover}(ii) are unaffected.} since
+$\{\Delta_{2}=0\}$ is an \emph{apparent} branch locus --- the invariant
+$u=1+xy$ fails to separate two of the three unramified sheets, which is why
+$\Delta_{2}$ occurs squared in $\disc=-4\Delta_{1}\Delta_{2}^{2}$
+(Proposition~\ref{prop:cover}(ii)). The count drops to one over the pullback
+of $\{\Delta_{1}=0\}$ --- two sheets escaping to infinity --- and to zero
+exactly on $\Gamma$, where all three sheets have escaped. The achievable
+set-theoretic fiber sizes are exactly $\{3,1,0\}$; the value $2$ does not
+occur. ($\Delta_{1},\Delta_{2}$ are the explicit discriminant polynomials of
 Proposition~\ref{prop:cover}.)
 
 \emph{Priority.} The fiber counts $3/1/0$ and the identification of the
@@ -1032,11 +1068,19 @@ $\im\Phi=\CC^{6}\setminus(\Gamma\times\CC^{3})$ by the fiber
 correspondence of Section~\ref{sec:facts}.
 
 \emph{Fiber counts.} Generic fibers have three points. Over
-$\{\Delta_{2}=0\}$ (with $\Delta_{1}\neq0$) two sheets merge; over
-$\{\Delta_{1}=0\}\setminus\{(\tfrac73,\tfrac{4}{27})\}$ the cubic drops
-degree and exactly one preimage remains --- two sheets escape to
-infinity; at $(\tfrac73,\tfrac{4}{27})$, i.e.\ over $\Gamma$, all three
-sheets have escaped and the fiber is empty.
+$\{\Delta_{2}=0\}$ (with $\Delta_{1}\neq0$) the fiber still has three
+\emph{distinct} points: $\det JG=2C^{2}$ vanishes only on $\{C=0\}$, which
+$G$ contracts to the single point $(1,0)$, so no two of the three sheets
+can genuinely coincide over any $(p,q)\neq(1,0)$; the vanishing of
+$\disc=-4\Delta_{1}\Delta_{2}^{2}$ on $\{\Delta_{2}=0\}$ is therefore
+\emph{apparent}, the invariant $u=1+xy$ failing to separate two unramified
+sheets, whence $\Delta_{2}$ enters squared. Over
+$\{\Delta_{1}=0\}\setminus\{(\tfrac73,\tfrac{4}{27})\}$ the cubic
+\eqref{eq:cubic} drops degree $3\to1$ --- its $u^{2}$ term being absent by
+the trace identity, two sheets escape to infinity at once --- and exactly
+one preimage remains; at $(\tfrac73,\tfrac{4}{27})$, i.e.\ over $\Gamma$,
+all three sheets have escaped and the fiber is empty. The achievable
+set-theoretic fiber sizes are therefore exactly $\{3,1,0\}$.
 \end{proof}
 
 So $F$ is an everywhere-local biholomorphism of $\CC^{3}$, generically

@@ -2,15 +2,17 @@
 
 **Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018)
 
-Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-05.
+Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-06.
+
+> **Part A erratum — v0.1.2 (2026-08-06).** The Theorem D fiber count of the note over the pullback of `{Δ₂ = 0}` was wrong (stated as 2). The correct set-theoretic fiber sizes are **{3, 1, 0}**; over `{Δ₂ = 0}` the fiber has **three distinct** points (an *apparent* branch locus). No other claim depended on it. v0.1.2 supersedes v0.1.0/v0.1.1 on this point only. Details and independent re-verification: [`paper/ERRATUM-v0.1.2.md`](paper/ERRATUM-v0.1.2.md), scripts in [`scripts/erratum-check/`](scripts/erratum-check/).
 
 Two independent bodies of work live here, sharing a method rather than a subject: **produce an artifact a skeptic can re-check without trusting the tool that made it, then say exactly what still has to be believed.**
 
-| | Part A — Alpöge Keller map (v0.1.0) | Part B — quantum code distances (v0.2.0) |
+| | Part A — Alpöge Keller map (v0.1.2) | Part B — quantum code distances (v0.2.0) |
 |---|---|---|
-| Subject | Degree minimality in the equivariant class of the Alpöge Keller map; moment-map structure of its cotangent lift | Certified minimum distances of eleven stabilizer codes, through IBM's [[288,12,18]] |
+| Subject | Degree minimality in the equivariant class of the Alpöge Keller map; moment-map structure of its cotangent lift | Certified minimum distances of eleven stabilizer codes, including the exact **d = 18** of IBM's [[288,12,18]] and a first lower bound for [[360,12,≤24]] |
 | Artifact | 8 msolve Gröbner unit-ideal certificates + SymPy verification scripts | witness pairs + LRAT unsatisfiability proofs + ZX-duality permutations |
-| Checker | `scripts/` (SymPy) | `qec-scripts/` — 649 lines of Python, standard library only |
+| Checker | `scripts/` (SymPy) | `qec-scripts/` — four checkers, 1,128 lines of Python, standard library only |
 | Paper | `paper/preprint-dixmier-poisson.*` | `paper/preprint-qec-distances.*` |
 | Certificates | `certificates/` | `qec-certificates/` |
 | Provenance | [PROVENANCE.md](PROVENANCE.md) §§1–4 | [PROVENANCE.md](PROVENANCE.md) §5, [SWEEP-RECORD-QEC-2026-08-04.md](SWEEP-RECORD-QEC-2026-08-04.md) |
@@ -18,6 +20,8 @@ Two independent bodies of work live here, sharing a method rather than a subject
 Every mathematical claim in either preprint maps to a script whose `assert` statements pass, or to a stored certificate a checker accepts. Nothing is conjectural unless labeled so.
 
 **Since v0.3.0 two further parts live here under the same method:** **Part C** (v0.3.0) — the first certified determination of the tournament packing numbers ν₃(9) = 9 and ν₃(10) = 12, extending the verified range of Yuster's 2004 formula from n ≤ 8 to n ≤ 10 (`tt3-paper/`, `tt3-certificates/`, `tt3-scripts/`); **Part D** (v0.4.0) — a certificate-backed automorphism exclusion for the [[14,3,5]] quantum code existence question, open since June 2005: any such code has monomial automorphism group of order 2^a·3^b·5^c (`qec1435-paper/`, `qec1435-certificates/`, `qec1435-scripts/`). Both notes passed a three-lens adversarial review (claims-vs-artifacts, priority against primary sources, and a replay audit with negative controls) before release; the decision logs ship as `FIXLOG.md` in each paper directory.
+
+**Parts E and F (v0.5.0, v0.6.0, released 2026-08-06), same method and same review pipeline:** **Part E** — an explicit 5×25 circular Florentine rectangle establishing **F_c(25) ≥ 5**, one more than the lower bound of 4 recorded in Table 62.27 (p. 677) of the *Handbook of Combinatorial Designs*, 2nd ed. (2006); verified exhaustively and exactly by a self-contained standard-library checker; no priority is claimed over H.-Y. Song's 2000 paper, which we could not access (`cfr-paper/`, `cfr-certificates/`, [SWEEP-RECORD-CFR-2026-08-06.md](SWEEP-RECORD-CFR-2026-08-06.md)). **Part F** — a bond-dimension-2 matrix-product state with integer transfer matrices that is an exact zero-energy eigenstate, at every length L, of the periodic spin-½ chain H = −Σᵢ(I+Xᵢ)(Xᵢ₊₁+Zᵢ₊₁), proved by a sixteen-equation integer telescoping certificate (technique due to Derrida–Evans–Hakim–Pasquier 1993, Gehrmann–Essler, and Garre Rubio et al., credited at point of use); no claim is made about the remainder of the spectrum (`mps-paper/`, `mps-certificates/`, [SWEEP-RECORD-MPS-2026-08-06.md](SWEEP-RECORD-MPS-2026-08-06.md)).
 
 ---
 
@@ -32,6 +36,10 @@ Every mathematical claim in either preprint maps to a script whose `assert` stat
 - **Most of the structural material here was anticipated.** The master equation, the anchor lemma, the parked square, the S₃/discriminant computation, the trace identity, and the exact image theorem were all obtained independently here and then found to have earlier public sources: T. Shaska, *Graded Keller maps and the Jacobian Conjecture*, arXiv:2607.20210 (v1 2026-07-22, v2 2026-07-25); the anonymous note at ulam.ai/research/jacobian.pdf (2026-07-20); MathOverflow 513387 (2026-07-20); A. Lou (2026-07-20); and Mayner. [PROVENANCE.md](PROVENANCE.md) §2b gives the claim-by-claim table with dates and theorem numbers. We retain those results for self-containedness and credit priority to those sources.
 - **What is actually new here** (as of 2026-08-04): (1) the **degree-minimality theorem** in the weight-(1,−1,−2) equivariant class — no Keller lift of degree ≤ 6 exists at all in the sector containing Alpöge's map, and every degree-≤6 lift elsewhere in the class is an automorphism, by eight msolve unit-ideal certificates over Q reproduced mod 32003; (2) the **moment-map identity** ν∘Φ = μ and the **no-go lemma** (s-free C with s-affine A, B ⟹ automorphism, all weights k, all degrees); and (3) a **reframing**, not a new object: Mayner's Φ identified as an explicit PC_n witness via Adjamagbo–van den Essen, with degrees, momenta, and the quantization identity gr Ψ_F = Φ*. The k = 1, 3 certificates are in progress and are **not** claimed.
 - **Open, and not claimed settled here:** JC_2, DC_1 (Zheglov's claimed proof is under review), DC_2, and unconditional minimality of degree 7 among all counterexamples in C^3. Note also that PC_n false for n > 2 is *not* our result — it follows formally from Mayner's ¬DC_3, and is already asserted in secondary sources.
+
+## Errata
+
+- **v0.1.2 (2026-08-06) — Theorem D fiber count over `{Δ₂ = 0}`.** Releases v0.1.0 and v0.1.1 stated that the fiber of `F` drops to **two** points over the pullback of `{Δ₂ = 0}` ("two sheets merge"). This is wrong: that fiber has **three distinct** points. `{Δ₂ = 0}` is an *apparent* branch locus — the invariant `u = 1+xy` fails to separate two of the three unramified sheets, which is exactly why `Δ₂` appears **squared** in `disc = −4·Δ₁·Δ₂²` (claims-table row 6, unaffected). The achievable set-theoretic fiber sizes are exactly **{3, 1, 0}**; `2` never occurs. Independently re-verified in exact arithmetic from the raw map: [`scripts/erratum-check/`](scripts/erratum-check/) (`fibre_check.py`, `exhibit2.py`, `structural.py`). No other claim in the note used the erroneous value — generic degree 3, the image `im F = ℂ³ ∖ Γ` (row 8), and the `S₃` monodromy (row 6) are all unaffected. Full write-up: [`paper/ERRATUM-v0.1.2.md`](paper/ERRATUM-v0.1.2.md). **This supersedes v0.1.0/v0.1.1 on this point only.**
 
 ## The claims table
 
@@ -87,9 +95,11 @@ Every Python script must end with its `PASS` lines and no assertion failures —
 
 # Part B — certified quantum code distances
 
-**Replayable minimum-distance certificates for stabilizer codes, with no solver and no proof assistant in the trusted base: the bivariate-bicycle family through n = 288.** Paper: [`paper/preprint-qec-distances.pdf`](paper/preprint-qec-distances.pdf).
+**Replayable minimum-distance certificates for stabilizer codes, with no solver and no proof assistant in the trusted base: the bivariate-bicycle family, and the exact distance of [[288,12,18]].** Paper: [`paper/preprint-qec-distances.pdf`](paper/preprint-qec-distances.pdf).
 
-This is a **verification contribution, not a discovery.** The distance values are largely known and are credited below. What did not exist is a standalone artifact anyone can replay without a SAT solver and without a proof assistant.
+This is a **verification contribution.** The exact distance values are, with one exception, already known and are credited below; what did not exist is a standalone artifact anyone can replay without a SAT solver and without a proof assistant.
+
+> **Update (2026-08-06).** [[288,12,18]] is upgraded from the lower bound `d_X ≥ 14` to the **exact value `d = 18`**, certified end to end by a profile-normalisation (`prof`) encoding plus two on-paper lemmas — Lemma P (all X-logicals even; Okada–Kasai) and Lemma S (the encoding's completeness; a standard lex-leader symmetry break) — and the shipped duality certificate. This **confirms** IBM's uncertified ILP value; it does **not** correct it. A **first lower bound of any kind for [[360,12,≤24]]** (`16 ≤ d ≤ 24`) is added. The `prof` certificates are checked by a fourth standard-library checker, [`qec-scripts/check_prof.py`](qec-scripts/check_prof.py). The encoding is characterized only relative to a lex-leader baseline over the same group; it is **not** benchmarked against automated symmetry-breaking tools (BreakID, satsuma), so no novelty-versus-tools claim is made. The one honest dependency: the weight-16 exclusion (the rung that reaches 18 rather than 16) is proved only in the `prof` encoding; an independent encoding corroborates the ladder to `d_X ≥ 12`.
 
 ## Lead with the audit
 
@@ -118,16 +128,19 @@ The corpus was re-checked by a separate agent instance with no access to the gen
 | IBM BB [[90,8,10]] | 90, 8 | **d = 10** | 128 / 151 MB | yes (gzipped) |
 | IBM BB [[108,8,10]] | 108, 8 | **d = 10** | 72 / 82 MB | yes (gzipped) |
 | **IBM gross [[144,12,12]]** | 144, 12 | **d = 12** | 124 MB symmetry-broken; **868 / 672 MB symmetry-FREE** | symmetry-broken yes; symmetry-free regenerable |
-| IBM BB [[288,12,18]] | 288, 12 | **14 ≤ d ≤ 18** | 2.94 GB (K = 13) | K=9 rung yes; K=11, K=13 regenerable |
+| **IBM BB [[288,12,18]]** | 288, 12 | **d = 18** (exact) | 358 MB (`prof` ladder: 48 MB + 310 MB) | K14 rung ships; K16-exact regenerable |
+| IBM BB [[360,12,≤24]] | 360, 12 | **16 ≤ d ≤ 24** | 43 MB (`prof` K14) + 14.7 MB (K12) | yes (gzipped) |
 
-Four proofs (79 MB–646 MB compressed) are too large for git. [`qec-certificates/REGENERATE.md`](qec-certificates/REGENERATE.md) gives the exact CaDiCaL command, expected byte count, and expected SHA-256 for each. Everything else ships, so a reader with nothing but CPython can still replay a certified **d = 12 for the gross code**.
+Five proofs (79 MB–646 MB compressed) are too large for git — the four `check_lower` proofs and the 310 MB exact-weight-16 `prof` proof that supplies the top rung at n = 288. [`qec-certificates/REGENERATE.md`](qec-certificates/REGENERATE.md) gives the exact CaDiCaL command, expected byte count, and expected SHA-256 for each. Everything else ships, so a reader with nothing but CPython can replay a certified **d = 12 for the gross code**, **d_X ≥ 16 at n = 288** (`prof` K14, `check_prof.py`), and **16 ≤ d ≤ 24 for [[360,12,≤24]]** — the final step to the exact **d = 18** is one regenerated proof away.
 
 ## Credit — read this first
 
 - **The codes and the distances are IBM's.** The bivariate-bicycle family, including the gross code, is Bravyi, Cross, Gambetta, Maslov, Rall and Yoder, *Nature* **627** (2024) 778 / arXiv:2308.07915. Their distances were computed there by the MIP method of Landahl, Anderson and Rice (arXiv:1108.5738). The gross-code value `d = 12` was confirmed exactly, at MIP gap 0, by Cruz-Benito, Cross, Kremer and Faro (IBM, arXiv:2606.02418, 1 Jun 2026). **We claim no distance value.**
 - **`d_X = d_Z` for BB codes is Bravyi et al.'s lemma**, from their supplemental material. Only the explicit permutation, packaged as a ~15 ms checkable certificate, is ours.
 - **Machine-checked quantum distance proofs are LEAN-QEC's** (arXiv:2605.16523). Their *paper* dispatches the gross code to `cvc5` outside the Lean kernel and calls kernel replay "the next concrete engineering target" — but **their repository has moved past their paper**: commit `c73827d` (2026-07-10) records a full [[144,12,12]] verification via `bv_decide` in about 30 minutes, including kernel replay. **We claim no priority for a machine-checked gross-code distance.** What differs, at that commit: their `BB144.lean` carries two `sorry`s (`BB144_X_ker_rank` L69, `BB144_Z_ker_rank` L72) that `BB144_dist_12` routes through; three lemmas use `native_decide`, which their own paper notes extends the trusted base with Lean's compiler; no LRAT artifact is committed for BB144; and their encoding is symmetry-broken only. Ours has no admitted lemmas, ships the artifacts, includes symmetry-**free** proofs, and needs no proof assistant. Their kernel-checked ladder should **not** be described as reaching n = 108 either: `BB108.lean` carries `sorry` at L120 and L132 with `--bv_decide` commented out.
-- **[[288,12,18]], stated correctly.** Bravyi et al. assert `d = 18` **exactly**, by ILP, without shipping a checkable artifact — their Table 3 lists it with no "≤", unlike [[360,12,≤24]]. Our interval [14,18] is **not** new information about the value. What is defensible, and all we claim: Chen, Jafari and Lai (arXiv:2606.12445) report `d ≥ 11` solver-asserted with no proof artifact in their repository; we certify `d_X ≥ 14` with a 2.94 GB LRAT that replays independently — improving the strongest quantity previously published *as a lower bound*, and the only machine-checkable one on record for this code.
+- **[[288,12,18]], stated correctly.** Bravyi et al. assert `d = 18` **exactly**, by ILP, without shipping a checkable artifact — their Table 3 lists it with no "≤", unlike [[360,12,≤24]]. The value `d = 18` is theirs; **we claim no distance value, only its first replayable determination.** We now certify `d = 18` end to end (upper: weight-18 witness; lower: the `prof` ladder + Lemma P + duality), **confirming** their value rather than correcting it. Chen, Jafari and Lai (arXiv:2606.12445) report `d ≥ 11` solver-asserted with no proof artifact and with every configuration timing out; ours is the first machine-checkable determination of this distance on record. Honest caveat: the weight-16 exclusion is single-encoding (`prof` only), corroborated by an independent encoding to `d_X ≥ 12`.
+- **The even-weight lemma and symmetry breaking are prior art.** Lemma P (odd `H_Z` column weights ⟹ all-even `Z`-kernel ⟹ `d_X` even) is **Okada–Kasai's** (arXiv:2607.14091, Sec. V-A); we use it, claim it nowhere. The `prof` symmetry break (Lemma S) is an instance of **lexicographic-leader** symmetry breaking — **Crawford–Ginsberg–Luks–Roy** (KR 1996), automated in **BreakID** (Devriendt et al., SAT 2016) and **satsuma** (Anders et al., SAT 2024). We measure `prof` only against a lex-leader over the same translation group, not against those tools (not installable here), so novelty-versus-tools stays open and unclaimed.
+- **[[360,12,≤24]], stated correctly.** Bravyi et al. give only the upper bound `d ≤ 24` (Table 3, marked "≤"); no lower bound of any kind had been reported. We certify `d ≥ 16` by the same `prof` + Lemma P + duality method — the **only new distance information** in this update — and cite their `d ≤ 24`.
 - **Also prior art, cited at point of use:** QDistRnd (JOSS 2022, upper bounds only, "no performance guarantee"); Stim's `search_for_undetectable_logical_errors` (documented verbatim as "THIS IS A HEURISTIC METHOD"); the Webster–Jacob–Higgott survey (arXiv:2603.22532); PBLean (arXiv:2602.08692); Heule's `drat-trim`/LRAT; Biere's CaDiCaL; Sinz's cardinality encoding; Tseitin's gate encoding.
 
 The dated adversarial sweep behind these statements is [SWEEP-RECORD-QEC-2026-08-04.md](SWEEP-RECORD-QEC-2026-08-04.md). It broke two claims of an earlier draft; both were withdrawn.
@@ -148,17 +161,27 @@ python3 qec-scripts/check_witness.py  qec-certificates/bb144/witness_X.json     
 python3 qec-scripts/check_lower.py    qec-certificates/bb144/lower_X_K11_sym.json  # d_X >= 12
 python3 qec-scripts/check_duality.py  qec-certificates/bb144/duality.json       # d_X = d_Z
 
-# n = 288
-gunzip qec-certificates/bb288/*.lrat.gz
-python3 qec-scripts/check_lower.py    qec-certificates/bb288/lower_X_K9_sym.json   # d_X >= 10
-python3 qec-scripts/check_duality.py  qec-certificates/bb288/duality.json
+# n = 288: the exact d = 18, via the profile-normalisation ladder
+gunzip qec-certificates/bb288/*.lrat.gz qec-certificates/bb360/*.lrat.gz
+python3 qec-scripts/check_prof.py     qec-certificates/bb288/bb288_prof_K14.json   # d_X >= 16 (with Lemma P)
+python3 qec-scripts/check_witness.py  qec-certificates/bb288/witness_X.json        # d_X <= 18
+python3 qec-scripts/check_duality.py  qec-certificates/bb288/duality.json          # d_X = d_Z
+# the final rung d_X >= 18 (weight-16 exclusion) is the one proof too large for git;
+# regenerate its 310 MB LRAT from the shipped CNF per qec-certificates/REGENERATE.md, then:
+#   python3 qec-scripts/check_prof.py qec-certificates/bb288/bb288_prof_K16_exact.json
 
-# integrity: re-hash every artifact against the audited manifest
+# n = 360: first lower bound of any kind, 16 <= d <= 24 (lower end certified)
+python3 qec-scripts/check_prof.py     qec-certificates/bb360/bb360_prof_K14.json   # d_X >= 16 (with Lemma P)
+
+# integrity: re-hash every audited artifact against the manifest
 python3 qec-scripts/verify_manifest.py
 ```
 
-Expected runtimes: everything above is seconds, except the bb144 `lower_X_K11_sym`
-replay (~10–15 s in pure Python) and the bb288 `lower_X_K9_sym` replay (~5–10 s).
+Expected runtimes: the small checks are seconds; the bb144 `lower_X_K11_sym` replay is
+~10–15 s in pure Python, `bb288_prof_K14` ~62 s, and `bb360_prof_K14` ~40 s. The
+`prof` certificates are checked by `check_prof.py`, which rebuilds `H_X, H_Z` from each
+code's polynomial spec, regenerates the CNF clause-for-clause, and replays the LRAT — so
+it trusts neither the shipped matrices nor the shipped `.cnf`.
 
 `verify_manifest.py` reports `172 match, 0 mismatch, 10 absent` on a fresh clone: the
 ten "absent" are the six proofs that ship gzipped (decompress them and they match, since
@@ -174,9 +197,10 @@ It is included because it is part of the pipeline, and the pipeline is explicitl
 ## Known gaps in Part B
 
 1. `bb288/duality.json` was generated **after** the audit closed — it passes `check_duality.py` and its permutation was independently re-verified, but it is outside the 47 audited checks and absent from `manifest.json`.
-2. `manifest.json` covers the full audited corpus including the four large proofs this repository does not carry.
-3. The shipped `check_lower.py` is 481 lines; the auditor read 419. The difference is an optional totalizer cardinality encoding that no certificate in this release selects. The whole corpus was re-run against the shipped 481-line checker before release — 20 witnesses, 5 duality certificates, 23 lower-bound certificates, **48 in all, every one accepted**, including a second pure-Python replay of the 2.94 GB proof.
-4. `run_all.sh` expects a `tools-drat-trim/lrat-check` binary that is not vendored. The pure-Python path needs nothing but CPython and is what every number in the paper reports.
+2. `manifest.json` covers the audited corpus including the large proofs this repository does not carry. The `prof` certificates (the `d = 18` ladder at n = 288 and the n = 360 bound) **postdate the audit and the manifest** — they are checked directly by `check_prof.py`, which regenerates every CNF from the polynomial spec, and each was replayed independently before release, but they are not among the 47 audited checks.
+3. **The `d ≥ 18` rung at n = 288 is single-encoding.** The weight-16 exclusion (the step that reaches 18 rather than 16) is proved only in the `prof` encoding; an independent, differently structured encoding corroborates the ladder to `d_X ≥ 12`, and the retained symmetry-broken Sinz ladder audited earlier reaches `d_X ≥ 14`. The completeness of `prof` is the on-paper Lemma S (machine-checked hypotheses; conclusion tested against brute force on 31 small codes and against the known weight-18 logical at n = 288, but not by a second encoding at the decisive rung). The `prof` encoding is **not** benchmarked against automated symmetry-breaking tools, so no novelty-versus-tools claim is made.
+4. The shipped `check_lower.py` is 481 lines; the auditor read 419. The difference is an optional totalizer cardinality encoding that no `check_lower` certificate in this release selects. The whole audited corpus was re-run against the shipped 481-line checker before release — 20 witnesses, 5 duality certificates, 23 lower-bound certificates, **48 in all, every one accepted**, including a second pure-Python replay of the 2.94 GB proof.
+5. `run_all.sh` expects a `tools-drat-trim/lrat-check` binary that is not vendored. The pure-Python path needs nothing but CPython and is what every number in the paper reports.
 
 Three further defects the audit found are reported verbatim in §8 of the paper, including a latent soundness hole in a checker branch that no shipped certificate exercises. A paper about trusted bases that suppresses its own audit findings is not one.
 
