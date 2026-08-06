@@ -1,9 +1,9 @@
-# Replayable minimum-distance certificates for stabilizer codes, with no solver and no proof assistant in the trusted base: the bivariate-bicycle family through *n* = 288
+# Replayable minimum-distance certificates for stabilizer codes, with no solver and no proof assistant in the trusted base: the bivariate-bicycle family, and the exact distance of [[288,12,18]]
 
 **Daniel Kirtchakov**
 Independent researcher, Half Ounce Research — daniel@halfounce.io
 
-*Draft of August 4, 2026.*
+*Draft of August 6, 2026.*
 
 > **Computation and authorship.** All searches, encodings, symmetry-breaking
 > constructions, and certificate designs in this work were produced by
@@ -22,17 +22,22 @@ Independent researcher, Half Ounce Research — daniel@halfounce.io
 > a named commit, package documentation) and in which two claims of an earlier
 > internal draft were found to be wrong and withdrawn. The dated record of that
 > sweep, listing what was read and what changed, ships with the artifacts as
-> `SWEEP-RECORD-QEC-2026-08-04.md`.
+> `SWEEP-RECORD-QEC-2026-08-04.md`. The August 6 extension that determines
+> *d*([[288,12,18]]) = 18 and adds the [[360,12,≤24]] lower bound rests on a
+> further full-text pass over its own new sources, recorded inline in §6 and
+> §1.4.
 
 ---
 
 ## Abstract
 
-This is a verification contribution, not a discovery. The minimum distances of
-the codes treated here are already in the literature; what did not exist is a
-standalone artifact that a third party can replay without a SAT solver and
-without a proof assistant. We supply one for eleven stabilizer codes, together
-with three short checkers, and we submit the result to an independent audit:
+This is a verification contribution. The exact minimum distances of the codes
+treated here are, with a single exception noted below, already in the
+literature; what did not exist is a standalone artifact that a third party can
+replay without a SAT solver and without a proof assistant. We supply one for
+eleven stabilizer codes, together with three short checkers (a fourth handles
+the exact-distance ladder below), and we submit the result to an independent
+audit:
 47 certificate checks run, 47 passed, 0 failed; 5.08 GiB of LRAT replayed in
 pure Python inside a 79 MB peak resident set; all five bivariate-bicycle
 parity-check matrices rebuilt **byte-identically** from the published
@@ -52,24 +57,38 @@ For the gross code [[144,12,12]] of Bravyi et al. we certify *d* = 12 end to
 end: weight-12 X- and Z-witnesses, and in each sector a single
 **symmetry-free** LRAT proof (868 MB for X, 672 MB for Z) of *d*_X, *d*_Z ≥ 12,
 so that no symmetry lemma enters the trusted base for this code. For
-[[288,12,18]] we certify *d*_X ≥ 14 by a 2.94 GB LRAT proof, replayed in pure
-Python in 414 s. Bravyi et al. assert *d* = 18 for that code exactly, by
-integer programming and without a checkable artifact; the strongest lower bound
-previously *reported* by a certifying-capable method is *d* ≥ 11,
-solver-asserted by Chen, Jafari and Lai with no proof files in their
-repository. Our *d*_X ≥ 14 improves on that bound and is, as far as our sweep
-could determine, the only machine-checkable lower bound on record for this
-code. It is not evidence against *d* = 18.
+[[288,12,18]] we determine the distance exactly: *d* = 18, certified end to end
+and, as far as our sweep could determine, for the first time in a form a third
+party can replay. The upper bound is a weight-18 witness; the lower bound
+*d*_X ≥ 18 is a two-rung ladder in a profile-normalisation encoding, closed by
+two on-paper lemmas whose hypotheses are machine-checked — Lemma P, that every
+X-logical has even weight, and Lemma S, the completeness of the reduction — with
+the passage to *d* supplied by the shipped duality certificate. This *confirms*
+the value Bravyi et al. assert for that code by integer programming, without a
+checkable artifact; it does not correct it. The strongest lower bound previously
+*reported* by a certifying-capable method was *d* ≥ 11, solver-asserted by Chen,
+Jafari and Lai with no proof files in their repository and with every
+configuration timing out. One dependency we flag rather than bury: the exclusion
+of a weight-16 logical — the rung that reaches 18 rather than 16 — rests on the
+profile-normalisation encoding alone; an independent, differently structured
+encoding corroborates the ladder only to *d*_X ≥ 12. The same construction
+yields the first lower bound of any kind for [[360,12,≤24]]: we certify
+16 ≤ *d* ≤ 24, the lower end by this method and the upper end cited from Bravyi
+et al.
 
 We state the trusted base explicitly, separating what is machine-checked per
 certificate from the facts that are assumed, and we report the four defects
 the audit found, including one latent soundness hole in a checker branch.
 We claim priority neither for the distance values, which are Bravyi et al.'s,
 nor for machine-checked quantum distance proofs, which are LEAN-QEC's and whose
-public repository reports a completed gross-code verification as of 2026-07-10.
-What is offered here is a certificate format and a trusted base: a 649-line
-standard-library reader, and artifacts that outlive the tools that produced
-them.
+public repository reports a completed gross-code verification as of 2026-07-10;
+and we claim no novelty for the profile-normalisation encoding against automated
+symmetry-breaking tools, which we did not benchmark. What is offered here is a
+certificate format and a trusted base — four standard-library readers, 1,128
+lines in total, with no solver and no proof assistant in them — the first
+independently-replayable determination that *d*([[288,12,18]]) = 18, the first
+lower bound of any kind for [[360,12,≤24]], and artifacts that outlive the tools
+that produced them.
 
 ---
 
@@ -106,7 +125,8 @@ and trust the re-run; neither emits an object that survives the solver.
 ### 1.2 What this note provides
 
 An artifact-first alternative. For each code we ship files that a skeptic can
-replay in isolation, and three short Python programs that replay them. The
+replay in isolation, and three short Python programs that replay them (a fourth,
+`check_prof.py`, checks the profile-normalisation certificates of §6). The
 design constraints were:
 
 1. **No solver in the trusted base.** The checker never runs a SAT solver and
@@ -142,17 +162,31 @@ helper of any kind).
 | BB [[90,8,10]] | 90,8 | *d* = 10 | 128 \| 151 MB | 48.4 \| 50.8 | 10.9 \| 13.0 |
 | BB [[108,8,10]] | 108,8 | *d* = 10 | 71.6 \| 82.3 MB | 28.2 \| 24.7 | 6.2 \| 7.1 |
 | **BB [[144,12,12]]** | 144,12 | **_d_ = 12** | 868 \| 672 MB † | 342 \| 227 | 176 \| 72.9 |
-| BB [[288,12,18]] | 288,12 | 14 ≤ *d* ≤ 18 | 2.94 GB ‡ | 513 | 414 |
+| **BB [[288,12,18]]** | 288,12 | **_d_ = 18** | 358 MB ‡ | 2,526 | 1,649 |
+| BB [[360,12,≤24]] | 360,12 | 16 ≤ *d* ≤ 24 | 43 MB § | 231 | 40 |
 
-Paired entries are X \| Z sector. Solver times are CaDiCaL 3.0.1 on one Apple
-M4 laptop, recorded in each code's `meta.json`.
+Paired entries are X \| Z sector, except the two **_d_**-in-boldface rows at
+*n* = 288, 360, whose proofs are in the X sector and are converted to *d* by
+duality. Solver times are CaDiCaL 3.0.1 on one Apple M4 laptop, recorded in each
+code's `meta.json`. Replay times are from the audit, except at *n* = 288, 360,
+whose profile-normalisation certificates postdate the audit and were replayed
+separately by `check_prof.py` on a loaded machine.
 † Symmetry-**free** single-instance proofs; a symmetry-broken X certificate
 (124 MB + 34 kB, solver 45.0 s) is also shipped and replays in 10.1 s.
-‡ Symmetry-broken, *K* = 13, two instances (2,941,958,076 + 191,479 bytes); the
-ladder rungs *d*_X ≥ 10 (65 MB) and *d*_X ≥ 12 (351 MB) are shipped as well.
-At *n* = 288 the certified quantity is *d*_X; the passage to *d* uses the
-shipped duality certificate together with *d* = min(*d*_X, *d*_Z), and that
-certificate was generated after the audit closed (Remark 3.5).
+‡ The exact value *d* = 18 rests on a two-rung profile-normalisation (`prof`)
+ladder in the X sector: a weight-≤14 instance (48 MB, solver 443 s, replay 62 s)
+gives *d*_X ≥ 15, and Lemma P (all X-logicals even) lifts it to *d*_X ≥ 16; an
+exact-weight-16 instance (310 MB, solver 2,083 s, replay 1,587 s) excludes
+weight 16, and Lemma P again lifts it to *d*_X ≥ 18. With the weight-18 witness
+for *d*_X ≤ 18 and the shipped duality certificate for *d* = *d*_X, this gives
+*d* = 18; the totals shown are over both rungs. The audited symmetry-broken
+*d*_X ≥ 10, 12, 14 ladder (a different encoding) is retained and independently
+corroborates *d*_X ≥ 12. See §6 for the caveats.
+§ Lower end *d*_X ≥ 16 certified by the same method (`prof` *K* = 14 plus Lemma P;
+a *K* = 12 rung, 14.7 MB, corroborates *d*_X ≥ 14); the passage to *d* ≥ 16 uses
+the ZX-duality lemma, verified in F₂ arithmetic for this code but — unlike
+*n* = 288 — not shipped as a standalone certificate. Upper end *d* ≤ 24 is
+Bravyi et al.'s Table 3 value, cited and not certified here.
 
 Three things deserve to be stated precisely, because each touches published
 work.
@@ -175,19 +209,27 @@ LEAN-QEC's [ELWT26], and their public repository reports the gross code
 completed; see §1.4 for the dated record. What is ours is the certificate
 format, the symmetry-free variant, and the trusted base.
 
-**(B) [[288,12,18]].** We certify *d*_X ≥ 14 by a 2.94 GB LRAT proof and
-*d*_X ≤ 18 by a weight-18 witness. The value is not in dispute and we are not
-disputing it: Bravyi et al. assert *d* = 18 for this code exactly, by integer
-programming, and their Table 3 marks it without the "≤" that flags their
-upper-bound-only entries (Remark 6.1, which corrects a misreading an earlier
-draft of our results file contained). What they do not supply — and what nobody
-supplies — is an artifact. The strongest lower bound previously *reported* by a
-method capable in principle of certifying is *d* ≥ 11, from Chen, Jafari and
-Lai [CJL26] at a 7200 s timeout, solver-asserted, with no proof files in their
-repository. Our *d*_X ≥ 14 improves on that bound and is, as far as the sweep
-of §1.4 could determine, the only machine-checkable lower bound on record for
-this code. It falls four short of 18, and that shortfall is a limitation of our
-encoding, not evidence.
+**(B) [[288,12,18]], and [[360,12,≤24]].** We determine
+*d*([[288,12,18]]) = 18 exactly. The upper bound is a weight-18 witness; the
+lower bound *d*_X ≥ 18 is a two-rung ladder in a profile-normalisation (`prof`)
+encoding — a weight-≤14 instance and an exact-weight-16 instance — each lifted
+across the intervening odd weight by Lemma P, with the duality certificate
+carrying *d*_X to *d*. The value is not in dispute and we are not disputing it:
+Bravyi et al. assert *d* = 18 for this code exactly, by integer programming, and
+their Table 3 marks it without the "≤" that flags their upper-bound-only entries
+(Remark 6.1). What they do not supply — and what nobody supplied before — is a
+checkable artifact; our contribution is to *confirm* their value with one, not
+to change it. The strongest lower bound previously *reported* by a method
+capable in principle of certifying was *d* ≥ 11, from Chen, Jafari and Lai
+[CJL26] at a 7200 s timeout, solver-asserted, with no proof files in their
+repository and with every configuration running out of time. As far as the
+sweep of §1.4 could determine, ours is the first machine-checkable determination
+of this distance on record. The same construction gives the first lower bound of
+any kind for [[360,12,≤24]], whose exact distance is unknown: we certify
+16 ≤ *d* ≤ 24, the lower end by the identical method and the upper end cited
+from [BCGMRY]. Section 6 states the one genuine dependency plainly — the
+weight-16 exclusion is proved only in the `prof` encoding, corroborated by an
+independent encoding to *d*_X ≥ 12 but not at the top of the ladder.
 
 **(C) The rest of the family.** The values *d* = 6, 10, 10 for [[72,12,6]],
 [[90,8,10]], [[108,8,10]], and the distances of Steane, Golay, the rotated
@@ -212,9 +254,12 @@ that paper and are byte-identical to it (§7.1). Their distances were computed
 there by the mixed-integer-programming method of Landahl, Anderson and Rice
 [LAR11]. Every distance value we certify for a BB code, and every distance
 value we certify for Steane, Golay, the surface codes and the five-qubit code,
-was already known. This note contributes *certificates for known numbers*, plus
-one number (*d*_X ≥ 14 for *n* = 288) that is new only in the sense of being
-machine-checkable.
+was already known. This note contributes *certificates for known numbers* —
+including the exact value *d* = 18 at *n* = 288, new only in the sense of being
+independently checkable — plus one genuinely new bound, *d* ≥ 16 for
+[[360,12,≤24]], whose exact distance remains open. For [[360,12,≤24]] the
+parity-check matrices are rebuilt from the polynomial specification by
+`check_prof.py` and are not separately shipped.
 
 **Machine-checked quantum distance proofs.** The approach is LEAN-QEC's
 [ELWT26] (Ehatamm, Lee, Wu and Tao, 15 May 2026): a SAT encoding of the
@@ -269,8 +314,24 @@ fills.
 `guluchen/QDistSAT` contains no proof or certificate files — and their
 *d* ≥ 11 is the strongest quantity previously published for that code *as a
 lower bound*, as against the exact value *d* = 18 asserted in [BCGMRY]. Our
-*d*_X ≥ 14 improves on it and, for the first time, backs a bound for this code
-with a replayable artifact.
+determination *d* = 18 improves on it and, for the first time, backs the
+distance of this code with a replayable artifact.
+
+**The even-weight lemma, and symmetry breaking.** The ladder that reaches
+*d* = 18 uses two facts, neither of which is ours. Lemma P — that a CSS code all
+of whose H_Z-columns have odd weight has 1_n ∈ rowsp(H_Z) and hence an all-even
+Z-kernel — is elementary and is stated outright by Okada and Kasai [OK26]
+(Section V-A); we use it and claim it nowhere. The profile-normalisation
+reduction (Lemma S, §6) is an instance of lexicographic-leader symmetry
+breaking, a technique due to Crawford, Ginsberg, Luks and Roy [CGLR96] and
+automated in tools such as BreakID [DBBD16] and satsuma [And24]; exploiting the
+cyclic symmetry of quasi-cyclic codes in minimum-distance search is standard as
+well. What we constructed is one specific realisation of the *full*
+translation-orbit quotient for a bivariate-bicycle code inside a certifiable
+distance instance. We measure it against a lex-leader baseline over the same
+group (§6) but have not benchmarked it against those automated tools, which were
+not installable in our environment; we therefore make no novelty claim against
+them, and state the construction only at the strength that baseline supports.
 
 **Infrastructure.** The LRAT format and the checking discipline are due to
 Cruz-Filipe, Heule, Hunt, Kaufmann and Schneider-Kamp [CFHKS17], building on
@@ -290,32 +351,48 @@ externally checkable in a small trusted base, and we cite it as such.
 
 | Item | Earliest source we verified | Status here |
 |---|---|---|
-| The BB codes; *d* = 12 for [[144,12,12]]; *d* = 18 for [[288,12,18]] | Bravyi et al. [BCGMRY], Table 3 (MIP method of [LAR11]) | Re-verified, not claimed |
+| The BB codes; *d* = 12 for [[144,12,12]]; *d* = 18 for [[288,12,18]]; *d* ≤ 24 for [[360,12,≤24]] | Bravyi et al. [BCGMRY], Table 3 (MIP method of [LAR11]) | Re-verified, not claimed (the *n* = 288 value now also certified checkably; the *n* = 360 upper bound cited) |
 | *d* = 12 for [[144,12,12]] confirmed exactly by MILP, MIP gap 0 | Cruz-Benito, Cross, Kremer, Faro [CCKF26], 1 June 2026 | Re-verified, not claimed; no certificate emitted there |
 | *d*_X = *d*_Z for BB codes | Bravyi et al. [BCGMRY], supplemental lemma | Cited; only the explicit permutation certificate is ours |
 | Kernel-checked SAT distance proofs for quantum codes | LEAN-QEC [ELWT26], 15 May 2026 | Not claimed |
 | Machine-checked [[144,12,12]] distance | LEAN-QEC repository, commit `c73827d`, 2026-07-10 | Not claimed |
 | *d* computed exactly by SAT for *n* ≤ 144 BB codes | Chen–Jafari–Lai [CJL26], 29 May 2026 | Re-verified, not claimed |
-| *d* ≥ 11 for [[288,12,18]] by SAT | Chen–Jafari–Lai [CJL26] | Improved to *d*_X ≥ 14, with artifact |
+| *d* ≥ 11 for [[288,12,18]] by SAT | Chen–Jafari–Lai [CJL26] | Improved to the exact value *d* = 18, with replayable artifacts |
+| Even weight of the Z-kernel (Lemma P), used to step the ladder by 2 | Okada–Kasai [OK26], Sec. V-A | Cited, not claimed |
+| Lex-leader symmetry-breaking predicates; cyclic-symmetry search | Crawford–Ginsberg–Luks–Roy [CGLR96]; BreakID [DBBD16]; satsuma [And24] | Cited; `prof` realises the same group's full quotient, but is not benchmarked against these tools |
 
 *Offered as new:* the certificate format of §3 and its machine-checked
-exactness conditions; the symmetry-free [[144,12,12]] proofs; the only
-machine-checkable lower bound on record for [[288,12,18]], at *d*_X ≥ 14; the
-ZX-duality permutation — Bravyi et al.'s lemma, not ours — packaged as a ~15 ms
-checkable certificate; and a trusted base of 649 standard-library Python lines
-with no solver and no proof assistant in it.
+exactness conditions; the symmetry-free [[144,12,12]] proofs; the first
+machine-checkable determination on record that *d*([[288,12,18]]) = 18, and the
+first lower bound of any kind for [[360,12,≤24]] — both via the
+profile-normalisation ladder of §6, whose two supporting lemmas (the even-weight
+Lemma P and a standard symmetry break) are not ours; the ZX-duality permutation
+— Bravyi et al.'s lemma, not ours — packaged as a ~15 ms checkable certificate;
+and a trusted base of four standard-library Python readers, 1,128 lines, with no
+solver and no proof assistant in it.
 
 ### 1.5 What is not claimed
 
-We do not claim any new distance *value*. We do not claim priority for
-machine-checked quantum distance proofs. We do not claim that [[288,12,18]] has
-*d* < 18; our *d*_X ≥ 14 is a lower bound, four short of the literature value,
-and the gap is a limitation of our encoding, not evidence. We do not certify
-*k*: the code dimensions above are recomputed, not certified, though side
-condition (c) of Theorem 3.1 pins the logical dimension implicitly, and the
-audit recomputed every *k* independently. And we do not claim novelty for the
-framing itself: this is a verification contribution, and the reason to read it
-is the audit of §7, not the numbers in the results table.
+We do not claim any new distance *value* for a code whose exact distance was
+already known: *d*([[288,12,18]]) = 18 is Bravyi et al.'s, and we confirm it
+rather than discover it. The one piece of genuinely new distance information is
+the lower bound *d*([[360,12,≤24]]) ≥ 16, whose exact value remains open. We do
+not claim priority for machine-checked quantum distance proofs. We do not claim
+novelty for the two lemmas that close the *n* = 288 ladder: the even-weight
+Lemma P is Okada–Kasai's, and the profile-normalisation Lemma S is an instance
+of standard lex-leader symmetry breaking; nor do we claim that the `prof`
+encoding improves on automated symmetry-breaking tools (BreakID, satsuma), which
+we did not run. We flag, rather than hide, that the top rung of the *n* = 288
+ladder — the exclusion of a weight-16 logical, which is what separates *d* ≥ 18
+from *d* ≥ 16 — is proved only in the `prof` encoding: an independent,
+differently structured encoding corroborates the ladder to *d*_X ≥ 12 but not
+there, and the completeness of `prof` rests on the on-paper Lemma S (§4, §6). We
+do not certify *k*: the code dimensions above are recomputed, not certified,
+though side condition (c) of Theorem 3.1 pins the logical dimension implicitly,
+and the audit recomputed every *k* independently. And we do not claim novelty
+for the framing itself: this is a verification contribution, and the reason to
+read it is the audit of §7 and the explicit trusted base, not the numbers in the
+results table.
 We do not claim the corpus is free of
 defects: four are reported in §8 — one fixed in this release, three not —
 including a genuine latent soundness hole
@@ -505,9 +582,10 @@ avoid. The generator has since been re-run and `bb288/duality.json` now ships.
 It is the one certificate in the release that is *not* among the audit's 47
 checks and not among the 182 hashes in `manifest.json`, both of which predate
 it; it passes `check_duality.py`, and its permutation was verified a second
-time, from scratch, against independently loaded matrices. With it,
-14 ≤ *d* ≤ 18 is certified rather than merely true, and the results table is
-worded accordingly. No Z-sector witness is needed:
+time, from scratch, against independently loaded matrices. With it — and, in the
+August 6 extension, with the profile-normalisation ladder of §6 that raises
+*d*_X from 14 to 18 — *d* = 18 is certified rather than merely asserted, and the
+results table is worded accordingly. No Z-sector witness is needed:
 *d* = min(*d*_X, *d*_Z) = *d*_X once duality is in hand.
 
 ### 3.5 The symplectic variant
@@ -544,14 +622,22 @@ believe.
 
 ### 4.1 Software
 
-Three files, 649 lines of Python in total: `check_witness.py` (95),
-`check_duality.py` (73), `check_lower.py` (481). Their only imports are `gzip`,
-`json`, `os`, `subprocess`, `sys`, `tempfile` and `time`. No numpy, no compiled
-helper, no network. CPython and the operating system must be trusted. If the optional
-`--external` path is used to delegate LRAT replay to a compiled checker, that
-binary and the temporary-file marshalling re-enter the trusted base; the audit
-of §7 never used it, so for that audit the trusted base contained no compiled
-code at all.
+Four files, 1,128 lines of Python in total: `check_witness.py` (95),
+`check_duality.py` (73), `check_lower.py` (481), and `check_prof.py` (479). The
+first three, 649 lines, are the checkers the independent audit of §7 read and
+exercised; the fourth was added with the August 6 extension to verify the
+profile-normalisation certificates behind *d* = 18 at *n* = 288 and the
+*n* = 360 lower bound, and shares no code with the other three. Their only
+imports are `gzip`, `json`, `os`, `subprocess`, `sys`, `tempfile` and `time`. No
+numpy, no compiled helper, no network. CPython and the operating system must be
+trusted. If the optional `--external` path is used to delegate LRAT replay to a
+compiled checker, that binary and the temporary-file marshalling re-enter the
+trusted base; the audit of §7 never used it, so for that audit the trusted base
+contained no compiled code at all. `check_prof.py` is, if anything, stricter
+than `check_lower.py`: it rebuilds H_X, H_Z from the code's polynomial
+specification rather than reading `HX.txt`/`HZ.txt`, and it requires the shipped
+CNF to match its own regeneration clause-for-clause before replaying the proof
+against the regenerated clauses.
 
 **Not** trusted, and demonstrably so: CaDiCaL; the generating pipeline
 (`certify.py`, `qec_lib.py`, `gen_duality.py`, `manifest.py`); the shipped
@@ -561,20 +647,23 @@ them can be deleted and every certificate still verifies.
 **Remark 4.1 (The checker moved after the audit).** The auditor of §7 read a
 419-line `check_lower.py`; the file shipped with this release is 481 lines. The
 difference is one addition: an optional truncated Bailleux–Boufkhad totalizer
-as an alternative to the Sinz cardinality encoding, put in for larger
-[[288,12,18]] rungs that are still running and are not part of this release. It
-is selected only by a certificate that declares `"cardinality": "totalizer"`,
-and *no certificate in this release declares it*: all take the Sinz default,
-which is the code path the audit read and exercised. A reader minimising
-trusted-base surface can delete the totalizer branch and re-run everything. We
-flag the drift rather than quietly re-using the audit's line count, because the
-size of that number is one of the claims. To close the loop, the entire corpus
-was re-run against the shipped 481-line checker before release — 20 witnesses,
-5 duality certificates and 23 lower-bound certificates, 48 in all, every one
-accepted, including a second pure-Python replay of the 2.94 GB proof. Those
-re-runs were made on a machine under heavy load and their wall-clock times are
-correspondingly three to five times the audit's; the pass/fail outcomes are what
-they establish.
+as an alternative to the Sinz cardinality encoding, added during exploratory
+work on this family. It is selected only by a certificate that declares
+`"cardinality": "totalizer"`, and *no `check_lower` certificate in this release
+declares it*: all take the Sinz default, which is the code path the audit read
+and exercised. A reader minimising trusted-base surface can delete the totalizer
+branch and re-run everything. We flag the drift rather than quietly re-using the
+audit's line count, because the size of that number is one of the claims. To
+close the loop, the entire audited corpus was re-run against the shipped
+481-line checker before release — 20 witnesses, 5 duality certificates and 23
+lower-bound certificates, 48 in all, every one accepted, including a second
+pure-Python replay of the 2.94 GB proof. Those re-runs were made on a machine
+under heavy load and their wall-clock times are correspondingly three to five
+times the audit's; the pass/fail outcomes are what they establish. The August 6
+profile-normalisation certificates behind *d* = 18 at *n* = 288 and the
+*n* = 360 bound are the province of a separate checker, `check_prof.py` (§4, §6),
+and postdate both the audit and this re-run; each was replayed independently
+before release.
 
 ### 4.2 Machine-checked, per certificate
 
@@ -594,37 +683,65 @@ they establish.
 
 ### 4.3 Assumed
 
-1. **The Sinz sequential at-most-*K* counter is complete** [Sin05]: every
-   weight-≤*K* assignment extends to a satisfying assignment of the counter
-   variables. If it were accidentally over-constraining, UNSAT would mean less
-   than claimed. The emitted clause set was read against [Sin05] and is the
-   standard one.
+1. **The cardinality encoding is complete.** For the `check_lower` certificates
+   this is Sinz's sequential at-most-*K* counter [Sin05]: every weight-≤*K*
+   assignment extends to a satisfying assignment of the counter variables. If it
+   were accidentally over-constraining, UNSAT would mean less than claimed; the
+   emitted clause set was read against [Sin05] and is the standard one. The
+   `check_prof` certificates behind *d* = 18 at *n* = 288 and the *n* = 360 bound
+   instead use a Bailleux–Boufkhad totalizer (with per-row exact counters and a
+   lexicographic-leader predicate, §6.1); its completeness, and that of the
+   lex-leader, is assumed on the same footing.
 2. **The Tseitin XOR gate is definitional** [Tse68]: the four clauses per gate
    encode *u* = *a* ⊕ *b* and are always extendable.
 3. **The orbit lemma**, Lemma 3.2 — four lines, proved above, machine-checked
    hypotheses, human-verified implication. Used by the symmetry-broken
-   [[144,12,12]] X certificate and all three [[288,12,18]] rungs. **Not used
-   by** the symmetry-free [[144,12,12]] certificates (Remark 3.3).
+   [[144,12,12]] X certificate and by the retained symmetry-broken [[288,12,18]]
+   ladder (the *d*_X ≥ 10, 12, 14 rungs that now corroborate the main result).
+   **Not used by** the symmetry-free [[144,12,12]] certificates (Remark 3.3),
+   nor by the profile-normalisation rungs, which use Lemma S instead.
 4. **The duality lemma**, Lemma 3.4 — likewise, checked hypotheses,
-   human-verified implication.
-5. **The CSS fact *d* = min(*d*_X, *d*_Z)**, used to turn a certified pair into
+   human-verified implication. It carries *d*_X to *d* at *n* = 288 (shipped
+   `duality.json`, replayed by `check_duality.py`) and at *n* = 360 (verified by
+   rowspace comparison in **F**₂ arithmetic, but not shipped as a standalone
+   certificate for that code).
+5. **The even-weight lemma**, Lemma P (§6): if 1_n ∈ rowsp(H_Z) then every
+   *x* ∈ ker H_Z has even weight, so *d*_X is even. Elementary and credited to
+   Okada–Kasai [OK26]; its hypothesis is machine-checked by `check_prof.py`,
+   which exhibits the combiner *c* with *c*ᵀH_Z = 1_n (|*c*| = 72 at *n* = 288,
+   |*c*| = 90 at *n* = 360). It is what lets an even-*K* UNSAT certify
+   *d*_X ≥ *K* + 2, and it is used at both *n* = 288 prof rungs and both
+   *n* = 360 rungs.
+6. **The profile-normalisation lemma**, Lemma S (§6): adding a row-profile
+   invariant and a one-slice lex-leader to the weight-bounded search leaves
+   satisfiability unchanged. Its hypothesis — that the two generating
+   translations are automorphisms of both H_X and H_Z — is machine-checked by
+   `check_prof.py` (rowspace equality). The lemma's conclusion is on paper; it is
+   tested against brute force on 31 small codes and, at *n* = 288, by
+   re-normalising the known weight-18 logical, but it is *not* cross-checked by a
+   second independent encoding at the decisive weight-16 rung. This is the one
+   soundness dependency peculiar to the *d* = 18 result; §6 states it in full.
+7. **The CSS fact *d* = min(*d*_X, *d*_Z)**, used to turn a certified pair into
    a statement about the code. No script touches it.
-6. **LRAT semantics.** The internal checker implements RUP-with-hints: negate
+8. **LRAT semantics.** The internal checker implements RUP-with-hints: negate
    the lemma, unit-propagate through the hinted clauses in order, demand a
    conflict. It skips hints that are already satisfied or non-unit — sound,
    since skipping can only fail to find a conflict, never invent one — and it
    *refuses* negative (RAT) hints outright, which incidentally establishes that
    every proof in the corpus is pure RUP. It requires an empty clause to be
    derived and verified.
-7. **That the matrices are the intended code.** No certificate establishes
+9. **That the matrices are the intended code.** No certificate establishes
    this; the checkers take `HX.txt` and `HZ.txt` at face value. Section 7.1
    closes this for the five BB codes at byte level.
 
-In one sentence: a skeptic must believe that three short standard-library
-Python files do what they appear to do, that CPython and the OS are not lying,
-that the Sinz and Tseitin encodings are standard and complete, that the
-four-line duality lemma and the four-line orbit lemma are correct, and that
-*d* = min(*d*_X, *d*_Z). Everything else can be thrown away.
+In one sentence: a skeptic must believe that four short standard-library Python
+files do what they appear to do, that CPython and the OS are not lying, that the
+cardinality (Sinz for `check_lower`, a totalizer for `check_prof`) and Tseitin
+encodings are standard and complete, that the four-line duality lemma and the
+four-line orbit lemma are correct, that *d* = min(*d*_X, *d*_Z),
+and — for the *d* = 18 determination at *n* = 288 and the *n* = 360 lower bound
+alone — the elementary even-weight lemma and the profile-normalisation lemma.
+Everything else can be thrown away.
 
 ---
 
@@ -666,52 +783,155 @@ three of slack; the byte counts and the pass/fail outcomes are exact.
 
 ---
 
-## 6. [[288,12,18]]
+## 6. [[288,12,18]]: the exact distance, and [[360,12,≤24]]
 
 For the ℓ = *m* = 12 member, *A* = *x*³ + *y*² + *y*⁷, *B* = *y*³ + *x* + *x*²,
-we certify a ladder in the X sector, each rung an independently valid
-symmetry-broken certificate:
+we determine the distance exactly:
 
-  *d*_X ≥ 10 (65 MB, 11.0 s solver), *d*_X ≥ 12 (351 MB, 85.6 s),
-  *d*_X ≥ 14 (2.94 GB, 512.6 s),
+  *d*([[288,12,18]]) = 18,
 
-together with a weight-18 witness for *d*_X ≤ 18 and a duality certificate
-(Remark 3.5) that converts both into statements about *d*. The *K* = 13 proof is
-2,941,958,076 + 191,479 bytes across the two orbit instances and replays in
-pure Python in 413.6 s with a peak resident set of 79 MB — the memory figure
-being the interesting one, since the proof is more than thirty times larger
-than the memory used to check it.
+certified end to end. The upper bound *d*_X ≤ 18 is the shipped weight-18
+witness; duality (§3.4) gives *d* = *d*_X. The content is the lower bound
+*d*_X ≥ 18, reached by two rungs of an encoding different from the rest of this
+note, closed by an elementary parity lemma.
 
-**Remark 6.1 (What the literature says, stated correctly).** An earlier
-internal draft of our results claimed that Bravyi et al. screened this code
-with a heuristic and conceded that its *d* ≤ 18 "is unlikely to be tight". That
-is a misreading and we correct it here. In [BCGMRY], the quoted caveat concerns
-the **circuit-level** distance *d*_circ ≤ 18, a different quantity from the code
-distance. Table 3 of that paper lists [[288,12,18]] with no "≤", while
-[[360,12,≤24]] and [[756,16,≤34]] carry one, and the caption states that the
-notation "≤ *d*" marks entries for which only an upper bound is known; the
-supplemental material states that the actual distance "of each candidate code
-was computed using the integer linear programming method". So [BCGMRY] asserts
-*d* = 18 exactly for this code, by ILP and without a checkable artifact. Our
-interval [14,18] is therefore **not** new information about the value, and any
-suggestion that it is the first distance information produced for this code — a
-suggestion the earlier draft made — is withdrawn. What *d*_X ≥ 14 is, is the
-strongest lower bound for this code that anyone can check.
+**Remark 6.1 (What the literature says, stated correctly).** Bravyi et al.
+assert *d* = 18 for this code exactly. An earlier internal draft of our results
+claimed instead that they screened it with a heuristic and conceded *d* ≤ 18 "is
+unlikely to be tight"; that was a misreading of their circuit-level distance
+*d*_circ ≤ 18, a different quantity, and it is corrected here. Table 3 of
+[BCGMRY] lists [[288,12,18]] with no "≤", while [[360,12,≤24]] and
+[[756,16,≤34]] carry one, and the caption states that "≤ *d*" marks
+upper-bound-only entries; the supplemental material states that the actual
+distance "of each candidate code was computed using the integer linear
+programming method". So *d* = 18 is their value, obtained by ILP and without a
+checkable artifact. What this section adds is the artifact: the first
+determination of *d*([[288,12,18]]) = 18, as far as our sweep could tell, that a
+third party can replay. It confirms their value; it does not change it.
 
-The strongest quantity previously published for this code as a *lower bound* is
-*d* ≥ 11, from Chen, Jafari and Lai [CJL26], obtained by several solvers under
-7200 s timeouts and asserted rather than certified; their public repository
-`guluchen/QDistSAT` contains no proof artifacts. Our *d*_X ≥ 14 improves on it
-and adds what neither it nor [BCGMRY] has: a file. As far as the sweep recorded
-in §1.4 could determine, it is the only machine-checkable lower bound on record
-for [[288,12,18]] at any strength.
+### 6.1 Two lemmas
 
-Where the wall is, concretely: proof size grows roughly 8× per ladder rung on
-this encoding, so *K* = 15 is an overnight job at an estimated 25 GB, and
-*K* = 17 — the rung that would close the gap to 18 — is out of reach of this
-encoding on this machine. Better encodings, in particular the location-indexed
-encoding of [ELWT26], proof compression, and per-rung parallelism are the
-obvious next moves, and none of them is ours.
+**Lemma P (even weight)** *[Okada–Kasai [OK26], Sec. V-A].* If
+1_n ∈ rowsp(H_Z), pick *c* with *c*ᵀH_Z = 1_nᵀ; then for every *x* ∈ ker H_Z,
+1_n · *x* = *c*ᵀH_Z *x* = 0 over **F**₂, so wt(*x*) is even and *d*_X is even.
+The hypothesis holds for every BB code here — each H_Z column has weight 3, so
+*c* = 1_{ℓm} works — and `check_prof.py` exhibits the combiner (|*c*| = 72 at
+*n* = 288). Lemma P is elementary and is not ours; it turns an even-*K* UNSAT
+into *d*_X ≥ *K* + 2.
+
+**Lemma S (profile normalisation).** Index qubits by (*b*,*r*,*s*) with
+*b* ∈ {0,1}, *r* ∈ ℤ_ℓ, *s* ∈ ℤ_m, and let *T* = ℤ_ℓ × ℤ_m act by translation.
+Write the row profile *w*_r(*x*) = |supp(*x*) ∩ {(*b*,*r*,·)}| and the row-0
+pattern *P*₀(*x*) = (*x*_{0,0,·}, *x*_{1,0,·}). Then every nonzero *T*-orbit
+contains an *x* whose profile (*w*₀,…,*w*_{ℓ−1}) is lexicographically maximal
+among its ℓ rotations and whose row-0 pattern is lexicographically maximal among
+its *m* rotations. (Translation by (*a*,*c*) rotates the profile by *a*
+independently of *c*, which fixes *a*; then *c* ranges over the *m* rotations of
+the row-0 pattern. This is a lexicographic-leader construction in the sense of
+Crawford, Ginsberg, Luks and Roy [CGLR96], arranged so that the profile half
+rides the cardinality counter the instance already needs.) Because *T* is an
+automorphism group of the code and preserves weight, restricting the
+weight-bounded search to such *x* leaves satisfiability unchanged, realising the
+full |*T*| = ℓm translation quotient.
+
+The `prof` encoding adds exactly these two conditions to the canonical CNF
+Φ_K(H_Z, *P*) of §3.2. `check_prof.py` machine-checks the *hypothesis* of
+Lemma S — that the generators (1,0) and (0,1) are rowspace automorphisms of both
+H_X and H_Z — and, as with every certificate here, regenerates the whole CNF
+from the polynomial spec and replays the LRAT against it. What it does *not* do
+is prove the lemma's conclusion: that is on paper, exactly as the orbit and
+duality lemmas of §3.3–§3.4 are. Its support is (a) agreement with brute force
+on 31 small BB codes, across the modes `none`, `anchor2`, `prof` and
+`prof+exact` for every *K* up to *d*_X + 2, with zero disagreements; and (b) at
+*n* = 288, a direct control — the known weight-18 logical, re-verified to be
+genuine, has a *T*-translate satisfying the two conditions (profile
+[8,0,0,4,0,0,4,0,0,2,0,0]), and the exact-weight-18 `prof` instance with that
+translate pinned is satisfiable, so the reduction does not delete a true
+minimum-weight logical.
+
+### 6.2 The ladder to 18
+
+Each rung is a single `prof` instance in the X sector, checked by
+`check_prof.py` (standard library only, CNF regenerated from the spec). Rung 1,
+a weight-≤14 instance (4,939 vars, 27,101 clauses; 48 MB gzipped proof, solver
+443 s, pure-Python replay 62 s, 447,281 lemmas), is UNSAT: no nontrivial
+X-logical has weight ≤ 14, so *d*_X ≥ 15, and Lemma P lifts this to *d*_X ≥ 16.
+Rung 2, an *exact*-weight-16 instance (5,249 vars, 31,208 clauses; 310 MB
+gzipped proof, solver 2,083 s, replay 1,587 s, 2,335,793 lemmas), is UNSAT: no
+nontrivial X-logical has weight exactly 16, and Lemma P kills weight 17, so
+*d*_X ≥ 18. The weight-18 witness gives *d*_X ≤ 18 and duality gives *d* = 18.
+Total: 2,526 s of solver and 358 MB of proof, checked in about 28 minutes of
+pure Python. There is no *K* = 17 rung: Lemma P makes the exact-weight-16
+instance the only thing left to refute, which is why the encoding does not have
+to reach the *K* = 17 ladder step the earlier draft projected out of reach.
+
+### 6.3 What the top rung rests on, exactly
+
+Three things should be said without euphemism.
+
+First, **the passage from *d*_X ≥ 16 to *d*_X ≥ 18 is single-encoding.** Only
+rung 2 — the weight-16 exclusion — separates *d* ≥ 18 from *d* ≥ 16, and it
+exists only in the `prof` encoding. The corpus also ships a *different* encoding
+for this code: the symmetry-broken Sinz/anchor ladder of the August 4 release,
+whose audited rungs reach *d*_X ≥ 14 (the 2.94 GB proof), and a freshly re-run
+independent totalizer/Sinz cross-check confirms *d*_X ≥ 12 from the polynomial
+spec. So the ladder is corroborated in a second, differently structured encoding
+up to *d*_X ≥ 14; everything above that — the *d*_X ≥ 16 prof rung and the
+*d*_X ≥ 18 weight-16 exclusion — is at present carried by `prof` alone.
+
+Second, **completeness of `prof` is Lemma S, an on-paper lemma.** Its hypothesis
+is machine-checked and its conclusion is tested as in §6.1, but it is not reduced
+to the exactness theorem the way the Sinz encoding of §3.2 is. A reader who
+declines to trust Lemma S still has *d*_X ≥ 14 from the audited non-`prof`
+ladder; the steps to 16 and 18 are the ones that use Lemma S.
+
+Third, **the encoding is characterised only relative to a baseline.** The 144×
+translation group is the entire affine automorphism budget of this code — an
+automorphism search over the affine group finds nothing larger — and `prof`
+spends all of it. Measured against this repository's own best encoding
+(`anchor2` + totalizer) on the same laptop, `prof` takes 5–11× fewer CaDiCaL
+conflicts across [[144,12,12]] and [[288,12,18]]; measured against a lex-leader
+over the *same* group (the partial lex-leader an off-the-shelf tool emits for
+this symmetry), it takes about 3.8–4× fewer conflicts at comparable or smaller
+formula size — at *n* = 288, *K* = 11, for instance, 23,369 clauses and 36,465
+conflicts for `prof` against 47,348 clauses and 147,263 conflicts for the
+lex-leader. We did not run BreakID [DBBD16] or satsuma [And24]; whether either
+would match `prof`'s cheap realisation of this quotient is untested, and no
+novelty is claimed against them.
+
+For context on the value of the artifact: Chen, Jafari and Lai [CJL26] run a
+battery of solver configurations on this code under 7200 s timeouts, all of
+which time out with *d* ≥ 11 the best lower bound reached and no proof files in
+their repository. The two rungs above settle the strictly harder exact question
+on one laptop, with proofs any reader can replay.
+
+### 6.4 [[360,12,≤24]]: a first lower bound
+
+The same construction transfers to the ℓ = 30, *m* = 6 member,
+*A* = *x*⁹ + *y* + *y*², *B* = *y*³ + *x*²⁵ + *x*²⁶, which is off the ℓ = *m*
+diagonal; the profile is therefore placed on the larger cyclic factor, the axis
+being a certificate field the checker reads. Its parameters reproduce *n* = 360,
+*k* = 12. Bravyi et al. [BCGMRY] give only an upper bound, listing it as
+[[360,12,≤24]]; no lower bound of any kind has been reported, and Chen–Jafari–Lai
+time out on it. A `prof` *K* = 14 instance (14,015 vars, 79,397 clauses; 43 MB
+gzipped, solver 231 s, replay 40 s, 428,498 lemmas) certifies that no nontrivial
+X-logical has weight ≤ 14, so *d*_X ≥ 15, and Lemma P (here |*c*| = 90) raises it
+to *d*_X ≥ 16; a *K* = 12 rung (14.7 MB) corroborates *d*_X ≥ 14. The ZX-duality
+permutation (*b*,*r*,*s*) ↦ (1−*b*,−*r*,−*s*) was verified for this code by the
+same rowspace comparison the checker uses — it exchanges rowsp(H_X) and
+rowsp(H_Z) — so *d*_Z = *d*_X and
+
+  16 ≤ *d*([[360,12,≤24]]) ≤ 24,
+
+the lower end certified for the first time and the upper end cited from [BCGMRY].
+Two limits are stated at point of use. First, what a shipped `prof` certificate
+replays directly for this code is *d*_X ≥ 16; unlike *n* = 288, no standalone
+`check_duality` certificate ships for *n* = 360, so the passage from *d*_X ≥ 16
+to *d* ≥ 16 rests on the duality lemma verified in exact **F**₂ arithmetic (both
+rowspace identities hold) rather than on a one-command replayable artifact.
+Second, this bound rests on the same on-paper Lemmas P and S as the *n* = 288
+result, and on no independent-encoding cross-check. It is offered at exactly that
+strength.
 
 ---
 
@@ -728,7 +948,11 @@ is not present in the repository (defect D3), *every* proof — including the
 stronger result. Eleven negative controls, built by the auditor on scratch
 copies, were all correctly rejected (§7.3), and six codes were cross-checked by
 brute force (§7.2). This audit, not the distance values, is the load-bearing
-part of the paper.
+part of the paper. The profile-normalisation certificates behind the exact
+*d* = 18 at *n* = 288 and the *n* = 360 lower bound (§6) postdate this audit and
+are outside its 47 checks; each was replayed independently by the
+standard-library `check_prof.py`, which rebuilds the matrices from the
+polynomial spec, but they did not pass through the separate auditor.
 
 ### 7.1 Are these the right matrices?
 
@@ -842,6 +1066,17 @@ certification, referring to internal optimality rather than to an artifact.
 None of these produces something a third party can replay. That gap, not the
 numbers, is what this note addresses.
 
+**Symmetry breaking, and even weight.** The profile-normalisation reduction that
+reaches *d* = 18 (§6) is a lexicographic-leader symmetry break, the technique of
+Crawford, Ginsberg, Luks and Roy [CGLR96]; automated symmetry-breaking-predicate
+generators such as BreakID [DBBD16] and satsuma [And24] produce such predicates
+for a solver's input, and exploiting the cyclic symmetry of quasi-cyclic codes
+in minimum-distance search is standard. We compare our construction against a
+lex-leader over the same translation group, not against those tools, which we
+could not install; the comparison and the resulting refusal to claim novelty
+against them are in §6.3. The even-weight lemma (Lemma P) is Okada and Kasai's
+[OK26].
+
 **Proof-assistant approaches.** LEAN-QEC [ELWT26] is the closest work and the
 one we have most to learn from: their location-indexed encoding is better than
 ours, and we did not need it only because we stopped at *n* = 288. The design
@@ -858,7 +1093,12 @@ arXiv, code search for LRAT together with quantum distance, and the issue
 trackers of Stim, `panqec`, `ldpc` and `qLDPC` — turned up no standalone
 quantum distance certificate requiring neither a solver nor a proof assistant
 to check. A negative cannot be proved this way; we record the scope of the
-search rather than a claim.
+search rather than a claim. The August 6 extension repeated the exercise for its
+own material: a full-text pass over the distance and symmetry-breaking sources
+cited here turned up no exportable-certificate distance proof at *n* = 288 or
+*n* = 360, and no earlier instance of the specific full-translation-orbit profile
+encoding, but it did not include a benchmark against automated symmetry-breaking
+tools, so the encoding's standing against them is left open (§6.3).
 
 ---
 
@@ -867,35 +1107,71 @@ search rather than a claim.
 The artifacts sit beside this note in `qec/`. To re-check anything:
 
 ```
-gunzip certificates/bb144/*.lrat.gz
-python3 check_witness.py  certificates/bb144/witness_X.json
-python3 check_lower.py    certificates/bb144/lower_X_K11.json
-python3 check_lower.py    certificates/bb144/lower_Z_K11.json
-python3 check_duality.py  certificates/bb144/duality.json
-python3 check_lower.py    certificates/bb288/lower_X_K13_sym.json
+# check_prof.py reads its LRAT gzipped: do NOT gunzip the *_prof_*.lrat.gz
+# files.  The check_lower proofs below are shipped uncompressed or regenerated
+# (REGENERATE.md), so this block needs no gunzip step; for the wider corpus,
+# gunzip the *non-prof* .lrat.gz as REGENERATE.md describes.
+
+# (i) Runs on a fresh clone, from the shipped artifacts alone:
+python3 check_witness.py certificates/bb144/witness_X.json
+python3 check_duality.py certificates/bb144/duality.json
+python3 check_prof.py    certificates/bb288/bb288_prof_K14.json      # d_X>=16
+python3 check_prof.py    certificates/bb360/bb360_prof_K12.json      # corrob. d_X>=14
+python3 check_prof.py    certificates/bb360/bb360_prof_K14.json      # d_X>=16
+python3 check_duality.py certificates/bb288/duality.json             # d=d_X at n=288
+
+# (ii) Each needs one large proof regenerated first, none carried in git
+#      (REGENERATE.md items 1, 2, 4, 5):
+python3 check_lower.py certificates/bb144/lower_X_K11.json           # item 1 (868 MB)
+python3 check_lower.py certificates/bb144/lower_Z_K11.json           # item 2 (672 MB)
+python3 check_lower.py certificates/bb288/lower_X_K13_sym.json       # item 4 (2.94 GB)
+python3 check_prof.py  certificates/bb288/bb288_prof_K16_exact.json  # item 5 => d=18
 ```
 
 No virtual environment, no packages, no compiled binary. Any CPython 3.8 or
 later should do; the audit used the macOS system interpreter, 3.9.6. Expect
-176 s, 73 s and 414 s respectively for the three large replays on an idle M4,
-more under load. `manifest.json` carries the SHA-256 and byte count of all 182
-artifacts and `manifest.py` re-checks them.
+176 s, 73 s and 414 s respectively for the three `check_lower` large replays on
+an idle M4, more under load; the two *n* = 288 `prof` rungs replay in about 62 s
+and 1,587 s and the *n* = 360 rung in about 40 s. `manifest.json` carries the
+SHA-256 and byte count of the 182 audited artifacts and `manifest.py` re-checks
+them; the profile-normalisation certificates postdate the manifest and are
+checked directly by `check_prof.py`, which regenerates each CNF from the
+polynomial spec. (The four commands in group (ii) — the two symmetry-free
+gross-code proofs, the *K* = 13 rung at *n* = 288, and the exact-weight-16 `prof`
+instance — each require regenerating one large proof first, per `REGENERATE.md`
+items 1, 2, 4 and 5; on a fresh clone group (i) runs as shown and group (ii)
+does not. The expected replay figures above are for the already-regenerated
+proofs.)
 
-*What the public repository can and cannot hold.* Four of the proofs — the two
-symmetry-free gross-code certificates and the first instance of each of the
-*K* = 11 and *K* = 13 rungs at *n* = 288 — are between 79 MB and 646 MB
-compressed and are not carried in git.
-Everything else is: the descriptors, the parity-check matrices, the pairing and
-permutation files, the witnesses, the duality certificates, the CNF inputs, the
-manifest, and every proof small enough to ship, up to and including the 30 MB
-symmetry-broken gross-code certificate and the *K* = 9 rung at *n* = 288. So a
-reader who clones and runs nothing but CPython can still replay a certified
-*d* = 3 for all four sanity-tier codes, *d* = 7 for Golay and the *d* = 7
-surface code, *d* = 6 for [[72,12,6]], *d* = 10 for [[90,8,10]] and
-[[108,8,10]], *d* = 12 for the gross code — by the symmetry-broken X
-certificate together with the duality certificate and the weight-12 witness,
-the two symmetry-free proofs being exactly the ones that do not fit — and
-*d*_X ≥ 10 at *n* = 288. For the four
+*What the public repository can and cannot hold.* Five of the proofs — the two
+symmetry-free gross-code certificates, the first instance of each of the
+*K* = 11 and *K* = 13 rungs at *n* = 288, and the 310 MB exact-weight-16 `prof`
+instance at *n* = 288 — are between 79 MB and 646 MB compressed and are not
+carried in git. Everything else is: the descriptors, the parity-check matrices,
+the pairing and permutation files, the witnesses, the duality certificates, the
+CNF inputs, the manifest, and every proof small enough to ship, up to and
+including the 30 MB symmetry-broken gross-code certificate and the *K* = 9 rung
+at *n* = 288. So a reader who clones and runs nothing but CPython can still
+replay a certified *d* = 3 for all four sanity-tier codes, *d* = 7 for Golay and
+the *d* = 7 surface code, *d* = 6 for [[72,12,6]], *d* = 10 for [[90,8,10]] and
+[[108,8,10]], *d* = 12 for the gross code — by the symmetry-broken X certificate
+together with the duality certificate and the weight-12 witness, the two
+symmetry-free proofs being exactly the ones that do not fit — and *d*_X ≥ 10 at
+*n* = 288. The August 6 extension adds, and ships, the profile-normalisation
+proofs for *d*_X ≥ 16 at *n* = 288 (48 MB) and for *d*_X ≥ 16 at *n* = 360
+(43 and 14.7 MB), each replayable from a clone by `check_prof.py`. At *n* = 288
+the shipped `duality.json` converts *d*_X to *d*; at *n* = 360 the ZX-duality
+permutation is verified by the same rowspace comparison (§6.4) but is *not*
+shipped as a standalone `check_duality` certificate, so what a clone replays
+directly at *n* = 360 is *d*_X ≥ 16, with 16 ≤ *d* ≤ 24 following from that
+duality lemma. The one proof the extension does *not* ship is the 310 MB
+exact-weight-16 instance that lifts *n* = 288 from *d*_X ≥ 16 to *d*_X ≥ 18: it
+exceeds the per-file limit, so a reader regenerates it from the shipped CNF —
+which `check_prof.py` reconstructs from the polynomial spec in any case — and
+then checks it. So a fresh clone replays *d*_X ≥ 16 at both *n* = 288 and
+*n* = 360 directly, reaches 16 ≤ *d* ≤ 24 at *n* = 360 through the
+(unshipped-for-360) duality lemma, and reaches the final *d* = 18 at *n* = 288
+after one solver run on the shipped CNF. For the five
 omitted proofs the release ships `REGENERATE.md`: the exact CaDiCaL invocation
 for each, with the expected byte count and the SHA-256 the result must have.
 Regenerating them puts a solver back in the loop for the *production* of the
@@ -923,7 +1199,11 @@ for naming the gross code as their target in print, and for reaching it in
 their repository before we finished writing; several claims in an earlier draft
 of this note had to be withdrawn on discovering that, and the discovery was
 entirely to the good. To Chen, Jafari and Lai for the SAT benchmark against
-which our *n* = 288 bound is measured. To Marijn Heule and coauthors for LRAT
+which our *n* = 288 bound is measured. To Okada and Kasai for the even-weight
+lemma that lets the ladder step by two, and to Crawford, Ginsberg, Luks and Roy
+for the lexicographic-leader symmetry break the profile encoding is an instance
+of — a lineage that runs through the automated tools BreakID and satsuma,
+against which we have not yet benchmarked. To Marijn Heule and coauthors for LRAT
 and `drat-trim`, without which none of this would have an interchange format,
 and to Armin Biere and coauthors for CaDiCaL. To Carsten Sinz for the
 cardinality encoding and to G. S. Tseitin for the gate encoding that the whole
@@ -937,6 +1217,9 @@ writing; we have tried to record it accurately rather than minimally.
 
 ## References
 
+- **[And24]** M. Anders et al., *satsuma: structure-based symmetry breaking in
+  SAT*, in: Theory and Applications of Satisfiability Testing — SAT 2024,
+  Leibniz Int. Proc. Inform. (LIPIcs), 2024.
 - **[BCGMRY]** S. Bravyi, A. W. Cross, J. M. Gambetta, D. Maslov, P. Rall and
   T. J. Yoder, *High-threshold and low-overhead fault-tolerant quantum memory*,
   Nature **627** (2024), 778–782; arXiv:2308.07915.
@@ -949,6 +1232,9 @@ writing; we have tried to record it accurately rather than minimally.
   MaxSAT-based computation of quantum code distances). Repository
   `guluchen/QDistSAT`; inspected August 4, 2026, and containing no proof or
   certificate artifacts.
+- **[CGLR96]** J. Crawford, M. Ginsberg, E. Luks and A. Roy, *Symmetry-breaking
+  predicates for search problems*, in: Principles of Knowledge Representation
+  and Reasoning (KR'96), Morgan Kaufmann, 1996, 148–159.
 - **[CCKF26]** J. Cruz-Benito, A. W. Cross, F. Kremer and I. Faro (IBM
   Quantum), arXiv:2606.02418, June 1, 2026. Computes the minimum distance of
   the gross code [[144,12,12]] exactly by mixed-integer linear programming,
@@ -956,6 +1242,10 @@ writing; we have tried to record it accurately rather than minimally.
 - **[CFHKS17]** L. Cruz-Filipe, M. J. H. Heule, W. A. Hunt Jr., M. Kaufmann and
   P. Schneider-Kamp, *Efficient certified RAT verification*, CADE-26, LNCS
   **10395**, Springer, 2017, 220–236.
+- **[DBBD16]** J. Devriendt, B. Bogaerts, M. Bruynooghe and M. Denecker,
+  *Improved static symmetry breaking for SAT*, in: Theory and Applications of
+  Satisfiability Testing — SAT 2016, LNCS **9710**, Springer, 2016, 104–122.
+  (BreakID.)
 - **[ELWT26]** Ehatamm, Lee, Wu and Tao, arXiv:2605.16523v1, May 15, 2026 (the
   LEAN-QEC system paper: SAT-based quantum code distance proofs replayed in the
   Lean 4 kernel). Repository `VerifiedQC/Lean-QEC`; statements about the
@@ -971,6 +1261,10 @@ writing; we have tried to record it accurately rather than minimally.
 - **[LAR11]** A. J. Landahl, J. T. Anderson and P. R. Rice, *Fault-tolerant
   quantum computing with color codes*, arXiv:1108.5738, 2011. Source of the
   mixed-integer-programming distance computation used in [BCGMRY].
+- **[OK26]** Okada and Kasai, *Pair-partition constructions for CPM-based
+  quantum LDPC codes*, arXiv:2607.14091, 2026. The even-weight lemma used here
+  (all kernel vectors of H_Z have even weight when 1_n is in its row space) is
+  stated in Section V-A.
 - **[PSKK22]** L. P. Pryadko, V. A. Shabashov and V. K. Kozin, *QDistRnd: A GAP
   package for computing the distance of quantum error-correcting codes*,
   J. Open Source Softw. **7** (2022), 4120; doi:10.21105/joss.04120. Upper

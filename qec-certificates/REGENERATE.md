@@ -1,9 +1,11 @@
-# Regenerating the four proofs that do not fit in git
+# Regenerating the five proofs that do not fit in git
 
-Four LRAT proofs in this corpus are between 79 MB and 646 MB compressed and are
+Five LRAT proofs in this corpus are between 79 MB and 646 MB compressed and are
 not carried in this repository. Everything needed to recreate them byte-for-byte
 *is* here: the CNF input, the certificate descriptor, and the SHA-256 the result
-must have.
+must have. Four of the five are checked by `check_lower.py`; the fifth
+(`bb288_prof_K16_exact`, the rung that reaches `d = 18`) is a
+profile-normalisation certificate checked by `check_prof.py` — see item 5.
 
 Recreating a proof puts a SAT solver back in the loop for the **production** of
 the proof. That is where a solver has always been allowed to sit. The **check**
@@ -27,7 +29,7 @@ The invocation, in every case:
 cadical -q --unsat --lrat --no-binary <input.cnf> <output.lrat>
 ```
 
-## The four proofs
+## The five proofs
 
 Run each command from inside the relevant code directory.
 
@@ -89,6 +91,44 @@ python3 ../../qec-scripts/check_lower.py lower_X_K13_sym.json
   more than thirty times larger than the memory needed to check it
 * free disk required: ~3 GB
 
+### 5. `bb288/bb288_prof_K16_exact.lrat.gz` — [[288,12,18]], the weight-16 exclusion that reaches d = 18
+
+This is a **profile-normalisation (`prof`) certificate**, checked by
+`check_prof.py`, not `check_lower.py`. `check_prof.py` rebuilds `H_X, H_Z` from
+the code's polynomial spec, regenerates the CNF clause-for-clause, and replays
+the proof; it never trusts the shipped `.cnf`. The other `prof` rungs behind the
+`d = 18` result — `bb288/bb288_prof_K14` (48 MB, `d_X >= 16` under Lemma P) and
+the `bb360` rungs — **do** ship in git; only this 310 MB exact-weight-16 proof
+is too large.
+
+```sh
+cd bb288
+cadical -q --unsat --lrat --no-binary bb288_prof_K16_exact.cnf \
+        bb288_prof_K16_exact.lrat
+gzip bb288_prof_K16_exact.lrat        # the certificate names the .lrat.gz
+python3 ../../qec-scripts/check_prof.py bb288_prof_K16_exact.json
+```
+
+* certifies: no nontrivial X-logical of weight **exactly 16** for [[288,12,18]].
+  With the shipped `bb288_prof_K14` rung (`d_X >= 16` under Lemma P) this gives
+  **`d_X >= 18`**, hence — with the weight-18 witness (`witness_X.json`) and the
+  duality certificate (`duality.json`) — **`d([[288,12,18]]) = 18`**
+* expected size (uncompressed `.lrat`): 1,253,657,091 bytes
+* expected SHA-256 (uncompressed `.lrat`):
+  `e22d1d24331d6c21e166b1f911164e0f08cf84cfa3393bf67ad74d3ba651b168`
+* the shipped CNF has SHA-256
+  `6a489e4b25f9346c9dfee134d6dd84b4cd3716bf1c14feab284759452f231328`
+  (555,030 bytes); `check_prof.py` regenerates it from the polynomial spec and
+  compares clause-for-clause, so a corrupted CNF is caught regardless
+* solver time on one Apple M4 laptop: 2,083 s
+* pure-Python replay (`check_prof.py`): ~1,587 s, 61 MB peak RSS,
+  2,335,793 LRAT lemmas
+* free disk required: ~1.3 GB
+
+As with the CaDiCaL proofs above, a different solver or version produces a
+different but equally valid proof, so the SHA-256 will not match; the check is
+`check_prof.py`, not the hash.
+
 ## What ships, and what it already proves
 
 Nothing else is missing. With only what is in this repository, and nothing but
@@ -103,11 +143,13 @@ CPython, a reader can replay:
 | BB [[90,8,10]] | `d = 10` |
 | BB [[108,8,10]] | `d = 10` |
 | BB [[144,12,12]] (gross) | `d = 12` — weight-12 witnesses, the symmetry-broken X certificate, and the duality certificate |
-| BB [[288,12,18]] | `10 <= d`, and `d <= 18` from the weight-18 witness plus duality |
+| BB [[288,12,18]] | `16 <= d <= 18` — the shipped `prof` K14 rung (`d_X >= 16` under Lemma P) with the weight-18 witness and duality; the final step to `d = 18` is one regenerated proof away (item 5) |
+| BB [[360,12,≤24]] | `16 <= d <= 24` — `prof` K14 + Lemma P + duality (lower, `check_prof.py`); Bravyi et al. Table 3 (upper, cited, not certified) |
 
-The four regenerable proofs upgrade that to: `d = 12` for the gross code with
-**no symmetry lemma at all** in the trusted base, and `14 <= d <= 18` at
-n = 288.
+The five regenerable proofs upgrade that to: `d = 12` for the gross code with
+**no symmetry lemma at all** in the trusted base, and the exact **`d = 18`** at
+n = 288 — the regenerated exact-weight-16 `prof` proof (item 5) supplies the top
+rung of the ladder.
 
 ## Compressed files
 

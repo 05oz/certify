@@ -1,0 +1,47 @@
+{
+ "kind": "css-lower-prof",
+ "code": {
+  "name": "bb288",
+  "l": 12,
+  "m": 12,
+  "a": [
+   [
+    3,
+    0
+   ],
+   [
+    0,
+    2
+   ],
+   [
+    0,
+    7
+   ]
+  ],
+  "b": [
+   [
+    0,
+    3
+   ],
+   [
+    1,
+    0
+   ],
+   [
+    2,
+    0
+   ]
+  ]
+ },
+ "sector": "X",
+ "K": 14,
+ "sym": "prof",
+ "exact": false,
+ "parity_claim": true,
+ "parity_in_cnf": false,
+ "pairing": "pairing_prof_X.txt",
+ "cnf": "bb288_prof_K14_atmost.cnf",
+ "proof": "bb288_prof_K14_atmost.lrat.gz",
+ "claim": "no nontrivial X-logical of weight <= 14  =>  d_X >= 15; with Lemma P (all X-logicals even) => d_X >= 16",
+ "axis": "row"
+}

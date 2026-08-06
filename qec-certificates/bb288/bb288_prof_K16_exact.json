@@ -1,0 +1,11 @@
+{
+ "kind": "css-lower-prof-exact",
+ "code": {"name": "bb288", "l": 12, "m": 12,
+          "a": [[3,0],[0,2],[0,7]], "b": [[0,3],[1,0],[2,0]]},
+ "sector": "X", "K": 16, "sym": "prof", "axis": "row", "exact": true,
+ "parity_claim": true, "parity_in_cnf": false,
+ "pairing": "pairing_prof_X.txt",
+ "cnf": "bb288_prof_K16_exact.cnf",
+ "proof": "bb288_prof_K16_exact.lrat.gz",
+ "claim": "no nontrivial X-logical of weight EXACTLY 16"
+}

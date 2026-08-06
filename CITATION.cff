@@ -16,8 +16,14 @@ message: >-
   ulam.ai/research/jacobian.pdf, MathOverflow 513387, and Mayner. What
   this repository claims as new in Part A is the in-class
   degree-minimality theorem, the moment-map identity, and the no-go
-  lemma. See PROVENANCE.md §2 and §2b. For Parts B–D, credit statements
-  are in the README and in each note.
+  lemma. See PROVENANCE.md §2 and §2b. Part A v0.1.2 (2026-08-06) is an
+  erratum release: it corrects the Theorem D fiber count over
+  {Delta_2 = 0} to three distinct points (the set-theoretic fiber sizes
+  are {3, 1, 0}, not {3, 2, 1}); {Delta_2 = 0} is an apparent branch
+  locus. No other claim depended on it. v0.1.2 supersedes v0.1.0 and
+  v0.1.1 on this point only; see paper/ERRATUM-v0.1.2.md and the scripts
+  in scripts/erratum-check/. For Parts B–D, credit statements are in the
+  README and in each note.
 type: software
 title: >-
   Certify: replayable certificates for machine-checked mathematics
@@ -36,7 +42,7 @@ identifiers:
     description: "Concept DOI (all versions; resolves to the latest)"
   - type: doi
     value: "10.5281/zenodo.21799112"
-    description: "Part A, v0.1.x — Alpöge Keller degree minimality"
+    description: "Part A, v0.1.x (current v0.1.2, erratum) — Alpöge Keller degree minimality"
   - type: doi
     value: "10.5281/zenodo.21799780"
     description: "Part B, v0.2.0 — stabilizer-code distance certificates"
@@ -47,7 +53,7 @@ identifiers:
     value: "10.5281/zenodo.21816018"
     description: "Part D, v0.4.0 — [[14,3,5]] monomial automorphism exclusion"
 repository-code: "https://github.com/05oz/certify"
-date-released: "2026-08-05"
+date-released: "2026-08-06"
 version: 0.4.0
 license: Apache-2.0
 keywords:

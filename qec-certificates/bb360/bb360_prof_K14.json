@@ -1,0 +1,11 @@
+{
+ "kind": "css-lower-prof",
+ "code": {"name": "bb360", "l": 30, "m": 6,
+          "a": [[9,0],[0,1],[0,2]], "b": [[0,3],[25,0],[26,0]]},
+ "sector": "X", "K": 14, "sym": "prof", "axis": "row", "exact": false,
+ "parity_claim": true, "parity_in_cnf": false,
+ "pairing": "pairing_X.txt",
+ "cnf": "bb360_prof_K14.cnf",
+ "proof": "bb360_prof_K14.lrat.gz",
+ "claim": "no nontrivial X-logical of weight <= 14  =>  d_X >= 15; with Lemma P => d_X >= 16"
+}
