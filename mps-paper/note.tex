@@ -1,0 +1,552 @@
+%% ==========================================================================
+%% DRAFT -- August 6, 2026. Author byline: Daniel Kirtchakov (05oz,
+%% halfounce.io; no institutional affiliation).
+%%
+%% Object re-established from scratch 2026-08-06 (reverify.py, stdlib-only,
+%% 20/20 PASS; independent numpy cross-check xcheck.py, L=3..9). Novelty
+%% sweep of the same date read four primary sources directly
+%% (arXiv:2503.16327, 2605.03020, 2603.28349, 1910.06616); the certificate
+%% technique is credited to those sources and to DEHP 1993 at point of use.
+%%
+%% Framing constraints honored throughout:
+%%   * The claim is OBJECT-LEVEL only. The telescoping matrix-product-ansatz
+%%     certificate is a published, standard technique (DEHP 1993), whose
+%%     existence for any injective MPS eigenstate is guaranteed by Garre
+%%     Rubio, Molnar, Schuch and Verstraete (arXiv:2603.28349) and whose
+%%     explicit eigenstate form appears as Eq. (10) of Gehrmann and Essler
+%%     (arXiv:2605.03020). Credited at every point of use.
+%%   * NO non-thermality claim is made; the host spectrum is not analysed.
+%%   * A finite novelty sweep cannot exclude unitary/gauge-equivalent
+%%     reformulations in unchecked venues; this is stated as a limitation.
+%% ==========================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1.15in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\emergencystretch=3em
+\tolerance=1200
+\hbadness=4000
+
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\ket}[1]{\lvert #1 \rangle}
+\newcommand{\bra}[1]{\langle #1 \rvert}
+\newcommand{\Mtwo}{M_2(\mathbb{C})}
+\newcommand{\psiL}{\ket{\psi_L}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\begin{document}
+
+\title[An exact all-length matrix-product eigenstate of a spin-$\tfrac12$
+chain]{A bond-dimension-two matrix-product state that is an exact
+zero-energy eigenstate at every length of a nearest-neighbour spin-$\tfrac12$
+chain}
+
+\author{Daniel Kirtchakov}
+\address{Independent researcher (\texttt{05oz}); no institutional
+affiliation.}
+\email{daniel@halfounce.io}
+\urladdr{https://halfounce.io}
+
+\thanks{\emph{Computation and authorship.} The construction, the
+certificate, and the verifiers in this note were produced by
+\textbf{Claude Fable~5} (Anthropic), directed by the author, on a single
+Apple~M4 laptop. The exact-arithmetic verifier \texttt{reverify.py} imports
+only the Python standard library; the independent cross-check
+\texttt{xcheck.py} assembles the Hamiltonian densely from Pauli matrices in
+\texttt{numpy} with \texttt{object}-dtype (exact integer) arithmetic and
+shares no code with \texttt{reverify.py}. This is a factual methods
+statement: the artifacts are designed so that the provenance of the
+\emph{search} is irrelevant to the validity of the \emph{result}, which is
+a finite exact identity together with an elementary algebraic argument.}
+
+\thanks{\emph{Prior-art record.} The four primary sources cited for the
+certificate technique and the model class --- arXiv:2503.16327,
+arXiv:2605.03020, arXiv:2603.28349, and arXiv:1910.06616 (PRX
+\textbf{10}, 021051, 2020) --- were read directly on August~6, 2026. The
+telescoping matrix-product-ansatz certificate is a published, standard
+technique and is credited to it at every point of use; only the specific
+Hamiltonian--eigenstate pair is offered as new, and only to the extent that
+a finite literature sweep of that date can support (\S\ref{ssec:notclaimed}).
+\emph{Draft of August 6, 2026.}}
+
+\subjclass[2020]{Primary 81R05; Secondary 82B23, 81V70, 15A69}
+\keywords{Matrix-product state, exact eigenstate, quantum spin chain,
+matrix-product ansatz, telescoping certificate, entanglement, bond
+dimension}
+
+\date{August 6, 2026}
+
+\begin{abstract}
+We exhibit a translation-invariant matrix-product state (MPS) of bond
+dimension two, with integer transfer matrices
+$A^0=\bigl[\begin{smallmatrix}1&0\\0&-1\end{smallmatrix}\bigr]$ and
+$A^1=\bigl[\begin{smallmatrix}-2&-1\\1&0\end{smallmatrix}\bigr]$, that is
+an exact zero-energy eigenstate, at \emph{every} finite length $L$, of the
+periodic nearest-neighbour spin-$\tfrac12$ Hamiltonian
+$H=-\sum_i (I+X_i)(X_{i+1}+Z_{i+1})$. The proof is a single finite
+identity: a telescoping certificate
+$\sum_{s,t}\bra{uv}h\ket{st}A^sA^t=C^uA^v-A^uC^v$ holds with the integer
+matrices $C^0=\bigl[\begin{smallmatrix}-2&1\\1&-2\end{smallmatrix}\bigr]$,
+$C^1=\bigl[\begin{smallmatrix}3&2\\0&-1\end{smallmatrix}\bigr]$ (sixteen
+scalar equations, all exact), whose right-hand side telescopes around the
+periodic trace, giving $H\psiL=0$ for all $L$ at once. This is the
+matrix-product-ansatz mechanism of Derrida, Evans, Hakim and Pasquier
+(1993) in its eigenstate form (Gehrmann and Essler, arXiv:2605.03020,
+Eq.~(10)); the existence of a certificate of this form for any injective
+MPS eigenstate is the local characterization of Garre Rubio, Moln\'ar,
+Schuch and Verstraete (arXiv:2603.28349), so the \emph{technique} is not
+new and is credited as such. The state is genuinely bond dimension two
+($\{I,A^0,A^1,A^0A^1\}$ spans $\Mtwo$): its exact odd/even sublattice Schmidt
+rank over $\mathbb{Q}$ is $2,4,8$ at $L=4,6,8$, so the minimal number of
+product states in a decomposition across that cut grows over the computed
+range. Every quantitative claim is re-established from raw data by a
+standard-library exact-arithmetic verifier, and the eigenvalue property is
+independently re-established by a dense \texttt{numpy} build; both are
+shipped with SHA-256 digests. We make no claim about the thermal or
+non-thermal character of the remainder of the spectrum of $H$, and object-level
+novelty rests on a finite sweep and cannot be absolute
+(\S\ref{ssec:notclaimed}).
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{The construction}\label{ssec:construction}
+Fix the single-site basis $\ket0,\ket1$ and the Pauli matrices
+$X=\bigl[\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\bigr]$,
+$Z=\bigl[\begin{smallmatrix}1&0\\0&-1\end{smallmatrix}\bigr]$,
+$I=\bigl[\begin{smallmatrix}1&0\\0&1\end{smallmatrix}\bigr]$. For a chain of
+$L$ sites with periodic boundary conditions (site $L+1$ identified with site
+$1$), let
+\begin{equation}\label{eq:H}
+H \;=\; -\sum_{i=1}^{L} (I+X_i)\,(X_{i+1}+Z_{i+1}),
+\end{equation}
+where $(I+X_i)(X_{i+1}+Z_{i+1})$ denotes the two-site operator
+$(I+X)\otimes(X+Z)$ acting on the neighbouring pair $(i,i+1)$ and the
+identity elsewhere. Both factors are real symmetric, so $H$ is Hermitian.
+
+Define the two integer $2\times2$ transfer matrices
+\begin{equation}\label{eq:A}
+A^0=\begin{bmatrix}1&0\\0&-1\end{bmatrix},
+\qquad
+A^1=\begin{bmatrix}-2&-1\\1&0\end{bmatrix},
+\end{equation}
+and the translation-invariant, periodic matrix-product state
+\begin{equation}\label{eq:mps}
+\psiL \;=\; \sum_{s\in\{0,1\}^L}
+\Tr\!\bigl(A^{s_1}A^{s_2}\cdots A^{s_L}\bigr)\,
+\ket{s_1 s_2 \cdots s_L}.
+\end{equation}
+The bond dimension is $2$: the auxiliary index summed in the trace ranges
+over two values. Note $A^0=Z$; the second matrix $A^1$ is not normal and
+$\{A^0,A^1\}$ do not commute.
+
+\subsection{Result}\label{ssec:result}
+
+\begin{theorem}\label{thm:main}
+For every $L\ge 3$ the state $\psiL$ of \eqref{eq:mps} is nonzero and
+satisfies $H\psiL=0$ exactly, with $H$ the periodic Hamiltonian
+\eqref{eq:H}. The state is genuinely of bond dimension two
+$\bigl($the four matrices $I,A^0,A^1,A^0A^1$ are linearly independent and
+span $\Mtwo\bigr)$, and its exact Schmidt rank across the odd/even
+sublattice bipartition is $2,4,8$ at $L=4,6,8$ respectively, so the minimal
+number of product states in a decomposition across that cut is at least eight
+at $L=8$ and grows over the computed range.
+\end{theorem}
+
+The eigenvalue statement $H\psiL=0$ for all $L$ is not a numerical
+observation extrapolated from small sizes: it follows from a single finite
+identity in the $2\times2$ matrices, proved in \S\ref{sec:cert}
+(Lemma~\ref{lem:cert} and Proposition~\ref{prop:allL}). Sizes
+$L=3,\dots,10$ are additionally checked by direct dense substitution as
+corroboration (\S\ref{sec:verif}). The norm is
+$\lVert\psiL\rVert^2=4^{L}$ for $L=3,\dots,9$
+(\S\ref{sec:verif}), so $\psiL\neq0$ there; nonvanishing for all $L$ also
+follows from bond-dimension-two irreducibility (Proposition~\ref{prop:irr}).
+
+\subsection{Provenance of the method, and what is new}\label{ssec:credit}
+The mechanism behind Theorem~\ref{thm:main} is the \emph{matrix-product
+ansatz}. In the exact solution of the asymmetric simple exclusion process,
+Derrida, Evans, Hakim and Pasquier \cite{DEHP93} represent the stationary
+weight as a matrix product and reduce stationarity to a local algebraic
+relation between the representing matrices; the same device produces
+\emph{eigenstates}, not only steady states, when the local relation is read
+as a commutator identity. Gehrmann and Essler \cite{GE26} write this
+eigenstate form explicitly --- their Eq.~(10), $h\,A\,A=E\,A-A\,E$, a
+generalization of the DEHP ansatz --- and use it to construct exact MPS
+eigenstates of several spin-$S$ chains and square-lattice models. Garre
+Rubio, Moln\'ar, Schuch and Verstraete \cite{GRMSV26} prove that a local,
+fixed-size equation of exactly this shape --- how one Hamiltonian term acts
+on a block of tensors --- is \emph{necessary and sufficient} for an
+injective MPS to be an exact eigenstate of an extensive local operator.
+
+Two consequences frame this note precisely. First, the \emph{certificate
+technique is not new}: it is standard, and the existence of a certificate
+of the form used here is guaranteed \emph{a priori} for any injective MPS
+eigenstate by \cite{GRMSV26}. We credit it as such at the point of use in
+\S\ref{sec:cert}, and claim no novelty in the method. Second, what a
+certificate does not do is exhibit the pair; the content offered here is the
+specific Hamiltonian--eigenstate pair \eqref{eq:H}--\eqref{eq:mps} together
+with its explicit integer certificate \eqref{eq:C} and the entanglement
+facts of \S\ref{sec:ent}. The scope and the limits of that object-level
+claim are stated in \S\ref{ssec:notclaimed}.
+
+\subsection{What is not claimed}\label{ssec:notclaimed}
+The claim is object-level and is bounded in three explicit ways.
+
+\emph{The technique is credited, not claimed.} As above, the telescoping
+matrix-product-ansatz certificate is due to \cite{DEHP93} in origin, is
+written in eigenstate form in \cite{GE26}, and is guaranteed to exist by
+\cite{GRMSV26}. Nothing about the \emph{method} is asserted to be new.
+
+\emph{No spectral or thermalization claim is made.} We establish that
+$\psiL$ is one exact eigenstate, with eigenvalue $0$, of $H$. We do not
+analyse the rest of the spectrum of $H$, its level-spacing statistics, or
+whether the model thermalizes; no statement about non-thermal behaviour,
+weak ergodicity breaking, or the surrounding spectrum is made or implied.
+The proven content is exactly the four properties of
+Theorem~\ref{thm:main}.
+
+\emph{Object-level novelty rests on a finite sweep.} On August~6, 2026 the
+four sources above were read directly. In \cite{IM25} the exact area-law
+eigenstates are constructed inside a kinetically constrained subspace
+(PXP-type models, via a projector onto a Fibonacci-constrained space); our
+$\psiL$ lives in the full $2^L$-dimensional Hilbert space with no
+projector-defined subspace, and its transfer matrices \eqref{eq:A} are not
+among theirs. The spin-$\tfrac12$ instance of Model~I of \cite{GE26} is a
+Rydberg-plus-Dzyaloshinskii--Moriya chain with a complex free-parameter
+family of tensors, a different Hamiltonian with non-integer tensors; the
+worked example of \cite{GRMSV26} is the quantum-group symmetry of the XXZ
+chain; and the states of \cite{PGCGB20} become exact only in the large-size
+limit, whereas $\psiL$ is exact at every finite $L$. In none of the four was
+the pair \eqref{eq:H}--\eqref{eq:mps} found. A finite sweep cannot exclude
+a unitarily or gauge-equivalent reformulation in a venue not examined; the
+novelty claim is made at exactly that strength and no more.
+
+\section{The telescoping certificate and the all-length
+proof}\label{sec:cert}
+
+\subsection{The bond operator}\label{ssec:bond}
+Write the two-site bond operator of \eqref{eq:H} as
+\begin{equation}\label{eq:h}
+h \;=\; -(I+X)\otimes(X+Z),
+\end{equation}
+so that $H=\sum_{i=1}^{L}h_{i,i+1}$ (periodic). In the ordered two-site
+basis $\ket{00},\ket{01},\ket{10},\ket{11}$,
+\[
+h \;=\;
+-\begin{bmatrix}
+1&1&1&1\\ 1&-1&1&-1\\ 1&1&1&1\\ 1&-1&1&-1
+\end{bmatrix},
+\]
+which is real symmetric, confirming $H^\dagger=H$. We index its entries by
+$\bra{uv}h\ket{st}$ with $u,v,s,t\in\{0,1\}$.
+
+\subsection{The certificate identity}\label{ssec:certid}
+The following is the matrix-product-ansatz certificate in the eigenstate
+form of \cite{GE26} (Eq.~(10)), whose existence for an injective MPS
+eigenstate is guaranteed by \cite{GRMSV26} and whose mechanism is that of
+\cite{DEHP93}.
+
+\begin{lemma}[Certificate]\label{lem:cert}
+With $h$ as in \eqref{eq:h}, $A^0,A^1$ as in \eqref{eq:A}, and the integer
+matrices
+\begin{equation}\label{eq:C}
+C^0=\begin{bmatrix}-2&1\\1&-2\end{bmatrix},
+\qquad
+C^1=\begin{bmatrix}3&2\\0&-1\end{bmatrix},
+\end{equation}
+the sixteen scalar equations
+\begin{equation}\label{eq:certid}
+\sum_{s,t\in\{0,1\}} \bra{uv}h\ket{st}\,A^{s}A^{t}
+\;=\; C^{u}A^{v}-A^{u}C^{v}
+\qquad (u,v\in\{0,1\})
+\end{equation}
+hold exactly.
+\end{lemma}
+
+\begin{proof}
+Both sides of \eqref{eq:certid} are $2\times2$ integer matrices, so this is
+a finite verification. For $(u,v)=(0,0)$ the row $\bra{00}h\ket{\cdot}$ is
+$-(1,1,1,1)$, so the left-hand side is
+$-(A^0A^0+A^0A^1+A^1A^0+A^1A^1)
+=-\bigl[\begin{smallmatrix}0&2\\-2&0\end{smallmatrix}\bigr]
+=\bigl[\begin{smallmatrix}0&-2\\2&0\end{smallmatrix}\bigr]$,
+while $C^0A^0-A^0C^0
+=\bigl[\begin{smallmatrix}-2&-1\\1&2\end{smallmatrix}\bigr]
+-\bigl[\begin{smallmatrix}-2&1\\-1&2\end{smallmatrix}\bigr]
+=\bigl[\begin{smallmatrix}0&-2\\2&0\end{smallmatrix}\bigr]$, which agree. The
+remaining fifteen equations are identical finite checks. The verifier
+\texttt{reverify.py} (\S\ref{sec:verif}) does not assume \eqref{eq:C}: it
+solves the linear system \eqref{eq:certid} for the eight entries of
+$C^0,C^1$ exactly over $\mathbb{Q}$, finds it consistent, recovers
+\eqref{eq:C}, and confirms all sixteen residuals vanish.
+\end{proof}
+
+\subsection{The periodic telescope}\label{ssec:telescope}
+
+\begin{proposition}\label{prop:allL}
+For every $L\ge 1$, $H\psiL=0$.
+\end{proposition}
+
+\begin{proof}
+Fix a basis configuration $u=(u_1,\dots,u_L)\in\{0,1\}^L$. The amplitude of
+$\psiL$ at $u$ is $\Tr(A^{u_1}\cdots A^{u_L})$. Applying the single bond
+term $h_{i,i+1}$ and reading off the amplitude at $u$ replaces the adjacent
+pair $A^{u_i}A^{u_{i+1}}$ inside the trace by
+$\sum_{s,t}\bra{u_i u_{i+1}}h\ket{st}A^{s}A^{t}$; by the certificate
+\eqref{eq:certid} this equals $C^{u_i}A^{u_{i+1}}-A^{u_i}C^{u_{i+1}}$. Hence
+\[
+(h_{i,i+1}\psiL)_u
+=\Tr\!\bigl(A^{u_1}\cdots A^{u_{i-1}}
+\bigl[C^{u_i}A^{u_{i+1}}-A^{u_i}C^{u_{i+1}}\bigr]
+A^{u_{i+2}}\cdots A^{u_L}\bigr)
+= f(i)-f(i+1),
+\]
+where $f(i)$ denotes the trace $\Tr(A^{u_1}\cdots A^{u_{i-1}}\,C^{u_i}\,
+A^{u_{i+1}}\cdots A^{u_L})$ with the single insertion $A^{u_i}\mapsto C^{u_i}$
+at position $i$, and where the second term is $f(i+1)$ because a $C$ at the
+right factor of the bond $(i,i+1)$ is a $C$ at position $i+1$. Summing over
+the periodic chain,
+\[
+(H\psiL)_u=\sum_{i=1}^{L}\bigl(f(i)-f(i+1)\bigr)=f(1)-f(L+1)=0,
+\]
+the sum telescoping and $f(L+1)=f(1)$ by periodicity of the trace. As $u$
+was arbitrary, $H\psiL=0$.
+\end{proof}
+
+The argument uses only the finite identity \eqref{eq:certid} and the
+cyclic invariance of the trace; it is uniform in $L$. This is precisely the
+telescoping guaranteed by \cite{GRMSV26} for an MPS eigenstate and realized
+concretely as in \cite{GE26,DEHP93}.
+
+\subsection{Genuine bond dimension two, and non-frustration-freeness}
+\label{ssec:irr}
+
+\begin{proposition}\label{prop:irr}
+The matrices $I,A^0,A^1,A^0A^1$ are linearly independent and span $\Mtwo$;
+equivalently, the MPS \eqref{eq:mps} is injective of bond dimension exactly
+two. Consequently $\psiL\neq0$ for all $L\ge 3$.
+\end{proposition}
+
+\begin{proof}
+Writing each $2\times2$ matrix as a row vector in the basis
+$(E_{11},E_{12},E_{21},E_{22})$ gives
+$I=(1,0,0,1)$, $A^0=(1,0,0,-1)$, $A^1=(-2,-1,1,0)$ and
+$A^0A^1=(-2,-1,-1,0)$; the determinant of the resulting $4\times4$ integer
+matrix is $-4\neq0$, so the four matrices are a basis of $\Mtwo$. Spanning
+$\Mtwo$ is injectivity of the MPS transfer map, which forces $\psiL\neq0$
+for $L\ge 3$; the explicit norms $\lVert\psiL\rVert^2=4^L$ of
+\S\ref{sec:verif} confirm this for $L=3,\dots,9$.
+\end{proof}
+
+\begin{remark}[Not frustration-free]\label{rem:notff}
+The cancellation in Proposition~\ref{prop:allL} is global, not termwise: a
+single bond term does not annihilate the state. Explicitly
+$h_{1,2}\ket{\psi_4}\neq0$ (checked exactly; \S\ref{sec:verif}), so $\psiL$
+is not a common zero of the individual bond terms and $H$ is not
+frustration-free on it. The eigenvalue $0$ is produced by the telescoping
+sum of nonzero local contributions, which is the whole point of the
+certificate.
+\end{remark}
+
+\section{Entanglement: a growing sublattice Schmidt rank}\label{sec:ent}
+
+For a bipartition of the sites into two blocks, the Schmidt rank of a state
+is the rank of its coefficient matrix under the induced reshaping; a state
+that is a sum of $k$ product states has Schmidt rank at most $k$ across
+\emph{every} bipartition. Two bipartitions are computed exactly over
+$\mathbb{Q}$ (\S\ref{sec:verif}).
+
+\begin{proposition}\label{prop:schmidt}
+For the contiguous half-cut $\{1,\dots,L/2\}\mid\{L/2+1,\dots,L\}$, the exact
+Schmidt rank of $\psiL$ is $4$ at $L=4,6,8$, saturating the bond-dimension
+bound $D^2=4$. For the odd/even sublattice bipartition
+$\{1,3,5,\dots\}\mid\{2,4,6,\dots\}$, the exact Schmidt rank of $\psiL$ is
+$2,4,8$ at $L=4,6,8$ respectively.
+\end{proposition}
+
+The contiguous half-cut rank equalling $D^2=4$ is the generic MPS value and
+is consistent with an area law along a contiguous cut. The odd/even rank is
+the substantive fact: it \emph{increases} with $L$ over the computed range,
+$2\to4\to8$. Since a sum of $k$ product states has Schmidt rank at most $k$
+across every bipartition, the odd/even Schmidt rank equals the minimal number
+of product states in any decomposition across that cut; thus $\ket{\psi_8}$
+requires at least eight such product states, and this minimal number grows
+over $L=4,6,8$. The computed values follow the pattern $2^{L/2-1}$; we state
+the three exact values as proven and record the growth as observed at
+$L=4,6,8$, not established for all $L$, and we make no $L$-uniform
+product-state-complexity claim for the family $\{\psiL\}$.
+
+\begin{remark}[A one-sided rotated form]\label{rem:east}
+The global single-site rotation $U$ with $UXU^{-1}=Z$, $UZU^{-1}=-X$ sends
+$I+X\mapsto I+Z=2P_0$, with $P_0=\ket0\!\bra0=(I+Z)/2$, and
+$X+Z\mapsto Z-X$, so
+\[
+U H U^{-1} \;=\; -2\sum_{i=1}^{L} P_0^{(i)}\,(Z-X)_{i+1},
+\]
+a one-sided facilitated (``East-type'') form in which site $i+1$ is acted on
+conditioned on site $i$ (verified by exact conjugation; \S\ref{sec:verif}).
+This is East-type only in the structural sense of a one-sided facilitation;
+it is not the quantum East model of Pancotti, Giudice, Cirac, Garrahan and
+Ba\~nuls \cite{PGCGB20} (whose non-thermal states become exact eigenstates
+only in the large-size limit, in contrast to the exact-at-every-$L$ state
+here), and it carries an additional density-density term relative to the
+standard East interaction. We record the reformulation as a structural
+observation and draw no dynamical conclusion from it.
+\end{remark}
+
+\section{Verification and reproduction}\label{sec:verif}
+
+Every quantitative claim is re-established from the raw data
+\eqref{eq:A}--\eqref{eq:C} by two independent codes, shipped with the note
+and pinned by SHA-256 in Table~\ref{tab:sha}.
+
+\emph{Exact-arithmetic verifier} (\texttt{reverify.py}, Python standard
+library only; no third-party imports; no POSIX-only calls). It (i) forms
+$h$ from $I,X,Z$ and checks it real symmetric; (ii) \emph{solves} the linear
+system \eqref{eq:certid} for $C^0,C^1$ exactly over $\mathbb{Q}$, finds it
+consistent, recovers \eqref{eq:C}, and confirms all sixteen residuals
+vanish (Lemma~\ref{lem:cert}); (iii) builds $\psiL$ from
+\eqref{eq:mps} and applies $H$ densely in exact integers, obtaining
+$H\psiL=0$ and $\psiL\neq0$ for $L=3,\dots,10$; (iv) computes the exact
+Schmidt ranks of Proposition~\ref{prop:schmidt} over $\mathbb{Q}$;
+(v) confirms $I,A^0,A^1,A^0A^1$ span $\Mtwo$ (Proposition~\ref{prop:irr});
+(vi) confirms $h_{1,2}\ket{\psi_4}\neq0$ (Remark~\ref{rem:notff}); and
+(vii) confirms the rotation identity of Remark~\ref{rem:east} by exact
+integer conjugation. It reports \texttt{ALL CHECKS PASS} ($20/20$).
+
+\emph{Independent cross-check} (\texttt{xcheck.py}). A from-scratch
+\texttt{numpy} build sharing no code with \texttt{reverify.py}: the dense
+Hamiltonian is assembled directly from Pauli matrices by Kronecker products,
+the amplitudes from explicit $\Tr(A^{s_1}\cdots A^{s_L})$, all in
+\texttt{object}-dtype (arbitrary-precision integer) arithmetic. It confirms
+$H\psiL=0$ exactly, $\lVert\psiL\rVert^2=4^L$ (hence $\psiL\neq0$), and $H$
+real symmetric, for $L=3,\dots,9$. Two disjoint code paths agree.
+
+\emph{The trusted base.} The all-length statement (Theorem~\ref{thm:main},
+eigenvalue part) rests on the finite identity \eqref{eq:certid} --- sixteen
+integer equations --- and the elementary telescoping of
+Proposition~\ref{prop:allL}; there is no numerical extrapolation in it and
+no solver in its trusted base. The dense checks at $L=3,\dots,10$ are
+corroboration, not the proof. What must be trusted is minimal:
+(i) exact-integer/rational arithmetic (CPython for \texttt{reverify.py};
+\texttt{numpy} \texttt{object}-dtype for \texttt{xcheck.py}); (ii) the
+shared convention, stated in \texttt{object.json}, for reading the
+amplitude \eqref{eq:mps} and the operator ordering of \eqref{eq:h} --- a
+consistent misconvention on both sides would not be caught by re-checking,
+but the two codes fix the operator independently from Pauli matrices;
+(iii) the object-level novelty of \S\ref{ssec:notclaimed}, which is a
+finite literature sweep and cannot be absolute. The searcher's provenance is
+\emph{not} in the trusted base: the certificate is re-derived by an
+independent exact linear solve and the eigenvalue is re-checked by two
+disjoint dense builds.
+
+To reproduce on any machine with Python~3 (and, for the cross-check,
+\texttt{numpy}):
+\begin{verbatim}
+python3 reverify.py     # stdlib only; prints ALL CHECKS PASS (20/20)
+python3 xcheck.py       # independent numpy build; H@psi==0, ||psi||^2=4^L
+shasum -a 256 reverify.py xcheck.py object.json   # match Table 1
+\end{verbatim}
+\noindent On a platform whose hashing tool is \texttt{sha256sum} rather than
+\texttt{shasum}, substitute \texttt{sha256sum reverify.py xcheck.py
+object.json}.
+
+\begin{table}[ht]
+\small
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+file & SHA-256 \\
+\midrule
+\texttt{reverify.py} &
+\texttt{eac86c337770fc6512937f17e83fb066b01a9ee529ed12ed68f1d2faf7177ec4} \\
+\texttt{xcheck.py} &
+\texttt{f43eb90b738f74fef71650fd1b7c78f9a7ff706f31e367fefa3843a6bbef4fc2} \\
+\texttt{object.json} &
+\texttt{1353baa37f960332ad3b6a8013d57c92168befd18be3323b4f16309ae13076a3} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+\caption{SHA-256 digests of the shipped verifier, cross-check, and
+machine-readable object specification. \texttt{object.json} records
+\eqref{eq:A}, \eqref{eq:h}, \eqref{eq:C}, the amplitude and operator
+conventions, and the verified properties.}
+\label{tab:sha}
+\end{table}
+
+\section*{Acknowledgments}
+
+The matrix-product ansatz is Derrida, Evans, Hakim and Pasquier's; its
+eigenstate form used here is written explicitly by Gehrmann and Essler, and
+the local necessary-and-sufficient characterization that guarantees a
+certificate of this shape for any injective MPS eigenstate is Garre Rubio,
+Moln\'ar, Schuch and Verstraete's. The quantum East model referenced in
+Remark~\ref{rem:east} is Pancotti, Giudice, Cirac, Garrahan and Ba\~nuls's.
+The computation and drafting were AI-assisted as stated in the first
+footnote.
+
+\begin{thebibliography}{99}
+
+\bibitem[DEHP93]{DEHP93}
+B.~Derrida, M.~R. Evans, V.~Hakim and V.~Pasquier,
+\emph{Exact solution of a $1$D asymmetric exclusion model using a matrix
+formulation},
+J.~Phys.~A: Math.\ Gen.\ \textbf{26} (1993), no.~7, 1493--1517.
+DOI 10.1088/0305-4470/26/7/011.
+
+\bibitem[GE26]{GE26}
+A.~Gehrmann and F.~H.~L. Essler,
+\emph{Exact quantum many-body scars by a generalized matrix-product ansatz},
+arXiv:2605.03020 (2026); read directly on August~6, 2026. The eigenstate
+matrix-product-ansatz certificate $h\,A\,A=E\,A-A\,E$ is their Eq.~(10)
+(general form Eq.~(6)), attributed there to \cite{DEHP93}. Their worked
+models are spin-$S$ chains and square-lattice models, distinct from
+\eqref{eq:H}.
+
+\bibitem[GRMSV26]{GRMSV26}
+J.~Garre Rubio, A.~Moln\'ar, N.~Schuch and F.~Verstraete,
+\emph{The local characterization of global tensor network eigenstates},
+arXiv:2603.28349 (2026); read directly on August~6, 2026. A local,
+fixed-size equation --- how one operator term acts on a block of tensors ---
+is proved necessary and sufficient for an injective MPS to be an exact
+eigenstate of an extensive local operator; the worked example is the
+quantum-group symmetry of the XXZ chain.
+
+\bibitem[IM25]{IM25}
+A.~A. Ivanov and O.~I. Motrunich,
+\emph{Many exact area-law scar eigenstates in the nonintegrable PXP and
+related models}, arXiv:2503.16327 (2025); read directly on August~6, 2026.
+Exact area-law
+eigenstates are constructed inside a kinetically constrained subspace
+(PXP-type models), via a projector onto a Fibonacci-constrained space; the
+present $\psiL$ lives in the full $2^L$ Hilbert space with no such
+projector.
+
+\bibitem[PGCGB20]{PGCGB20}
+N.~Pancotti, G.~Giudice, J.~I. Cirac, J.~P. Garrahan and M.~C. Ba\~nuls,
+\emph{Quantum East model: localization, non-thermal eigenstates and slow
+dynamics}, Phys.\ Rev.\ X \textbf{10} (2020), 021051;
+also arXiv:1910.06616. Read directly on August~6, 2026. Its non-thermal
+states become exact eigenstates in the large-size limit, in contrast to the
+exact-at-every-finite-$L$ state of Theorem~\ref{thm:main}.
+
+\end{thebibliography}
+
+\end{document}

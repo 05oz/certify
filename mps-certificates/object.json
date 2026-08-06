@@ -1,0 +1,54 @@
+{
+  "spec_version": "1.0",
+  "date": "2026-08-06",
+  "description": "Exact zero-energy matrix-product eigenstate at every finite length L of a nearest-neighbour, periodic, Hermitian spin-1/2 chain. All data are exact integers.",
+  "conventions": {
+    "single_site_basis": "|0>, |1> (computational; Z|0>=+|0>, Z|1>=-|1>)",
+    "pauli": {
+      "I": [[1, 0], [0, 1]],
+      "X": [[0, 1], [1, 0]],
+      "Z": [[1, 0], [0, -1]]
+    },
+    "amplitude_convention": "psi(s_1..s_L) = Tr(A^{s_1} A^{s_2} ... A^{s_L}), s_1 most significant",
+    "boundary_conditions": "periodic; site L+1 identified with site 1"
+  },
+  "mps": {
+    "bond_dimension": 2,
+    "translation_invariant": true,
+    "A0": [[1, 0], [0, -1]],
+    "A1": [[-2, -1], [1, 0]],
+    "state": "|psi_L> = sum_{s in {0,1}^L} Tr(A^{s_1} ... A^{s_L}) |s_1 ... s_L>"
+  },
+  "hamiltonian": {
+    "form": "H = - sum_{i=1}^{L} (I + X_i)(X_{i+1} + Z_{i+1})   (periodic)",
+    "bond_operator_h": {
+      "definition": "h = -(I + X) tensor (X + Z), acting on sites (i, i+1)",
+      "matrix_basis_order": "rows/cols indexed |00>,|01>,|10>,|11>",
+      "matrix": [
+        [-1, -1, -1, -1],
+        [-1,  1, -1,  1],
+        [-1, -1, -1, -1],
+        [-1,  1, -1,  1]
+      ],
+      "hermitian": true
+    }
+  },
+  "certificate": {
+    "identity": "sum_{s,t} <uv|h|st> A^s A^t = C^u A^v - A^u C^v   for all u,v in {0,1}   (16 scalar equations, all satisfied)",
+    "mechanism": "Derrida-Evans-Hakim-Pasquier / matrix-product-ansatz telescoping; existence for any injective MPS eigenstate is guaranteed by Garre Rubio, Molnar, Schuch, Verstraete (arXiv:2603.28349); explicit eigenstate form h A A = E A - A E in Gehrmann & Essler (arXiv:2605.03020, Eq. 10)",
+    "C0": [[-2, 1], [1, -2]],
+    "C1": [[3, 2], [0, -1]],
+    "consequence": "The right-hand side telescopes around the periodic trace, so H|psi_L> = 0 for every L (eigenvalue E = 0)."
+  },
+  "verified_properties": {
+    "H_psi_zero_exact": "L = 3..10 (dense integer substitution; reverify.py P2), and L = 3..9 (independent numpy build; xcheck.py)",
+    "psi_nonzero": "||psi_L||^2 = 4^L for L = 3..9 (xcheck.py)",
+    "genuine_bond_dimension_2": "{I, A0, A1, A0 A1} spans M_2(C); coefficient determinant = -4 (reverify.py P5)",
+    "not_frustration_free": "a single bond term h_{1,2}|psi_4> is nonzero (reverify.py P6)",
+    "contiguous_half_cut_schmidt_rank": {"L4": 4, "L6": 4, "L8": 4},
+    "odd_even_sublattice_schmidt_rank": {"L4": 2, "L6": 4, "L8": 8},
+    "rotated_east_type_form": "U with U X U^{-1}=Z, U Z U^{-1}=-X maps H to -2 sum_i P0_i (Z - X)_{i+1}, P0 = |0><0| = (I+Z)/2 (reverify.py P7)"
+  },
+  "claim": "The translation-invariant, periodic, bond-dimension-2 MPS with the integer matrices A0, A1 above is an exact E = 0 eigenstate at every finite length L of H = - sum_i (I + X_i)(X_{i+1} + Z_{i+1}) (periodic). It is genuinely bond-dimension 2 and its odd/even sublattice Schmidt rank is 2, 4, 8 at L = 4, 6, 8.",
+  "scope": "Object-level statement only. The telescoping matrix-product-ansatz certificate is a published, standard technique (DEHP 1993), credited at point of use. Non-thermality of the host spectrum is NOT asserted."
+}
