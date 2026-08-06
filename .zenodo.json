@@ -1,6 +1,6 @@
 {
-  "title": "Certify v0.3.0: the tournament packing numbers nu_3(9) = 9 and nu_3(10) = 12, certified (first certified determination, extending Yuster's verified range from n <= 8 to n <= 10)",
-  "description": "First certified determination of the minimum TT3-packing numbers nu_3(9) = 9 and nu_3(10) = 12, where nu_3(n) is the minimum over all n-vertex tournaments of the maximum number of arc-disjoint transitive triples, confirming R. Yuster's 2004 conjectured formula ceil(n(n-1)/6 - n/3) at n = 9, 10. CLAIMED AS NEW: the certified integral lower bounds over all tournament isomorphism classes (191,536 at n = 9; 9,733,056 at n = 10, enumeration count-validated against OEIS A000568 and exact Burnside numbers), with SAT (LRAT) optimality certificates on the minimizing tournaments C3[C3,C3,C3] and C3[TT4,C3,C3], replayable with stock Python; and the resulting first certified determination of both values. NOT CLAIMED, AND CREDITED: the quantity, the formula, the n <= 8 verification, and the matching upper-bound constructions are Yuster's (2004); the fractional relaxation and blow-up analysis are Kabiya-Yuster's (2008). Declared trust assumption: gentourng (nauty) enumerates completely (cross-validated exhaustively for n <= 7, count-validated at n = 9, 10). The note passed a three-lens adversarial review (claims-vs-artifacts, priority against primary sources read verbatim, replay audit with negative controls) before release; the review log ships as tt3-paper/FIXLOG.md and the dated novelty sweep as SWEEP-RECORD-TT3-2026-08-05.md. Computations carried out with Claude (Fable 5); independently re-verified by a separate agent instance with independently written code.",
+  "title": "Certify v0.4.0: if a [[14,3,5]] stabilizer code exists, its monomial automorphism group has order 2^a 3^b 5^c — a certificate-backed exclusion of the primes 7, 11, 13",
+  "description": "A certificate-backed structure theorem on the twenty-year-open existence question for a [[14,3,5]] qubit stabilizer (GF(4)-additive) quantum code (the [[14,3]] entry of M. Grassl's codetables.de, whose distance-4 construction dates to 2005-06-30): if such a code exists, its monomial (local Clifford x permutation) automorphism group has order of the form 2^a 3^b 5^c — no automorphism of order divisible by 7, 11, or 13 is possible. Proved by exhaustive, certificate-backed elimination of every nonzero symmetry class (cyclic; quasi-cyclic of order 7; orders 11 and 13; twisted classes), with exact-rational Krawtchouk linear-programming lemmas closing the fixed-qubit branches; every candidate distance-checked; independently re-verified by an adversarial referee with separately written code. THE EXISTENCE OF [[14,3,5]] ITSELF REMAINS OPEN AND IS NOT CLAIMED. NOT CLAIMED, AND CREDITED: the CSS case is settled by Koh et al., arXiv:2601.20927 (exhaustive CSS enumeration at n <= 14; their Table VI gives maximal CSS [[14,3]] distance 4) — an in-house CSS derivation is subsumed by their strictly stronger result and appears only as a remark crediting them; the automorphism question descends from Ball-Centelles-Huber 2020 (Research Problem 1); general stabilizer enumeration at n <= 9 is Cross-Vandeth, arXiv:2501.17447. Ships 43 SHA-256-pinned certificate files, the generators, an independent checker, and the classical code tables used; scope limits and unarchived intermediate runs are disclosed in the paper (sections 5 and 7). Three-lens adversarial review preceded release (log: qec1435-paper/FIXLOG.md; dated novelty sweep: SWEEP-RECORD-1435-2026-08-05.md). Computations carried out with Claude (Fable 5).",
   "upload_type": "software",
   "publication_date": "2026-08-05",
   "creators": [
@@ -11,13 +11,13 @@
   ],
   "license": "Apache-2.0",
   "keywords": [
-    "tournament",
-    "transitive tournament",
-    "arc-disjoint packing",
-    "Yuster conjecture",
-    "SAT certificate",
-    "LRAT",
+    "quantum error correction",
+    "stabilizer code",
+    "additive code",
+    "code equivalence",
+    "automorphism group",
+    "codetables",
     "certified computation",
-    "combinatorics"
+    "linear programming bound"
   ]
 }
