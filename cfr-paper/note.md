@@ -1,0 +1,304 @@
+# A 5 × 25 circular Florentine rectangle: F_c(25) ≥ 5, exceeding the recorded lower bound
+
+**Daniel Kirtchakov**
+Independent researcher (`05oz`); no institutional affiliation — daniel@halfounce.io — halfounce.io
+
+*Draft of August 6, 2026.*
+
+> **Computation and authorship.** The search that produced the object below,
+> and this note, were carried out by **Claude Fable 5** (Anthropic), directed
+> by the author, on a single Apple M4 laptop. This is a methods statement, and
+> it is the point of the note: the object is checked by an exhaustive, exact
+> standard-library verifier, so the provenance of the *search* is irrelevant
+> to the validity of the *result* (see §4). For the record, the object was
+> located by a C program (`cfr_search.c`) as a maximum clique, among the
+> K-equivariant orthomorphisms of ℤ₂₅ for the prescribed multiplier group
+> K = ⟨7⟩ = {1, 7, 18, 24} ≤ ℤ₂₅\*; none of that enters the verification.
+
+> **Prior-art record.** The primary source, chapter VI.62 ("Tuscan Squares,"
+> by W. Chu, S. W. Golomb and H.-Y. Song) of the *Handbook of Combinatorial
+> Designs*, 2nd ed. [HCD], was read directly on August 6, 2026; the two
+> passages the claim rests on — Definition 62.26 and the n = 25 entry of
+> Table 62.27 (p. 677) — are quoted verbatim in §2. The original H.-Y. Song
+> paper [Son00] could not be read in full (its publisher page was inaccessible
+> on every open route tried on that date); its Table 1 was not consulted, and
+> no priority over [Son00] is claimed (§5). A full-text novelty sweep of the
+> same date found no surveyed source asserting F_c(25) ≥ 5; the constructive
+> benchmark CPro1 [CPro1] lists (5, 25) as an open instance.
+
+---
+
+## Abstract
+
+An *r* × *n* circular Florentine rectangle is an array of *r* rows, each a
+permutation of {0, 1, …, *n*−1} read circularly, such that for every ordered
+pair of distinct symbols (*a*, *b*) and every distance *m* ∈ {1, …, *n*−1} at
+most one row places *b* exactly *m* positions circularly to the right of *a*;
+F_c(*n*) denotes the largest *r* for which one exists. We exhibit an explicit
+5 × 25 circular Florentine rectangle and verify it exhaustively and exactly:
+its 5·25·24 = 3000 ordered distance events are pairwise distinct, checked two
+independent ways by a standard-library program that shares no code with the
+search, and again by a second, independently written verifier. The object
+establishes **F_c(25) ≥ 5** — one more than the value 4 recorded for *n* = 25
+in the *Handbook of Combinatorial Designs*, 2nd ed. (2006), Table 62.27
+(p. 677), where the entry reads "4 ⋯ 24" and the lower bound 4 is exactly the
+*p*−1 of the multiplier construction (Construction 62.22(1), *p* = 5 the least
+prime factor of 25). The trusted base contains nothing beyond the verifier and
+its interpreter: there is no solver to trust, no enumeration whose
+completeness is assumed, and no unproven step. We do not claim priority over
+H.-Y. Song's 2000 paper, which we could not read; the claim is stated against
+the recorded Handbook value, and the array itself is new to the surveyed
+literature.
+
+## 1. The object and the property
+
+Fix *n* ≥ 2 and the symbol set *S* = {0, 1, …, *n*−1}. Read the positions of a
+length-*n* row circularly, i.e. modulo *n*.
+
+**Definition 1.1 (circular Florentine rectangle; [HCD, Def. 62.1]).** An
+*r* × *n* *circular Florentine rectangle* is an *r* × *n* array in which each
+row is a permutation of *S* and which has the following property: for every
+ordered pair of distinct symbols (*a*, *b*) and every distance
+*m* ∈ {1, …, *n*−1}, there is *at most one* row in which symbol *b* occupies
+the position *m* steps circularly to the right of symbol *a*.
+
+Equivalently, form for every row, every start position *i*, and every distance
+*m* ∈ {1, …, *n*−1} the ordered *distance event*
+
+> (*a*, *b*, *m*),  *a* = R[*i*],  *b* = R[(*i*+*m*) mod *n*],
+
+where R is the row. Definition 1.1 holds if and only if all such events are
+pairwise distinct. A single row of length *n* generates *n*(*n*−1) events, all
+distinct within the row because the row is a permutation; so an *r* × *n*
+array has the property exactly when its *r* *n*(*n*−1) events are pairwise
+distinct across the whole array.
+
+**Figure 1. The circular Florentine rectangle CFR(5,25).** Each of the five
+rows is a permutation of the symbol set {0, 1, …, 24}; the columns are the
+position indices 0, 1, …, 24, read circularly. The array satisfies
+Definition 1.1: for every ordered pair of distinct symbols (*a*, *b*) and
+every distance *m* ∈ {1, …, 24}, at most one row places *b* exactly *m*
+positions circularly to the right of *a*; equivalently, the 5·25·24 = 3000
+ordered distance events (*a*, *b*, *m*) are pairwise distinct. Rows 0 and 1
+are the linear permutations *t* ↦ *t* and *t* ↦ 7*t* (mod 25); rows 2, 3, 4
+are non-linear. The recorded digest of the object is
+`sha256 = 9e2d9b33…779ffdcc`.
+
+| | position 0, 1, …, 24 (read circularly) |
+|---:|:---|
+| row 0 | 0 · 1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10 · 11 · 12 · 13 · 14 · 15 · 16 · 17 · 18 · 19 · 20 · 21 · 22 · 23 · 24 |
+| row 1 | 0 · 7 · 14 · 21 · 3 · 10 · 17 · 24 · 6 · 13 · 20 · 2 · 9 · 16 · 23 · 5 · 12 · 19 · 1 · 8 · 15 · 22 · 4 · 11 · 18 |
+| row 2 | 0 · 24 · 3 · 12 · 16 · 20 · 14 · 18 · 2 · 6 · 15 · 4 · 8 · 17 · 21 · 10 · 19 · 23 · 7 · 11 · 5 · 9 · 13 · 22 · 1 |
+| row 3 | 0 · 5 · 22 · 11 · 23 · 19 · 18 · 10 · 24 · 16 · 8 · 21 · 13 · 12 · 4 · 17 · 9 · 1 · 15 · 7 · 6 · 2 · 14 · 3 · 20 |
+| row 4 | 0 · 15 · 9 · 24 · 7 · 22 · 19 · 5 · 17 · 14 · 4 · 12 · 2 · 23 · 13 · 21 · 11 · 8 · 20 · 6 · 3 · 18 · 1 · 16 · 10 |
+
+## 2. The claim
+
+### What F_c records
+
+The primary source defines the quantity our object bounds. Quoting
+[HCD, Def. 62.26, p. 677] verbatim:
+
+> "Let F_c(n) denote the maximum integer F_c such that an F_c × n circular
+> florentine rectangle exists."
+
+The basic bounds recorded there are *p*−1 ≤ F_c(*n*) ≤ *n*−1, where *p* is the
+least prime factor of *n*: the lower bound is the multiplier construction
+[HCD, Construction 62.22(1), p. 676], which for the least prime factor *p* of
+*n* takes the rows *t* ↦ *ct* (mod *n*) over a suitable set of multipliers *c*
+and yields a (*p*−1) × *n* circular Florentine rectangle; the upper bound
+*n*−1 is immediate. For *n* = 25 the least prime factor is *p* = 5, so the
+construction gives 4 rows, and [HCD, Table 62.27, p. 677] — headed "Possible
+values of F_c(n) and F(n)" — records the *n* = 25 entry, verbatim, as
+
+> 25    4 ⋯ 24,
+
+i.e. a best recorded lower bound of 4 (the value *p*−1) and the trivial upper
+bound 24 = *n*−1; the value of F_c(25) within that range is left undetermined.
+
+### The result
+
+**Theorem 2.1.** *The array of Figure 1 is a circular Florentine rectangle.
+Hence*
+
+> **F_c(25) ≥ 5**
+
+*which is one more than the value 4 recorded for n = 25 in the Handbook of
+Combinatorial Designs, 2nd ed. (2006), Table 62.27 (p. 677).*
+
+*Proof.* By Definition 1.1 it suffices that the 5·25·24 = 3000 ordered
+distance events of the five rows in Figure 1 are pairwise distinct; this is
+confirmed exhaustively in §3. The array is then a 5 × 25 circular Florentine
+rectangle, so by [HCD, Def. 62.26] the maximum *r* for which an *r* × 25 such
+rectangle exists is at least 5. ∎
+
+The two linear rows *t* ↦ *t* and *t* ↦ 7*t* are multiplier rows of the form
+*t* ↦ *ct* that underlies the multiplier construction [HCD, 62.22(1)]; the
+remaining three rows are non-linear
+(this is confirmed by the verifier, which finds no multiplier *c* with
+R[*t*] ≡ *ct* for rows 2, 3, 4). The recorded lower bound 4 = *p*−1 is exactly
+what the multiplier construction alone delivers; Figure 1 exceeds it by
+adjoining a fifth, non-linear row that remains event-disjoint from the other
+four.
+
+## 3. Verification
+
+The verification is *exhaustive* and *exact*: it enumerates all 3000 ordered
+distance events directly, in integer arithmetic, and confirms they are
+distinct. There is no sampling, no floating point, and no randomized or
+heuristic step.
+
+### The shipped verifier
+
+`verify_cfr525.py` (173 lines, Python standard library only — `json`,
+`hashlib`, `sys`, `os` — with no POSIX-only call, so it runs unchanged on any
+platform with CPython 3) performs, against the object file `CFR_5_25.json`:
+
+1. **SHA-256.** It recomputes the digest of the object file and requires it to
+   equal the recorded value `9e2d9b33…779ffdcc`; and it cross-checks the rows
+   read from disk against a second, independent in-source transcription of the
+   same data.
+2. **Shape and permutation.** It checks *r* = 5, *n* = 25, and that each row is
+   a permutation of {0, …, 24}.
+3. **Property, method A (literal circular window).** For every row, every start
+   position *i*, and every distance *m* ∈ {1, …, 24} it forms the event
+   (*a*, *b*, *m*) with *a* = R[*i*], *b* = R[(*i*+*m*) mod 25], and counts the
+   distinct events. The property holds iff the count equals
+   *r* *n*(*n*−1) = 3000.
+4. **Property, method B (per ordered pair via positions).** For each ordered
+   pair (*a*, *b*) of distinct symbols it computes, in each row, the unique
+   distance (pos[*b*] − pos[*a*]) mod 25, and requires these to be pairwise
+   distinct across the rows. It then requires methods A and B to agree.
+
+Run on the shipped object today, the verifier reports, in its final
+lines (the long verdict line soft-wrapped here to fit),
+
+```
+[sha256] match    = True
+[shape ] r=5, n=25, 5 rows of length n: True
+[cross ] disk rows == independent transcription: True
+[perm  ] every row is a permutation of {0..24}: True
+[meth A] window events 3000/3000 distinct (expected 3000): True
+[meth B] per-pair distances 3000/3000 distinct (expected 3000): True
+[cross ] methods A and B agree: True
+
+VERIFIED: the object is a valid CFR(5,25); all 3000 ordered distance
+events are distinct, so F_c(25) >= 5.
+```
+
+As a negative control, swapping any two symbols within a row (which breaks the
+digest and the property) is rejected: the event count falls below 3000 and the
+run exits non-zero.
+
+### A second, independent verifier
+
+A second verifier, `verify_cfr.py` (in the program's `construct/florentine`
+directory), was written separately from the first and from the search. It
+re-checks the same object through unrelated code — the SHA-256, the
+permutation property, both event-counting methods, and, additionally, the
+K = ⟨7⟩ multiplier equivariance and the per-row linearity classification — and
+returns the same verdict (`OVERALL: OBJECT IS A VALID CFR(5,25): True`). The
+two verifiers share no code and agree.
+
+## 4. The trusted base
+
+What a skeptic must believe to accept Theorem 2.1 is unusually small, and it
+is worth stating exactly, because it is smaller than in the program's earlier
+certified notes (each of which declared at least one trust assumption, such as
+the completeness of an external enumerator).
+
+*Machine-checked, from raw data:* that the object file has the recorded
+SHA-256; that each row is a permutation of {0, …, 24}; and that all 3000
+ordered distance events are pairwise distinct, established two independent ways
+and reproduced by a second, independently written verifier.
+
+*Assumed:* only that CPython and the operating system execute the 173-line
+`verify_cfr525.py` as written, and that its transcription of Definition 1.1
+([HCD, Def. 62.1/62.26]) into code is faithful — which a reader confirms by
+reading the verifier against the definition. There is nothing else. There is
+no external solver, no enumeration whose completeness must be trusted, no
+unproven lemma, and no floating-point or randomized computation. The check is
+a finite, exact, exhaustive enumeration of 3000 events, and it either finds all
+of them distinct or it does not.
+
+In particular, the search apparatus — `cfr_search.c`, the multiplier group K,
+the clique computation — is *not* in the trusted base. The object stands or
+falls on its own, independently of how it was found.
+
+## 5. Novelty, and what is not claimed
+
+*The improvement is over the recorded value.* Theorem 2.1 asserts
+F_c(25) ≥ 5 and states the improvement against the value 4 recorded for
+*n* = 25 in Table 62.27 (p. 677) of [HCD] — a citable secondary source whose
+*n* = 25 entry reads "4 ⋯ 24" and which cites, for that table, references
+predating the specific determination of F_c(25). A full-text novelty sweep on
+August 6, 2026 found no surveyed source asserting F_c(25) ≥ 5: the recent
+literature that uses circular Florentine rectangles quotes only the basic
+bounds *p*−1 ≤ F_c(*N*) ≤ *N*−1, and the constructive benchmark CPro1 [CPro1]
+lists (5, 25) among its open instances, with a property definition matching
+Definition 1.1. The array of Figure 1 is new to the surveyed literature.
+
+*No priority over Song 2000 is claimed.* The one paper that might already
+contain a determination of F_c(25) is H.-Y. Song, *The existence of circular
+Florentine arrays* [Son00]. Its publisher page was inaccessible on every open
+route tried on August 6, 2026, so its Table 1 was not consulted. We therefore
+make *no* claim of priority over [Son00]. The claim of Theorem 2.1 is
+deliberately anchored on the recorded Handbook value of 4, not on the
+assertion that 4 was the best value obtainable anywhere: we state that the
+object exceeds the recorded lower bound, and no more.
+
+## 6. Artifacts
+
+Two files are shipped with this note; both are pinned by SHA-256.
+
+| file | bytes | SHA-256 |
+|---|---|---|
+| `CFR_5_25.json` | 1236 | `9e2d9b33…779ffdcc` |
+| `verify_cfr525.py` | — | `9d7363d0…37dd0bb` |
+
+The full digests are
+
+```
+CFR_5_25.json     9e2d9b339a79d13783d2e24efde49e5ed7904418f2179bf7d3f0143d779ffdcc
+verify_cfr525.py  9d7363d08ce2cd90b194ce1f8c318545501006c14b3ea1cb7871586ec37dd0bb
+```
+
+To reproduce the verification on any machine with CPython 3, from the
+directory holding the two files:
+
+```
+python3 verify_cfr525.py          # reads CFR_5_25.json beside the script
+python3 verify_cfr525.py PATH     # or an explicit path to the object
+```
+
+No compiler, solver, or third-party package is required; the script imports
+only the Python standard library and terminates in well under a second.
+
+## Acknowledgments
+
+The definitions, the quantity F_c(*n*), the multiplier construction that fixes
+the recorded lower bound 4, and the value tables are those of the *Handbook of
+Combinatorial Designs* chapter on Tuscan squares by Wai Chu, Solomon W. Golomb
+and Hong-Yeop Song [HCD]. The (5, 25) instance is posed as open by the CPro1
+benchmark [CPro1]. The computation and drafting were AI-assisted as stated in
+the first footnote; the object is checked by an exhaustive standard-library
+verifier, so that assistance bears on how the object was found, not on whether
+it is valid.
+
+## References
+
+- **[HCD]** C. J. Colbourn and J. H. Dinitz (eds.), *Handbook of Combinatorial
+  Designs*, 2nd ed., CRC Press, Boca Raton, 2006. Chapter VI.62, "Tuscan
+  Squares," by W. Chu, S. W. Golomb and H.-Y. Song, pp. 673–678. Read directly
+  on August 6, 2026; the claim rests on Definition 62.26 and the *n* = 25 entry
+  of Table 62.27 (p. 677), "4 ⋯ 24," with the lower bound 4 = *p*−1 from
+  Construction 62.22(1) (*p* = 5).
+- **[Son00]** H.-Y. Song, *The existence of circular Florentine arrays*,
+  Comput. Math. Appl. **39** (2000), no. 11, 31–35.
+  DOI 10.1016/S0898-1221(00)00104-8. Not read in full (publisher page
+  inaccessible on every open route tried on August 6, 2026); its Table 1 was
+  not consulted, and no priority over this paper is claimed.
+- **[CPro1]** Constructive-Codes, *CPro1* benchmark suite, constructive problem
+  `circular-florentine-rectangle`, which lists the open instances (6, 21),
+  (5, 25), (5, 27), (4, 33) with the property of Definition 1.1. On-disk copy
+  consulted August 6, 2026.
