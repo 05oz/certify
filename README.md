@@ -247,6 +247,26 @@ Dual license by content type:
 - **Code and machine-readable certificate files** — everything under `scripts/`, `certificates/`, `schema/`, `checker/`, `qec-scripts/`, `qec-certificates/` — are licensed under the **Apache License 2.0** ([LICENSE-CODE](LICENSE-CODE)).
 - **Documentation and the paper** — `paper/`, `README.md`, `PROVENANCE.md`, and all other prose — are licensed under **CC BY 4.0** ([LICENSE-DOCS](LICENSE-DOCS)).
 
+## Platforms
+
+The **trusted base is operating-system-independent**: every checker in this repository
+(`qec-scripts/`, `tt3-scripts/`, `qec1435-scripts/verify_1435.py`, `scripts/`) is Python —
+Parts B–D standard library only, Part A standard library plus SymPy — with no OS-specific
+calls, and verification requires nothing else. On Windows, substitute the platform's usual
+forms: `venv\Scripts\python` for `venv/bin/python`, backslash paths, and
+`python -m gzip -d <file>.lrat.gz` where the quickstart uses `gunzip`. The `for` loops in the
+quickstarts are POSIX-shell; on Windows run the listed commands individually or use WSL or
+Git Bash. C sources (`tt3-scripts/tt3pack.c`, `qec1435-scripts/check1435.c`) are portable C
+and are **not** part of any trusted base — the Python verifiers stand alone.
+
+**Regeneration** (as opposed to verification) uses solver toolchains — msolve, CaDiCaL,
+nauty/gentourng — that are routinely built on Linux and macOS; on Windows we recommend WSL
+for regeneration. Verifying the shipped certificates never requires them.
+
+Development and the pre-release replay audit were performed on macOS; a Windows replay of the
+checker suite is in progress and this section will record its result. Reports from other
+platforms are welcome and will be credited.
+
 ## Citing
 
 See [CITATION.cff](CITATION.cff). Archival DOIs are minted per release on Zenodo — concept DOI for all versions [10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111); Part A (v0.1.x) [10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112); Part B (v0.2.0) [10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780); Part C (v0.3.0) [10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010); Part D (v0.4.0) [10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018). To cite an individual result, cite its note and the matching version DOI. External timestamps for this repository's claims begin at the first public push and the Zenodo deposits — not at local file dates (see PROVENANCE.md §3).

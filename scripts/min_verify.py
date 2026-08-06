@@ -32,12 +32,28 @@ B1 = dc[0]+dc[1]*U+dc[2]*U**2
 
 class TO(Exception): pass
 def gb(name, eqs, gens, mod=32003, secs=150):
-    def h(sig, frm): raise TO()
-    signal.signal(signal.SIGALRM, h); signal.alarm(secs)
-    try:
-        G = sp.groebner([sp.expand(e) for e in eqs], *gens, modulus=mod, order='grevlex') if mod \
+    # Timeout mechanism: SIGALRM where available (POSIX); on Windows the computation
+    # runs in a daemon thread and is abandoned after `secs` (CPython cannot kill a
+    # thread, but the daemon does not block interpreter exit). Same semantics either
+    # way: TIMEOUT is reported as INCONCLUSIVE, never as a failure.
+    def compute():
+        return sp.groebner([sp.expand(e) for e in eqs], *gens, modulus=mod, order='grevlex') if mod \
             else sp.groebner([sp.expand(e) for e in eqs], *gens, order='grevlex')
-        signal.alarm(0)
+    try:
+        if hasattr(signal, "SIGALRM"):
+            def h(sig, frm): raise TO()
+            signal.signal(signal.SIGALRM, h); signal.alarm(secs)
+            try:
+                G = compute()
+            finally:
+                signal.alarm(0)
+        else:
+            import threading, queue
+            q = queue.Queue()
+            t = threading.Thread(target=lambda: q.put(compute()), daemon=True)
+            t.start(); t.join(secs)
+            if t.is_alive(): raise TO()
+            G = q.get_nowait()
         triv = list(G.exprs) == [1]
         tag = f"mod {mod}" if mod else "over QQ"
         print(f"[{name}] GB {tag}: " + ("EMPTY  (ideal = (1))" if triv else f"NONTRIVIAL ({len(G.exprs)} gens)"))
