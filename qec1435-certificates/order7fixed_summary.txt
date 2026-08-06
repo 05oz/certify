@@ -1,0 +1,12 @@
+Up line 0: weight<=4 nonzero in M: 112  -> IMPOSSIBLE
+Up line 1: weight<=4 nonzero in M: 112  -> IMPOSSIBLE
+Up line 2: weight<=4 nonzero in M: 112  -> IMPOSSIBLE
+Up line 3: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+Up line 4: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+Up line 5: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+Up line 6: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+Up line 7: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+Up line 8: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+branch (1,0) CLOSED
+pair (Up=0,Uq=0): all low-weight M-vectors inside max-B — SURVIVES
+pair (Up=1,Uq=1): all low-weight M-vectors inside max-B — SURVIVES

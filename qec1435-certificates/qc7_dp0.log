@@ -1,0 +1,4 @@
+trivial: 35 planes, 15 isotropic
+dp=0: |Up|=1 |Uq|=585 orth pairs=585
+total emitted: 8775
+batch done: 8775 candidates, 0 with d>=5, 0 bad/skipped

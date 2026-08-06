@@ -1,0 +1,4 @@
+lines: 1025 total, 33 isotropic
+total emitted: 8415
+batch done: 8415 candidates, 0 with d>=5, 0 bad/skipped
+SUMMARY candidates=8415 hits=0 bad=0

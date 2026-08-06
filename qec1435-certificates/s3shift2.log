@@ -1,0 +1,15 @@
+sigma = s3shift2, order 42
+factors of x^42-1: [('0b11', 2), ('0b111', 2), ('0b1011', 2), ('0b1101', 2), ('0b1010111', 2), ('0b1110101', 2)]
+factor 0b11 mult 2: component dim 0
+factor 0b111 mult 2: component dim 4
+factor 0b1011 mult 2: component dim 0
+factor 0b1101 mult 2: component dim 0
+factor 0b1010111 mult 2: component dim 12
+factor 0b1110101 mult 2: component dim 12
+factor 0b11: 1 submodules, dims [(0, 1)]
+factor 0b111: 3 submodules, dims [(0, 1), (2, 1), (4, 1)]
+factor 0b1011: 1 submodules, dims [(0, 1)]
+factor 0b1101: 1 submodules, dims [(0, 1)]
+factor 0b1010111: 3 submodules, dims [(0, 1), (6, 1), (12, 1)]
+factor 0b1110101: 3 submodules, dims [(0, 1), (6, 1), (12, 1)]
+total isotropic invariant 11-dim subspaces: 0

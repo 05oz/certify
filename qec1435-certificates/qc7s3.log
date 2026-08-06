@@ -1,0 +1,15 @@
+sigma = qc7s3, order 21
+factors of x^21-1: [('0b11', 1), ('0b111', 1), ('0b1011', 1), ('0b1101', 1), ('0b1010111', 1), ('0b1110101', 1)]
+factor 0b11 mult 1: component dim 0
+factor 0b111 mult 1: component dim 4
+factor 0b1011 mult 1: component dim 0
+factor 0b1101 mult 1: component dim 0
+factor 0b1010111 mult 1: component dim 12
+factor 0b1110101 mult 1: component dim 12
+factor 0b11: 1 submodules, dims [(0, 1)]
+factor 0b111: 7 submodules, dims [(0, 1), (2, 5), (4, 1)]
+factor 0b1011: 1 submodules, dims [(0, 1)]
+factor 0b1101: 1 submodules, dims [(0, 1)]
+factor 0b1010111: 67 submodules, dims [(0, 1), (6, 65), (12, 1)]
+factor 0b1110101: 67 submodules, dims [(0, 1), (6, 65), (12, 1)]
+total isotropic invariant 11-dim subspaces: 0

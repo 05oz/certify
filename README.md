@@ -17,6 +17,8 @@ Two independent bodies of work live here, sharing a method rather than a subject
 
 Every mathematical claim in either preprint maps to a script whose `assert` statements pass, or to a stored certificate a checker accepts. Nothing is conjectural unless labeled so.
 
+**Since v0.3.0 two further parts live here under the same method:** **Part C** (v0.3.0) — the first certified determination of the tournament packing numbers ν₃(9) = 9 and ν₃(10) = 12, extending the verified range of Yuster's 2004 formula from n ≤ 8 to n ≤ 10 (`tt3-paper/`, `tt3-certificates/`, `tt3-scripts/`); **Part D** (v0.4.0) — a certificate-backed automorphism exclusion for the twenty-year-open [[14,3,5]] quantum code existence question: any such code has monomial automorphism group of order 2^a·3^b·5^c (`qec1435-paper/`, `qec1435-certificates/`, `qec1435-scripts/`). Both notes passed a three-lens adversarial review (claims-vs-artifacts, priority against primary sources, and a replay audit with negative controls) before release; the decision logs ship as `FIXLOG.md` in each paper directory.
+
 ---
 
 # Part A — the Alpöge Keller map
@@ -177,6 +179,25 @@ Three further defects the audit found are reported verbatim in §8 of the paper,
 
 ---
 
+# Part C — tournament packing numbers ν₃(9), ν₃(10)
+
+**The first certified determination of ν₃(9) = 9 and ν₃(10) = 12**, where ν₃(n) is the minimum over all n-vertex tournaments of the maximum number of arc-disjoint transitive triples, confirming Yuster's conjectured formula ⌈n(n−1)/6 − n/3⌉ at n = 9, 10. Paper: [`tt3-paper/note.pdf`](tt3-paper/note.pdf).
+
+- **Credit.** The quantity and the formula are R. Yuster's (2004), who verified n ≤ 8 (n ≤ 7 by direct argument, n = 8 by computer, uncertified); the matching upper-bound constructions are also **Yuster's (2004)** — the note's new content is the certified integral **lower bounds** over all isomorphism classes (191,536 at n = 9; 9,733,056 at n = 10), plus SAT optimality certificates on the minimizing tournaments. Kabiya–Yuster 2008 supplies the fractional strengthening and is credited at point of use.
+- **Declared trust assumption:** `gentourng` (nauty) enumerates completely — cross-validated exhaustively for n ≤ 7 and count-validated against OEIS A000568 and exact Burnside numbers at n = 9, 10.
+- **Replay:** exact commands, file inventory, and all 32 MD5 pins are in [`tt3-paper/note.md`](tt3-paper/note.md) §7; certificates in `tt3-certificates/` (LRAT optimality proofs `min9_ge10.lrat`, `min10_ge13.lrat` replay against `tt3-scripts/` with stock Python), full sweep logs included.
+- The adversarial review that preceded release re-verified the sweeps with independently written code (fresh enumeration, an independent exact solver on both minimizers, negative controls); the dated novelty sweep is [SWEEP-RECORD-TT3-2026-08-05.md](SWEEP-RECORD-TT3-2026-08-05.md).
+
+# Part D — [[14,3,5]]: a certificate-backed automorphism exclusion
+
+**If a [[14,3,5]] qubit stabilizer code exists, its monomial automorphism group has order 2^a·3^b·5^c** — no automorphism of order divisible by 7, 11, or 13 is possible. The existence question itself, open since the [[14,3]] table entry's construction of June 2005 (codetables.de, retrieved 2026-08-05), **remains open and is not claimed**. Paper: [`qec1435-paper/note.pdf`](qec1435-paper/note.pdf).
+
+- **Credit.** The open entry is recorded in M. Grassl's codetables.de; the automorphism question descends from Ball–Centelles–Huber 2020 (Research Problem 1). The **CSS case is settled by Koh et al., arXiv:2601.20927** (exhaustive CSS enumeration at n ≤ 14; their Table VI gives max CSS [[14,3]] distance 4) — that result is theirs, cited and not claimed; an earlier in-house CSS derivation is subsumed and appears only as a remark. Cross–Vandeth arXiv:2501.17447 covers general stabilizer enumeration at n ≤ 9.
+- **What ships:** 43 certificate files (`qec1435-certificates/`, SHA-256-pinned in the paper), the generators and the independent checker (`qec1435-scripts/`, incl. `check1435.c` and `verify_1435.py`), and the classical code tables used (`qec1435-scripts/data/`). Every candidate of every nonzero symmetry class was distance-checked; exact-rational Krawtchouk LP lemmas close the fixed-qubit branches. Scope, gaps, and unarchived intermediate runs are disclosed in the paper itself (§5, §7).
+- **Replay:** commands in [`qec1435-paper/note.md`](qec1435-paper/note.md) §7; quick control: `python3 qec1435-scripts/verify_1435.py qec1435-scripts/data/ct_14_3_stab.txt` reproduces the d = 4 control verdict. Dated novelty sweep: [SWEEP-RECORD-1435-2026-08-05.md](SWEEP-RECORD-1435-2026-08-05.md).
+
+---
+
 ## Layout
 
 ```
@@ -200,6 +221,18 @@ qec-scripts/         the three checkers (check_witness / check_lower / check_dua
                      verify_manifest.py, and the (untrusted) generating pipeline
 INDEPENDENT-VERIFICATION.md   the audit: 47/47 checks, 5.08 GiB replayed in pure Python
 SWEEP-RECORD-QEC-2026-08-04.md   the dated adversarial prior-art sweep
+
+  -- Part C: tournament packing (v0.3.0) --
+tt3-paper/           note (LaTeX + PDF + Markdown mirror) + FIXLOG.md review log
+tt3-certificates/    minimizers, SAT optimality certificates (LRAT), full sweep logs, MD5SUMS.txt
+tt3-scripts/         tt3pack.c searcher, CNF encoder, stdlib-only independent verifiers
+SWEEP-RECORD-TT3-2026-08-05.md   dated novelty sweep
+
+  -- Part D: [[14,3,5]] automorphism exclusion (v0.4.0) --
+qec1435-paper/       note (LaTeX + PDF + Markdown mirror) + FIXLOG.md review log
+qec1435-certificates/  43 SHA-256-pinned certificates by symmetry class
+qec1435-scripts/     generators, check1435.c, verify_1435.py, data/ classical code tables
+SWEEP-RECORD-1435-2026-08-05.md  dated novelty sweep
 ```
 
 For Part A, the reduction library and the system generators are intentionally not part of this repository; the published claims are the certificates themselves plus the verification scripts, which are self-contained. For Part B, the generating pipeline **is** included (`qec-scripts/certify.py`, `qec_lib.py`, `run_all.sh`) precisely because it is *not* trusted: it can be deleted and every certificate still verifies.

@@ -1,0 +1,9 @@
+sigma = qc7swap, order 14
+factors of x^14-1: [('0b11', 2), ('0b1011', 2), ('0b1101', 2)]
+factor 0b11 mult 2: component dim 4
+factor 0b1011 mult 2: component dim 12
+factor 0b1101 mult 2: component dim 12
+factor 0b11: 15 submodules, dims [(0, 1), (1, 3), (2, 7), (3, 3), (4, 1)]
+factor 0b1011: 93 submodules, dims [(0, 1), (3, 9), (6, 73), (9, 9), (12, 1)]
+factor 0b1101: 93 submodules, dims [(0, 1), (3, 9), (6, 73), (9, 9), (12, 1)]
+total isotropic invariant 11-dim subspaces: 540

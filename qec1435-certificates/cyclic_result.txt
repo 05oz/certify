@@ -1,0 +1,2 @@
+batch done: 1260 candidates, 0 with d>=5, 0 bad/skipped
+SUMMARY candidates=1260 hits=0 bad=0

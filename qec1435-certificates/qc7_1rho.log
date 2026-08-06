@@ -1,0 +1,15 @@
+sigma = qc7_1rho, order 21
+factors of x^21-1: [('0b11', 1), ('0b111', 1), ('0b1011', 1), ('0b1101', 1), ('0b1010111', 1), ('0b1110101', 1)]
+factor 0b11 mult 1: component dim 2
+factor 0b111 mult 1: component dim 2
+factor 0b1011 mult 1: component dim 6
+factor 0b1101 mult 1: component dim 6
+factor 0b1010111 mult 1: component dim 6
+factor 0b1110101 mult 1: component dim 6
+factor 0b11: 5 submodules, dims [(0, 1), (1, 3), (2, 1)]
+factor 0b111: 2 submodules, dims [(0, 1), (2, 1)]
+factor 0b1011: 11 submodules, dims [(0, 1), (3, 9), (6, 1)]
+factor 0b1101: 11 submodules, dims [(0, 1), (3, 9), (6, 1)]
+factor 0b1010111: 2 submodules, dims [(0, 1), (6, 1)]
+factor 0b1110101: 2 submodules, dims [(0, 1), (6, 1)]
+total isotropic invariant 11-dim subspaces: 0

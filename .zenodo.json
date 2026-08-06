@@ -1,8 +1,8 @@
 {
-  "title": "Certify: degree minimality in the equivariant class of the Alpöge Keller map, and the moment-map structure of its cotangent lift (certificates and verification scripts)",
-  "description": "Machine-verified structural results about L. Alpöge's degree-7 Keller counterexample to the Jacobian conjecture in dimension three (announced 2026-07-19; problem posed by Akhil Mathew). CLAIMED AS NEW: (1) a degree-minimality theorem in the C*-equivariant class of weights (1,-1,-2) -- no Keller map of degree at most 6 exists in the sector where C involves s (the sector containing Alpöge's map), and every degree-<=6 Keller map elsewhere in the class is a polynomial automorphism -- by eight msolve Gröbner-basis unit-ideal certificates over Q reproduced mod 32003, with a degree-7 positive control; this strengthens T. Shaska's Theorem 10.10 (arXiv:2607.20210), which settles the sub-case where A and B have degree one in the invariants and explicitly leaves the general case open (his Remark 10.11); (2) the moment-map identity nu o Phi = mu for the Hamiltonian lift of the C*-action to T*C^3, and a no-go lemma valid at every degree and every weight. NOT CLAIMED, AND FULLY CREDITED: the map F is Alpöge's; the Weyl-algebra endomorphism refuting the Dixmier conjecture for n >= 3 AND the symplectic cotangent lift Phi(q,p) = (F(q), (JF)^{-T} p) are both W. G. P. Mayner's (Secret Blogging Seminar comment 2026-07-20; github.com/wmayner/dixmier-counterexample, commits of 2026-07-21, REPORT.md section 8) and are re-verified here only; the master equation and the base-point/anchor identity are T. Shaska's (arXiv:2607.20210v2, 2026-07-25, Thm 8.3 and Lem 8.5), the order-two vanishing on the contracted locus his v1 Thm 6.1 (2026-07-22); the exact image theorem and fiber counts 3/1/0 are in the anonymous note at ulam.ai/research/jacobian.pdf (2026-07-20, Thm 4.2); the S_3 monodromy is in MathOverflow 513387 and A. Lou (both 2026-07-20). Those results are retained in the paper for self-containedness with priority credited. The Poisson-conjecture statement (PC_n false for n > 2) follows formally from Mayner's Dixmier result via Adjamagbo-van den Essen and is already asserted in secondary sources; our contribution there is the explicit witness, its degrees and momenta, and the quantization identity gr Psi_F = Phi*. All verification scripts (SymPy 1.14) and msolve 0.10.1 certificate inputs/outputs are included; computations carried out with Claude (Fable 5). Everything is in characteristic zero; JC_2, DC_1, DC_2 and unconditional degree-7 minimality remain open.",
+  "title": "Certify v0.3.0: the tournament packing numbers nu_3(9) = 9 and nu_3(10) = 12, certified (first certified determination, extending Yuster's verified range from n <= 8 to n <= 10)",
+  "description": "First certified determination of the minimum TT3-packing numbers nu_3(9) = 9 and nu_3(10) = 12, where nu_3(n) is the minimum over all n-vertex tournaments of the maximum number of arc-disjoint transitive triples, confirming R. Yuster's 2004 conjectured formula ceil(n(n-1)/6 - n/3) at n = 9, 10. CLAIMED AS NEW: the certified integral lower bounds over all tournament isomorphism classes (191,536 at n = 9; 9,733,056 at n = 10, enumeration count-validated against OEIS A000568 and exact Burnside numbers), with SAT (LRAT) optimality certificates on the minimizing tournaments C3[C3,C3,C3] and C3[TT4,C3,C3], replayable with stock Python; and the resulting first certified determination of both values. NOT CLAIMED, AND CREDITED: the quantity, the formula, the n <= 8 verification, and the matching upper-bound constructions are Yuster's (2004); the fractional relaxation and blow-up analysis are Kabiya-Yuster's (2008). Declared trust assumption: gentourng (nauty) enumerates completely (cross-validated exhaustively for n <= 7, count-validated at n = 9, 10). The note passed a three-lens adversarial review (claims-vs-artifacts, priority against primary sources read verbatim, replay audit with negative controls) before release; the review log ships as tt3-paper/FIXLOG.md and the dated novelty sweep as SWEEP-RECORD-TT3-2026-08-05.md. Computations carried out with Claude (Fable 5); independently re-verified by a separate agent instance with independently written code.",
   "upload_type": "software",
-  "publication_date": "2026-08-04",
+  "publication_date": "2026-08-05",
   "creators": [
     {
       "name": "Kirtchakov, Daniel",
@@ -11,47 +11,13 @@
   ],
   "license": "Apache-2.0",
   "keywords": [
-    "Jacobian conjecture",
-    "Dixmier conjecture",
-    "Poisson conjecture",
-    "Weyl algebra",
-    "Keller map",
-    "polynomial symplectomorphism",
-    "moment map",
-    "Groebner basis certificate",
-    "computer-assisted proof",
-    "msolve",
-    "SymPy",
-    "graded Keller map",
-    "degree minimality"
-  ],
-  "related_identifiers": [
-    {
-      "relation": "isDerivedFrom",
-      "identifier": "https://sbseminar.wordpress.com/2026/07/20/the-new-counterexample-to-the-jacobian-conjecture/",
-      "resource_type": "publication-other"
-    },
-    {
-      "relation": "isSupplementedBy",
-      "identifier": "https://github.com/wmayner/dixmier-counterexample",
-      "resource_type": "software"
-    },
-    {
-      "relation": "references",
-      "identifier": "https://terrytao.wordpress.com/2026/07/21/a-digestion-of-the-jacobian-conjecture-counterexample/",
-      "resource_type": "publication-other"
-    },
-    {
-      "relation": "references",
-      "identifier": "arXiv:2607.20210",
-      "resource_type": "publication-preprint"
-    },
-    {
-      "relation": "references",
-      "identifier": "https://ulam.ai/research/jacobian.pdf",
-      "resource_type": "publication-preprint"
-    }
-  ],
-  "notes": "The Alpöge announcement of 2026-07-19 has no standalone URL in our records; the Secret Blogging Seminar post above is the public record used here and should be replaced by the canonical announcement URL if one exists. External timestamps for this repository's claims begin at first public push / DOI mint, not at local file dates.",
-  "contact": "daniel@halfounce.io"
+    "tournament",
+    "transitive tournament",
+    "arc-disjoint packing",
+    "Yuster conjecture",
+    "SAT certificate",
+    "LRAT",
+    "certified computation",
+    "combinatorics"
+  ]
 }

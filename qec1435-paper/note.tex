@@ -1,0 +1,776 @@
+%% ==========================================================================
+%% DRAFT -- August 5, 2026. Author byline: Daniel Kirtchakov (independent,
+%% halfounce.io).
+%%
+%% Scope was fixed on 2026-08-05 after (a) an adversarial re-verification of
+%% the entire certificate corpus with independently written code (every
+%% enumerated candidate of every nonzero symmetry class re-checked; Lemma C
+%% replayed in exact rational arithmetic), and (b) a novelty sweep completed
+%% the same day. Sources read in full from raw form on that date:
+%%   * codetables.de entry [[14,3]] (q=4, n=14, k=3), raw HTML archived;
+%%     lower bound 4 (construction dated 2005-06-30), upper bound 5.
+%%     Neighbor entries [[15,3,5]] and [[14,2,5]] likewise fetched.
+%%   * arXiv:2601.20927 (Koh et al.), all appendices and tables. Their
+%%     Table VI settles the CSS case at (n,k)=(14,3): max distance 4.
+%%     Our own pure-CSS derivation is SUBSUMED and appears below only as a
+%%     remark crediting them. Never claim it.
+%%   * arXiv:2007.05992 (Ball-Centelles-Huber), Research Problem 1.
+%%   * arXiv:0908.1348 (Bierbrauer-Marcugini-Pambianco); published version
+%%     IEEE-IT 57(7):4788-4793, 2011, with R. Fears as second author
+%%     (Bierbrauer-Fears-Marcugini-Pambianco). NOT Faina.
+%%   * arXiv:2501.17447 (Cross-Vandeth), general stabilizer enumeration
+%%     n <= 9.
+%% Framing constraints honored per the referee record:
+%%   - the existence of [[14,3,5]] is OPEN and stated so prominently;
+%%   - "smallest open entry of the whole table" softened to a dated
+%%     codetables citation;
+%%   - one falsification-sampling run present in the working notes was
+%%     found by the referee to rest on a defective sampler; it is excluded
+%%     from this note entirely and nothing here depends on it.
+%% Artifacts: solve/problem-3/ (tools, data) and solve/problem-3/
+%% certificates/ (all run outputs); SHA-256 hashes in Section 7.
+%% ==========================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1.15in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\emergencystretch=3em
+\tolerance=1200
+\hbadness=4000
+
+\newcommand{\FF}{\mathbb{F}_{2}}
+\newcommand{\Ffour}{\mathbb{F}_{4}}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\code}[3]{[[#1,#2,#3]]}
+\newcommand{\Sperp}{S^{\perp}}
+\newcommand{\Mon}{\mathcal{M}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\begin{document}
+
+\title[Automorphisms of a putative $\code{14}{3}{5}$ code]{If a
+$\code{14}{3}{5}$ stabilizer code exists, its monomial automorphism group
+has order $2^{a}3^{b}5^{c}$: a certificate-backed exclusion of the primes
+$7$, $11$ and $13$}
+
+\author{Daniel Kirtchakov}
+\address{Independent researcher}
+\email{daniel@halfounce.io}
+
+\thanks{\emph{Computation and authorship.} All reductions, enumerations,
+certificate designs and searches in this work were produced by
+\textbf{Claude Fable~5} (Anthropic), directed by the author, on a single
+Apple~M4 laptop (10 cores, 16\,GB). The enumeration corpus was then
+re-verified adversarially by a separate agent instance using independently
+written checker code that shares nothing with the generating pipeline:
+every enumerated candidate of every nonzero symmetry class was re-checked,
+and the linear-programming certificate of Lemma~\ref{lem:C} was replayed in
+exact rational arithmetic. This is a factual methods statement, and it is
+part of the point: the artifacts are designed so that the provenance of the
+\emph{search} is irrelevant to the validity of the \emph{result}. External
+tools used by the pipeline only: a C compiler for the distance checker,
+SymPy for one polynomial factorization; the closure certificates themselves
+replay with the stock Python interpreter (\S\ref{sec:artifacts}).}
+
+\thanks{\emph{Status and provenance record.} The problem statement was
+verified against the primary source (codetables.de, retrieved August~5,
+2026, raw HTML archived with the artifacts), and a novelty sweep was
+completed the same day: no published existence or nonexistence result for
+$\code{14}{3}{5}$ was found beyond the CSS case of \cite{Koh26}, and no
+published automorphism restriction for it was found. A negative cannot be
+proved this way; we record the scope of the search rather than a claim.
+\emph{Draft of August 5, 2026.}}
+
+\subjclass[2020]{Primary 81P73; Secondary 94B05, 94B65}
+\keywords{Quantum error correction, stabilizer codes, additive codes over
+GF(4), automorphism groups, linear programming bound, certificates}
+
+\date{August 5, 2026}
+
+\begin{abstract}
+Whether a $\code{14}{3}{5}$ qubit stabilizer code exists is open, and this
+note does not resolve it. The $[[14,3]]$ entry of Grassl's online tables
+records lower bound $4$ (construction dated June 30, 2005) and upper bound
+$5$ (page retrieved August 5, 2026) \cite{Grassl}, and Ball, Centelles and Huber pose
+the existence question explicitly \cite{BCH}. What is proved here is a
+structure theorem: if a $\code{14}{3}{5}$ exists, its group of monomial
+automorphisms --- local Clifford $\times$ qubit permutation, equivalently
+monomial symplectic maps on $\FF^{28}$ --- contains no element of order
+divisible by $7$, $11$ or $13$, and therefore has order $2^{a}3^{b}5^{c}$.
+The proof is an exhaustive, certificate-backed elimination of every
+conjugacy class of monomial maps of order $7$, $11$ and $13$: three of the
+four prime classes are closed by complete enumeration of the invariant
+isotropic $11$-dimensional subspaces, every candidate certified to have
+$d\le4$ by an exhibited low-weight vector ($1{,}298{,}700$ candidates for the fixed-point-free
+order-$7$ class, $8{,}415$ for order $11$, none for order $13$); the
+fourth, order $7$ with seven fixed qubits, is closed by an exact-rational
+linear-programming certificate (Krawtchouk positivity: every additive
+$(7,2^{9})$ code has at least $52$ nonzero vectors of symplectic weight at
+most $4$) together with two short counting arguments. The composite-order
+and locally twisted classes are enumerated as well, as redundant
+confirmation. The corpus was re-verified adversarially with independently
+written code, and the LP and branch certificates replay with the stock
+Python interpreter.
+
+The CSS case is settled by Koh et al.\ \cite{Koh26}, whose exhaustive
+enumeration of CSS codes through $n=14$ shows that the maximal distance of
+a CSS $[[14,3]]$ code is $4$; we cite this and claim nothing there. The
+open territory for $\code{14}{3}{5}$ is thus genuinely non-CSS, with
+monomial symmetries confined to $\{2,3,5\}$-groups. Negative search
+data is recorded as boundary information, not as evidence.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{The problem}
+Let $\code{n}{k}{d}$ denote a binary (GF(4)-additive) quantum stabilizer
+code on $n$ qubits with $k$ logical qubits and minimum distance $d$
+\cite{Gottesman97,CRSS}. The entry $[[14,3]]$ of Grassl's online tables
+\cite{Grassl} records lower bound $4$ and upper bound $5$; the
+$\code{14}{3}{4}$ construction there is dated June 30, 2005 (page last
+changed June 10, 2024, retrieved August 5, 2026). Both neighbors exist: $\code{15}{3}{5}$ and $\code{14}{2}{5}$ are
+settled constructions in the same tables, so $\code{14}{3}{5}$ is exactly
+the missing corner. Ball, Centelles and Huber raise its existence as
+Research Problem~1 of \cite{BCH}. For context on nearby exhaustive work:
+Bierbrauer, Fears, Marcugini and Pambianco proved $\code{13}{5}{4}$ does
+not exist \cite{BFMP}; Cross and Vandeth
+enumerate all general stabilizer codes through $n=9$ \cite{CrossVandeth};
+and Koh et al.\ enumerate all CSS codes through $n=14$ \cite{Koh26}. On
+the quantum side, automorphism groups of stabilizer codes have been
+studied in their own right --- Hao \cite{Hao21} proves nonexistence
+results for stabilizer codes with highly transitive automorphism groups
+--- but that work contains nothing at length $14$.
+
+\textbf{The existence of $\code{14}{3}{5}$ remains open.} This note proves
+a restriction on what such a code could look like, and ships the
+machine-checkable certificates behind it. It does not resolve the
+question.
+
+\subsection{The result}
+Call a linear map on $\FF^{28}$ \emph{monomial} if it is a qubit
+permutation composed with an invertible local symplectic map on each
+qubit's $(X,Z)$-plane --- in operator language, a local Clifford circuit
+times a qubit permutation, modulo Paulis; in GF(4) language, a monomial
+semilinear map. These maps form the group
+$\Mon \cong S_{3}\wr S_{14}$ of order $6^{14}\cdot 14!$, whose prime
+divisors are exactly $2,3,5,7,11,13$. A \emph{monomial automorphism} of a
+stabilizer code with stabilizer subspace $S\subset\FF^{28}$ is a monomial
+map with $g(S)=S$.
+
+\begin{theorem}[main; Theorem~\ref{thm:main} below]
+No $[[14,3]]$ stabilizer code of minimum distance $\ge 5$ admits a
+monomial automorphism of order $7$, $11$ or $13$.
+\end{theorem}
+
+\begin{corollary}
+If a $\code{14}{3}{5}$ code exists, no element of its monomial
+automorphism group has order divisible by $7$, $11$ or $13$ (Cauchy's
+theorem applied to a cyclic subgroup), so the group order is of the form
+$2^{a}3^{b}5^{c}$.
+\end{corollary}
+
+Two by-products are worth stating at their own strength. First, no
+$[[14,3]]$ stabilizer code of \emph{any} distance has a monomial
+automorphism of order $13$: the invariant-subspace dimension arithmetic is already empty
+(Proposition~\ref{prop:13}). Second, every $\code{14}{3}{5}$ would be a
+hyperplane (index-2 subgroup) of a $\code{14}{2}{5}$ code
+(Proposition~\ref{prop:hyper}), which turns hyperplane sweeps of known
+$\code{14}{2}{5}$ codes into complete searches of their neighborhoods; the
+two such sweeps performed here were negative (\S\ref{sec:boundary}).
+
+\subsection{What is not claimed}\label{ssec:notclaimed}
+We do not claim that $\code{14}{3}{5}$ does not exist, and nothing here is
+evidence either way about codes with trivial monomial symmetry, which one
+expects to be the bulk of the search space. We do not claim the CSS case:
+that is Koh et al.'s \cite{Koh26}, whose Table~VI shows the maximal
+distance of a CSS $[[14,3]]$ code (pure or impure) is $4$; our own
+weaker pure-CSS observation appears only as Remark~\ref{rem:css},
+crediting them. We do not claim novelty for the prescribed-automorphism
+technique, which is classical in coding theory (Huffman \cite{Huffman98};
+see also \cite{CRSS}); what appears to be new, per the dated sweep in the front
+matter, is its certified application to this open entry. The very shape
+of the theorem --- pinning the automorphism group of a putative extremal
+code down to a small set of orders by excluding primes class by class ---
+is also classical: it is the shape of the long program on the putative
+binary doubly-even self-dual $[72,36,16]$ code, opened by Conway and
+Pless in 1982 and continued by many authors (the surviving group orders
+there are now $1$, $3$ and $5$, by work of Borello and others); see
+Huffman \cite{Huffman98} for the early history. The constructive
+searches of \S\ref{sec:boundary} are boundary data, not evidence: a
+rugged objective landscape says nothing about existence. Finally, the
+theorem concerns \emph{monomial} automorphisms only; equivalences that
+entangle qubits are not addressed.
+
+\section{Setting}\label{sec:setting}
+
+We use the binary symplectic picture \cite{CRSS,Gottesman97}. A vector
+$v\in\FF^{28}$ is a pair $(a,b)$ of $14$-bit words ($X$- and $Z$-parts);
+the symplectic form is $\omega(u,v)=|u_{a}\wedge v_{b}|+|u_{b}\wedge
+v_{a}| \bmod 2$, and the symplectic weight $\wt(v)=|a\vee b|$ is the
+number of qubits touched. A $[[14,3]]$ stabilizer code is an isotropic
+subspace $S\subset\FF^{28}$ of dimension $11$; then
+$\dim\Sperp=17$ and the minimum distance is
+\[
+  d \;=\; \min\{\wt(v): v\in\Sperp\setminus S\},
+\]
+a minimum over $2^{17}-2^{11}=129{,}024$ vectors. Monomial maps preserve
+$\omega$ and $\wt$, so if $g$ is monomial and $g(S)=S'$ then $S'$ is a
+code with the same parameters; in particular, closing a conjugacy class of
+monomial maps for one representative closes it for all.
+
+\begin{lemma}[prime-order normal form]\label{lem:normalform}
+Let $g\in\Mon$ have prime order $p\in\{7,11,13\}$. Then $g$ is conjugate
+in $\Mon$ to a pure qubit permutation of cycle type $(7,7)$ or
+$(7,1^{7})$ if $p=7$, type $(11,1^{3})$ if $p=11$, and type $(13,1)$ if
+$p=13$.
+\end{lemma}
+
+\begin{proof}
+Write $g=(t_{1},\dots,t_{14};\pi)$ with local parts
+$t_{i}\in\mathrm{Sp}(2,\FF)\cong S_{3}$ and $\pi\in S_{14}$. Since
+$S_{3}^{14}$ has no element of order $p$, $\pi\neq 1$; $\pi^{p}=1$ forces
+the stated cycle types. At a fixed point $i$ of $\pi$, $g^{p}=1$ gives
+$t_{i}^{p}=1$, and $\gcd(p,6)=1$ forces $t_{i}=1$. Along a $p$-cycle, the
+$p$-th power acts by conjugates of the cycle product
+$T=t_{i_{p}}\cdots t_{i_{1}}$, so $T=1$; and a cycle with trivial product
+is conjugate, by a coordinatewise gauge $u_{j}$ chosen recursively along
+the cycle, to the untwisted cycle.
+\end{proof}
+
+So the theorem reduces to four classes of pure permutations. The certified
+record (\S\ref{sec:enum}--\ref{sec:order7fixed}) in fact closes more: all
+monomial classes with a $14$-cycle permutation part (orders $14$, $28$,
+$42$) and all locally twisted classes over the $(7,7)$ cycle type (orders
+$14$, $21$, $42$; no order-$28$ class exists there, $S_{3}$ having no
+element of order $4$). By Lemma~\ref{lem:normalform} these composite-order
+closures are logically redundant --- a power of any such element lands in
+a prime class --- and we report them as confirmation.
+
+\section{The enumerated classes}\label{sec:enum}
+
+\begin{theorem}\label{thm:main}
+No $[[14,3]]$ stabilizer code with $d\ge5$ admits a monomial automorphism
+of order $7$, $11$ or $13$.
+\end{theorem}
+
+The proof occupies this section and the next. For a fixed representative
+$\sigma$, the $\sigma$-invariant isotropic $11$-dimensional subspaces are
+enumerated exhaustively, and each candidate is screened by a distance
+scan with early abort at weight $\le4$: the scan certifies $d\le4$ by
+exhibiting a weight-$\le4$ vector of $\Sperp\setminus S$, and any
+survivor would have received its exact distance by full enumeration of
+$\Sperp\setminus S$ ($129{,}024$ vectors). No candidate survived.
+Table~\ref{tab:classes} is the complete certified record; every nonempty
+row traces to a file hashed in \S\ref{sec:artifacts} (the empty
+\texttt{c13} class leaves no output file; its emptiness replays via
+\texttt{gen\_generic.py c13}).
+
+\begin{table}[t]
+\small
+\begin{tabular}{llrl}
+\toprule
+class (representative $\sigma$) & order & candidates & outcome \\
+\midrule
+$14$-cycle, untwisted (\texttt{cyclic}; \texttt{swapshift} re-run) & $14$ & $1{,}260$ & all $d\le4$ \\
+$14$-cycle, involution twist (\texttt{shift28}) & $28$ & $4$ & all $d\le4$ \\
+$14$-cycle, order-$3$ twist (\texttt{s3shift}, \texttt{s3shift2}) & $42$ & $0$ & class empty \\
+$(7,7)$, twist $(1,1)$ (\texttt{qc7}, jobs \texttt{dp0}--\texttt{dp3}) & $7$ & $1{,}298{,}700$ & all $d\le4$ \\
+$(7,7)$, twist $(1,s)$ (\texttt{qc7\_1swap}) & $14$ & $4{,}764$ & all $d\le4$ \\
+$(7,7)$, twist $(s,s)$ (\texttt{qc7swap}) & $14$ & $540$ & all $d\le4$ \\
+$(7,7)$, twist $(s,s')$ (\texttt{qc7\_swap\_s2}) & $14$ & $540$ & all $d\le4$ \\
+$(7,7)$, twists with an order-$3$ part ($4$ classes) & $21,42$ & $0$ & classes empty \\
+$11$-cycle $+\,3$ fixed (\texttt{c11}) & $11$ & $8{,}415$ & all $d\le4$ \\
+$13$-cycle $+\,1$ fixed (\texttt{c13}) & $13$ & $0$ & class empty \\
+$7$-cycle $+\,7$ fixed & $7$ & --- & \S\ref{sec:order7fixed} \\
+\bottomrule
+\end{tabular}
+\medskip
+\caption{The certified class closures: $1{,}314{,}223$ distinct enumerated
+candidates ($1{,}315{,}483$ distance checks in all, the \texttt{swapshift}
+re-run of the cyclic class contributing a further $1{,}260$), each
+certified $d\le4$ by the early-abort scan described above, none reaching
+$d=5$. Twists over $(7,7)$ are classified by the pair
+of cycle products in $S_{3}$ up to simultaneous conjugacy and block swap
+($s$, $s'$ involutions in different positions); over a $14$-cycle, by the
+single cycle product.}
+\label{tab:classes}
+\end{table}
+
+\subsection{Enumeration method}
+Each representative $\sigma$ is an explicit linear map on $\FF^{28}$
+preserving $\omega$. The invariant subspaces are enumerated through the
+primary (Fitting) decomposition of $\FF^{28}$ as an
+$\FF[\sigma]$-module --- the classical prescribed-automorphism method
+\cite{Huffman98} --- with complete submodule enumeration per primary
+component and isotropy imposed through the pairing of components (the
+reciprocal pairing swaps the two degree-$3$ factors of $x^{7}+1$, so only
+cross-orthogonality constraints survive there). Two structural examples:
+
+\emph{Cyclic.} For the qubit $14$-cycle, $x^{14}+1=\bigl((x+1)(x^{3}+x+1)
+(x^{3}+x^{2}+1)\bigr)^{2}$ over $\FF$; the invariant isotropic
+$11$-dimensional subspaces number exactly $1{,}260$ ($7$ isotropic
+choices in the $(x+1)$-component times $180$ orthogonal pairs in the two
+cubic components).
+
+\emph{QC-7.} For two disjoint $7$-cycles, $x^{7}+1=(x+1)pq$ is squarefree
+with $p,q$ cubic; an invariant subspace is $U_{0}\oplus U_{p}\oplus
+U_{q}$ with $U_{0}$ a Lagrangian plane in the $4$-dimensional fixed
+component ($15$ choices) and $(U_{p},U_{q})$ an orthogonal pair of
+$K$-subspaces, $K=\mathbb{F}_{8}$ ($585+42{,}705+42{,}705+585=86{,}580$
+pairs), for $15\times86{,}580=1{,}298{,}700$ candidates.
+
+Every emitted candidate is re-checked for rank $11$ and isotropy before
+its distance is computed (``0 bad'' in every batch log). The batch
+screener also has a positive control: run with generator count $12$ on
+the reference $\code{14}{2}{5}$ matrix, it flags the code as a $d\ge5$
+hit. (The control is a separate \texttt{batch 12} run --- a
+$12$-generator matrix cannot ride the $11$-generator stream, where it
+would be counted ``bad'' --- and its console output was not archived; it
+replays in seconds.)
+
+\subsection{Order 13}
+\begin{proposition}\label{prop:13}
+No $[[14,3]]$ stabilizer code, of any distance, has a monomial
+automorphism of order $13$.
+\end{proposition}
+
+\begin{proof}
+By Lemma~\ref{lem:normalform} the automorphism may be taken to be a pure
+permutation $\sigma$: a $13$-cycle plus a fixed qubit. Then the trivial
+$\FF[\sigma]$-component of $\FF^{28}$ has dimension $4$ and $\Phi_{13}$
+is irreducible of degree $12$ over $\FF$ (the order of $2$ mod $13$ is
+$12$), so any invariant subspace has dimension $d_{0}+12m$ with
+$d_{0}\le4$. No such value equals $11$. The generic enumerator confirms:
+zero invariant $11$-dimensional subspaces
+(Table~\ref{tab:classes}).
+\end{proof}
+
+The order-$11$ class is not empty --- the $\Phi_{11}$-part is a line over
+$\mathbb{F}_{2^{10}}$, giving $33$ isotropic lines $\times\,255$ choices
+of fixed-component part $=8{,}415$ candidates --- and all $8{,}415$ fail.
+By Lemma~\ref{lem:normalform}, orders $11$ and $13$ are thereby fully
+monomially closed.
+
+\section{Order 7 with fixed qubits}\label{sec:order7fixed}
+
+Let $\sigma$ be the permutation acting as a $7$-cycle on qubits
+$0..6$ and fixing qubits $7..13$, and suppose $S$ is a
+$\sigma$-invariant $\code{14}{3}{5}$ stabilizer subspace. Decompose
+$S=U_{0}\oplus U_{p}\oplus U_{q}$ as above, now with the trivial
+component of $\FF^{28}$ of dimension $16$ (the $14$ fixed-qubit
+coordinates plus the two block averages), a symplectic space. Write
+$d_{0}=\dim U_{0}$; then $d_{0}+3(d_{p}+d_{q})=11$, so
+$d_{0}\in\{2,5,8,11\}$. Each branch is impossible:
+
+\begin{lemma}[$d_{0}=11$]\label{lem:A}
+$U_{0}$ would be an isotropic subspace of dimension $11$ in a
+$16$-dimensional symplectic space, whose maximal isotropic dimension is
+$8$.
+\end{lemma}
+
+\begin{lemma}[LP certificate; \texttt{lemmaC\_certificate.py}]\label{lem:C}
+Every additive $(7,2^{9})$ code over GF(4) --- equivalently, every
+$9$-dimensional $\FF$-subspace of the $14$-dimensional symplectic space
+of $7$ qubits --- has at least $52$ nonzero vectors of symplectic weight
+at most $4$.
+\end{lemma}
+
+\begin{proof}
+Delsarte-style linear programming \cite{Delsarte} with the quaternary
+Krawtchouk polynomials $K_{j}$ and the MacWilliams nonnegativity of the
+trace-dual weight distribution of an additive GF(4) code \cite{CRSS}.
+With $\mu=\tfrac{5}{32}$ and
+$\lambda=(0,\tfrac{27}{256},0,0,0,\tfrac{1}{256},0,\tfrac{1}{384})\ge0$,
+one checks exactly that
+$e(w):=[w\le4]-\mu-\sum_{j}\lambda_{j}K_{j}(w)\ge0$ for $w=1,\dots,7$,
+whence for any $(7,2^{9})$ additive code,
+$A_{1}+\dots+A_{4}\ge 511\mu-\sum_{j}\lambda_{j}K_{j}(0)=52$.
+The shipped certificate performs every step in exact rational
+arithmetic (Python \texttt{fractions}); it was re-verified independently.
+(An empirical floor of $104$ over $2{,}000$ random subspaces suggests the
+constant is not tight; harmless.)
+\end{proof}
+
+\begin{proof}[Closure of $d_{0}\in\{2,5\}$]
+Let $V_{\mathrm{fix}}\cong\FF^{14}$ be the span of the fixed-qubit
+coordinates and let
+$W=\{f\in V_{\mathrm{fix}}: f\perp_{\omega} U_{0}\}$. Since
+$V_{\mathrm{fix}}$ is $\omega$-orthogonal to the block components and to
+the block-average plane, $W\subseteq\Sperp$, and
+$\dim W\ge 14-d_{0}\ge 9$. Moreover $W\cap S=U_{0}\cap V_{\mathrm{fix}}$
+has at most $2^{d_{0}}-1\le31$ nonzero vectors, and every vector of
+$W\setminus S$ lies in $\Sperp\setminus S$, hence has weight $\ge5$. But
+$W$ contains a $9$-dimensional subspace supported on $7$ qubits, which by
+Lemma~\ref{lem:C} has at least $52$ nonzero vectors of weight $\le4$:
+contradiction.
+\end{proof}
+
+\begin{proof}[Closure of $d_{0}=8$]
+Here $d_{p}+d_{q}=1$; by the $p\leftrightarrow q$ relabeling symmetry
+take $(d_{p},d_{q})=(1,0)$. The block-supported subspace
+$M=V_{p}\oplus(U_{p}^{\perp}\cap V_{q})$ has dimension $9$ and lies in
+$\Sperp$; its weight-$\le4$ vectors must lie in the block-only part of
+$S$, contained in a subspace $B_{S}$ of dimension $\le5$ (at most $31$
+nonzero vectors). Direct enumeration over all $9$ possible $K$-lines
+$U_{p}$ counts $112$--$140$ nonzero weight-$\le4$ vectors in $M$
+(\texttt{order7fixed\_full.txt}): contradiction. ($M$ is itself
+$9$-dimensional on $7$ qubits, so Lemma~\ref{lem:C} independently forces
+$\ge52$: the branch dies twice.)
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+By Lemma~\ref{lem:normalform} it suffices to treat pure permutations of
+the four cycle types. Types $(7,7)$, $(11,1^{3})$ and $(13,1)$ are closed
+by the exhaustive enumerations of Table~\ref{tab:classes}; type
+$(7,1^{7})$ by Lemmas~\ref{lem:A} and~\ref{lem:C} with the branch
+arguments above. The composite-order rows of Table~\ref{tab:classes} are
+consistent redundant confirmation.
+\end{proof}
+
+\section{Verification}\label{sec:verify}
+
+The corpus is guarded at four levels.
+
+\emph{Controls.} The C distance checker reproduces $d=4$ on the
+codetables $\code{14}{3}{4}$ matrix and $d=5$ on the codetables
+$\code{14}{2}{5}$ matrix before any enumeration is trusted; batch mode
+carries the positive control described in \S\ref{sec:enum}.
+
+\emph{Independent verifier.} A standard-library-only Python verifier,
+written separately, sharing no code with the search tools and using a
+different algorithm (explicit construction of the full $2^{11}$-element
+group and $2^{17}$-element normalizer), agrees with the C checker on the
+codetables $\code{14}{3}{4}$ reference code (both find $d=4$; the
+verifier reports FAIL by design, since $4<5$) and on a random sample of
+$8$ enumerated cyclic candidates, with exact distance agreement in all
+cases. (The verifier accepts only $11$-generator $[[14,3]]$ inputs, so
+the $12$-generator $\code{14}{2}{5}$ reference is outside its scope; the
+sample's console output was not archived.)
+
+\emph{Structural cross-checks.} The cyclic class was enumerated by two
+structurally different programs (CRT-idempotent construction; generic
+kernel-of-matrix method): identical count ($1{,}260$) and identical
+component submodule statistics. The QC-7 class likewise: the specialized
+Grassmannian generator emits exactly $1{,}298{,}700$ candidates, the
+generic tool independently reproduces that count (a count-only
+cross-check: candidates constructed and isotropy-checked, not
+re-distance-checked), and the orthogonal-pair counts match the
+Gaussian-binomial predictions over $\mathbb{F}_{8}$ exactly
+($585\times73=42{,}705$; $4{,}745\times9=42{,}705$).
+
+\emph{Adversarial re-verification.} After the corpus was frozen, a
+separate agent instance with independently written checker code re-ran
+the verification: every enumerated candidate of every nonzero symmetry
+class in Table~\ref{tab:classes} was re-checked, and Lemma~\ref{lem:C}
+was replayed in exact rational arithmetic. The re-verification confirmed
+every closure and also confirmed that the hyperplane and truncation
+sweeps of \S\ref{sec:boundary} are complete as stated.
+
+\section{Boundary data, and the CSS case}\label{sec:boundary}
+
+Nothing in this section is evidence about existence; it is recorded so
+that the next attempt does not repeat it.
+
+\begin{proposition}\label{prop:hyper}
+If $S$ is a $\code{14}{3}{5}$ stabilizer subspace, then for every logical
+$l\in\Sperp\setminus S$, the subspace $T=S+\langle l\rangle$ is a
+$\code{14}{2}{\ge5}$ stabilizer subspace. Hence every $\code{14}{3}{5}$
+is a hyperplane (index-2 subgroup) of some $\code{14}{2}{5}$.
+\end{proposition}
+
+\begin{proof}
+$T$ is isotropic of dimension $12$ since $l\in\Sperp$, and
+$T^{\perp}\setminus T\subseteq\Sperp\setminus S$, so the minimum weight
+can only go up; the tables' upper bound $d\le5$ at $[[14,2]]$
+\cite{Grassl} then pins $d(T)=5$.
+\end{proof}
+
+\emph{Hyperplane sweeps.} All $4{,}095$ hyperplanes of the codetables
+$\code{14}{2}{5}$ have $d\le4$; the same holds for all $4{,}095$
+hyperplanes of a second $\code{14}{2}{5}$ found here by transvection
+annealing (seed $44$; stabilizer in
+\texttt{data/seed\_1425\_anneal44.txt}, verified $d=5$). So neither known
+$\code{14}{2}{5}$ sits over a $\code{14}{3}{5}$.
+
+\emph{Truncations.} All $45$ rank-preserving single-qubit truncations of
+the codetables $\code{15}{3}{5}$ give $d<5$.
+
+\emph{Walks and annealing.} A $d\ge5$-preserving random walk on the
+$\code{14}{2}{5}$ manifold scores each visited code by its minimum, over
+nonzero syndromes, of the number of weight-$\le4$ Pauli errors mapping to
+that syndrome; the value $0$ anywhere would yield a candidate
+$\code{14}{3}{5}$, which an exact re-check would then settle. From the
+codetables seed, a
+$15{,}000{,}000$-step run (seed $101$; $4{,}039{,}818$ accepted states)
+drove this coverage from $13$ to $5$ within the first $251{,}000$ steps
+and never below $5$ thereafter; a second seed's runner died early (step
+$\approx48{,}000$ of the planned $15{,}000{,}000$) and its partial log is
+retained. Random-start transvection
+annealing on the $[[14,3]]$ objective floors at a single residual
+weight-$4$ dual-coset vector at best (restarts typically stall at
+$1$--$4$). Evidence of a rugged landscape and of a coverage
+floor on the explored component, not of nonexistence.
+
+\begin{remark}[the CSS case is Koh et al.'s]\label{rem:css}
+Koh, Gong, Diaconu, Tan, Geim, Gullans, Yao, Lukin and Majidy
+\cite{Koh26} exhaustively enumerate all CSS codes up to $n=14$
+($2.71\times10^{10}$ inequivalent codes) with exact distances valid for
+impure codes; their Table~VI at $(n,k)=(14,3)$ lists no $d\ge5$ row and
+exactly two codes of distance $4$. Hence no CSS $\code{14}{3}{5}$ exists,
+pure or impure, and (distances being invariant under local Cliffords)
+neither does any local-Clifford image of a CSS code with these
+parameters. This settles the entire CSS branch of the question by
+citation, and it subsumes the only CSS statement we had derived
+independently --- that a \emph{pure} CSS $\code{14}{3}{5}$ is impossible
+because the best $[14,7]_{2}$ distance is exactly $4$ while
+$d(C_{1})\ge5$ and $d(C_{2}^{\perp})\ge5$ would force
+$\dim C_{1}\le6$ and $\dim C_{1}\ge11$ \cite{Grassl}. That two-line
+argument survives only as an independent hand proof of two rows of their
+computed table; the result is theirs. Their catalogue is CSS-only; the
+open territory for $\code{14}{3}{5}$ is
+therefore genuinely non-CSS.
+\end{remark}
+
+\begin{remark}[partial results toward orders 2, 3, 5]\label{rem:order5}
+Outside the adversarially re-verified perimeter of
+Theorem~\ref{thm:main}, the working record contains a partial closure of
+the order-$5$ classes by the same machinery: all order-$5$ monomial
+elements reduce to pure permutations of cycle type $(5,1^{9})$ or
+$(5,5,1^{4})$; the invariant dimensions satisfy $d_{0}+4e=11$; the
+branches $(d_{0},e)=(11,0)$ and $(3,2)$ are impossible --- $(11,0)$ by a
+weight-$2$ vector surviving in the field component, $(3,2)$ for the
+one-$5$-cycle type via a second exact-rational LP certificate
+(\texttt{lemmaD\_certificate.py}: every additive $(9,2^{15})$ code has at
+least $1{,}471$ nonzero vectors of weight $\le4$) and for the
+two-$5$-cycle type by a fixed-space dimension count --- leaving only
+$(d_{0},e)=(7,1)$ open. We record this as work in progress with its
+certificate, not as part of the theorem.
+\end{remark}
+
+\section{Artifacts and replay}\label{sec:artifacts}
+
+The artifacts sit in \texttt{solve/problem-3/} beside the working notes:
+generators \texttt{gen\_cyclic.py}, \texttt{gen\_qc7.py},
+\texttt{gen\_c11.py}, \texttt{gen\_generic.py}; the distance checker
+\texttt{check1435.c} (single C file: exact check, batch screening,
+annealing, walks); the independent verifier \texttt{verify\_1435.py};
+\texttt{gen\_hyper.py}, \texttt{truncate15.py},
+\texttt{order7fixed\_branches.py}; reference matrices in \texttt{data/}
+(retrieved from \cite{Grassl} on August 5, 2026); and the run outputs
+behind Table~\ref{tab:classes} and \S\ref{sec:order7fixed} in
+\texttt{certificates/}. (The hyperplane and truncation sweeps of
+\S\ref{sec:boundary} were confirmed in the adversarial re-verification,
+but their console outputs were not archived; the empty \texttt{c13}
+class leaves no output file. The directory also retains
+\texttt{sample\_c7fixed.py}, the defective sampler disclosed in the
+Acknowledgments, unhashed; nothing depends on it.) The differentiator is deliberate and worth one
+plain sentence: the closure certificates --- both LP lemmas, the branch
+enumeration, and the independent distance verifier --- replay with the
+stock Python interpreter and nothing else; no package, no solver, no
+proof assistant. To replay:
+
+{\linespread{0.9}\small
+\begin{verbatim}
+cd solve/problem-3
+python3 certificates/lemmaC_certificate.py   # Lemma C, exact rationals
+python3 certificates/lemmaD_certificate.py   # Lemma D, exact rationals
+python3 order7fixed_branches.py              # d0 = 8 branch counts
+python3 verify_1435.py data/ct_14_3_stab.txt # control: d=4, "FAIL" by design
+cc -O2 -o check1435 check1435.c              # distance checker
+python3 gen_cyclic.py | ./check1435 batch 11         # 1,260 cand., 0 hits
+python3 gen_qc7.py 1  | ./check1435 batch 11         # QC-7 slice dp=1
+python3 gen_c11.py    | ./check1435 batch 11         # 8,415 cand., 0 hits
+python3 gen_generic.py shift28 | ./check1435 batch 11  # needs sympy
+\end{verbatim}
+}
+
+\noindent The four \texttt{gen\_qc7.py} slices ($0..3$) total
+$1{,}298{,}700$ candidates; \texttt{gen\_generic.py} (the only script
+with a dependency: SymPy, for one factorization) accepts every twisted
+class name of Table~\ref{tab:classes}. Expected terminal lines are the
+\texttt{SUMMARY candidates=... hits=0 bad=0} records reproduced in the
+certificate files; acceptance is by the \texttt{SUMMARY} line itself ---
+\texttt{candidates} equal to the class count, \texttt{hits=0},
+\texttt{bad=0} --- not by exit status (\texttt{batch} exits $0$ even when
+\texttt{bad>0}). Two expected oddities of a verbatim replay: the
+independent verifier exits $1$ on its control by design (it reports the
+exact distance $4$, then \texttt{FAIL: distance 4 < 5}); and the second
+section of \texttt{order7fixed\_branches.py} is a superseded block-test
+attack on the $d_{0}=5$ branch, retained for the record --- its closing
+line ``branch NOT closed by this test'' is expected, that branch being
+closed by Lemma~\ref{lem:C}. SHA-256 hashes of every file in
+\texttt{certificates/} (repeated hashes are genuinely identical outputs
+of independent runs):
+
+{\fontsize{6.3}{6.9}\selectfont
+\begin{verbatim}
+10bdfe41bb4bc1b2d46e3649d6952fdc8da17c2631cad08e889164ef736488cc  anneal2_s11.out
+029aae2eb7cb54809488669f4198b56bfc7796743089b8f49bdb2efffa7db6d4  anneal2_s22.out
+7b235c01f0c8a68a17f2478b7745c11913300ea999a913b21d10d14dd4ae4098  anneal2_s33.out
+71780fe55a5f3e50927cf3efe4bff13f76c88c55f62620ce5d5a1d50b51ce9bc  anneal2_s44.out
+3a49de35dc9175e0b0efe66e593da006d1a83d3764255bc13a96d4ae2d7744ac  anneal_s55.out
+d99197bb63d8acfc926c687e05688fdfa012842a91692cc1018b8d8d9fbdd407  c11_result.txt
+c4c4abab60c19de617c980c132013cd289ca2933b34e5b1d197dec757c3112bc  cyclic_candidates_1260.txt
+517cce87f8c4a3642afe82e8be4196fa4628734a6a8ed0c2e08ee3ff1c715f62  cyclic_result.txt
+c0305d1a9307bb8b6ae7d9328c6ea5b62498125e0098a9dfa1217c3c55705e46  lemmaC_certificate.py
+7ef4f10dbf47e132957814bc16fd10f71775e64f5e383fad6e98f682036c1492  lemmaD_certificate.py
+f3fe027b7fe84f59d70b9fa0e21b11ca667b75d2913011bc1aed9d3c8b4e0d17  order7fixed_full.txt
+b81a7565ac6b6be87616917c1ded8f80221efde2b517d03d5e02532cab14c982  order7fixed_summary.txt
+abc5f982aff4ce5e7f6aef7548daf2eb6610eda19142b821ec3ffbc96c353b12  qc7_1rho.log
+dda0a0d23bf6df85f929a070415f1aedeafc7bbc4af73238554ef69310a7427b  qc7_1rho_result.txt
+b7b7ab2b92e8870be0cd184b21aa9b89727cc5f62c7304b3cfc382a29aaf4ca5  qc7_1swap.log
+8257c009248694646c5a81daa77fb3bb474316f9b466339b49e240e389626932  qc7_1swap_result.txt
+58b70180f2e45b8d55c42218f4f11dd57e38211064c3019d7f2f3534e1447445  qc7_dp0.log
+b3220909a34b785cb058e62610a7a9538dd7cb7b8b30b5e4cb9ca3c27d0fbd05  qc7_dp0.out
+a11bea4de8c1ff90a25f2844f92158bd135ac935a7dba32acad7d83dd2011d1f  qc7_dp1.log
+7e5fc32bb0d4f480fc2d111eb8910d8b204963c7cb7409177100e11a151355ab  qc7_dp1.out
+b95ee11c013c340554e6a9791f3b842ffde2bb77b0f9d99a1c373e6e5e43f814  qc7_dp2.log
+7e5fc32bb0d4f480fc2d111eb8910d8b204963c7cb7409177100e11a151355ab  qc7_dp2.out
+043be1db5d5de02a7d4f2ac12306010a5b8b8ba23229b8223030d9404419bae1  qc7_dp3.log
+b3220909a34b785cb058e62610a7a9538dd7cb7b8b30b5e4cb9ca3c27d0fbd05  qc7_dp3.out
+393a15714494f641badc0778b4abffa00f1739b6b97f4d077ea52f0601640ca0  qc7_rho_rho2.log
+dda0a0d23bf6df85f929a070415f1aedeafc7bbc4af73238554ef69310a7427b  qc7_rho_rho2_result.txt
+eded10efb983e8f44a324d731f08b310df7c4f3310a4fc962e7f6f285d9dddac  qc7_swap_rho.log
+dda0a0d23bf6df85f929a070415f1aedeafc7bbc4af73238554ef69310a7427b  qc7_swap_rho_result.txt
+051d452751f6acb4dc50b496fb919eb3e2f843e1a52fd20f955ab503cef657ed  qc7_swap_s2.log
+3feeaba0ed1dc6615dc8a234aaff3ad090582e644a9f6ae2a5de832a2b89bd8b  qc7_swap_s2_result.txt
+1fe84310ee3ca4fbd289f1714c72bdb9d3041d0963e553d36fdec4615759d96e  qc7_xcheck.out
+c133da9f6f78dcb64204ff6d5f001059521df14a1079d9655f130f7077180c3a  qc7s3.log
+dda0a0d23bf6df85f929a070415f1aedeafc7bbc4af73238554ef69310a7427b  qc7s3_result.txt
+aae109906f4f8efa3535a441ee67e08823a6bd7cd12c1b1270cac54dad853e97  qc7swap.log
+3feeaba0ed1dc6615dc8a234aaff3ad090582e644a9f6ae2a5de832a2b89bd8b  qc7swap_result.txt
+263c7234e893f016bd33ead2a8354b575575c15bb2f75872baf74114bdefc4ed  s3shift2.log
+dda0a0d23bf6df85f929a070415f1aedeafc7bbc4af73238554ef69310a7427b  s3shift2_result.txt
+316b8bd39998c6851ee4819c5a5ad45d5f8fb722d697290c1552daebbc24ee9e  s3shift_result.txt
+93a7314da75f297284e912578c594bb14dbfc6182479aaa683ae087714ad0675  shift28.log
+86a4b81844ebc832577ee7221ff8cc2b9ba2a40f8383c1096871974a985995ac  shift28_result.txt
+2ac2e1ed208e3d7f29f39059f070681d4d637d911fbc589e7ed0a0a05e7dcf61  swapshift_result.txt
+3fe92f126b0808dbf02a6fb5f45381d224f9f998d8251dbd1fd84d77a8358dcf  walk2_s101.out
+71a58ebd0c85a2416713da85b7747581ed56cb515b371887682a3bd111cffe15  walk2_s202.out
+\end{verbatim}
+}
+
+\noindent and of the tools and reference data they replay against:
+
+{\fontsize{6.3}{6.9}\selectfont
+\begin{verbatim}
+95599be7a1ea8f22b13328fef3c9c9e8fb489ef78e1c7d535007db6b736119d5  check1435.c
+2527266d13b604029120ed11174730ef1ed3fe6d5405d8fe3f82c21668ae0d3c  verify_1435.py
+77ee81af746879b8b56c3e1e259b26fd07c0ccb9be187871a61b08ee3e0762d8  gen_cyclic.py
+9e9b4ecd954c848acf841fc1a227f911a2497ee81c7988853545105f9c5c87b7  gen_qc7.py
+6713b83cdc18d5fc47e000530953180044658a402728d235cf566d26def50dd7  gen_c11.py
+266ed6d4358bf1571de621e0819f4d46fba56d14015524a1e79239a7c9e4903e  gen_generic.py
+23f4b2ccc019ec1ca5895f980a4687ee7a93cd35e9b4799c48cd0b97cf214674  gen_hyper.py
+3782bda28af7426292f7409ba1971288ed788bbe02882debd7e5ff60fde88f6a  truncate15.py
+e6f94ea565cda966bb02a70f919e54e67b4c83081e11feefd11d8aa7b765977d  order7fixed_branches.py
+7668dcc98ef70aafb215c908728e19e177107879f683b4ff0b19a0ab104d0ee3  data/ct_14_3_stab.txt
+80fc7aef58469c67d52faa3f73562041b051905284118f9404a0059102330505  data/ct_14_2_stab.txt
+53c055242bdb7a77bf3c31884927464d89a49a132913a80ce209d887e0e8f7b1  data/ct_15_3_stab.txt
+e6fce037fc1f0f3b8535ae30076678ee7c2359d22b5aff16ca402834dc013489  data/seed_1425_anneal44.txt
+\end{verbatim}
+}
+
+\section*{Acknowledgments}
+
+The problem is Grassl's tables' and Ball, Centelles and Huber's: the
+$[[14,3]]$ entry \cite{Grassl} poses the question silently (its
+$\code{14}{3}{4}$ construction is dated June 30, 2005), and \cite{BCH}
+posed it in print. The debt to Koh, Gong, Diaconu,
+Tan, Geim, Gullans, Yao, Lukin and Majidy \cite{Koh26} is recorded in
+Remark~\ref{rem:css}: their enumeration closes the entire CSS branch and
+subsumes the one CSS statement we had derived ourselves. The
+prescribed-automorphism method is classical and Huffman's account
+\cite{Huffman98} is the one we followed; the GF(4)/symplectic framework
+and the additive MacWilliams identities underlying Lemma~\ref{lem:C} are
+Calderbank, Rains, Shor and Sloane's \cite{CRSS}, and the linear
+programming method is Delsarte's \cite{Delsarte}. All computations were
+carried out with Claude Fable~5 (Anthropic), directed by the author. One
+sampling-based falsification run present in an earlier working draft was
+removed after the adversarial re-verification found its sampler
+defective; the certified enumerations above do not depend on it.
+
+\begin{thebibliography}{99}
+
+\bibitem[BCH20]{BCH}
+S.~Ball, A.~Centelles and F.~Huber,
+\emph{Quantum error-correcting codes and their geometries},
+Ann. Inst. Henri Poincar\'e D, Comb. Phys. Interact. \textbf{10} (2023),
+337; arXiv:2007.05992, 2020. The existence of $[[14,3,5]]$ is Research
+Problem~1 in both versions.
+
+\bibitem[BFMP11]{BFMP}
+J.~Bierbrauer, R.~Fears, S.~Marcugini and F.~Pambianco,
+\emph{The nonexistence of a $[[13,5,4]]$-quantum stabilizer code},
+IEEE Trans. Inform. Theory \textbf{57} (2011), no.~7, 4788--4793.
+Earlier version: arXiv:0908.1348 (J.~Bierbrauer, S.~Marcugini and
+F.~Pambianco, 2009).
+
+\bibitem[CRSS98]{CRSS}
+A.~R. Calderbank, E.~M. Rains, P.~W. Shor and N.~J.~A. Sloane,
+\emph{Quantum error correction via codes over GF(4)},
+IEEE Trans. Inform. Theory \textbf{44} (1998), 1369--1387.
+
+\bibitem[CV25]{CrossVandeth}
+A.~W. Cross and D.~Vandeth,
+\emph{Small binary stabilizer subsystem codes},
+arXiv:2501.17447, 2025. Exhaustive enumeration of general stabilizer
+codes (and subsystem codes) through $n=9$.
+
+\bibitem[Del73]{Delsarte}
+P.~Delsarte,
+\emph{An algebraic approach to the association schemes of coding theory},
+Philips Res. Rep. Suppl. \textbf{10} (1973).
+
+\bibitem[Got97]{Gottesman97}
+D.~Gottesman,
+\emph{Stabilizer codes and quantum error correction},
+Ph.D. thesis, California Institute of Technology, 1997;
+arXiv:quant-ph/9705052.
+
+\bibitem[Gra]{Grassl}
+M.~Grassl,
+\emph{Bounds on the minimum distance of linear codes and quantum codes},
+online tables at \url{http://www.codetables.de}. Entries retrieved
+August 5, 2026: $[[14,3]]$ (lower bound $4$, construction dated June 30,
+2005; upper bound $5$; page last changed June 10, 2024); $[[15,3,5]]$;
+$[[14,2,5]]$; and the classical entry $[14,7]_{2}$ (best distance $4$)
+cited in Remark~\ref{rem:css}.
+
+\bibitem[Hao21]{Hao21}
+H.~Hao,
+\emph{Investigations on automorphism groups of quantum stabilizer codes},
+arXiv:2109.12735, 2021.
+
+\bibitem[Huf98]{Huffman98}
+W.~C. Huffman,
+\emph{Codes and groups},
+in: Handbook of Coding Theory (V.~S. Pless and W.~C. Huffman, eds.),
+vol.~II, North-Holland, 1998, 1345--1440.
+
+\bibitem[Koh26]{Koh26}
+J.~M. Koh, A.~Gong, A.~C. Diaconu, D.~B. Tan, A.~A. Geim, M.~J. Gullans,
+N.~Y. Yao, M.~D. Lukin and S.~Majidy,
+\emph{Entangling logical qubits without physical operations},
+arXiv:2601.20927, January 28, 2026. Exhaustive enumeration of all CSS
+codes up to $n=14$; Table~VI at $(n,k)=(14,3)$: two codes of distance
+$4$, none higher.
+
+\end{thebibliography}
+
+\end{document}

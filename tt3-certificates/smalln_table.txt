@@ -1,0 +1,5 @@
+n=4 min_max_packing=1 achiever_bits=111111 witness=0,1,2
+n=5 min_max_packing=2 achiever_bits=1111111111 witness=0,1,2;0,3,4
+n=6 min_max_packing=3 achiever_bits=110011110110111 witness=0,1,2;1,3,4;0,3,5
+n=7 min_max_packing=5 achiever_bits=111100111001011111111 witness=0,1,5;0,2,3;1,2,4;2,5,6;3,4,5
+n=8 min_max_packing=7 achiever_bits=1111000111000101111111111111 witness=0,1,2;0,3,4;0,5,6;1,5,7;2,3,5;3,6,7;2,4,6

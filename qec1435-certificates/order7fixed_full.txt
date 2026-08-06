@@ -1,0 +1,26 @@
+/Users/kirt/Documents/reserch math/solve/problem-3/order7fixed_branches.py:14: SyntaxWarning: "\ " is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\ "? A raw string is also an option.
+  Every element of M \ B_S lies in S^perp \ S so must have symplectic
+=== Case d0=8, (dp,dq)=(1,0): M = Vp + (Up^perp cap Vq), need <=31 low-weight to survive ===
+Up line 0: weight<=4 nonzero in M: 112  -> IMPOSSIBLE
+Up line 1: weight<=4 nonzero in M: 112  -> IMPOSSIBLE
+Up line 2: weight<=4 nonzero in M: 112  -> IMPOSSIBLE
+Up line 3: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+Up line 4: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+Up line 5: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+Up line 6: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+Up line 7: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+Up line 8: weight<=4 nonzero in M: 140  -> IMPOSSIBLE
+branch (1,0) CLOSED
+(the (0,1) case is identical under the p<->q relabeling, which is an automorphism of the setup)
+
+=== Case d0=5, (dp,dq)=(1,1): M = (Uq^perp cap Vp)+(Up^perp cap Vq) vs B = Up+Uq+<Ja,Jb> ===
+pair (Up=0,Uq=0): all low-weight M-vectors inside max-B — SURVIVES
+pair (Up=1,Uq=1): all low-weight M-vectors inside max-B — SURVIVES
+pair (Up=2,Uq=7): all low-weight M-vectors inside max-B — SURVIVES
+pair (Up=3,Uq=8): all low-weight M-vectors inside max-B — SURVIVES
+pair (Up=4,Uq=2): all low-weight M-vectors inside max-B — SURVIVES
+pair (Up=5,Uq=6): all low-weight M-vectors inside max-B — SURVIVES
+pair (Up=6,Uq=4): all low-weight M-vectors inside max-B — SURVIVES
+pair (Up=7,Uq=3): all low-weight M-vectors inside max-B — SURVIVES
+pair (Up=8,Uq=5): all low-weight M-vectors inside max-B — SURVIVES
+(1,1) pairs surviving the block test: 9 of 81; branch NOT closed by this test

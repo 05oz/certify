@@ -1,0 +1,12 @@
+restart 0 best_obj 1
+restart 1 best_obj 1
+restart 2 best_obj 3
+restart 3 best_obj 2
+restart 4 best_obj 1
+found [[14,2,5]] #1: ce6888c e632fb3 0a2f699 d8c9af5 919d9b7 0dea128 ae51eaa 2f5abf1 d08c761 0341419 2da956a 0575e82
+no d>=5 hyperplane in #1
+restart 6 best_obj 3
+restart 7 best_obj 2
+restart 8 best_obj 1
+restart 9 best_obj 1
+SUMMARY found_1425=1 no_1435

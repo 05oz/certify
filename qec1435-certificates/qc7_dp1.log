@@ -1,0 +1,10 @@
+trivial: 35 planes, 15 isotropic
+...100000 processed, 0 hits, 0 bad
+...200000 processed, 0 hits, 0 bad
+...300000 processed, 0 hits, 0 bad
+...400000 processed, 0 hits, 0 bad
+...500000 processed, 0 hits, 0 bad
+...600000 processed, 0 hits, 0 bad
+dp=1: |Up|=585 |Uq|=4745 orth pairs=42705
+total emitted: 640575
+batch done: 640575 candidates, 0 with d>=5, 0 bad/skipped

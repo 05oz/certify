@@ -1,0 +1,5 @@
+walk2: 91770 low-weight errors
+step 0 acc 1 min-coverage 13 (x104)
+step 138 acc 43 min-coverage 12 (x96)
+step 25327 acc 6868 min-coverage 9 (x78)
+step 48007 acc 12945 min-coverage 8 (x84)

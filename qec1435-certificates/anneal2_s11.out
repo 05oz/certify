@@ -1,0 +1,11 @@
+restart 0 best_obj 4
+restart 1 best_obj 4
+restart 2 best_obj 3
+restart 3 best_obj 3
+restart 4 best_obj 4
+restart 5 best_obj 3
+restart 6 best_obj 3
+restart 7 best_obj 3
+restart 8 best_obj 4
+restart 9 best_obj 4
+SUMMARY found_1425=0 no_1435

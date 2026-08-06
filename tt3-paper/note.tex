@@ -1,0 +1,642 @@
+%% ==========================================================================
+%% DRAFT -- August 5, 2026. Author byline: Daniel Kirtchakov (05oz,
+%% halfounce.io; no institutional affiliation).
+%%
+%% Result referee-confirmed 2026-08-05; novelty sweep clean 2026-08-05
+%% (Open Problem Garden fetched live, arXiv API, web sweeps, Yuster's
+%% recent output; no determination of integral nu_3(9) or nu_3(10) found
+%% anywhere since Kabiya--Yuster 2008).
+%%
+%% Framing constraints imposed by the adversarial referee and honored
+%% throughout this note:
+%%   * The NEW content is the two integral LOWER bounds, established over
+%%     every tournament isomorphism class (191,536 at n=9; 9,733,056 at
+%%     n=10). The matching UPPER bounds are Yuster 2004's (Section 4:
+%%     oriented Turan blow-up; fractional strengthening in Kabiya--Yuster
+%%     2008, Section 2.4), and are credited so at every point of use. We
+%%     write "no certified determination existed", never "the values were
+%%     unknown".
+%%   * Declared trust assumption: gentourng (nauty 2.9.3) enumerates
+%%     completely; cross-validated exhaustively for n <= 7 and
+%%     count-validated against OEIS A000568 and exact Burnside numbers
+%%     at n = 9, 10.
+%% Kabiya--Yuster read in full 2026-08-05 from the copy saved with the
+%% artifacts (primary-source-kabiya-yuster-tt3.pdf; author preprint).
+%% Yuster 2004 checked verbatim against arXiv math/0304180 the same day
+%% (copy archived with this note). Fix pass 2026-08-05: see FIXLOG.md.
+%% ==========================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1.15in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\emergencystretch=3em
+\tolerance=1200
+\hbadness=4000
+
+\newcommand{\TT}{\mathrm{TT}_3}
+\newcommand{\nut}{\nu_3}
+\newcommand{\nuf}{\nu_3^{*}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\begin{document}
+
+\title[Certified values of $\nut(9)$ and $\nut(10)$]{The minimum number of
+arc-disjoint transitive triples in a tournament: a first certified
+determination of $\nut(9)=9$ and $\nut(10)=12$}
+
+\author{Daniel Kirtchakov}
+\address{Independent researcher (\texttt{05oz}); no institutional
+affiliation.}
+\email{daniel@halfounce.io}
+\urladdr{https://halfounce.io}
+
+\thanks{\emph{Computation and authorship.} All searches, encodings, and
+certificate designs in this work were produced by \textbf{Claude Fable~5}
+(Anthropic), directed by the author, on a single Apple~M4 laptop. The
+independent verifiers import only the Python standard library and share no
+code with the search pipeline; the adversarial referee of
+\S\ref{ssec:referee} was a separate agent instance given no access to the
+pipeline and wrote its own code throughout. This is a factual methods
+statement, and it is part of the point of the note: the artifacts are
+designed so that the provenance of the \emph{search} is irrelevant to the
+validity of the \emph{result}. External tools used by the pipeline only:
+\texttt{gentourng} (nauty 2.9.3), CaDiCaL~3.0.1
+(\texttt{--lrat --no-binary}), Apple clang 17.0.0, Python~3.}
+
+\thanks{\emph{Prior-art record.} The Kabiya--Yuster text \cite{KY08} was
+read in full on August~5, 2026, from the copy saved with the artifacts (an
+author preprint; section references follow its numbering). The
+concluding-remarks account in \cite{Yuster04} of the verified range and of
+the upper-bound construction was checked verbatim against the arXiv text
+(\texttt{math/0304180}) the same day; the results of \cite{Yuster04} are
+otherwise used as reported in \cite{KY08}. The novelty sweep of the same
+date --- the Open Problem Garden entry fetched live, the arXiv API, and
+general web sweeps --- found no determination of the integral values
+$\nut(9)$ or $\nut(10)$ anywhere in the record since 2008. The upper-bound
+half of both values was never open; see \S\ref{ssec:credit}. \emph{Draft
+of August 5, 2026.}}
+
+\subjclass[2020]{Primary 05C20; Secondary 05C70, 68V15}
+\keywords{Tournament, transitive triple, packing, Yuster's conjecture,
+certified computation, SAT, LRAT}
+
+\date{August 5, 2026}
+
+\begin{abstract}
+For a tournament $T$ let $\nut(T)$ be the maximum number of pairwise
+arc-disjoint transitive triples in $T$, and let
+$\nut(n)=\min_T \nut(T)$ over all $n$-vertex tournaments. Yuster (2004)
+conjectured $\nut(n)=\lceil n(n-1)/6-n/3\rceil$ and verified this for all
+$n\le 8$ ($n=8$ by computer, the smaller cases by direct argument),
+without published certificates; no determination of $\nut(9)$ or
+$\nut(10)$, certified or otherwise, appears in the record since. We supply the first certified determination:
+$\nut(9)=9$ and $\nut(10)=12$, the conjectured values.
+
+The new content is the two lower bounds. An exact branch-and-bound packer
+was run over every tournament isomorphism class --- all $191{,}536$ at
+$n=9$ and all $9{,}733{,}056$ at $n=10$, enumerated by \texttt{gentourng}
+with counts validated against OEIS A000568 and independently recomputed
+Burnside numbers --- and emitted, for every class, an explicit packing of
+$9$ (resp.\ $12$) arc-disjoint transitive triples, each re-verified from
+the raw arc data by a standard-library checker sharing no code with the
+search. The matching upper bounds are not new: they are Yuster's (2004),
+via oriented Tur\'an blow-ups, restated with a fractional strengthening
+by Kabiya and Yuster (2008), \S2.4. What we add on that side is an
+artifact: for an explicit minimizer in each order ---
+$C_3[C_3,C_3,C_3]$ at $n=9$ and $C_3[TT_4,C_3,C_3]$ at $n=10$ --- an
+LRAT-certified proof that no packing of $10$ (resp.\ $13$) triples
+exists, replayed by an independent checker that regenerates the CNF from
+its specification.
+
+One trust assumption is declared rather than checked: that
+\texttt{gentourng} (nauty) enumerates the isomorphism classes completely.
+It was cross-validated exhaustively for $n\le 7$ and count-validated at
+$n=9,10$. Everything else was verified twice: by stdlib-only verifiers,
+and by an adversarial referee who re-ran the enumeration to byte-level
+set equality, re-solved both minimizers with an independent exact solver,
+and exercised both verifiers with negative controls. The next open case,
+$\nut(11)$ (conjectured value $15$), is a factor of roughly $93$ larger
+and is within reach of the same pipeline (CPU-days, not CPU-years); it
+has not been started.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{The problem}
+A tournament is an orientation of the complete graph. A transitive triple
+($\TT$) is a $3$-vertex subtournament with no directed cycle; a
+$\TT$-packing of a tournament $T$ is a set of pairwise arc-disjoint
+transitive triples of $T$, and $\nut(T)$ is the maximum size of one.
+Following Kabiya and Yuster \cite{KY08} we write
+\[
+\nut(n)\;=\;\min\{\nut(T): T \text{ a tournament on } n
+\text{ vertices}\},
+\]
+the value of the packing problem on the \emph{worst} $n$-vertex
+tournament. Yuster \cite{Yuster04} proved that
+$\nut(n)\ge\frac{51}{392}n^{2}(1-o(1))$, conjectured the exact value, and
+verified the conjecture for all $n\le 8$ --- $n=8$ by computer, the
+smaller cases by direct argument \cite[\S4]{Yuster04}:
+
+\begin{center}
+\emph{Conjecture (Yuster \cite{Yuster04}; Conjecture 1.1 of
+\cite{KY08}).} $\ \nut(n)=\lceil n(n-1)/6-n/3\rceil$.
+\end{center}
+
+\noindent The conjectured sequence begins, from $n=3$:
+$0,1,2,3,5,7,9,12,15,\dots$ Kabiya and Yuster \cite{KY08} improved the
+asymptotic lower bound to $\frac{41}{300}n^{2}(1-o(1))$, still the best
+known, by solving the \emph{fractional} relaxation at $r=10$ by linear
+programming ($\nuf(10)=12$) and transferring the bound to the integral
+problem with a loss. Their paper is the last progress recorded on the
+problem's Open Problem Garden entry \cite{OPG}, which records no
+progress beyond 2008.
+
+The state of the integral problem at the start of this work was
+therefore: conjectured value known for all $n$; verified for $n\le8$ by
+Yuster ($n=8$ by computer), with no certificates for that range in
+\cite{Yuster04} or anywhere else in the record; at $n=9$
+and $n=10$, an upper-bound half that was closed in print (see
+\S\ref{ssec:credit}) and a lower-bound half with nothing in the record.
+\emph{No certified determination of $\nut(9)$ or $\nut(10)$ existed.}
+
+\subsection{Result}
+
+\begin{theorem}\label{thm:main}
+$\nut(9)=9$ and $\nut(10)=12$. Consequently, together with the verified
+range $n\le 8$ (\cite{Yuster04}, reproduced in \S\ref{ssec:packer}),
+Yuster's conjectured formula $\lceil n(n-1)/6-n/3\rceil$ holds for all
+$n\le 10$, and a counterexample, if one exists, has $n\ge 11$.
+\end{theorem}
+
+Every claim in Theorem~\ref{thm:main} is backed by a machine-checkable
+artifact: an explicitly verified witness packing for every one of the
+$191{,}536+9{,}733{,}056$ tournament isomorphism classes (the lower
+bounds), and LRAT unsatisfiability certificates on explicit minimizer
+tournaments (the upper bounds), all replayable with standard-library
+Python and shipped with hashes (\S\ref{sec:artifacts}). This extends the verified
+range of the conjecture from $n\le8$ (uncertified) to
+$n\le10$ (certified).
+
+\subsection{Provenance and credit}\label{ssec:credit}
+The division of labor between this note and the literature is exact, and
+stating it precisely is a referee-imposed condition on the writing.
+
+\emph{The upper bounds are Yuster's.} Section 4 of \cite{Yuster04}
+orients the complete $3$-partite Tur\'an graph
+$V_1\to V_2\to V_3\to V_1$, completes the classes arbitrarily, and
+observes that every transitive triple of the resulting tournament uses at
+least one within-class arc; hence no $\TT$-packing exceeds the number of
+within-class arcs, which is exactly $\lceil n(n-1)/6-n/3\rceil$. Kabiya
+and Yuster \cite[\S2.4]{KY08} restate the construction --- crediting the
+tournaments to \cite{Yuster04} --- and strengthen the bound to the
+\emph{fractional} packing number. At $n=9$
+with parts $(3,3,3)$ this gives $\nut(9)\le 9$; at $n=10$ with parts
+$(4,3,3)$ it gives $\nut(10)\le 12$. So the upper-bound half of
+Theorem~\ref{thm:main} was never open, and nothing about the
+\emph{values} $9$ and $12$ being upper bounds is claimed here. What this
+note adds on the upper side is a certificate: an LRAT proof, for an
+explicit minimizer in each order, that one more triple does not fit
+(\S\ref{ssec:upper}).
+
+\emph{The lower bounds are the new content.} $\nut(9)\ge 9$ and
+$\nut(10)\ge 12$ assert something about \emph{every} tournament of the
+given order, and for these no argument, computation, or certificate
+existed in the record. They are established here by exhaustive
+per-isomorphism-class computation with per-class witnesses
+(\S\ref{ssec:lower}).
+
+\emph{The enumeration is nauty's; the counts are classical.} Tournament
+isomorphism classes were generated by \texttt{gentourng} from the nauty
+suite of McKay and Piperno \cite{nauty}, and the class counts
+$191{,}536$ and $9{,}733{,}056$ are OEIS sequence A000568 \cite{OEIS},
+recomputed independently during verification via Burnside's lemma
+(Davis's formula \cite{Davis54}).
+
+\subsection{What is not claimed}
+We do not claim the upper bounds, which are \cite{Yuster04}'s (with the
+fractional strengthening of \cite{KY08}). We do not claim any asymptotic
+improvement; the best general lower bound remains
+$\frac{41}{300}n^{2}(1-o(1))$ of \cite{KY08}. We do not claim the values
+were unexpected: they are exactly the conjectured ones. We do not claim
+the conjecture; it remains open for $n\ge11$. And one link in the chain
+is trusted rather than machine-checked --- the completeness of the
+\texttt{gentourng} enumeration --- and \S\ref{sec:tcb} states exactly
+what supports that trust.
+
+\section{The two halves of the computation}\label{sec:comp}
+
+\subsection{Enumeration}\label{ssec:enum}
+All tournaments were handled up to isomorphism, which suffices because
+$\nut$ is an isomorphism invariant. \texttt{gentourng -q 9} produced
+$191{,}536$ tournaments and \texttt{gentourng -q 10 $r$/16},
+$r=0,\dots,15$, produced $9{,}733{,}056$ in sixteen slices (per-slice
+counts are shipped in \texttt{n10\_chunk\_counts.txt} and sum exactly).
+Both totals equal A000568 \cite{OEIS}. Each tournament is a line of
+$\binom{n}{2}$ characters, the upper triangle row by row, \texttt{1} at
+pair $(i,j)$, $i<j$, iff the arc is $i\to j$; the output strings were
+checked to be pairwise distinct (\texttt{sort -u}: $191{,}536$ and
+$9{,}733{,}056$).
+
+\subsection{The exact packer, validated on the known
+range}\label{ssec:packer}
+\texttt{tt3pack.c} ($136$ lines of C) computes $\nut(T)$ exactly by
+branch and bound: it branches on a live uncovered arc with the fewest
+free triples through it --- either some free triple through it joins the
+packing, or the arc is marked permanently uncovered --- and prunes with
+the bound $|\text{packing}| + \lfloor\text{live free arcs}/3\rfloor$.
+With a target $t>0$ it stops early as soon as a packing of size $\ge t$
+is found and prints it; with target $0$ it returns the exact maximum with
+an optimal packing. Before any new claim was attempted, the packer was
+run in exact mode over the complete enumeration for $n=4,\dots,8$ and
+returned minima $1,2,3,5,7$ --- reproducing Yuster's verified
+range \cite{Yuster04} exactly (achieving tournaments and optimal packings
+in \texttt{smalln\_table.txt}).
+
+\subsection{Lower bounds: a witness for every isomorphism
+class}\label{ssec:lower}
+The sweep $\texttt{gentourng -q 9}\mid\texttt{tt3pack 9 9}$ terminated
+with every one of the $191{,}536$ classes reporting a packing of $\ge9$
+arc-disjoint transitive triples, each line carrying the packing itself
+(about a second of wall clock; log \texttt{n9\_sweep.txt.gz}). The sixteen
+$n=10$ slices, run as
+$\texttt{gentourng -q 10 } r/16\mid\texttt{tt3pack 10 12}$, terminated
+with all $9{,}733{,}056$ classes reporting a packing of $\ge12$, about
+$3$\,s per slice (logs \texttt{n10\_sweep\_0..15.txt.gz}). Since every
+tournament is isomorphic to a listed one and $\nut$ is invariant,
+\[
+\nut(9)\ge 9, \qquad \nut(10)\ge 12 .
+\]
+These $9{,}924{,}592$ witness lines are the note's entire novel
+mathematical content, and they are what the verification of
+\S\ref{sec:verif} re-checks line by line.
+
+\subsection{Upper bounds: certified optimality on explicit
+minimizers}\label{ssec:upper}
+Following \cite[\S4]{Yuster04} and \cite[\S2.4]{KY08}, the candidate
+minimizers are the cyclic blow-ups $C_3[T_1,T_2,T_3]$: three vertex classes with all arcs
+$V_1\to V_2\to V_3\to V_1$ and arbitrary tournaments inside the classes.
+The packer, in exact mode, was run on every within-class variant: all
+$8$ variants with parts $(3,3,3)$ at $n=9$ have $\nut(T)=9$ exactly, and
+all $48$ variants with parts $(4,3,3)$ at $n=10$ have $\nut(T)=12$
+exactly (\texttt{cand9.out}, \texttt{cand10.out}) --- consistent with
+\cite[\S4]{Yuster04} and \cite[\S2.4]{KY08}, where the upper bound is
+proved for an arbitrary within-class completion. The representatives fixed for certification are
+\[
+T_9=C_3[C_3,C_3,C_3], \qquad T_{10}=C_3[TT_4,C_3,C_3]
+\]
+(arc strings in \texttt{minimizer9.bits}, \texttt{minimizer10.bits};
+$T_{10}$ has the transitive $4$-tournament in its $4$-class). For each,
+two artifacts are shipped:
+
+\begin{itemize}
+\item an optimal packing --- $9$ triples in $T_9$, $12$ in $T_{10}$
+(\texttt{minimizer9.witness}, \texttt{minimizer10.witness}) --- so the
+values are attained;
+\item a proof that no larger packing exists: a CNF asserting ``$T$
+contains $10$ (resp.\ $13$) pairwise arc-disjoint transitive triples'',
+refuted by CaDiCaL~3.0.1 \cite{CaDiCaL} with an LRAT proof
+\cite{LRAT}: \texttt{min9\_ge10.cnf} ($2{,}430$ variables, $5{,}058$
+clauses; proof \texttt{min9\_ge10.lrat}, $419{,}396$ bytes) and
+\texttt{min10\_ge13.cnf} ($5{,}740$ variables, $11{,}916$ clauses; proof
+\texttt{min10\_ge13.lrat}, $1{,}938{,}465$ bytes).
+\end{itemize}
+
+\noindent The encoding (full byte-exact specification in the
+\texttt{encode\_cnf.py} docstring) has one variable per transitive triple
+of $T$, a binary conflict clause for each pair of triples sharing an arc,
+and a Sinz sequential at-most-$K$ counter \cite{Sinz05} on the negated
+triple variables, $K=m-k$ with $m$ the number of transitive triples, so
+that at least $k$ triples must be selected. Its correctness splits
+asymmetrically. That any satisfying assignment yields $k$ arc-disjoint
+triples is forced clause by clause (conflict clauses; counter soundness).
+The direction that makes UNSAT meaningful --- any packing of size $k$
+extends to a satisfying assignment of the counter variables --- is the
+standard completeness property of the sequential-counter encoding
+\cite{Sinz05}, and it sits in the trusted base
+(\S\ref{sec:tcb}). As positive controls, the same encoding at the
+attained value is satisfiable, and was solved as such:
+\texttt{min9\_ge9.cnf} and \texttt{min10\_ge12.cnf} are SAT (CaDiCaL exit
+$10$), so unsatisfiability appears exactly at value${}+1$. Hence
+$\nut(T_9)=9$ and $\nut(T_{10})=12$, giving $\nut(9)\le9$ and
+$\nut(10)\le12$ --- the bounds already available on paper from
+\cite[\S4]{Yuster04}, now in checkable form. With \S\ref{ssec:lower},
+Theorem~\ref{thm:main} follows.
+
+\begin{remark}[The fractional parameter]\label{rem:frac}
+The blow-up bound holds for the fractional packing number $\nuf$ as
+well --- this strengthening is Kabiya--Yuster's \cite[\S2.4]{KY08} ---
+so
+$\nuf(9)\le9$ and $\nuf(10)\le12$; combining with
+$\nuf(n)\ge\nut(n)$ and Theorem~\ref{thm:main} gives
+$\nuf(9)=9$ and $\nuf(10)=12$. The $r=10$ value agrees with the LP
+computation reported in \cite[\S3]{KY08} and provides an independent
+derivation of it that does not rest on an uncertified LP solve. This is
+consistent with the observation of \cite[\S2.4]{KY08} that their
+Conjecture 1.1 implies $\nuf(n)=\nut(n)$ for all $n$.
+\end{remark}
+
+\section{Verification}\label{sec:verif}
+
+\subsection{Independent stdlib-only verifiers}\label{ssec:stdlib}
+Two verifiers, sharing no code with the searcher and importing only the
+Python standard library, re-check everything the pipeline produced.
+
+\texttt{verify\_sweep.py} re-checks every one of the $9{,}924{,}592$
+sweep lines from the raw arc string alone: each witness triple is
+transitive in the stated tournament, no arc is used twice, the count
+meets the target, the line totals match the expected class counts
+exactly. All $17$ witness files pass with zero failures. A below-target
+line would be flagged loudly as a candidate counterexample; there were
+none.
+
+\texttt{verify\_minimizer.py} re-establishes $\nut(T_9)=9$ and
+$\nut(T_{10})=12$ from raw artifacts: it re-checks the optimal packing
+against the bits; \emph{regenerates} the CNF from the encoding
+specification with independent code and demands equality with the
+shipped CNF as a clause multiset; and replays the LRAT proof with its
+own RUP-with-hints checker --- no external tool, and RAT steps are
+refused outright, which incidentally establishes that both proofs are
+pure RUP. Both certificates verify.
+
+\subsection{The adversarial-referee protocol}\label{ssec:referee}
+The result was then subjected to an adversarial referee --- a separate
+agent instance with no access to the pipeline, writing entirely fresh
+code --- whose protocol is part of the contribution and is recorded in
+the program's results ledger of 2026-08-05. The referee re-ran the
+enumeration from scratch and confirmed byte-level set equality with the
+shipped sweeps; recomputed the class counts $191{,}536$, $9{,}733{,}056$
+exactly via Burnside's lemma (Davis's formula \cite{Davis54}),
+independently of both nauty and OEIS;
+re-verified all $9{,}924{,}592$ witness lines with its own sweep
+verifier (zero failures); re-solved both minimizers with its own exact
+solver, of a different design and not SAT-based, obtaining $9$ and $12$;
+re-ran CaDiCaL afresh on the shipped CNFs; and exercised both stdlib
+verifiers with negative controls --- deliberately corrupted artifacts
+--- all of which were correctly rejected. The referee also imposed the
+credit framing of \S\ref{ssec:credit} and caught one error in an
+internal draft (Remark~\ref{rem:burnside}). On this protocol the result
+was confirmed on 2026-08-05.
+
+\section{The trusted base}\label{sec:tcb}
+
+What a skeptic must believe, split into what is re-checked by short
+readable code and what is assumed.
+
+\emph{Machine-checked:} every witness packing, per isomorphism class,
+from raw arc data (\S\ref{ssec:stdlib}); the totals and per-slice counts;
+pairwise distinctness of the enumerated strings; the optimal packings in
+both minimizers; the clause-multiset equality of each shipped CNF with an
+independent regeneration from the specification; and the LRAT replay of
+both unsatisfiability proofs, in a checker that refuses RAT steps.
+
+\emph{Assumed:}
+\begin{enumerate}
+\item \emph{\texttt{gentourng} enumerates completely} --- one
+representative of every isomorphism class. This is the one substantive
+trust assumption, and it is supported rather than proved: exhaustive
+cross-validation for $n\le7$; class counts at $n=9,10$ equal to OEIS
+A000568 \cite{OEIS} and to the referee's independent exact Burnside
+computation \cite{Davis54}; output strings pairwise distinct; and a
+fresh re-run by the referee, equal to the shipped enumeration as a set
+of strings byte for byte. Distinct strings with the right count do
+not by themselves imply completeness (two listed strings could in
+principle be isomorphic, hiding a missed class), which is why this item
+is listed here and not above.
+\item \emph{The sequential-counter encoding is complete} \cite{Sinz05}:
+every packing of size $k$ extends to a satisfying assignment of the
+counter variables. If the counter accidentally over-constrained, UNSAT
+would mean less than claimed. (\cite{Sinz05} states the property; the
+short conference paper omits the proofs for space.)
+\item \emph{The arc-string convention is read as written.} Searcher and
+verifiers necessarily share the \emph{convention} (not code) for
+interpreting \texttt{gentourng}'s output format. A consistent
+misreading on both sides would not be caught by line re-checking; it is
+caught instead by the $n\le8$ reproduction of Yuster's values and by the
+minimizers, whose blow-up structure is known independently of the
+format.
+\item CPython and the operating system.
+\end{enumerate}
+
+\noindent The searcher \texttt{tt3pack}, the encoder, CaDiCaL, and the
+shipped CNF files are \emph{not} in the trusted base: every claim they
+produced was re-derived from raw data or regenerated and re-checked
+independently.
+
+\section{The frontier: $n=11$}\label{sec:frontier}
+
+The next open case is $\nut(11)$, conjectured value
+$\lceil 110/6-11/3\rceil=15$. There are
+$A000568(11)=903{,}753{,}248$ isomorphism classes, a factor of
+about $93$ over the $n=10$ sweep --- CPU-days, not CPU-years, for the
+pipeline exactly as shipped (\texttt{tt3pack} as written handles
+$n\le11$; the $55$ arc pairs fit one $64$-bit mask). The corresponding
+minimizer candidates are the blow-ups with parts $(4,4,3)$, whose
+$6+6+3=15$ within-class arcs match the conjectured value, so both halves
+are within reach of the same two-sided method. This
+computation is the program's next target; it has not been started, and
+no result at $n=11$ is claimed here. The fractional side ($\nuf(r)$ for $r=11$, which would
+sharpen the $41/300$ of \cite{KY08}) is LP-based, separate, and was not
+touched.
+
+\begin{remark}[A corrected estimate]\label{rem:burnside}
+An earlier internal draft of the working notes misstated $A000568(11)$
+as ${\approx}9.04\times10^{11}$ and priced the $n=11$ sweep accordingly
+(``${\sim}100$\,TB of logs''). The referee's exact Burnside computation
+gives $903{,}753{,}248\approx9.04\times10^{8}$ --- the same mantissa,
+three orders of magnitude smaller --- and the feasibility claim above
+rests on the corrected value. We record the error because estimates that
+die in private make the surviving ones less trustworthy.
+\end{remark}
+
+\section{Artifacts}\label{sec:artifacts}
+
+The artifact directory (\texttt{problem-2/} in this program's research
+tree, distributed with this note) contains the complete pipeline,
+sweeps, certificates, and verifiers: $148$\,MB of gzipped $n=10$ sweep
+logs in sixteen files, $2.3$\,MB for $n=9$, and everything else under
+$2$\,MB. The certified release is exactly the $32$ files pinned by MD5
+digest in \texttt{MD5SUMS.txt} and reproduced in Table~\ref{tab:md5}:
+the sweeps, certificates, minimizers, verifiers, and code. The auxiliary
+files cited in the text --- \texttt{n10\_chunk\_counts.txt},
+\texttt{smalln\_table.txt}, \texttt{cand9.out}, \texttt{cand10.out}, and
+the archived primary source --- ship alongside them, unpinned; the
+certified chain of Theorem~\ref{thm:main} runs entirely through the
+pinned files.
+
+To replay from scratch on any machine with nauty, CaDiCaL, a C compiler
+and Python 3:
+
+\begin{verbatim}
+cc -O2 -o tt3pack tt3pack.c
+gentourng -q 9  | ./tt3pack 9 9      # lower-bound sweep, n=9
+gentourng -q 10 | ./tt3pack 10 12    # lower-bound sweep, n=10
+python3 encode_cnf.py 9  "$(cat minimizer9.bits)"  10 min9_ge10.cnf
+cadical --lrat --no-binary min9_ge10.cnf min9_ge10.lrat  # s UNSATISFIABLE
+python3 verify_sweep.py --n 9 --target 9 --expect 191536 n9_sweep.txt.gz
+python3 verify_minimizer.py --n 9 --value 9 --bits minimizer9.bits \
+    --witness minimizer9.witness --cnf min9_ge10.cnf --lrat min9_ge10.lrat
+\end{verbatim}
+
+\noindent and the same pattern at $n=10$ with target $12$, value $12$,
+and $K=13$ files. (The sweep commands stream to standard output;
+redirect to a file. The first field of each sweep line is a per-run line
+number, which restarts in every slice: when comparing an unsliced
+$n=10$ replay against the sixteen shipped slices, compare the remaining
+fields. Production ran the sixteen-slice form.) The two verifiers need only the Python standard
+library; re-checking the shipped artifacts requires neither nauty, nor
+CaDiCaL, nor a compiler, except for the enumeration itself, which is the
+declared trust assumption of \S\ref{sec:tcb}. Tool versions used: nauty
+2.9.3, CaDiCaL 3.0.1, Apple clang 17.0.0, CPython 3.
+
+\begin{table}[ht]
+\scriptsize
+\setlength{\tabcolsep}{1pt}
+\begin{center}
+\begin{tabular}{ll@{\hspace{7pt}}ll}
+\toprule
+file & MD5 & file & MD5 \\
+\midrule
+\texttt{tt3pack.c} & \texttt{46592e2c895dcd88f485f35f408940dc} &
+\texttt{n10\_sweep\_2.txt.gz} & \texttt{f9c71121e500d9594fab895a8fb9d6ba} \\
+\texttt{encode\_cnf.py} & \texttt{c277f53e7343a44c93375159c248f08a} &
+\texttt{n10\_sweep\_3.txt.gz} & \texttt{4e243e0e91582866523d512669c9eba4} \\
+\texttt{verify\_sweep.py} & \texttt{a3726bfbb524e1d5d29bdfa892776fe0} &
+\texttt{n10\_sweep\_4.txt.gz} & \texttt{d3d96b7b0a78432cb8e80dec1366a36a} \\
+\texttt{verify\_minimizer.py} & \texttt{373639d979b8f44f559ca9ea78ef880b} &
+\texttt{n10\_sweep\_5.txt.gz} & \texttt{bbe411ec67ba2e144ddd1fdb13cb1ce4} \\
+\texttt{make\_candidates.py} & \texttt{546aabe9b6d4a28499da6be2c27e3b45} &
+\texttt{n10\_sweep\_6.txt.gz} & \texttt{9fb5d3da724fcf453451e1ce4e639573} \\
+\texttt{minimizer9.bits} & \texttt{34ed2059bf5e33ff439e040d0306b7a4} &
+\texttt{n10\_sweep\_7.txt.gz} & \texttt{ece12815439e764a813c99a70b20ddb8} \\
+\texttt{minimizer10.bits} & \texttt{66d67402bb479a6bc831d10d632c980c} &
+\texttt{n10\_sweep\_8.txt.gz} & \texttt{b9fcb0b5939650e5b5a1f1fa51173438} \\
+\texttt{minimizer9.witness} & \texttt{35a3d4136122454cb41624bd013c083c} &
+\texttt{n10\_sweep\_9.txt.gz} & \texttt{1cd91ac37afb04e120415e5790a34bb6} \\
+\texttt{minimizer10.witness} & \texttt{e1b9923118dbe2358007edf31da8da1f} &
+\texttt{n10\_sweep\_10.txt.gz} & \texttt{a1e999d85ba88c3dd131fb123702b46b} \\
+\texttt{min9\_ge10.cnf} & \texttt{f0080051d89ec538e86501efeeaecadf} &
+\texttt{n10\_sweep\_11.txt.gz} & \texttt{64afda1fb8d36eebf04d70a53d2664b1} \\
+\texttt{min9\_ge10.lrat} & \texttt{d13133b094e5bc0ab5fd7f7b7cf1af3b} &
+\texttt{n10\_sweep\_12.txt.gz} & \texttt{90485a8cf9e63e716980c0ef74a6726c} \\
+\texttt{min10\_ge13.cnf} & \texttt{ce16d4fc654198dcb1e3ff0782dd5b1a} &
+\texttt{n10\_sweep\_13.txt.gz} & \texttt{0109f71fbb2a111405b175b6c40f2120} \\
+\texttt{min10\_ge13.lrat} & \texttt{ad546eece47db3d3f7abf9baacc859bf} &
+\texttt{n10\_sweep\_14.txt.gz} & \texttt{a1bb606d782c973e784672c6b90a3f11} \\
+\texttt{min9\_ge9.cnf} & \texttt{a9acac4e212214975eb28f3690d21f86} &
+\texttt{n10\_sweep\_15.txt.gz} & \texttt{a91a473a46034db7d448cd2eb6165019} \\
+\texttt{min10\_ge12.cnf} & \texttt{eb5ae68eb5262236e2c0c8e4947b9c25} &
+\texttt{n9\_sweep.txt.gz} & \texttt{b43c323b55c2f199d94cacc025d3d15b} \\
+\texttt{n10\_sweep\_0.txt.gz} & \texttt{5069371e1500dda7eabdf5fe7a0d4e35} &
+& \\
+\texttt{n10\_sweep\_1.txt.gz} & \texttt{73e36c3db19e0815e57de78761d92dd2} &
+& \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+\caption{MD5 digests of the released artifacts (the $32$ entries of
+\texttt{MD5SUMS.txt}).}
+\label{tab:md5}
+\end{table}
+
+\section*{Acknowledgments}
+
+The problem, the conjectured formula, the verified range $n\le8$, and
+the blow-up upper-bound argument used here at both orders are Raphael
+Yuster's; the fractional method that still holds the best general
+lower bound is Mohamad Kabiya and Raphael Yuster's. The enumeration
+rests entirely on Brendan McKay and Adolfo Piperno's nauty. To Carsten
+Sinz for the cardinality encoding, to Cruz-Filipe, Heule, Hunt, Kaufmann
+and Schneider-Kamp for LRAT, and to Armin Biere and coauthors for
+CaDiCaL. The computation and drafting were AI-assisted as stated in the
+first footnote; the adversarial referee's insistence on the credit
+framing of \S\ref{ssec:credit} made this a better and a more honest note.
+
+\begin{thebibliography}{99}
+
+\bibitem[KY08]{KY08}
+M.~Kabiya and R.~Yuster,
+\emph{Packing transitive triples in a tournament},
+Ann.\ Comb.\ \textbf{12} (2008), no.~3, 291--306.
+DOI 10.1007/s00026-008-0352-3. Read in full on August 5, 2026, from
+the copy archived with the artifacts
+(\texttt{primary-source-kabiya-yuster-tt3.pdf}); that copy is the author
+preprint, and section references follow its numbering: the blow-up
+upper-bound argument is \S2.4, and the $r=10$ fractional LP computation
+is \S3.
+
+\bibitem[MP14]{nauty}
+B.~D. McKay and A.~Piperno,
+\emph{Practical graph isomorphism, II},
+J.\ Symbolic Comput.\ \textbf{60} (2014), 94--112. Version used here:
+nauty 2.9.3 (\texttt{gentourng}).
+
+\bibitem[Dav54]{Davis54}
+R.~L. Davis,
+\emph{Structures of dominance relations},
+Bull.\ Math.\ Biophys.\ \textbf{16} (1954), 131--140.
+
+\bibitem[OEIS]{OEIS}
+OEIS Foundation Inc.,
+\emph{The On-Line Encyclopedia of Integer Sequences}, sequence A000568
+(the number of tournaments on $n$ unlabeled nodes),
+\url{https://oeis.org/A000568}.
+
+\bibitem[OPG]{OPG}
+Open Problem Garden, \emph{Minimum number of arc-disjoint transitive
+subtournaments of order 3 in a tournament},
+\url{http://www.openproblemgarden.org/op/minimum_number_of_transitive_subtournaments_of_order_3_in_a_tournament}.
+Fetched live August 5, 2026; the entry records no progress beyond
+\cite{KY08}.
+
+\bibitem[BFF{+}24]{CaDiCaL}
+A.~Biere, T.~Faller, K.~Fazekas, M.~Fleury, N.~Froleyks and F.~Pollitt,
+\emph{CaDiCaL 2.0},
+in: Computer Aided Verification --- CAV 2024, Lecture Notes in Comput.\
+Sci.\ \textbf{14681}, Springer, 2024, 133--152.
+DOI 10.1007/978-3-031-65627-9\_7. Version used to produce the proofs:
+CaDiCaL 3.0.1 (\texttt{--lrat --no-binary}).
+
+\bibitem[CFHKS17]{LRAT}
+L.~Cruz-Filipe, M.~J.~H. Heule, W.~A. Hunt~Jr., M.~Kaufmann and
+P.~Schneider-Kamp,
+\emph{Efficient certified RAT verification},
+in: Automated Deduction --- CADE-26, Lecture Notes in Comput.\ Sci.\
+\textbf{10395}, Springer, 2017, 220--236.
+
+\bibitem[Sin05]{Sinz05}
+C.~Sinz,
+\emph{Towards an optimal CNF encoding of Boolean cardinality
+constraints},
+in: Principles and Practice of Constraint Programming --- CP 2005,
+Lecture Notes in Comput.\ Sci.\ \textbf{3709}, Springer, 2005, 827--831.
+
+\bibitem[Yus04]{Yuster04}
+R.~Yuster,
+\emph{The number of edge-disjoint transitive triples in a tournament},
+Discrete Math.\ \textbf{287} (2004), 187--191. Also
+arXiv:math/0304180. The concluding remarks (\S4: the oriented Tur\'an
+upper-bound construction; the verified range $n\le8$, with $n=8$ by
+computer) were checked verbatim against the arXiv text on August 5,
+2026 (copy archived with this note).
+
+\end{thebibliography}
+
+\end{document}
