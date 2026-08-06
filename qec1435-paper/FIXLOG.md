@@ -75,7 +75,7 @@ anneal2_s44.out, table-column sum). No new solver campaigns; artifacts untouched
 - L1-N5 abstract "closure certificates replay with stock Python": APPLIED — abstract now says "the LP and branch certificates"; §7's careful definition unchanged.
 - L2-F7 Koh26 "(Section 1)" pointer: APPLIED — pointer dropped; "CSS-only" fact stands (verified in the record).
 - L2-F8 [14,6]_2 phantom pointer in [Gra]: APPLIED — [14,6]_2 dropped from the bibliography (Remark 6.2 uses only [14,7]_2).
-- L3-7 (SyntaxWarning + home path inside order7fixed_full.txt): SKIPPED in the note — fixing requires regenerating a frozen, hashed artifact; left as a repo-side follow-up before arXiv (regenerate file AND update both hash lists together).
+- L3-7 (SyntaxWarning + home path inside order7fixed_full.txt): SKIPPED in the note — fixing requires regenerating a frozen, hashed artifact; left as a repo-side follow-up before arXiv (regenerate file AND update both hash lists together). *[DONE 2026-08-06: the artifact was regenerated as the script's standard output alone (the SyntaxWarning goes to stderr and is no longer captured; the mathematical content is byte-identical to the original modulo that leading warning line), and both hash lists in note.md/note.tex were updated together; note.pdf recompiled.]*
 - L3-9 (batch exits 0 on bad>0): APPLIED — §7 states acceptance is by the SUMMARY line, not exit status.
 - L3-10 (sample_c7fixed.py ships unlisted): APPLIED — §7 labels it as the disclosed defective sampler, unhashed, nothing depends on it.
 

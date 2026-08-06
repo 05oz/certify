@@ -370,20 +370,24 @@ private make the surviving ones less trustworthy.
 
 ## 6 Artifacts
 
-The artifact directory (`problem-2/` in this program's research tree,
-distributed with this note) contains the complete pipeline, sweeps,
-certificates, and verifiers: 148 MB of gzipped *n* = 10 sweep logs in
-sixteen files, 2.3 MB for *n* = 9, and everything else under 2 MB. The
-certified release is exactly the 32 files pinned by MD5 digest in
-`MD5SUMS.txt` and reproduced in the table below: the sweeps,
-certificates, minimizers, verifiers, and code. The auxiliary files cited
-in the text — `n10_chunk_counts.txt`, `smalln_table.txt`, `cand9.out`,
-`cand10.out`, and the archived primary source — ship alongside them,
-unpinned; the certified chain of Theorem 1.1 runs entirely through the
-pinned files.
+The artifacts ship in two directories of the public repository
+(github.com/05oz/certify): `tt3-certificates/` (sweeps, certificates,
+minimizers — 148 MB of gzipped *n* = 10 sweep logs in sixteen files,
+2.3 MB for *n* = 9) and `tt3-scripts/` (code and verifiers), everything
+besides the sweep logs under 2 MB. The certified release is exactly the
+32 files pinned by MD5 digest in `MD5SUMS.txt` and reproduced in the
+table below: the sweeps, certificates, minimizers, verifiers, and code.
+Of the auxiliary files cited in the text, `n10_chunk_counts.txt` and
+`smalln_table.txt` ship alongside them, unpinned; `cand9.out`,
+`cand10.out`, and the archived primary-source PDFs are retained in the
+author's private working tree and are not redistributed (the PDFs for
+copyright reasons). The certified chain of Theorem 1.1 runs entirely
+through the pinned files.
 
 To replay from scratch on any machine with nauty, CaDiCaL, a C compiler
-and Python 3:
+and Python 3 (the commands are written for a flat working directory —
+in the repository the pinned files sit in `tt3-scripts/` and
+`tt3-certificates/`; copy them into one directory first):
 
 ```
 cc -O2 -o tt3pack tt3pack.c
@@ -461,11 +465,11 @@ footnote; the adversarial referee's insistence on the credit framing of
 - **[KY08]** M. Kabiya and R. Yuster, *Packing transitive triples in a
   tournament*, Ann. Comb. **12** (2008), no. 3, 291–306.
   DOI 10.1007/s00026-008-0352-3. Read in full on August 5, 2026,
-  from the copy archived with the artifacts
-  (`primary-source-kabiya-yuster-tt3.pdf`); that copy is the author
-  preprint, and section references follow its numbering: the blow-up
-  upper-bound argument is §2.4, and the r = 10 fractional LP computation
-  is §3.
+  from an archived copy (`primary-source-kabiya-yuster-tt3.pdf`,
+  retained in the author's private working tree; not redistributed for
+  copyright reasons); that copy is the author preprint, and section
+  references follow its numbering: the blow-up upper-bound argument is
+  §2.4, and the r = 10 fractional LP computation is §3.
 - **[MP14]** B. D. McKay and A. Piperno, *Practical graph isomorphism,
   II*, J. Symbolic Comput. **60** (2014), 94–112. Version used here:
   nauty 2.9.3 (`gentourng`).
@@ -497,4 +501,5 @@ footnote; the adversarial referee's insistence on the credit framing of
   arXiv:math/0304180. The concluding remarks (§4: the oriented Turán
   upper-bound construction; the verified range n ≤ 8, with n = 8 by
   computer) were checked verbatim against the arXiv text on August 5,
-  2026 (copy archived with this note).
+  2026 (archived copy retained in the author's private working tree;
+  not redistributed).

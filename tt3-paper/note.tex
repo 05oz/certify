@@ -20,10 +20,11 @@
 %%     completely; cross-validated exhaustively for n <= 7 and
 %%     count-validated against OEIS A000568 and exact Burnside numbers
 %%     at n = 9, 10.
-%% Kabiya--Yuster read in full 2026-08-05 from the copy saved with the
-%% artifacts (primary-source-kabiya-yuster-tt3.pdf; author preprint).
-%% Yuster 2004 checked verbatim against arXiv math/0304180 the same day
-%% (copy archived with this note). Fix pass 2026-08-05: see FIXLOG.md.
+%% Kabiya--Yuster read in full 2026-08-05 from an archived copy
+%% (primary-source-kabiya-yuster-tt3.pdf; author preprint; retained in
+%% the author's private working tree, not redistributed). Yuster 2004
+%% checked verbatim against arXiv math/0304180 the same day (archived
+%% copy likewise private). Fix pass 2026-08-05: see FIXLOG.md.
 %% ==========================================================================
 \documentclass[11pt]{amsart}
 
@@ -467,21 +468,25 @@ die in private make the surviving ones less trustworthy.
 
 \section{Artifacts}\label{sec:artifacts}
 
-The artifact directory (\texttt{problem-2/} in this program's research
-tree, distributed with this note) contains the complete pipeline,
-sweeps, certificates, and verifiers: $148$\,MB of gzipped $n=10$ sweep
-logs in sixteen files, $2.3$\,MB for $n=9$, and everything else under
-$2$\,MB. The certified release is exactly the $32$ files pinned by MD5
+The artifacts ship in two directories of the public repository
+(\texttt{github.com/05oz/certify}): \texttt{tt3-certificates/} (sweeps,
+certificates, minimizers --- $148$\,MB of gzipped $n=10$ sweep logs in
+sixteen files, $2.3$\,MB for $n=9$) and \texttt{tt3-scripts/} (code and
+verifiers), everything besides the sweep logs under $2$\,MB. The
+certified release is exactly the $32$ files pinned by MD5
 digest in \texttt{MD5SUMS.txt} and reproduced in Table~\ref{tab:md5}:
-the sweeps, certificates, minimizers, verifiers, and code. The auxiliary
-files cited in the text --- \texttt{n10\_chunk\_counts.txt},
-\texttt{smalln\_table.txt}, \texttt{cand9.out}, \texttt{cand10.out}, and
-the archived primary source --- ship alongside them, unpinned; the
-certified chain of Theorem~\ref{thm:main} runs entirely through the
-pinned files.
+the sweeps, certificates, minimizers, verifiers, and code. Of the
+auxiliary files cited in the text, \texttt{n10\_chunk\_counts.txt} and
+\texttt{smalln\_table.txt} ship alongside them, unpinned;
+\texttt{cand9.out}, \texttt{cand10.out}, and the archived primary-source
+PDFs are retained in the author's private working tree and are not
+redistributed (the PDFs for copyright reasons). The certified chain of
+Theorem~\ref{thm:main} runs entirely through the pinned files.
 
 To replay from scratch on any machine with nauty, CaDiCaL, a C compiler
-and Python 3:
+and Python 3 (the commands are written for a flat working directory ---
+in the repository the pinned files sit in \texttt{tt3-scripts/} and
+\texttt{tt3-certificates/}; copy them into one directory first):
 
 \begin{verbatim}
 cc -O2 -o tt3pack tt3pack.c
@@ -575,9 +580,10 @@ framing of \S\ref{ssec:credit} made this a better and a more honest note.
 M.~Kabiya and R.~Yuster,
 \emph{Packing transitive triples in a tournament},
 Ann.\ Comb.\ \textbf{12} (2008), no.~3, 291--306.
-DOI 10.1007/s00026-008-0352-3. Read in full on August 5, 2026, from
-the copy archived with the artifacts
-(\texttt{primary-source-kabiya-yuster-tt3.pdf}); that copy is the author
+DOI 10.1007/s00026-008-0352-3. Read in full on August 5, 2026, from an
+archived copy (\texttt{primary-source-kabiya-yuster-tt3.pdf}, retained
+in the author's private working tree; not redistributed for copyright
+reasons); that copy is the author
 preprint, and section references follow its numbering: the blow-up
 upper-bound argument is \S2.4, and the $r=10$ fractional LP computation
 is \S3.
@@ -635,7 +641,8 @@ Discrete Math.\ \textbf{287} (2004), 187--191. Also
 arXiv:math/0304180. The concluding remarks (\S4: the oriented Tur\'an
 upper-bound construction; the verified range $n\le8$, with $n=8$ by
 computer) were checked verbatim against the arXiv text on August 5,
-2026 (copy archived with this note).
+2026 (archived copy retained in the author's private working tree; not
+redistributed).
 
 \end{thebibliography}
 

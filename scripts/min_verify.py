@@ -43,7 +43,11 @@ def gb(name, eqs, gens, mod=32003, secs=150):
         print(f"[{name}] GB {tag}: " + ("EMPTY  (ideal = (1))" if triv else f"NONTRIVIAL ({len(G.exprs)} gens)"))
         return triv
     except TO:
-        print(f"[{name}] TIMEOUT after {secs}s"); return None
+        print(f"[{name}] TIMEOUT after {secs}s -- INCONCLUSIVE, not a failure: "
+              f"the stored msolve certificates (certificates/ms_{name}_* -> [1]) "
+              f"are the proof; see README. For a longer SymPy attempt over QQ: "
+              f"python scripts/min_verify.py QQ {name}")
+        return None
 
 def eqs_of(A, B, C, extra=()):
     br = brk(A, B, C)

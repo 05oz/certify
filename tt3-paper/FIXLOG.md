@@ -55,6 +55,6 @@ source during this pass (verdicts below). Fixes applied identically to note.tex 
 
 ## Files touched
 - note.tex, note.md — all fixes above, kept as faithful twins; %% comment block updated to match.
-- primary-source-yuster04-arxiv-math0304180.pdf — added (arXiv math/0304180 fetched 2026-08-05, backs the Yus04 verbatim checks).
+- primary-source-yuster04-arxiv-math0304180.pdf — added (arXiv math/0304180 fetched 2026-08-05, backs the Yus04 verbatim checks). *[Clarification 2026-08-06: added to the author's private working tree, not to this repository — third-party PDFs are not redistributed here.]*
 - note.pdf — recompiled with tectonic after the fixes.
 - No artifact in solve/problem-2/ was modified; no solver campaign was launched.

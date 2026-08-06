@@ -1,30 +1,54 @@
 cff-version: 1.2.0
 message: >-
   If you use these certificates, scripts, or results, please cite this
-  repository as below. Credit for the underlying counterexample map belongs
-  to Levent Alpöge (announcement of 2026-07-19; problem posed by Akhil
-  Mathew). The Dixmier corollary AND the symplectic cotangent lift are both
-  due to W. G. P. Mayner (2026-07-20/21). The master equation, the
-  base-point (anchor) identity, the S_3 monodromy and the exact image
-  theorem are anticipated by T. Shaska (arXiv:2607.20210), the anonymous
-  note at ulam.ai/research/jacobian.pdf, MathOverflow 513387, and Mayner.
-  What this repository claims as new is the in-class degree-minimality
-  theorem, the moment-map identity, and the no-go lemma. See PROVENANCE.md
-  §2 and §2b.
+  repository as below, using the version DOI of the part you rely on:
+  Part A (Alpöge Keller map) v0.1.x doi:10.5281/zenodo.21799112; Part B
+  (quantum code distances) v0.2.0 doi:10.5281/zenodo.21799780; Part C
+  (tournament packing) v0.3.0 doi:10.5281/zenodo.21816010; Part D
+  ([[14,3,5]] automorphism exclusion) v0.4.0 doi:10.5281/zenodo.21816018.
+  The concept DOI below resolves to the latest version. For Part A,
+  credit for the underlying counterexample map belongs to Levent Alpöge
+  (announcement of 2026-07-19; problem posed by Akhil Mathew); the
+  Dixmier corollary AND the symplectic cotangent lift are both due to
+  W. G. P. Mayner (2026-07-20/21); the master equation, the base-point
+  (anchor) identity, the S_3 monodromy and the exact image theorem are
+  anticipated by T. Shaska (arXiv:2607.20210), the anonymous note at
+  ulam.ai/research/jacobian.pdf, MathOverflow 513387, and Mayner. What
+  this repository claims as new in Part A is the in-class
+  degree-minimality theorem, the moment-map identity, and the no-go
+  lemma. See PROVENANCE.md §2 and §2b. For Parts B–D, credit statements
+  are in the README and in each note.
 type: software
 title: >-
-  Certify: degree minimality in the equivariant class of the Alpöge Keller
-  map, and the moment-map structure of its cotangent lift (certificates and
-  verification scripts)
+  Certify: replayable certificates for machine-checked mathematics
+  (degree minimality of the Alpöge Keller map; certified quantum code
+  distances; the tournament packing numbers nu_3(9), nu_3(10); a
+  [[14,3,5]] automorphism exclusion)
 authors:
   - family-names: Kirtchakov
     given-names: Daniel
     affiliation: "Independent researcher"
     email: "daniel@halfounce.io"
-doi: "10.5281/zenodo.21799112"
+doi: "10.5281/zenodo.21799111"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21799111"
+    description: "Concept DOI (all versions; resolves to the latest)"
+  - type: doi
+    value: "10.5281/zenodo.21799112"
+    description: "Part A, v0.1.x — Alpöge Keller degree minimality"
+  - type: doi
+    value: "10.5281/zenodo.21799780"
+    description: "Part B, v0.2.0 — stabilizer-code distance certificates"
+  - type: doi
+    value: "10.5281/zenodo.21816010"
+    description: "Part C, v0.3.0 — tournament packing numbers nu_3(9), nu_3(10)"
+  - type: doi
+    value: "10.5281/zenodo.21816018"
+    description: "Part D, v0.4.0 — [[14,3,5]] monomial automorphism exclusion"
 repository-code: "https://github.com/05oz/certify"
-date-released: "2026-08-04"
-version: 0.1.0
+date-released: "2026-08-05"
+version: 0.4.0
 license: Apache-2.0
 keywords:
   - Jacobian conjecture
@@ -37,6 +61,14 @@ keywords:
   - computer-assisted proof
   - msolve
   - SymPy
+  - quantum error correction
+  - stabilizer code
+  - minimum distance
+  - LRAT
+  - SAT certificate
+  - tournament
+  - transitive triples
+  - linear programming bound
 references:
   - type: generic
     title: A counterexample to the Jacobian conjecture in dimension three

@@ -41,7 +41,7 @@ stronger result: zero compiled code sits in the trusted base of this audit.
 
 A certificate for the wrong matrix is worthless, so this was done first and from scratch.
 
-I wrote `bb_recon.py` (in the scratchpad, reproduced in Appendix A) directly from the construction
+I wrote `bb_recon.py` (in my session working directory; described in Appendix A, not shipped) directly from the construction
 in Bravyi, Cross, Gambetta, Maslov, Rall & Yoder, *"High-threshold and low-overhead fault-tolerant
 quantum memory"*, Nature **627**, 778 (2024) / arXiv:2308.07915:
 
@@ -407,8 +407,11 @@ re-checkable d = 12 for IBM's gross code, on the *correct* matrices — holds up
 
 ## Appendix A — scripts I wrote for this audit
 
-All in the session scratchpad
-`/private/tmp/claude-501/-Applications/20ab6041-f5e3-44f3-9953-5c9b386f5721/scratchpad/`:
+All written and run in the auditing agent's temporary session working directory. **They are
+not distributed with this repository** — they were the audit's own throwaway tooling, and an
+auditor's scripts carry no more authority than anyone else's. What each did is described
+below, precisely so that a skeptical reader can rewrite them independently — which is the
+point of an independent audit — rather than replay ours.
 
 * `bb_recon.py` — builds H_X, H_Z for all five BB codes from the arXiv:2308.07915 polynomials
   (Kronecker products of cyclic-shift matrices, GF(2)), compares to the shipped files.

@@ -1,8 +1,8 @@
 # Certify: replayable certificates for machine-checked mathematics
 
-**Archival record (v0.1.0):** [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112)
+**Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018)
 
-Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-04.
+Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-05.
 
 Two independent bodies of work live here, sharing a method rather than a subject: **produce an artifact a skeptic can re-check without trusting the tool that made it, then say exactly what still has to be believed.**
 
@@ -17,7 +17,7 @@ Two independent bodies of work live here, sharing a method rather than a subject
 
 Every mathematical claim in either preprint maps to a script whose `assert` statements pass, or to a stored certificate a checker accepts. Nothing is conjectural unless labeled so.
 
-**Since v0.3.0 two further parts live here under the same method:** **Part C** (v0.3.0) — the first certified determination of the tournament packing numbers ν₃(9) = 9 and ν₃(10) = 12, extending the verified range of Yuster's 2004 formula from n ≤ 8 to n ≤ 10 (`tt3-paper/`, `tt3-certificates/`, `tt3-scripts/`); **Part D** (v0.4.0) — a certificate-backed automorphism exclusion for the twenty-year-open [[14,3,5]] quantum code existence question: any such code has monomial automorphism group of order 2^a·3^b·5^c (`qec1435-paper/`, `qec1435-certificates/`, `qec1435-scripts/`). Both notes passed a three-lens adversarial review (claims-vs-artifacts, priority against primary sources, and a replay audit with negative controls) before release; the decision logs ship as `FIXLOG.md` in each paper directory.
+**Since v0.3.0 two further parts live here under the same method:** **Part C** (v0.3.0) — the first certified determination of the tournament packing numbers ν₃(9) = 9 and ν₃(10) = 12, extending the verified range of Yuster's 2004 formula from n ≤ 8 to n ≤ 10 (`tt3-paper/`, `tt3-certificates/`, `tt3-scripts/`); **Part D** (v0.4.0) — a certificate-backed automorphism exclusion for the [[14,3,5]] quantum code existence question, open since June 2005: any such code has monomial automorphism group of order 2^a·3^b·5^c (`qec1435-paper/`, `qec1435-certificates/`, `qec1435-scripts/`). Both notes passed a three-lens adversarial review (claims-vs-artifacts, priority against primary sources, and a replay audit with negative controls) before release; the decision logs ship as `FIXLOG.md` in each paper directory.
 
 ---
 
@@ -73,7 +73,7 @@ venv/bin/python scripts/min_verify.py d7control        # degree-7 positive contr
 venv/bin/python scripts/min_verify.py kdet             # det JF = -bracket_k upstairs, k = 1,2,3
 venv/bin/python scripts/min_verify.py axis             # axis-target uniqueness certificate
 venv/bin/python scripts/min_verify.py I                # SymPy GB reproduction, six Branch-I leaves, mod 32003
-venv/bin/python scripts/min_verify.py II               # SymPy GB reproduction, two Branch-II leaves, mod 32003
+venv/bin/python scripts/min_verify.py II               # SymPy GB reproduction, two Branch-II leaves, mod 32003 (may TIMEOUT; see below)
 
 # msolve (https://github.com/algebraic-solving/msolve), v0.10.1 used here:
 brew install msolve          # macOS; or build from source
@@ -81,7 +81,7 @@ for f in certificates/ms_I-*_c0.ms certificates/ms_II-*_c0.ms;         do msolve
 for f in certificates/ms_I-*_c32003.ms certificates/ms_II-*_c32003.ms; do msolve -g 2 -f "$f" -o "${f%.ms}.out"; done   # mod-32003 reproductions
 ```
 
-Every Python script must end with its `PASS` lines and no assertion failures. Every `ms_I-*`/`ms_II-*` msolve run must output the reduced basis `[1]`, matching the stored `out_*_q.txt` (char 0) and `out_*_p.txt` (mod 32003). Do not loop `ms_D7control_c32003.ms` in: that reduced-basis run does not terminate in reasonable time (see `certificates/D7CONTROL-NEGATIVE-RESULT.md`); the asserted positive control is `scripts/min_verify.py d7control`.
+Every Python script must end with its `PASS` lines and no assertion failures — with one documented exception: `min_verify.py II` re-derives the two largest systems in SymPy under a 150 s per-leaf alarm, and on many machines prints `[II-f0] TIMEOUT after 150s` / `[II-f1] TIMEOUT after 150s` instead of a result. A timeout is **inconclusive, not a failure**: the proof of Branch-II emptiness is the stored msolve certificates (`ms_II-*` → reduced basis `[1]`), which the loop below replays; the SymPy run is a convenience cross-check. To give SymPy longer over ℚ, `venv/bin/python scripts/min_verify.py QQ II-f0 II-f1` uses a 240 s alarm. Every `ms_I-*`/`ms_II-*` msolve run must output the reduced basis `[1]`, matching the stored `out_*_q.txt` (char 0) and `out_*_p.txt` (mod 32003). Expected runtimes: the six Branch-I systems finish in well under a second each; the two `ms_II-*_c0.ms` char-0 runs take on the order of **5 minutes each** — do not interrupt them. Do not loop `ms_D7control_c32003.ms` in: that reduced-basis run does not terminate in reasonable time (see `certificates/D7CONTROL-NEGATIVE-RESULT.md`); the asserted positive control is `scripts/min_verify.py d7control`.
 
 ---
 
@@ -157,6 +157,9 @@ python3 qec-scripts/check_duality.py  qec-certificates/bb288/duality.json
 python3 qec-scripts/verify_manifest.py
 ```
 
+Expected runtimes: everything above is seconds, except the bb144 `lower_X_K11_sym`
+replay (~10–15 s in pure Python) and the bb288 `lower_X_K9_sym` replay (~5–10 s).
+
 `verify_manifest.py` reports `172 match, 0 mismatch, 10 absent` on a fresh clone: the
 ten "absent" are the six proofs that ship gzipped (decompress them and they match, since
 the manifest hashes the *uncompressed* bytes) and the four that are too large for git.
@@ -185,7 +188,7 @@ Three further defects the audit found are reported verbatim in §8 of the paper,
 
 - **Credit.** The quantity and the formula are R. Yuster's (2004), who verified n ≤ 8 (n ≤ 7 by direct argument, n = 8 by computer, uncertified); the matching upper-bound constructions are also **Yuster's (2004)** — the note's new content is the certified integral **lower bounds** over all isomorphism classes (191,536 at n = 9; 9,733,056 at n = 10), plus SAT optimality certificates on the minimizing tournaments. Kabiya–Yuster 2008 supplies the fractional strengthening and is credited at point of use.
 - **Declared trust assumption:** `gentourng` (nauty) enumerates completely — cross-validated exhaustively for n ≤ 7 and count-validated against OEIS A000568 and exact Burnside numbers at n = 9, 10.
-- **Replay:** exact commands, file inventory, and all 32 MD5 pins are in [`tt3-paper/note.md`](tt3-paper/note.md) §7; certificates in `tt3-certificates/` (LRAT optimality proofs `min9_ge10.lrat`, `min10_ge13.lrat` replay against `tt3-scripts/` with stock Python), full sweep logs included.
+- **Replay:** exact commands, file inventory, and all 32 MD5 pins are in [`tt3-paper/note.md`](tt3-paper/note.md) §6 ("Artifacts"); certificates in `tt3-certificates/` (LRAT optimality proofs `min9_ge10.lrat`, `min10_ge13.lrat` replay against `tt3-scripts/` with stock Python), full sweep logs included. Expected runtimes: the n = 9 sweep verification is seconds; the full n = 10 sweep verification over all sixteen gzipped slices takes ~2–3 minutes.
 - The adversarial review that preceded release re-verified the sweeps with independently written code (fresh enumeration, an independent exact solver on both minimizers, negative controls); the dated novelty sweep is [SWEEP-RECORD-TT3-2026-08-05.md](SWEEP-RECORD-TT3-2026-08-05.md).
 
 # Part D — [[14,3,5]]: a certificate-backed automorphism exclusion
@@ -193,7 +196,7 @@ Three further defects the audit found are reported verbatim in §8 of the paper,
 **If a [[14,3,5]] qubit stabilizer code exists, its monomial automorphism group has order 2^a·3^b·5^c** — no automorphism of order divisible by 7, 11, or 13 is possible. The existence question itself, open since the [[14,3]] table entry's construction of June 2005 (codetables.de, retrieved 2026-08-05), **remains open and is not claimed**. Paper: [`qec1435-paper/note.pdf`](qec1435-paper/note.pdf).
 
 - **Credit.** The open entry is recorded in M. Grassl's codetables.de; the automorphism question descends from Ball–Centelles–Huber 2020 (Research Problem 1). The **CSS case is settled by Koh et al., arXiv:2601.20927** (exhaustive CSS enumeration at n ≤ 14; their Table VI gives max CSS [[14,3]] distance 4) — that result is theirs, cited and not claimed; an earlier in-house CSS derivation is subsumed and appears only as a remark. Cross–Vandeth arXiv:2501.17447 covers general stabilizer enumeration at n ≤ 9.
-- **What ships:** 43 certificate files (`qec1435-certificates/`, SHA-256-pinned in the paper), the generators and the independent checker (`qec1435-scripts/`, incl. `check1435.c` and `verify_1435.py`), and the classical code tables used (`qec1435-scripts/data/`). Every candidate of every nonzero symmetry class was distance-checked; exact-rational Krawtchouk LP lemmas close the fixed-qubit branches. Scope, gaps, and unarchived intermediate runs are disclosed in the paper itself (§5, §7).
+- **What ships:** 43 certificate files (`qec1435-certificates/`, SHA-256-pinned in the paper), the generators and the independent checker (`qec1435-scripts/`, incl. `check1435.c` and `verify_1435.py`), and the classical code tables used (`qec1435-scripts/data/`). Every candidate of every nonzero symmetry class was distance-checked; an exact-rational Krawtchouk LP lemma closes the fixed-qubit branches (a second LP lemma belongs to the order-5 work in progress, outside the theorem). Scope, gaps, and unarchived intermediate runs are disclosed in the paper itself (§5, §7).
 - **Replay:** commands in [`qec1435-paper/note.md`](qec1435-paper/note.md) §7; quick control: `python3 qec1435-scripts/verify_1435.py qec1435-scripts/data/ct_14_3_stab.txt` reproduces the d = 4 control verdict. Dated novelty sweep: [SWEEP-RECORD-1435-2026-08-05.md](SWEEP-RECORD-1435-2026-08-05.md).
 
 ---
@@ -246,7 +249,7 @@ Dual license by content type:
 
 ## Citing
 
-See [CITATION.cff](CITATION.cff). A DOI will be minted on the first Zenodo deposit; until then, external timestamps for this repository's claims begin at the first public push — not at local file dates (see PROVENANCE.md §3).
+See [CITATION.cff](CITATION.cff). Archival DOIs are minted per release on Zenodo — concept DOI for all versions [10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111); Part A (v0.1.x) [10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112); Part B (v0.2.0) [10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780); Part C (v0.3.0) [10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010); Part D (v0.4.0) [10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018). To cite an individual result, cite its note and the matching version DOI. External timestamps for this repository's claims begin at the first public push and the Zenodo deposits — not at local file dates (see PROVENANCE.md §3).
 
 ## Contact
 

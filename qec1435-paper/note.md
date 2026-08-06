@@ -439,34 +439,37 @@ theorem.
 
 ## 7. Artifacts and replay
 
-The artifacts sit in `solve/problem-3/` beside the working notes:
+The artifacts ship in two directories of the public repository
+(github.com/05oz/certify): the tools in `qec1435-scripts/` —
 generators `gen_cyclic.py`, `gen_qc7.py`, `gen_c11.py`, `gen_generic.py`;
 the distance checker `check1435.c` (single C file: exact check, batch
 screening, annealing, walks); the independent verifier `verify_1435.py`;
 `gen_hyper.py`, `truncate15.py`, `order7fixed_branches.py`; reference
-matrices in `data/` (retrieved from [Gra] on August 5, 2026); and the
-run outputs behind Table 1 and Section 4 in `certificates/`. (The
-hyperplane and truncation sweeps of Section 6 were confirmed in the
-adversarial re-verification, but their console outputs were not
-archived; the empty `c13` class leaves no output file. The directory
-also retains `sample_c7fixed.py`, the defective sampler disclosed in the
-Acknowledgments, unhashed; nothing depends on it.) The differentiator is deliberate and worth
+matrices in `qec1435-scripts/data/` (retrieved from [Gra] on August 5,
+2026) — and the run outputs behind Table 1 and Section 4 in
+`qec1435-certificates/`. (The hyperplane and truncation sweeps of
+Section 6 were confirmed in the adversarial re-verification, but their
+console outputs were not archived; the empty `c13` class leaves no
+output file. The defective sampler `sample_c7fixed.py` disclosed in the
+Acknowledgments is retained only in the author's private working tree,
+unhashed and not distributed; nothing depends on it.) The differentiator is deliberate and worth
 one plain sentence: the closure certificates — both LP lemmas, the branch
 enumeration, and the independent distance verifier — replay with the
 stock Python interpreter and nothing else; no package, no solver, no
 proof assistant. To replay:
 
 ```
-cd solve/problem-3
-python3 certificates/lemmaC_certificate.py   # Lemma C, exact rationals
-python3 certificates/lemmaD_certificate.py   # Lemma D, exact rationals
-python3 order7fixed_branches.py              # d0 = 8 branch counts
-python3 verify_1435.py data/ct_14_3_stab.txt # control: d=4, "FAIL" by design
-cc -O2 -o check1435 check1435.c              # distance checker
-python3 gen_cyclic.py | ./check1435 batch 11         # 1,260 cand., 0 hits
-python3 gen_qc7.py 1  | ./check1435 batch 11         # QC-7 slice dp=1
-python3 gen_c11.py    | ./check1435 batch 11         # 8,415 cand., 0 hits
-python3 gen_generic.py shift28 | ./check1435 batch 11  # needs sympy
+git clone https://github.com/05oz/certify && cd certify
+python3 qec1435-certificates/lemmaC_certificate.py   # Lemma C, exact rationals
+python3 qec1435-certificates/lemmaD_certificate.py   # Lemma D, exact rationals
+python3 qec1435-scripts/order7fixed_branches.py      # d0 = 8 branch counts
+python3 qec1435-scripts/verify_1435.py qec1435-scripts/data/ct_14_3_stab.txt
+                                                     # control: d=4, "FAIL" by design
+cc -O2 -o check1435 qec1435-scripts/check1435.c      # distance checker
+python3 qec1435-scripts/gen_cyclic.py | ./check1435 batch 11        # 1,260 cand., 0 hits
+python3 qec1435-scripts/gen_qc7.py 1  | ./check1435 batch 11        # QC-7 slice dp=1
+python3 qec1435-scripts/gen_c11.py    | ./check1435 batch 11        # 8,415 cand., 0 hits
+python3 qec1435-scripts/gen_generic.py shift28 | ./check1435 batch 11  # needs sympy
 ```
 
 The four `gen_qc7.py` slices (0..3) total 1,298,700 candidates;
@@ -475,15 +478,18 @@ factorization) accepts every twisted class name of Table 1. Expected
 terminal lines are the `SUMMARY candidates=... hits=0 bad=0` records
 reproduced in the certificate files; acceptance is by the `SUMMARY` line
 itself — `candidates` equal to the class count, `hits=0`, `bad=0` — not
-by exit status (`batch` exits 0 even when `bad>0`). Two expected
+by exit status (`batch` exits 0 even when `bad>0`). Three expected
 oddities of a verbatim replay: the independent verifier exits 1 on its
 control by design (it reports the exact distance 4, then `FAIL: distance
-4 < 5`); and the second section of `order7fixed_branches.py` is a
+4 < 5`); the second section of `order7fixed_branches.py` is a
 superseded block-test attack on the d_0 = 5 branch, retained for the
 record — its closing line "branch NOT closed by this test" is expected,
-that branch being closed by Lemma 4.2. SHA-256 hashes of every file in
-`certificates/` (repeated hashes are genuinely identical outputs of
-independent runs):
+that branch being closed by Lemma 4.2; and the pinned
+`order7fixed_full.txt` is the standard *output* of
+`order7fixed_branches.py` alone — the interpreter's cosmetic
+`SyntaxWarning` goes to standard error and is not part of the artifact. SHA-256 hashes of every file in
+`qec1435-certificates/` (repeated hashes are genuinely identical outputs
+of independent runs):
 
 ```
 10bdfe41bb4bc1b2d46e3649d6952fdc8da17c2631cad08e889164ef736488cc  anneal2_s11.out
@@ -496,7 +502,7 @@ c4c4abab60c19de617c980c132013cd289ca2933b34e5b1d197dec757c3112bc  cyclic_candida
 517cce87f8c4a3642afe82e8be4196fa4628734a6a8ed0c2e08ee3ff1c715f62  cyclic_result.txt
 c0305d1a9307bb8b6ae7d9328c6ea5b62498125e0098a9dfa1217c3c55705e46  lemmaC_certificate.py
 7ef4f10dbf47e132957814bc16fd10f71775e64f5e383fad6e98f682036c1492  lemmaD_certificate.py
-f3fe027b7fe84f59d70b9fa0e21b11ca667b75d2913011bc1aed9d3c8b4e0d17  order7fixed_full.txt
+5eb25f8572c04dc50448e10d53a1187f127f228e477ae6e118a154e17c073d6c  order7fixed_full.txt
 b81a7565ac6b6be87616917c1ded8f80221efde2b517d03d5e02532cab14c982  order7fixed_summary.txt
 abc5f982aff4ce5e7f6aef7548daf2eb6610eda19142b821ec3ffbc96c353b12  qc7_1rho.log
 dda0a0d23bf6df85f929a070415f1aedeafc7bbc4af73238554ef69310a7427b  qc7_1rho_result.txt
@@ -531,7 +537,8 @@ dda0a0d23bf6df85f929a070415f1aedeafc7bbc4af73238554ef69310a7427b  s3shift2_resul
 71a58ebd0c85a2416713da85b7747581ed56cb515b371887682a3bd111cffe15  walk2_s202.out
 ```
 
-and of the tools and reference data they replay against:
+and of the tools and reference data they replay against, in
+`qec1435-scripts/` (`data/` paths relative to that directory):
 
 ```
 95599be7a1ea8f22b13328fef3c9c9e8fb489ef78e1c7d535007db6b736119d5  check1435.c

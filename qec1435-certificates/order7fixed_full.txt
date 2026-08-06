@@ -1,5 +1,3 @@
-/Users/kirt/Documents/reserch math/solve/problem-3/order7fixed_branches.py:14: SyntaxWarning: "\ " is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\ "? A raw string is also an option.
-  Every element of M \ B_S lies in S^perp \ S so must have symplectic
 === Case d0=8, (dp,dq)=(1,0): M = Vp + (Up^perp cap Vq), need <=31 low-weight to survive ===
 Up line 0: weight<=4 nonzero in M: 112  -> IMPOSSIBLE
 Up line 1: weight<=4 nonzero in M: 112  -> IMPOSSIBLE
