@@ -249,6 +249,50 @@ lower bound new, by a vertex-transitive 28-vertex witness; upper bound IRW's). P
 - Every component was confirmed by an adversarial referee writing fresh code throughout; the
   decision log ships as `k34-paper/FIXLOG.md`.
 
+## Part H — certified sub-threshold logical error brackets (v0.8.0)
+
+**Exact uncorrectable-set counts and a two-sided rational bracket on the logical error
+probability of the rotated surface code, re-verifiable in the standard library.** Mullan,
+Weippert, and Brown (arXiv:2607.27153) name the deep sub-threshold regime as inaccessible to
+direct Monte Carlo simulation and answer it with a sampler. We answer it with a *certificate*.
+For the distance-3 and distance-5 rotated surface codes under one round of circuit-level
+depolarizing noise and a fixed lookup-table (coset-leader) decoder, we compute in exact
+arithmetic the integer counts `A_w` of uncorrectable weight-`w` fault sets up to a truncation
+weight `WMAX`, and convert them into a two-sided exact-rational bracket **`L ≤ P_L ≤ U`** on the
+decoder's logical error probability for Stim's independent-mechanism detector error model, with
+width equal to an exactly-computed Poisson-binomial tail `T = P(W ≥ WMAX+1)`. Paper:
+[`wedge-paper/note.pdf`](wedge-paper/note.pdf).
+
+- **Both verdicts, stated honestly.** Deep sub-threshold, at `p = 10^-3`, the bracket is far
+  tighter than a `10^7`-shot Monte Carlo interval — about **18,500×** at `d = 3` and **626×** at
+  `d = 5` (matching it by sampling would take ~`3.9×10^12` shots). The advantage is a
+  deep-sub-threshold phenomenon that degrades as the expected number of firing mechanisms grows:
+  at `p = 10^-2` the bracket still wins at `d = 3` (~2.3×) but **loses** at `d = 5` (~20×), because
+  the weight-truncation tail is fat there — **not** because a threshold has been crossed (the
+  logical rate still falls with distance, `P_L(d=5) < P_L(d=3)` at `p = 10^-2`).
+- **Reproducible without trusting us.** The public unit is *certificate JSON + standard-library
+  checker only.* `wedge-certificates/check_wedge.py` (d=3) and `check_wedge_d5.py` (d=5) rebuild
+  the decoder, re-enumerate the fault sets, reproduce every count `A_w`, and recompute `L`, `T`,
+  `U` in exact rational arithmetic from the certificate alone, failing loudly (`CHECK FAIL`, exit
+  nonzero) on any mismatch. Both import only the Python standard library; no signals, subprocesses,
+  network, or wall-clock. Verified on system `python3` 3.9.6.
+- **Trust root, stated plainly.** The checker certifies `L ≤ P_L ≤ U` *given* the `(det, obs, p)`
+  mechanism list embedded in the certificate; it does not (and from the public artifact cannot)
+  re-verify that this list equals Stim's DEM at the stated `p` — that binding lives in the private
+  generator, which is **not** in this repository. The bracket bounds the independent-mechanism DEM,
+  not the physical depolarizing circuit; "circuit-level" names the DEM's origin. Stim is a
+  generator only and is not trusted.
+- **Replay a bracket now:** `python3 wedge-certificates/check_wedge_d5.py
+  wedge-certificates/certificate_d5_r1_p1over1000.json` (≈34 s → `CHECK PASS`, prints
+  `2.6135024167e-05 ≤ P_L ≤ 2.6144956889e-05`). The d=3 checks are sub-second; the optional
+  tighter `WMAX = 6` certificate (`certificate_d5_r1_p1over1000_w6.json`) also verifies but is
+  heavy (order ten-plus minutes) — it is the edge of what a portable pure-Python checker reaches.
+- **The wall (open frontier).** Exact re-verification at weight 7 (`C(77,7) = 2,404,808,340`
+  subsets plus tens of millions of big-integer terms) exceeds a pure-Python checker — the next
+  engine's target. The three-lens review (claims-vs-artifacts, replay with tamper controls,
+  novelty/priority) found no MUST-level defect; the decision log ships as `wedge-paper/FIXLOG.md`
+  and the dated sweep as [SWEEP-RECORD-WEDGE-2026-08-11.md](SWEEP-RECORD-WEDGE-2026-08-11.md).
+
 ## Layout
 
 ```
@@ -284,6 +328,12 @@ qec1435-paper/       note (LaTeX + PDF + Markdown mirror) + FIXLOG.md review log
 qec1435-certificates/  43 SHA-256-pinned certificates by symmetry class
 qec1435-scripts/     generators, check1435.c, verify_1435.py, data/ classical code tables
 SWEEP-RECORD-1435-2026-08-05.md  dated novelty sweep
+
+  -- Part H: certified sub-threshold logical error brackets (v0.8.0) --
+wedge-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md review log
+wedge-certificates/  5 certificate JSONs (d=3, d=5; WMAX 4/5, plus optional WMAX 6)
+                     + two stdlib checkers (check_wedge.py, check_wedge_d5.py); NO generator
+SWEEP-RECORD-WEDGE-2026-08-11.md  dated novelty + verification sweep
 ```
 
 For Part A, the reduction library and the system generators are intentionally not part of this repository; the published claims are the certificates themselves plus the verification scripts, which are self-contained. For Part B, the generating pipeline **is** included (`qec-scripts/certify.py`, `qec_lib.py`, `run_all.sh`) precisely because it is *not* trusted: it can be deleted and every certificate still verifies.

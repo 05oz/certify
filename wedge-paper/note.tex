@@ -1,0 +1,569 @@
+%% ==========================================================================
+%% DRAFT -- August 11, 2026. Author byline: Daniel Kirtchakov (05oz,
+%% halfounce.io; no institutional affiliation; ORCID 0009-0009-5213-4098).
+%%
+%% Three-lens adversarial review passed 2026-08-11 (CLAIMS-vs-artifacts,
+%% REPLAY audit with tamper controls, NOVELTY/priority sweep). No MUST-level
+%% defect; the SHOULD/NIT fixes are logged in FIXLOG.md and applied here.
+%%
+%% Framing constraints honoured (PROTOCOL section 11): the note opens with the
+%% mathematical question, states the method as real mathematics with the
+%% decoder and the tail bound made precise, reports BOTH verdicts honestly
+%% (LIVE deep sub-threshold, DEAD in the tail-dominated regime at d=5), locates
+%% the weight-7 wall as the open frontier, cites the computation in a single
+%% Certification paragraph, and closes with the questions it opens. The trusted
+%% base is stated: the standard-library checker, the fixed decoder, the exact
+%% rationals; Stim is a generator only and is not trusted. The claim is stated
+%% at exactly the strength the artifacts support -- in particular the DEAD
+%% verdict is scoped to d=5 and to the truncation tail, never to "above
+%% threshold", which the certificates' own numbers contradict.
+%% ==========================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\emergencystretch=3em
+\tolerance=1200
+\hbadness=4000
+
+\newcommand{\PL}{P_{L}}
+\newcommand{\WMAX}{W_{\max}}
+\newcommand{\sig}{\sigma}
+\newcommand{\obs}{\mathrm{obs}}
+\newcommand{\Prb}{\mathbb{P}}
+\newcommand{\Ex}{\mathbb{E}}
+\newcommand{\Zt}{\mathbb{F}_2}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+
+\begin{document}
+
+\title[Certified sub-threshold logical error brackets]{Certified
+sub-threshold logical error rates: exact uncorrectable-set counts and a
+two-sided rational bracket for the rotated surface code, replayable in the
+standard library}
+
+\author{Daniel Kirtchakov}
+\address{Independent researcher (\texttt{05oz}), Half Ounce Research; no
+institutional affiliation. ORCID:
+\href{https://orcid.org/0009-0009-5213-4098}{0009-0009-5213-4098}.}
+\email{daniel@halfounce.io}
+\urladdr{https://halfounce.io}
+
+\thanks{\emph{Computation and authorship.} All detector-error-model
+construction, enumeration, verification, and drafting in this work were
+produced by \textbf{Claude} (Anthropic), directed by the author, on a single
+Apple laptop. The public artifact is a certificate together with a checker
+that imports only the Python standard library and shares no code with the
+enumeration engine that produced the certificate; the checker rebuilds every
+certified quantity from the certificate alone. This is a factual methods
+statement and it is part of the point of the note: the provenance of the
+\emph{search} is designed to be irrelevant to the validity of the
+\emph{bracket}. The detector error models were generated with Stim~1.16.0
+(Gidney), which is a generator and is \emph{not} in the trusted base
+(\S\ref{sec:trust}).}
+
+\thanks{\emph{Prior-art record.} The primary source \cite{MWB} was read at its
+abstract and relevant sections on August~11, 2026; the passages quoted below
+are verbatim. Novelty was swept the same day against arXiv and the web over a
+24-month window; the dated record ships with the artifacts. \emph{Draft of
+August~11, 2026.}}
+
+\subjclass[2020]{Primary 81P73; Secondary 94B05, 68V15, 60C05}
+\keywords{Quantum error correction, surface code, circuit-level noise,
+logical error rate, detector error model, lookup-table decoder, certified
+computation, Poisson binomial}
+
+\date{August 11, 2026}
+
+\begin{abstract}
+Can the logical error rate of a quantum error correcting code, in the deep
+sub-threshold regime that Mullan, Weippert, and Brown \cite{MWB} identify as
+inaccessible to direct Monte Carlo simulation, be bounded rigorously and
+\emph{checkably} --- by an artifact a skeptic replays without trusting the
+software that produced it? We give such an artifact for the distance-$3$ and
+distance-$5$ rotated surface codes under one round of circuit-level
+depolarizing noise and a fixed lookup-table (coset-leader) decoder. From the
+independent-mechanism detector error model we compute, in exact arithmetic, the
+integer counts $A_w$ of uncorrectable weight-$w$ fault sets up to a truncation
+weight $\WMAX$, and convert them into a two-sided exact-rational bracket
+$L\le \PL\le U$ on the decoder's logical error probability, where the width
+$U-L$ is a Poisson-binomial tail computed exactly. A certificate carries the
+mechanism list and the counts; a standard-library Python checker re-derives the
+decoder, the counts, and both bounds from scratch and fails loudly on any
+mismatch. Deep sub-threshold, at $p=10^{-3}$, the certified bracket is far
+tighter than a $10^{7}$-shot Monte Carlo interval --- by a factor of about
+$18{,}500$ at $d=3$ and about $626$ at $d=5$, where matching the bracket would
+take Monte Carlo on the order of $4\times10^{12}$ shots. The advantage is a
+deep-sub-threshold phenomenon and it degrades as the expected number of firing
+mechanisms grows: at $p=10^{-2}$ the bracket still beats Monte Carlo at $d=3$
+(by about $2.3\times$) but loses at $d=5$ (by about $20\times$), because the
+weight-truncation tail is fat there --- not because a threshold has been
+crossed, since the logical rate still falls with distance. The frontier is
+sharp: exact re-verification at weight~$7$ exceeds a pure-Python checker. We
+state precisely what is certified, what is merely trusted, and close with the
+questions the computation opens.
+\end{abstract}
+
+\maketitle
+
+\section{The question}\label{sec:intro}
+
+A fault-tolerant quantum memory is judged by its \emph{logical error rate}
+$\PL(p)$: the probability, per logical operation, that decoding fails, as a
+function of the physical error rate $p$. Below the code's threshold this rate
+is meant to fall steeply with the code distance $d$, and it is exactly this
+steep, small-$\PL$ regime that matters for a working device --- and exactly
+there that it is hardest to measure. Mullan, Weippert, and Brown \cite{MWB}
+put the difficulty plainly: at the error rates of interest, code
+``performance at these error rates is not amenable to direct Monte Carlo
+simulation'' \cite[abstract]{MWB}, because the events being counted are too
+rare for a feasible number of shots to resolve. Their own response is an
+estimator --- a pruning step followed by a family of Metropolis--Hastings
+``subregion MCMC'' samplers, in the lineage of the Markov-chain method Bravyi
+and Vargo \cite{BV} adapted to quantum error correction. An estimator returns a
+number with a statistical error bar. It does not return a proof.
+
+This note asks a different question. Not ``what is $\PL$?'' but: \emph{can
+$\PL$ be bracketed rigorously, by a rational interval a stranger can re-derive
+from a small certificate using nothing but a standard-library program?} The
+regime that defeats Monte Carlo --- rare failures, deep sub-threshold --- is
+the regime where exact counting is most favourable, because the objects to be
+counted, the low-weight fault configurations that the decoder mishandles, are
+few. We turn the rarity that blocks sampling into the finiteness that enables a
+certificate.
+
+The construction is elementary and is stated in full in \S\ref{sec:object}.
+Its output is, for each physical rate $p$, a pair of exact rationals $L\le U$
+with
+\[
+   L \;\le\; \PL(p) \;\le\; U ,
+\]
+where $\PL(p)$ is the logical error probability of a \emph{fixed} lookup-table
+decoder under the independent-mechanism fault model of the code's
+circuit-level detector error model (DEM). The certificate is the mechanism list
+and a handful of integers; the checker is a single file of standard-library
+Python. \S\ref{sec:results} reports the numbers and, honestly, both outcomes:
+where the bracket dominates Monte Carlo by four orders of magnitude, and where
+it loses. \S\ref{sec:trust} separates what is machine-checked from what is
+trusted. \S\ref{sec:wall} locates the wall --- exact re-verification at weight
+seven --- that the method hits and the next engine must break. We claim no new
+value of any $\PL$ and no threshold; we claim a replayable object and a
+quantitative account of when it is worth having.
+
+\section{The certified object}\label{sec:object}
+
+\subsection{Model}\label{ssec:model} Fix a detector error model with $n$
+detectors, a single logical observable, and $m$ independent fault
+\emph{mechanisms}. Mechanism $j\in[m]$ carries a detector mask
+$d_j\in\Zt^{\,n}$, an observable bit $o_j\in\Zt$, and a probability
+$p_j\in(0,1)$; the $p_j$ are the \emph{exact} dyadic rationals of the
+IEEE-754 doubles emitted by Stim's \texttt{detector\_error\_model}, so every
+denominator is a power of two and all arithmetic below is exact. A
+\emph{fault configuration} is a subset $F\subseteq[m]$ of mechanisms that fire.
+Under the independent-mechanism model the $m$ mechanisms fire independently, so
+\begin{equation}\label{eq:PF}
+   \Prb(F)\;=\;\prod_{j\in F}p_j\prod_{j\notin F}(1-p_j),
+\end{equation}
+and $F$ produces syndrome $\sig(F)=\bigoplus_{j\in F}d_j\in\Zt^{\,n}$ and true
+observable flip $\obs(F)=\bigoplus_{j\in F}o_j\in\Zt$. The \emph{weight} of $F$
+is $|F|$.
+
+\subsection{Decoder}\label{ssec:decoder} The decoder is the minimum-cardinality
+lookup table (the coset-leader decoder of Tomita and Svore \cite{TS}). Run a
+breadth-first search over the syndrome space $\Zt^{\,n}$ from the zero syndrome,
+expanding by the $m$ mechanism masks in a fixed canonical index order, first
+assignment winning. This assigns to every reachable syndrome $s$ a
+minimum-cardinality fault configuration reaching $s$; let $D(s)\in\Zt$ be that
+configuration's observable flip. Then $D:\Zt^{\,n}\to\Zt$ is a fixed function,
+and
+\[
+   F \text{ is \emph{correctable}} \iff D(\sig(F))=\obs(F).
+\]
+We emphasise what this decoder is not: it ranks fault configurations by their
+\emph{cardinality} $|F|$, treating all $m$ mechanisms as equally likely, and so
+it is neither the maximum-likelihood decoder nor minimum-weight perfect
+matching. Every bound below is a statement about \emph{this} lookup-table
+decoder; none of it bounds the code's optimal-decoder logical rate.
+
+\subsection{The logical error probability and its counts} The decoder fails on
+$F$ exactly when $F$ is uncorrectable, and distinct configurations $F$ are
+disjoint events, so
+\begin{equation}\label{eq:PLexact}
+   \PL \;=\; \sum_{\substack{F\subseteq[m]\\ F\ \mathrm{uncorrectable}}}\Prb(F),
+   \qquad
+   A_w \;:=\; \#\{\,F : |F|=w,\ F\ \mathrm{uncorrectable}\,\}.
+\end{equation}
+The counts $A_w$ depend only on the masks $(d_j,o_j)$ and the decoder $D$, not
+on the probabilities $p_j$: they are a fixed, $p$-independent integer invariant
+of the DEM-plus-decoder pair.
+
+\subsection{The two-sided bracket} Choose a truncation weight $\WMAX$. Define
+the exact rational
+\begin{equation}\label{eq:L}
+   L \;=\; \sum_{\substack{F\ \mathrm{uncorrectable}\\ |F|\le \WMAX}}\Prb(F).
+\end{equation}
+Let $X_1,\dots,X_m$ be independent with $X_j\sim\mathrm{Bernoulli}(p_j)$, let
+$W=\sum_j X_j$ be the total number of firing mechanisms, and set
+\begin{equation}\label{eq:T}
+   T \;=\; \Prb(W\ge \WMAX+1).
+\end{equation}
+
+\begin{theorem}[Two-sided bracket]\label{thm:bracket}
+$L\le \PL\le L+T$. Writing $U=L+T$, the interval $[L,U]$ is exact and its width
+is $U-L=T$.
+\end{theorem}
+
+\begin{proof}
+By \eqref{eq:PLexact} and \eqref{eq:L}, $\PL-L=\sum_{F\ \mathrm{unc},\,
+|F|>\WMAX}\Prb(F)\ge 0$, which is the lower bound. For the upper bound, every
+uncorrectable $F$ with $|F|>\WMAX$ has $|F|\ge \WMAX+1$, and the event ``exactly
+$F$ fires'' entails $W=|F|\ge \WMAX+1$; these events are disjoint across $F$, so
+\[
+   \PL-L=\!\!\sum_{\substack{F\ \mathrm{unc}\\ |F|>\WMAX}}\!\!\Prb(F)
+   \;\le\; \sum_{\substack{F\subseteq[m]\\ |F|\ge \WMAX+1}}\!\!\Prb(F)
+   \;=\;\Prb(W\ge \WMAX+1)=T. \qedhere
+\]
+\end{proof}
+
+The upper bound is deliberately a union-type bound: it charges the entire
+high-weight tail, correctable or not, against $\PL-L$. The tail $T$ is a
+Poisson-binomial upper tail and is computed exactly by a dynamic program in
+$O(m\,\WMAX)$ rational operations, carrying the states $\Prb(W=k)$ for
+$k\le\WMAX$ and $\Prb(W\ge\WMAX+1)$. The lower bound $L$ is accumulated in exact
+integer arithmetic over the common denominator $D=\prod_j p_{\mathrm{den},j}$;
+writing $m_j=p_{\mathrm{den},j}-p_{\mathrm{num},j}$ and $M=\prod_j m_j$, each
+term is $\Prb(F)=\bigl(\prod_{j\in F}p_{\mathrm{num},j}\bigr)\,(M/\prod_{j\in
+F}m_j)/D$, where $\prod_{j\in F}m_j$ divides $M$ so the division is exact ---
+avoiding a greatest-common-divisor reduction on each of millions of terms with
+thousand-bit denominators.
+
+\subsection{Why the bracket is sharp exactly sub-threshold}\label{ssec:scaling}
+Let $w^\star=\min\{w:A_w>0\}$ be the least uncorrectable weight. As $p\to0$
+with the DEM's rates scaling proportionally, \eqref{eq:PLexact} gives
+$\PL=\Theta(p^{\,w^\star})$ (leading term $A_{w^\star}p^{\,w^\star}$), while
+$T=\Theta(p^{\,\WMAX+1})$ (leading term $\binom{m}{\WMAX+1}p^{\,\WMAX+1}$).
+Hence the \emph{relative} width satisfies
+\begin{equation}\label{eq:relwidth}
+   \frac{U-L}{\PL}\;=\;\frac{T}{\PL}\;=\;\Theta\!\bigl(p^{\,\WMAX+1-w^\star}\bigr),
+   \qquad \WMAX+1-w^\star>0,
+\end{equation}
+so the bracket tightens as a positive power of $p$ as $p\to0$. For the two
+codes below $\WMAX+1-w^\star=3$. A shot-based Monte Carlo estimate, by
+contrast, resolves $\PL=\Theta(p^{\,w^\star})$ to fixed relative precision only
+with a shot count growing like $1/\PL=\Theta(p^{-w^\star})$: the rarer the
+failure, the worse Monte Carlo does and the better the certificate does. This
+is the precise sense in which the method meets \cite{MWB} where they say Monte
+Carlo cannot go. The same formula \eqref{eq:relwidth} predicts where the
+certificate loses: the \emph{absolute} width $T=\Prb(W\ge\WMAX+1)$ is large
+whenever $\Ex[W]=\sum_j p_j$ is not small --- for larger $p$, or for more
+mechanisms $m$ --- while a Monte Carlo confidence interval shrinks as
+$N^{-1/2}$ regardless. At fixed $\WMAX$ this forces a crossover governed by
+$\Ex[W]$ and $m$, not by the code threshold (\S\ref{sec:results}).
+
+\section{Where this sits}\label{sec:priorart}
+
+Three neighbouring bodies of work compute logical error rates; none produces
+the object here. \emph{Estimators}: the improved MCMC of \cite{MWB} and its
+Bravyi--Vargo antecedent \cite{BV} reach sub-threshold rates but return a
+sampled value with a statistical error bar, not a bracket a third party can
+re-derive. \emph{Analytic approximations}: Regev, Dilley, Nutaro, Delgado, and
+Bennink \cite{Regev} give closed-form logical-error-rate approximations (their
+analysis includes measurement errors and a locally-correlated model), and
+Forlivesi, Valentini, and Chiani \cite{FVC} use MacWilliams weight enumerators,
+extending to noisy syndrome-extraction circuits; both are analytic
+(weight-enumerator or closed-form) bounds and asymptotics that loosen away from
+their validity window and carry no machine-checkable certificate, and their
+object --- undetectable-error enumerators or a closed-form estimate --- is not
+a decoder-specific count of uncorrectable configurations. \emph{Formal
+verifiers}: Lean-QEC \cite{LeanQEC}, via a verified SAT reduction, and Veri-QEC
+\cite{VeriQEC}, via SMT, machine-check code \emph{distance} and error-correction
+conditions --- a Boolean property of the code --- not a two-sided bracket on a
+\emph{probability}. What is new here is the intersection: exact integer
+uncorrectable-set counts $A_w$, a two-sided exact-rational bracket on $\PL$
+under a stated decoder at circuit-level noise, and independent re-verification
+from a standard-library checker. We claim that intersection, and no value or
+threshold within it.
+
+\section{Results}\label{sec:results}
+
+We instantiate the construction on the rotated surface code
+(\texttt{rotated\_memory\_z}, one round, a single depolarizing parameter $p$ on
+all four circuit-level noise channels) at $d=3$ and $d=5$. Table~\ref{tab:dem}
+records the two detector error models; the counts $A_w$ are $p$-independent, and
+the circuit-level distance shown --- the least weight $\le\WMAX$ of a fault set
+with zero syndrome and observable flip $1$ (an undetectable logical error) ---
+is re-derived by the checker during enumeration.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{lcccl}
+\toprule
+code & detectors $n$ & mechanisms $m$ & dist. & uncorrectable counts $A_w$ \\
+\midrule
+$d=3$ ($\WMAX=4$) & $8$ & $23$ & $3$ &
+   $A_2{=}55,\ A_3{=}690,\ A_4{=}4078$ \\
+$d=5$ ($\WMAX=5$) & $24$ & $77$ & $5$ &
+   $A_3{=}2728,\ A_4{=}154394,\ A_5{=}4057999$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{The two certified detector error models. At $d=5$ the $77$ mechanisms
+are $12$ of degree $1$ and $65$ of degree $2$; $A_1=A_2=0$, so the least
+uncorrectable weight is $w^\star=3$. At $d=3$, $A_1=0$ and $w^\star=2$.}
+\label{tab:dem}
+\end{table}
+
+Table~\ref{tab:brackets} gives the certified brackets at $p=10^{-3}$ and
+$p=10^{-2}$, alongside a pre-registered Monte Carlo kill test: $10^{7}$ shots
+of the same DEM decoded with the same lookup table, and its $95\%$ confidence
+interval. The rule, fixed before the runs: the bracket is \textsc{live} at a
+point if it is narrower than the Monte Carlo interval there, \textsc{dead} if
+wider.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{llll r l}
+\toprule
+code & $p$ & $L$ & $U$ & width $T$ & vs.\ $10^7$-shot MC \\
+\midrule
+$d=3$ & $10^{-3}$ & $3.3589593231\text{e}{-}4$ & $3.3589715988\text{e}{-}4$
+   & $1.23\text{e}{-}9$  & $\approx 18{,}500\times$ narrower (\textsc{live}) \\
+$d=3$ & $10^{-2}$ & $2.7101553370\text{e}{-}2$ & $2.7188139126\text{e}{-}2$
+   & $8.66\text{e}{-}5$  & $\approx 2.33\times$ narrower (\textsc{live}) \\
+$d=5$ & $10^{-3}$ & $2.6135024167\text{e}{-}5$ & $2.6144956889\text{e}{-}5$
+   & $9.93\text{e}{-}9$  & $\approx 626\times$ narrower (\textsc{live}) \\
+$d=5$ & $10^{-2}$ & $1.6118428758\text{e}{-}2$ & $1.9426205101\text{e}{-}2$
+   & $3.31\text{e}{-}3$  & $\approx 20.5\times$ wider (\textsc{dead}) \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Certified brackets (decimal shadows of exact rationals) and the Monte
+Carlo kill test. The endpoints are exact; the checker prints the full
+numerator/denominator, here abbreviated. At $d=5,\ p=10^{-3}$, matching the
+bracket width by sampling would take Monte Carlo about $3.9\times10^{12}$ shots;
+the bracket $[2.6135\text{e}{-}5,\,2.6145\text{e}{-}5]$ lies inside the
+$10^7$-shot interval.}
+\label{tab:brackets}
+\end{table}
+
+\subsection{Both verdicts, read honestly} Deep sub-threshold, at $p=10^{-3}$,
+the certificate dominates: about $18{,}500\times$ tighter than the $10^7$-shot
+interval at $d=3$, and about $626\times$ at $d=5$, where Monte Carlo would need
+on the order of $4\times10^{12}$ shots to match. This is the central message,
+and it is exactly the regime \cite{MWB} call inaccessible to sampling.
+
+At the larger rate $p=10^{-2}$ the picture splits, and the split is instructive.
+At $d=3$ the bracket is still \textsc{live}, about $2.33\times$ narrower than
+Monte Carlo. At $d=5$ it is \textsc{dead}, about $20.5\times$ wider. The
+difference is not a threshold. The logical rate still \emph{falls} with
+distance at $p=10^{-2}$ --- $\PL(d{=}5)\in[1.61\text{e}{-}2,1.94\text{e}{-}2]$
+lies below $\PL(d{=}3)\approx 2.72\text{e}{-}2$ --- which is the below-threshold
+signature, not the above-threshold one. What changed is the truncation tail
+$T=\Prb(W\ge\WMAX+1)$: at $d=5$ there are $77$ mechanisms and
+$\Ex[W]=\sum_j p_j=1.456$ at $p=10^{-2}$, so more than one mechanism fires on
+average and the tail is fat; at $d=3$ there are $23$ mechanisms and
+$\Ex[W]=0.481$, so the tail stays thin and the bracket keeps winning. By
+\eqref{eq:relwidth}, the crossover where Monte Carlo overtakes is governed by
+$\Ex[W]$ and the mechanism count, and it is a large-$m$ (here $d=5$) phenomenon
+at the larger $p$ --- not a universal ``above threshold'' statement. We
+therefore describe the loose regime by its cause, the weight-truncation tail,
+and record the $d=3$ contrast rather than generalising the $d=5$ loss.
+
+\subsection{A tighter optional run} Pushing the truncation to $\WMAX=6$ at
+$d=5,\ p=10^{-3}$ adds the count $A_6=67{,}711{,}204$ and replaces the tail by
+$T=\Prb(W\ge7)=1.881\times10^{-10}$, tightening the bracket to
+$[2.6138502142\text{e}{-}5,\,2.6138690261\text{e}{-}5]$ (relative width about
+$7.2\times10^{-6}$). This certificate verifies, but its checker is slow
+(\S\ref{sec:wall}); it is offered as an optional sharpening, not part of the
+released $\WMAX=5$ core.
+
+\section{What is certified, and what is trusted}\label{sec:trust}
+
+The value of a certificate is only as clear as the line between what a skeptic
+can replay and what they must take on faith. Here that line is drawn sharply.
+
+\emph{Machine-checked, replayable with standard-library Python.} The checker
+reads only the certificate. It (i) recomputes the SHA-256 of the canonically
+serialised mechanism list; (ii) rebuilds the decoder $D$ by a depth-truncated
+breadth-first search to depth $\WMAX$ --- sound because a weight-$w$ fault set
+with $w\le\WMAX$ has a syndrome at BFS distance $\le\WMAX$, so its coset leader
+is the full-table leader, and the checker aborts if any enumerated syndrome is
+unreached; (iii) enumerates all $\binom{m}{w}$ fault sets for $w\le\WMAX$,
+reproducing the counts $A_w$, a per-weight hash of the uncorrectable index
+tuples, the exhaustion record, and the circuit-level distance; and (iv)
+recomputes $L$, $T$, and $U=L+T$ in exact arithmetic and compares them
+string-for-string. Any mismatch prints \texttt{CHECK FAIL} and exits nonzero.
+The checker imports only \texttt{hashlib}, \texttt{itertools}, \texttt{json},
+\texttt{sys}, \texttt{fractions}, \texttt{math.comb}, and \texttt{collections};
+it uses no signals, subprocesses, network, or wall-clock, and runs unchanged
+under a clean environment. An independent replay reproduced every certified
+number and rejected a battery of tamper controls (flipped counts, a perturbed
+probability, a corrupted decoder rebuild, altered bracket digits, a scope
+downgrade), each nonzero.
+
+\emph{Trusted.} Four things, stated plainly.
+\begin{enumerate}
+\item \emph{The mechanism list is the trust root.} The checker certifies
+$L\le\PL\le U$ \emph{given} the $(d_j,o_j,p_j)$ list embedded in the
+certificate. It does not --- and from the public artifact cannot --- re-verify
+that this list \emph{is} Stim's detector error model at the stated $p$; that
+binding lives in the private generator. This is the single link a stranger
+cannot re-check, and it is the reason the certificate ships the full mechanism
+list rather than a reference to it.
+\item \emph{The independent-mechanism DEM is an approximation of the physical
+circuit.} The bracket bounds $\PL$ of the DEM, which treats the depolarizing
+channels as independent single-mechanism events (Stim's standard DEM
+semantics). It is not, and does not claim to be, a bound on the true
+depolarizing circuit's $\PL$. Empirically the gap is small but real: at
+$d=5,\ p=10^{-3}$ a $10^7$-shot Monte Carlo of the \emph{raw circuit} returns a
+point estimate ($2.81\times10^{-5}$) about $1.17$ standard errors above $U$ ---
+statistically consistent, but a reminder that ``circuit-level'' here names the
+DEM's origin, not a certified bound on the physical circuit.
+\item \emph{CPython, the operating system, and the hardware.}
+\item \emph{SHA-256 collision resistance}, for the bookkeeping only --- a
+skeptic can regenerate and re-check every quantity without trusting any hash.
+\end{enumerate}
+
+\noindent Stim, the enumeration engine, and the Monte Carlo are \emph{not} in
+the trusted base: Stim's model is transcribed into the certificate and
+re-checked from there, the engine can be deleted and the checker still verifies,
+and the Monte Carlo is a falsification test, not an input to any bound.
+
+\section{The wall at weight seven, and certification}\label{sec:wall}
+
+The method's reach is bounded by what a portable pure-Python checker can
+re-verify, and that boundary is close. At $d=5$ the $\WMAX=5$ checker is
+comfortable, about $34$ seconds. The $\WMAX=6$ checker is already heavy: on a
+stock laptop it exceeded a $600$-second foreground budget (completing
+\texttt{CHECK PASS} in the background), so the honest figure is order ten-plus
+minutes, not ``a few''. The $\WMAX=7$ checker is the wall. There are
+$\binom{77}{7}=2{,}404{,}808{,}340$ weight-$7$ fault sets to enumerate --- about
+twenty-six minutes at the engine's rate --- and the exact lower bound then
+accumulates tens of millions of big-integer terms with roughly $4600$-bit
+denominators, pushing a pure-Python re-verification into hours. Breaking the
+wall is a computational-geometry-of-proofs problem, not a physics one: it needs
+either a proof-carrying weighted model counter (a CPOG-style certificate from a
+tool such as \texttt{d4}$+$\texttt{cpog}) that a small checker can validate, or
+a locality-exploiting exact convolution the checker can re-derive. Either would
+carry the same two-sided bracket to $\WMAX=7$ and beyond, and is the engine's
+next build target.
+
+\emph{Certification.} The permanent record of each result is a single
+certificate JSON --- the mechanism list, the $p$-independent counts $A_w$, the
+per-weight uncorrectable-set hashes, the exhaustion record, and the exact
+rational $L$, $T$, $U$ --- together with the standard-library checker that
+re-derives all of it. The two together are the public unit; they are deposited
+with this note in the program's certificate repository \emph{Certify}, and a
+reader with nothing but CPython replays any shipped bracket in seconds
+($\WMAX=5$) from the certificate alone. The generator, the enumeration engine,
+and the Monte Carlo remain private and are not needed to check anything.
+
+\section{Questions}\label{sec:questions}
+
+\begin{question}[Break the weight-seven wall]\label{q:seven}
+Is there a proof-carrying counter for the exact weighted enumeration at
+$\WMAX=7$ --- a CPOG-style weighted model-counting certificate, or an exact
+locality-exploiting convolution / transfer-matrix --- that a standard-library
+checker can re-verify in minutes rather than hours? This is the difference
+between a bracket that stops at $d=5$ and one that scales.
+\end{question}
+
+\begin{question}[Larger distance]\label{q:scale}
+How does the object behave at $d=7$ and beyond? Even at one round the mechanism
+count and the syndrome space $2^{\,n}$ grow, so both the decoder rebuild and the
+enumeration $\binom{m}{w}$ swell; the depth-truncated BFS keeps the decoder
+tractable, but the enumeration is the binding constraint, which returns to
+Question~\ref{q:seven}.
+\end{question}
+
+\begin{question}[Other codes, other noise, and the circuit gap]\label{q:models}
+The bracket is generic in the DEM: it applies to any code, any single logical
+observable, any independent-mechanism model, and --- with a larger syndrome
+space --- to multiple rounds. Two sharper questions follow. Can the truncation
+tail be replaced by a tighter certified tail that exploits the mechanism
+structure? And can the DEM-to-circuit gap of \S\ref{sec:trust} itself be
+certified, lifting the bracket from Stim's model to the physical depolarizing
+circuit?
+\end{question}
+
+\begin{question}[The decoder gap]\label{q:decoder}
+The bracket bounds a fixed minimum-cardinality lookup decoder, not the optimal
+decoder. Uncorrectable-set counting is decoder-relative by construction; is
+there a certified two-sided bracket on the \emph{maximum-likelihood} decoder's
+logical rate --- the code's true operational figure --- of comparable
+sub-threshold sharpness?
+\end{question}
+
+\section*{Acknowledgments}
+
+The question this note answers --- that sub-threshold logical error rates are
+beyond direct Monte Carlo --- is Mullan, Weippert, and Brown's, and their
+subregion-MCMC estimator is the sampler this certificate is meant to complement,
+not replace; the Markov-chain lineage traces to Bravyi and Vargo. The
+lookup-table decoder is Tomita and Svore's. The detector error models were
+produced with Stim (Craig Gidney), used here as an untrusted generator. The
+computation and drafting were AI-assisted as stated in the first footnote, and
+the note's shape --- open with the question, cite the computation once, close
+with the questions it opens --- follows the program's standing constraint for a
+computation-only paper.
+
+\begin{thebibliography}{99}
+\footnotesize
+
+\bibitem[BV14]{BV}
+S.~Bravyi and A.~Vargo,
+\emph{Simulation of rare events in quantum error correction},
+Phys.\ Rev.\ A \textbf{88} (2013), 062308; arXiv:1308.6270.
+
+\bibitem[FVC25]{FVC}
+D.~Forlivesi, L.~Valentini and M.~Chiani,
+\emph{Performance analysis of quantum error-correcting codes via MacWilliams
+identities},
+Quantum \textbf{9} (2025), 1950; arXiv:2305.01301.
+
+\bibitem[LeanQEC26]{LeanQEC}
+K.~Ehatamm, S.~Lee, Y.~Wu and R.~Tao,
+\emph{Lean-QEC: machine-checked quantum error-correcting code distances via a
+verified SAT reduction},
+arXiv:2605.16523 (2026).
+
+\bibitem[MWB26]{MWB}
+M.~Mullan, M.~Weippert and W.~Brown,
+\emph{Improved methods for determining quantum error correcting code
+performance and fault tolerance},
+arXiv:2607.27153 (2026).
+
+\bibitem[Reg26]{Regev}
+G.~Regev, G.~Dilley, T.~Nutaro, R.~Delgado and R.~Bennink,
+\emph{Closed form logical error rate approximations for surface codes},
+arXiv:2605.03054 (2026).
+
+\bibitem[TS14]{TS}
+Y.~Tomita and K.~M. Svore,
+\emph{Low-distance surface codes under realistic quantum noise},
+Phys.\ Rev.\ A \textbf{90} (2014), 062320.
+
+\bibitem[VeriQEC25]{VeriQEC}
+C.~Huang et al.,
+\emph{Veri-QEC: verifying error correction and detection conditions for
+quantum error correcting codes},
+Proc.\ ACM Program.\ Lang.\ (2025), DOI \texttt{10.1145/3729293};
+arXiv:2504.07732.
+
+\end{thebibliography}
+
+\end{document}
