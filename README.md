@@ -1,6 +1,6 @@
 # Certify: replayable certificates for machine-checked mathematics
 
-**Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018)
+**Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112), erratum (v0.1.2) [doi:10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780), update (v0.2.1) [doi:10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018) · Part E (v0.5.0) [doi:10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896) · Part F (v0.6.0) [doi:10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028)
 
 Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-06.
 
