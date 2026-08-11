@@ -491,8 +491,8 @@ block-inventory representatives the generator consumes, the witness
 files, and the audit and referee records. All of it is deposited with
 this note in the program's public certificate repository *Certify*
 ([github.com/05oz/certify](https://github.com/05oz/certify); concept DOI
-[10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111)) at
-release, under a version DOI minted then. The multi-gigabyte proofs themselves are
+[10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111)),
+version DOI [10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619). The multi-gigabyte proofs themselves are
 a cache, not the record: each regenerates from its recorded command —
 deterministically, in our environment: the referee's eight regenerations
 were all byte-identical to the originals, matching the ledger's digests
