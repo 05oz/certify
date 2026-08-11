@@ -287,9 +287,14 @@ and are **not** part of any trusted base — the Python verifiers stand alone.
 nauty/gentourng — that are routinely built on Linux and macOS; on Windows we recommend WSL
 for regeneration. Verifying the shipped certificates never requires them.
 
-Development and the pre-release replay audit were performed on macOS; a Windows replay of the
-checker suite is in progress and this section will record its result. Reports from other
-platforms are welcome and will be credited.
+Development and the pre-release replay audit were performed on macOS. **Windows: tested.** On
+2026-08-07 an independent replay on native Windows CPython 3.14.0 (not WSL) ran nine checks
+across Parts A–D — the Part B witness/lower-bound/duality checkers, the Part C minimizer
+verifiers, the Part D control (`verify_1435.py`, expected distance-4 verdict with exit 1 by
+design), and the Part A SymPy suite including `min_verify.py I` after the SIGALRM-portability
+fix — all nine at their documented exit codes. Not yet covered on Windows: the large bb288/bb360
+LRAT replays and the full n = 10 tournament sweep. Reports from other platforms are welcome and
+will be credited.
 
 ## Citing
 
