@@ -1,0 +1,853 @@
+%% ==========================================================================
+%% DRAFT -- August 11, 2026. Author byline: Daniel Kirtchakov (05oz,
+%% halfounce.io; no institutional affiliation; ORCID 0009-0009-5213-4098).
+%%
+%% Result referee-CONFIRMED 2026-08-11 (final adversarial pass, fresh code
+%% throughout; verdict record ships with the artifacts). Novelty swept clean
+%% 2026-08-05 and 2026-08-11 (erdosproblems.com/112 fetched live: OPEN,
+%% 0 comments, 0 claimed proofs, no values recorded; arXiv: nothing on
+%% r(I_m,L_n) beyond IRW; IRW citing literature: one off-target citation).
+%% Sweep re-run on the drafting date (2026-08-11) before this file was
+%% written: unchanged.
+%%
+%% Framing constraints honored throughout (PROTOCOL section 11):
+%%   * The claim is stated at exactly the referee-permitted strength:
+%%     k(3,4) = r(I_3,L_4) = 21, determined by an explicit 20-vertex witness
+%%     plus a 346-cube LRAT-certified exhaustion at N=21 with independently
+%%     audited completeness. Previous published bounds: 9 <= k(3,4) <= 25
+%%     (lower: monotonicity from Bermond's k(3,3)=9; upper: IRW 2021).
+%%   * Secondary results at their permitted strength only: the N=22 and
+%%     N=23 certified exhaustions are REDUNDANT confirmations; and
+%%     29 <= k(6,3) <= 33 (lower bound ours, upper bound IRW's).
+%%     k(6,3) remains OPEN and no more is claimed.
+%%   * Computation files live in the repository, not the paper (one
+%%     Certification paragraph, no file inventories, no chronology in the
+%%     body). The note opens with the mathematical question and closes with
+%%     the questions it opens.
+%% ==========================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\emergencystretch=3em
+\tolerance=1200
+\hbadness=4000
+
+\newcommand{\TT}[1]{\mathrm{TT}_{#1}}
+\newcommand{\I}[1]{I_{#1}}
+\newcommand{\Np}{N^{+}}
+\newcommand{\Nm}{N^{-}}
+\newcommand{\NI}{I}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+
+\begin{document}
+
+\title[The oriented Ramsey number $k(3,4)=21$]{An Erd\H{o}s--Rado
+oriented Ramsey number determined: $k(3,4)=r(I_3,L_4)=21$, by explicit
+witness and certified exhaustion}
+
+\author{Daniel Kirtchakov}
+\address{Independent researcher (\texttt{05oz}); no institutional
+affiliation. ORCID:
+\href{https://orcid.org/0009-0009-5213-4098}{0009-0009-5213-4098}.}
+\email{daniel@halfounce.io}
+\urladdr{https://halfounce.io}
+
+\thanks{\emph{Computation and authorship.} All encodings, decompositions,
+searches, verifiers, and audits in this work were produced by
+\textbf{Claude} (Anthropic), directed by the author, on a single
+Apple~M4 laptop. The independent proof checker imports only the Python
+standard library and shares no code with the solving pipeline; the
+adversarial referee of \S\ref{ssec:referee} was a separate agent instance
+given no access to the pipeline's code and wrote its own code throughout,
+including its own LRAT checker. This is a factual methods statement, and
+it is part of the point of the note: the artifacts are designed so that
+the provenance of the \emph{search} is irrelevant to the validity of the
+\emph{result}. External tools used by the pipeline: CaDiCaL~3.0.1
+(\texttt{--lrat}) and Python~3.}
+
+\thanks{\emph{Prior-art record.} The primary source \cite{IRW21} was read
+in full on August~5, 2026 (arXiv v3; a copy is archived with the
+artifacts, and section references follow its numbering). The Erd\H{o}s
+problems entry \cite{Blo} was fetched live
+on August~5 and again on August~11, 2026 (including once more immediately
+before this draft was written): status \textsc{open}, zero comments, zero
+claimed proofs, no exact value of any $k(n,m)$ recorded. An arXiv sweep
+of the same dates found no paper on $r(I_m,L_n)$ other than \cite{IRW21},
+whose single recorded citation is off-target. The line has been dormant
+since 2020/2021. \emph{Draft of August~11, 2026.}}
+
+\subjclass[2020]{Primary 05C55; Secondary 05C20, 05D10, 68V15}
+\keywords{Oriented graph, Ramsey number, transitive tournament,
+independent set, Erd\H{o}s problem, SAT, cube-and-conquer, LRAT,
+certified computation}
+
+\date{August 11, 2026}
+
+\begin{abstract}
+Let $k(n,m)$ be the least $N$ such that every directed graph on $N$
+vertices contains an independent set of size $n$ or a transitive
+tournament on $m$ vertices. Determining $k(n,m)$ is a problem of
+Erd\H{o}s and Rado (1967), \#112 in the Erd\H{o}s problems collection;
+it coincides with the oriented-graph Ramsey number $r(I_n,L_m)$ studied
+by Bermond and by Ihringer, Rajendraprasad, and Weinert (IRW). Beyond the classical tournament column $k(2,m)$, the known
+exact values were $k(3,3)=9$ (Bermond 1974) and $k(4,3)=15$, $k(5,3)=23$
+(IRW 2021); for $k(3,4)$, the case IRW single out as the next feasible
+one, the published bounds were $9\le k(3,4)\le 25$. We determine
+$k(3,4)=r(I_3,L_4)=21$.
+
+The lower bound is an explicit oriented graph on $20$ vertices, printed
+in full in \S\ref{sec:witness} and checkable in milliseconds. The upper
+bound is an exhaustion of the $21$-vertex case: a neighbourhood
+decomposition splits it into $346$ propositional instances; CaDiCaL
+refuted every instance with an LRAT certificate, and every certificate
+was replayed by an independently written standard-library checker. Completeness of the decomposition was
+audited at content level: complete block inventories (three independent
+enumerations), a base encoding with no symmetry breaking whose models
+are exactly the $\{I_3,\TT{4}\}$-free oriented graphs (brute-forced at
+small orders), and a one-to-one clause-multiset match of the $346$
+instance files against the decomposition re-derived from the
+definitions. With logically redundant confirming exhaustions at
+$N=22,23,24$, the corpus is $445$ certificates and just over $10^9$
+checked proof steps; certificates regenerate bit-for-bit from the
+recorded solver commands ($8$ of $8$ attempts). Every component was then confirmed by an
+adversarial referee writing fresh code throughout. From the same
+campaign: $29\le k(6,3)\le 33$, the lower bound new, by an explicit
+Cayley witness on $28$ vertices; the upper bound is IRW's. We close with
+the questions the computation opens: the structure and possible
+uniqueness of the $20$-vertex extremal graph, the $k(6,3)$ gap, the
+feasibility of $k(4,4)$ (the new value gives $k(4,4)\le 50$), and what
+a human-readable proof would require.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{The question}\label{ssec:question}
+An \emph{oriented graph} is a loopless directed graph with at most one
+arc between any two vertices; a \emph{tournament} is an oriented graph
+in which every pair is adjacent; a tournament is \emph{transitive} when
+its arc relation is a linear order. Write $\I{n}$ for the independent set
+on $n$ vertices and $L_m$ (equivalently $\TT{m}$) for the transitive
+tournament on $m$ vertices. Following \cite{IRW21}, $r(\I{n},L_m)$ is
+the least $N$ such that every oriented graph on $N$ vertices contains an
+independent set of size $n$ or a transitive tournament on $m$ vertices
+(for tournaments, subdigraph and induced-subdigraph containment
+coincide).
+
+Erd\H{o}s and Rado \cite{ErRa67} asked for the same quantity over
+directed graphs: let $k(n,m)$ be minimal such that any directed graph on
+$k(n,m)$ vertices contains an independent set of size $n$ or a
+transitive tournament of size $m$. The two functions are equal
+(Remark~\ref{rem:bridge}), and determining $k(n,m)$ is \#112 in the
+Erd\H{o}s problems collection \cite{Blo}, recorded there as open.
+That entry records the following. Erd\H{o}s and Rado
+proved $k(n,m)\ll_m n^{m-1}$, with the explicit bound
+$k(n,m)\le\bigl(2^{m-1}(n-1)^m+n-2\bigr)/(2n-3)$; Larson and Mitchell
+\cite{LaMi97} sharpened the dependence on $m$, in particular to
+$k(n,3)\le n^2$ --- a bound also stated as
+\cite[Lemma~2.4]{IRW21}, where it is attributed to \cite{LaMi97}; and
+Z.~Hunter observed
+$R(n,m)\le k(n,m)\le R(n,m,m)$, hence $k(n,m)\le 3^{n+2m}$.
+
+The exact values previously known form two families. The tournament
+column is classical: $k(2,3)=4$, $k(2,4)=8$, $k(2,5)=14$, $k(2,6)=28$
+(see \cite{IRW21} and the references there). In the third-column
+direction, Bermond \cite{Ber74} proved $k(3,3)=9$; the extremal graph on
+$8$ vertices is unique up to isomorphism by
+\cite[Lemma~3.1]{IRW21}, which also gives its description as the
+circulant on $\mathbb{Z}_8$ with connection set $\{1,6\}$. Ihringer,
+Rajendraprasad, and Weinert
+\cite{IRW21} proved $k(4,3)=15$ and $k(5,3)=23$, gave the general bound
+$k(m,3)\le m^2-m+3$, and --- combining their upper bound with Kim's
+lower bound for $r(\I{m},K_3)$ --- determined the order of growth
+$k(m,3)=\Theta(m^2/\log m)$. For $k(3,4)$ --- the case \cite{IRW21}
+single out in closing as the next one within reach --- the record stood
+at
+\[
+9 \;\le\; k(3,4) \;\le\; 25,
+\]
+the lower bound by monotonicity from $k(3,3)=9$, the upper bound from
+the recursion of \cite[Lemma~2.3]{IRW21},
+$r(\I3,L_4)\le 2\,r(\I3,L_3)+r(\I2,L_4)-1=25$; the same value $25$ is
+what \cite[Proposition~6.1]{IRW21}, the small-parameter formula the
+authors describe as the state of the art for small $m$ and $n$, returns
+at $(m,n)=(3,4)$.
+
+\subsection{Result}\label{ssec:result}
+
+\begin{theorem}\label{thm:main}
+$k(3,4)=r(I_3,L_4)=21$. That is: every directed graph --- equivalently,
+every oriented graph --- on $21$ vertices contains an independent set of
+size $3$ or a transitive tournament on $4$ vertices, and there is an
+explicit oriented graph on $20$ vertices, exhibited in
+\S\ref{sec:witness}, containing neither.
+\end{theorem}
+
+This determines the first previously unknown value in the $k(3,m)$
+column of Erd\H{o}s Problem \#112. The proof is machine-checkable end to
+end. The lower bound is the explicit witness of \S\ref{sec:witness}. The
+upper bound is an exhaustive case decomposition of the $21$-vertex
+problem into $346$ propositional instances (\S\ref{sec:upper}), each
+refuted by CaDiCaL~3.0.1 \cite{CaDiCaL} with
+an LRAT certificate \cite{LRAT}, in the spirit of
+cube-and-conquer \cite{HKWB11} and of the certified exhaustions of
+\cite{HKM16}; the completeness of the decomposition --- that the $346$
+cases cover everything, with no symmetry breaking hidden in the
+encoding --- was itself audited at content level
+(\S\ref{sec:verif}). Every certificate was verified by an independently
+written checker, and twelve of them by a second, unrelated one; the
+whole was confirmed by a final
+adversarial referee (\S\ref{ssec:referee}).
+
+Two secondary results from the same campaign are recorded at exact
+strength. The certified exhaustions at $N=22,23$ (and a structured
+instance at $N=24$) are
+logically redundant given Theorem~\ref{thm:main} but stand as
+independent confirmations (\S\ref{ssec:redundant}). And:
+
+\begin{proposition}\label{prop:k63}
+$29\le k(6,3)\le 33$. The lower bound is new, by the explicit
+$28$-vertex witness $\mathrm{Cay}(\mathbb{Z}_{28},\{3,8,10,12,17\})$;
+the upper bound is $m^2-m+3$ at $m=6$, due to \cite{IRW21}.
+\end{proposition}
+
+\noindent $k(6,3)$ remains open, and nothing stronger about it is
+claimed here.
+
+\begin{remark}[Directed versus oriented graphs]\label{rem:bridge}
+Erd\H{o}s Problem \#112 is phrased for directed graphs, which may carry
+$2$-cycles; the computation here is over oriented graphs. The two Ramsey
+functions coincide. Every oriented graph is a directed graph, so
+$k(n,m)\ge r(\I{n},L_m)$. Conversely, a directed graph avoiding both
+patterns yields an oriented one on the same vertex set: delete one arc
+of each $2$-cycle. Deletion preserves adjacency and non-adjacency of
+every pair --- hence preserves every independent set --- and only
+removes transitive subtournaments; so $k(n,m)\le r(\I{n},L_m)$. The
+extremal orders are equal, and the value $21$ answers the problem as
+posed.
+\end{remark}
+
+\subsection{What is not claimed}\label{ssec:notclaimed}
+We do not claim to resolve Erd\H{o}s Problem \#112. The problem asks for
+$k(n,m)$ as a function of two parameters and is not settled by any
+finite computation; a single new entry in its table leaves it open. We
+do not claim a human-readable proof of the upper bound: what a
+skeptic must believe and can replay is stated in \S\ref{sec:tcb}; what
+a human proof would require, in
+\S\ref{sec:questions}. We do not claim uniqueness of the $20$-vertex
+extremal graph (Question~\ref{q:unique}). The asymptotics of $k(n,m)$
+are untouched: the best general results remain those of
+\cite{ErRa67,LaMi97,IRW21}. We do not claim
+$k(6,3)$: Proposition~\ref{prop:k63} narrows its range and no more. The
+prior bounds improved on here are credited at their sources: the
+interval $[9,25]$ is \cite{Ber74} plus \cite{IRW21}.
+
+\section{The lower bound: an explicit graph on $20$
+vertices}\label{sec:witness}
+
+Table~\ref{tab:witness} defines an oriented graph $W$ on vertex set
+$\{0,\dots,19\}$ by its out-neighbourhoods; $W$ has $126$ arcs.
+
+\begin{table}[ht]
+\begin{center}
+\small
+\begin{tabular}{r@{\ $\to$\ }l@{\qquad}r@{\ $\to$\ }l}
+\toprule
+$0$ & $1,3,4,7,9,18$        & $10$ & $2,3,5,6,17,19$ \\
+$1$ & $2,4,6,7,10,14,16$    & $11$ & $2,4,6,8,9,10$ \\
+$2$ & $0,8,12,16,17,18,19$  & $12$ & $9,10,11,15,17,19$ \\
+$3$ & $1,6,11,12,13,16$     & $13$ & $0,1,9,10,11,14,17$ \\
+$4$ & $3,5,10,12,13,14$     & $14$ & $0,3,6,16,18,19$ \\
+$5$ & $2,6,11,12,13,15,18$  & $15$ & $0,1,2,8,9,14$ \\
+$6$ & $4,8,12,13,17,19$     & $16$ & $0,4,7,13,15,17$ \\
+$7$ & $2,3,13,14,15,18$     & $17$ & $1,3,4,5,8,11$ \\
+$8$ & $3,5,7,9,10,12,18$    & $18$ & $1,9,13,15,16,19$ \\
+$9$ & $2,5,7,14,16,19$      & $19$ & $0,4,5,7,8,11,15$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{The $20$-vertex witness $W$: out-neighbourhoods.}
+\label{tab:witness}
+\end{table}
+
+\begin{theorem}\label{thm:witness}
+$W$ contains no independent set of size $3$ and no transitive tournament
+on $4$ vertices. Hence $k(3,4)\ge 21$.
+\end{theorem}
+
+The check is a finite verification over the $\binom{20}{3}=1140$ triples
+and $\binom{20}{4}=4845$ quadruples, and runs in milliseconds; it was
+performed by independently written verifiers using three distinct
+transitivity criteria (among them the score-sequence criterion:
+transitive if and only if the scores are $\{0,1,2,3\}$), and again from
+scratch by the adversarial referee of \S\ref{ssec:referee}, who
+additionally pushed a randomly relabelled copy of $W$ through the full
+canonicalization of \S\ref{ssec:canon} at every one of its $20$
+vertices.
+
+Three facts about $W$, directly checkable from Table~\ref{tab:witness},
+are worth recording for \S\ref{sec:questions}. Every out- and in-degree
+is $6$ or $7$, and the vertex types
+$\bigl(d^+(v),\,d^-(v),\,|\NI(v)|\bigr)$ --- out-degree, in-degree,
+number of non-neighbours --- take exactly four values: $(6,6,7)$ at
+eleven vertices, and $(6,7,6)$, $(7,6,6)$, $(7,7,5)$ at three vertices
+each. In particular $W$ is not vertex-transitive. Finally, at each
+vertex of type $(6,6,7)$ the non-neighbourhood is a $7$-vertex
+$\TT{4}$-free tournament, hence (Proposition~\ref{prop:blocks}) a copy
+of the Paley tournament $QR_7$.
+
+\section{The upper bound: exhaustion at $N=21$}\label{sec:upper}
+
+Call an oriented graph \emph{free} if it contains neither $\I3$ nor
+$\TT{4}$. The upper bound is the assertion that no free graph on $21$
+vertices exists. The exhaustion has three mathematical ingredients ---
+a neighbourhood lemma, two vanishing endpoints, and complete
+inventories of the neighbourhood blocks --- and one computational
+engine: $346$ certified refutations.
+
+\subsection{The case decomposition}\label{ssec:decomp}
+
+For a vertex $w$ of an oriented graph $D$, write $\Np(w)$, $\Nm(w)$,
+$\NI(w)$ for the sets of out-neighbours, in-neighbours, and
+non-neighbours of $w$.
+
+\begin{lemma}\label{lem:nbhd}
+Let $D$ be free and $w$ a vertex of $D$. Then
+(i) $\Np(w)$ and $\Nm(w)$ each induce an oriented graph with no $\I3$
+and no $\TT{3}$;
+(ii) $\NI(w)$ induces a tournament with no $\TT{4}$.
+\end{lemma}
+
+\begin{proof}
+(i) An independent triple inside $\Np(w)$ is one in $D$. A transitive
+triangle inside $\Np(w)$ extends by $w$, a common in-neighbour of its
+three vertices, to a $\TT{4}$ in $D$. The argument for $\Nm(w)$ is the
+same with $w$ as common out-neighbour (sink side).
+(ii) Two non-adjacent vertices of $\NI(w)$ together with $w$ form an
+$\I3$, so $\NI(w)$ induces a tournament; a $\TT{4}$ inside it is one in
+$D$.
+\end{proof}
+
+\begin{lemma}\label{lem:endpoints}
+There is no $\{\I3,\TT{3}\}$-free oriented graph on $9$ vertices, and
+no $\TT{4}$-free tournament on $8$ vertices.
+\end{lemma}
+
+Lemma~\ref{lem:endpoints} is equivalent to $k(3,3)=9$ \cite{Ber74} and
+to the classical $k(2,4)=8$, but the exhaustion does not rest on the
+literature for it: both statements were established internally four
+ways --- by direct enumeration of all labelled graphs of the two
+families (the labelled counts of $\{\I3,\TT{3}\}$-free graphs on
+$1,\dots,9$ vertices are $1$, $3$, $20$, $224$, $2554$, $18370$,
+$30960$, $5040$, $0$; of $\TT{4}$-free tournaments on $1,\dots,8$
+vertices, $1$, $2$, $8$, $40$, $184$, $240$, $240$, $0$), re-derived
+twice more by independent enumerations during the audits, and by
+LRAT-certified refutations of the corresponding instances, replayed by
+both checkers.
+
+By Lemma~\ref{lem:nbhd} and Lemma~\ref{lem:endpoints}, in a free graph
+every vertex $w$ has $d^+(w)\le 8$, $d^-(w)\le 8$, $|\NI(w)|\le 7$;
+counting $N=1+d^++d^-+|\NI|\le 24$ caps free graphs at $24$ vertices,
+hence $k(3,4)\le 25$ by pure arithmetic. This is the specialization to
+$(3,4)$ of the argument of \cite[Lemma~2.3]{IRW21}, and it is exactly
+where the previous record stood. The exhaustion works at $N=21$: there
+$(p,q,s):=(d^+(w),d^-(w),|\NI(w)|)$ satisfies $p+q+s=20$ with
+$p,q\le 8$, $s\le 7$, which also forces $p,q\ge 5$ and $s\ge 4$.
+
+\begin{proposition}[Block inventories]\label{prop:blocks}
+Up to isomorphism, the $\{\I3,\TT{3}\}$-free oriented graphs on
+$5,6,7,8$ vertices number $25$, $31$, $7$, $1$ respectively --- the
+unique one on $8$ vertices being Bermond's circulant, in agreement with
+\cite[Lemma~3.1]{IRW21} ---
+and the $\TT{4}$-free tournaments on $4,5,6,7$ vertices number $3$, $3$,
+$1$, $1$, the unique one on $7$ vertices being the Paley tournament
+$QR_7$.
+\end{proposition}
+
+These inventories were computed by orbit-peeling of the labelled
+enumerations under $S_k$, with a built-in closure assertion (every
+relabelled image of every representative must reappear in the labelled
+set), and re-derived by three independent enumerations in total; the
+labelled orbit sizes cross-check exactly against the automorphism
+groups (order $8$ for Bermond's graph, $21$ for $QR_7$).
+
+Reversing all arcs preserves non-adjacency (hence $\I3$-freeness), maps
+$\TT{4}$ to $\TT{4}$, and swaps $(p,q,s)\mapsto(q,p,s)$; both block
+families of Proposition~\ref{prop:blocks} are closed under reversal. So
+one may assume $p\le q$, and the possible types at $N=21$ are exactly
+six. Assigning to each type every ordered choice of isomorphism classes
+for the three blocks (both ordered pairs are kept when $p=q$) yields the
+case list of Table~\ref{tab:types}: $346$ cases in all.
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+type $(p,q,s)$ & block classes & cases \\
+\midrule
+$(5,8,7)$ & $25\times 1\times 1$ & $25$ \\
+$(6,7,7)$ & $31\times 7\times 1$ & $217$ \\
+$(6,8,6)$ & $31\times 1\times 1$ & $31$ \\
+$(7,7,6)$ & $7\times 7\times 1$ & $49$ \\
+$(7,8,5)$ & $7\times 1\times 3$ & $21$ \\
+$(8,8,4)$ & $1\times 1\times 3$ & $3$ \\
+\midrule
+\multicolumn{2}{r}{total} & $346$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{The six vertex types at $N=21$ (with $p\le q$) and the case
+count.}
+\label{tab:types}
+\end{table}
+
+\subsection{The encoding}\label{ssec:encoding}
+The base formula $\mathrm{base}(N)$ has one Boolean variable per ordered
+pair ($x_{u\to v}$: the arc $u\to v$ is present; $2\binom{N}{2}=420$
+variables at $N=21$) and three clause families, transcribing the
+definition and nothing else: for each pair, no $2$-cycle
+($\lnot x_{u\to v}\lor\lnot x_{v\to u}$); for each triple, not
+independent (the disjunction of its six arc variables); for each
+$4$-set, for each of the $24$ transitive orientations, a clause
+forbidding that orientation. At $N=21$ this is
+$\binom{21}{2}+\binom{21}{3}+24\binom{21}{4}=145{,}180$ clauses. There
+is no symmetry breaking of any kind in $\mathrm{base}(N)$: its models
+correspond to free oriented graphs and to nothing else, and this
+semantic claim was verified by brute force at small orders --- over all
+$3^{\binom{N}{2}}$ orientations, the models of $\mathrm{base}(4)$ are
+exactly the $612$ free graphs among $729$, and the models of
+$\mathrm{base}(5)$ exactly the $35{,}488$ among $59{,}049$.
+
+Each of the $346$ cases becomes a \emph{cube}: $\mathrm{base}(21)$
+together with unit clauses fixing vertex $0$'s complete arc pattern
+(arcs to $1,\dots,p$, arcs from $p+1,\dots,p+q$, non-adjacency to the
+rest) and fixing each of the three blocks to its chosen class
+representative --- $2\bigl(20+\binom{p}{2}+\binom{q}{2}+\binom{s}{2}\bigr)$
+units in all, two per constrained pair. All arcs between different
+blocks are left entirely free, constrained only by
+$\mathrm{base}(21)$.
+
+\subsection{Soundness of the case split}\label{ssec:canon}
+
+\begin{proposition}\label{prop:canon}
+Suppose some free oriented graph $D$ on $21$ vertices existed. Then, for
+one of the $346$ cubes, some relabelling of $D$ (of $D$ with all arcs
+reversed, if necessary) would satisfy every clause of that cube.
+\end{proposition}
+
+\begin{proof}
+Fix any vertex $w$ of $D$ and let $(p,q,s)$ be its type; by
+Lemma~\ref{lem:nbhd}, Lemma~\ref{lem:endpoints}, and $p+q+s=20$, the
+type appears in Table~\ref{tab:types} after reversing all arcs if
+$p>q$ (reversal preserves freeness and swaps the type; when $p=q$ both
+ordered block pairs are among the cubes, so no choice is lost). By
+Lemma~\ref{lem:nbhd} the three blocks induced by $\Np(w)$, $\Nm(w)$,
+$\NI(w)$ belong to the enumerated families, and by the completeness of
+the inventories (Proposition~\ref{prop:blocks}) each is isomorphic to
+exactly one class representative. Relabel $w\mapsto 0$, $\Np(w)$ onto
+$\{1,\dots,p\}$, $\Nm(w)$ onto $\{p+1,\dots,p+q\}$, and $\NI(w)$ onto
+the rest, choosing within each block an isomorphism onto its
+representative. The relabelled graph is free, so it satisfies
+$\mathrm{base}(21)$ (whose models are exactly the free graphs), and by
+construction it satisfies every unit clause of the cube indexed by its
+type and block classes.
+\end{proof}
+
+Since all $346$ cubes are unsatisfiable --- \S\ref{ssec:certs} --- no
+free graph on $21$ vertices exists, and with Theorem~\ref{thm:witness},
+Theorem~\ref{thm:main} follows. The proof above is a short argument
+whose computational inputs are Lemma~\ref{lem:endpoints}, the
+completeness of Proposition~\ref{prop:blocks}, the semantics of
+$\mathrm{base}(N)$, the identity of the $346$ cube files with
+$\mathrm{base}(21)$-plus-units, and the $346$ refutations; every input
+was machine-checked independently, most several times over
+(\S\ref{sec:verif}).
+
+\subsection{The certificates}\label{ssec:certs}
+CaDiCaL~3.0.1 \cite{CaDiCaL} refuted each of the $346$ cubes,
+emitting an LRAT proof \cite{LRAT} for each; every proof was verified by
+an independently written checker that imports only the Python standard
+library, accepts only on derivation of the empty clause, and rejects
+deliberately corrupted controls. The verification ledger records, per
+certificate, the verdict, the checked-step count, the SHA-256
+digests of formula and of proof, and the proof's byte count. Across the
+$N=21$ layer the certificates range from $236{,}431$ to $7{,}816{,}216$
+checked steps, about $245$\,GB of uncompressed proof in total; the
+complete corpus of the campaign (including the redundant layers of
+\S\ref{ssec:redundant}) is $445$ certificates and just over $10^9$
+checked steps. All $346$ solver logs report unsatisfiability; every
+base has exactly one ledger line, verdict \textsc{verified}, formula
+digest matching the audited file; no failures, no rejections.
+
+\section{Verification and audit}\label{sec:verif}
+
+\subsection{Completeness at content level}\label{ssec:complete}
+The decomposition was audited by a referee-style completeness audit,
+with independent code, and later re-derived once more from scratch: the
+required cube inventory was recomputed from the type arithmetic and
+fresh block enumerations, and each of the $346$ cube files was required
+to equal $\mathrm{base}(21)$ plus its expected units \emph{as a clause
+multiset} --- no missing clause, no duplicate, no stray unit, exact
+DIMACS header --- with the match established one-to-one across the
+whole layer, filename-blind. Negative controls (a dropped
+clause, a duplicated clause, a hidden extra unit, a flipped literal)
+were all rejected. The same audit passed for the $N=22$, $N=23$, and
+$N=24$ layers.
+
+As a positive control, the identical pipeline --- same generator, same
+unit-fixing --- was run at $N=20$, where a free graph is known to exist:
+the witness $W$, canonicalized per Proposition~\ref{prop:canon} onto its
+class representatives, satisfies all $117{,}750$ clauses of the
+generated $N=20$ cube; the solver reports satisfiability on both the
+cube and the pure instance; and the extracted models were independently
+re-verified free. A false-unsatisfiability pipeline would have failed
+this control.
+
+Two operational events are recorded for honesty. Mid-campaign the
+checker's hint semantics were relaxed from strict format checking to
+sound fixpoint semantics (skip hints unusable under the current
+assignment, hard-fail on missing identifiers, accept only on the empty
+clause) to accommodate a solver emission quirk; the change was ruled
+sound, and all negative controls still fail. And three ledger lines were
+poisoned by infrastructure failures and repaired: one when the checker
+process was killed without output under memory and disk pressure, and
+later two more (a second such kill, and a cloud-storage file eviction).
+In every case only the verdict field changed --- never a formula and
+never a proof. The two later originals survive in a ledger backup whose
+formula and proof digests and byte counts are identical to the current
+lines; the first survives verbatim in the failure log, the backup having
+been taken afterwards. All three certificates verify with matching
+digests, two of them under the referee's independent checker and one
+regenerated byte-identically from its recorded solver command.
+
+\subsection{The adversarial referee}\label{ssec:referee}
+The confirmed result rests on a final adversarial referee pass, by a
+separate agent instance under an explicit independence rule: every
+load-bearing check used code written fresh in that session, sharing
+nothing with the pipeline or the earlier audits beyond the DIMACS
+variable-numbering convention. The referee re-derived the entire
+skeleton from the definitions --- the neighbourhood lemma, both
+endpoints of Lemma~\ref{lem:endpoints}, the inventories of
+Proposition~\ref{prop:blocks}, the six types, the count $346$ --- and
+re-established the content bijection between the $346$ required
+formulas and the files on disk over regenerated content. It wrote and
+control-validated its own LRAT checker, then attacked ten adversarially
+chosen certificates: the largest proof in the corpus, all three entries
+with a repair history (these four are the $2.0$--$2.3$\,GB proofs, four
+of the five largest), the smallest, the largest of every remaining type,
+and one further cube. All ten verified,
+with step counts and digests equal to the ledger's in every field; in
+all twelve cases where both checkers ran the same certificate, their
+step counts agreed exactly. Eight of the ten proofs were regenerated
+from nothing but the formula by re-running the recorded solver command;
+all eight came out byte-identical to the recorded certificates. The
+canonicalization of Proposition~\ref{prop:canon} was attacked with $57$
+pivot canonicalizations across three graphs, including a family member
+at $18$ vertices found by simulated annealing from a uniformly random
+start, sharing no ancestry with the witness; no escape from the
+inventory was found. Novelty was swept live the same day. On this
+protocol the result was confirmed on August~11, 2026; the referee's
+verdict record and fresh code ship with the artifacts.
+
+\section{Redundant layers, and $k(6,3)$}\label{sec:secondary}
+
+\subsection{Certified exhaustions at $N=22,23,24$}\label{ssec:redundant}
+Freeness is hereditary, so the $N=21$ exhaustion already implies that
+no free graph exists on any larger order. The campaign nevertheless
+produced certified exhaustions at
+$N=23$ ($8$ cubes: types $(7,8,7)$ across the seven $7$-vertex block
+classes, and $(8,8,6)$) and $N=22$ ($90$ cubes: types
+$(6,8,7){\times}31$, $(7,7,7){\times}49$, $(7,8,6){\times}7$,
+$(8,8,5){\times}3$), as well as a single structured instance at $N=24$;
+all $99$ certificates are verified and ledgered, and the multiset
+completeness audit of \S\ref{ssec:complete} passed for each layer.
+These layers are logically redundant given Theorem~\ref{thm:main}; they
+stand as independent confirmations along the descent
+$25\to 24\to 23\to 22\to 21$, and their certificates are part of the
+corpus.
+
+\subsection{The bracket for $k(6,3)$}\label{ssec:k63}
+
+\begin{proof}[Proof of Proposition~\ref{prop:k63}]
+Upper bound: $k(m,3)\le m^2-m+3$ is \cite[Proposition~3.4]{IRW21};
+at $m=6$ this is $33$. Lower bound: let $S=\{3,8,10,12,17\}\subset
+\mathbb{Z}_{28}$ and let $D=\mathrm{Cay}(\mathbb{Z}_{28},S)$, with arcs
+$x\to x+s$ for $s\in S$. Since $-S=\{11,16,18,20,25\}$ is disjoint from
+$S$, $D$ is an oriented graph; it is $5$-regular in and out, with $140$
+arcs. A transitive triangle $x\to y\to z$, $x\to z$ in
+$\mathrm{Cay}(G,S)$ is exactly a pair $a=y-x$, $b=z-y$ in $S$ with
+$a+b=z-x$ also in $S$; here
+$S+S=\{1,6,11,13,15,16,18,20,22,24,25,27\}$ is
+disjoint from $S$, so $D$ has no $\TT{3}$. The underlying graph of $D$
+is $\mathrm{Cay}(\mathbb{Z}_{28},S\cup-S)$, whose independence number is
+$5$; so $D$ has no $\I6$. Hence $k(6,3)\ge 29$.
+\end{proof}
+
+Only the independence number is a machine check, over the
+$\binom{28}{6}=376{,}740$ six-subsets. It was performed by the
+independently written witness verifiers of \S\ref{sec:witness}, and
+again by exact computation of the independence number by branch and
+bound. Two further $28$-vertex
+witnesses, one of them a Cayley digraph over
+$\mathbb{Z}_{14}\times\mathbb{Z}_2$, verify equally and are archived.
+
+Disjoint unions cannot reach $28$: splitting the independence budget
+$5$ across components with the extremal component orders available
+($3$ at budget $1$, since a $\TT3$-free tournament has at most $3$
+vertices; $k(a{+}1,3)-1$ in general) gives $3+22=25$ as the best
+partition, so every witness on $26$ or more vertices --- including
+$D$, whose connection set contains a generator --- is connected in the
+underlying adjacency. No lower bound beyond $24$ ($W_{22}$, the
+$\{\I5,\TT{3}\}$-free circulant of \cite[Observation~4.2]{IRW21}, plus
+an isolated vertex) appears in the literature.
+
+\section{Certification}\label{sec:certification}
+
+The permanent record of the computation is deliberately small: the
+verification ledger (one line per certificate: verdict, checked-step
+count, SHA-256 of formula and of proof, and the proof's byte count), the
+queue files recording the exact solver command line for every cube of
+the $N=21$, $22$ and $23$ layers, the generator and checker scripts, the
+block-inventory representatives the generator consumes, the witness
+files, and the audit and referee
+records. All of
+it is deposited with this note in the program's public certificate
+repository \emph{Certify} (\url{https://github.com/05oz/certify};
+concept DOI \href{https://doi.org/10.5281/zenodo.21799111}%
+{10.5281/zenodo.21799111}) at release, under a version DOI minted then. The
+multi-gigabyte proofs themselves are a cache, not the record: each
+regenerates from its recorded command --- deterministically, in our
+environment: the referee's eight regenerations were all byte-identical
+to the originals, matching the ledger's digests --- and the repository
+documents the regeneration procedure. To replay: verifying any shipped
+or regenerated certificate, the witnesses, the enumerations, and the
+content-level completeness audit requires only CPython (the checkers are
+standard-library only); regenerating proofs requires CaDiCaL~3.0.1.
+
+\section{The trusted base}\label{sec:tcb}
+
+What a skeptic must believe, separated from what they can replay.
+
+\emph{Machine-checked, replayable with standard-library Python:} the
+witness $W$ and the $28$-vertex witness of
+Proposition~\ref{prop:k63} (milliseconds); the labelled enumerations
+behind Lemma~\ref{lem:endpoints} and Proposition~\ref{prop:blocks},
+performed three independent times, with closure assertions (minutes);
+the brute-force semantics of $\mathrm{base}(4)$ and $\mathrm{base}(5)$
+over all orientations; the clause-multiset identity of all $445$ cube
+files with their re-derived specifications; and the LRAT replay of all
+$445$ certificates by an independently written checker, with twelve of
+them re-run by a second, unrelated checker agreeing on the exact step
+count in every case. Both checkers reject all negative controls.
+
+\emph{Trusted:}
+\begin{enumerate}
+\item \emph{The checkers' proof semantics.} Both checkers implement
+RUP-with-hints with sound fixpoint treatment of hints and accept only on
+derivation of the empty clause. That this discipline is sound is a short
+argument on paper, not a machine-checked one; the mitigation is two
+independent implementations in agreement, plus negative controls
+(corrupted proof, mutated formula, dropped hint) rejected by both.
+\item \emph{The assembly of \S\ref{ssec:canon}.} The proof of
+Proposition~\ref{prop:canon} is half a page of mathematics to be read by
+a human. Every computational input to it is machine-checked; the gluing
+is not, and is short by design.
+\item \emph{The generalization of the base semantics from $N=4,5$ to
+$N=21$.} The brute-force model check is exhaustive only at $N=4,5$; at
+$N=21$ the claim rests on the clause families being uniform in $N$
+(with closed-form clause count
+$\binom{N}{2}+\binom{N}{3}+24\binom{N}{4}$ matching at every audited
+order) and on the independent re-derivation of the exact clause
+multiset from the definitions.
+\item \emph{SHA-256 collision resistance}, for the bookkeeping that ties
+ledger lines to files --- not for the mathematics, since a skeptic can
+regenerate and re-check everything without trusting any hash.
+\item \emph{CPython, the operating system, and the hardware.}
+\end{enumerate}
+
+\noindent CaDiCaL, the cube generators, and the solving pipeline are
+\emph{not} in the trusted base: nothing depends on the solver being
+correct, only on its proofs checking, and every proof was checked by
+code unrelated to the solver --- a sample of them by two such checkers
+independently.
+
+\section{Questions}\label{sec:questions}
+
+What is this computation \emph{for}? Four directions it opens.
+
+\subsection{The extremal structure at $(3,4)$}\label{ssec:qstruct}
+The extremal graph for $k(3,3)$ is unique up to isomorphism
+\cite[Lemma~3.1]{IRW21} --- a circulant. The witness $W$ of
+\S\ref{sec:witness} shows no
+such symmetry: it has four vertex types, so it is not vertex-transitive,
+although the Paley tournament $QR_7$ appears as the non-neighbourhood of
+eleven of its twenty vertices. This mirrors the situation at $k(4,3)$,
+where \cite{IRW21} remark that no Cayley witness on $14$ vertices
+exists, while the $k(5,3)$ witness is again circulant.
+
+\begin{question}\label{q:unique}
+Is $W$ the unique $\{\I3,\TT{4}\}$-free oriented graph on $20$ vertices
+up to isomorphism? If not, what is the number of extremal graphs, and
+does any admit an algebraic description?
+\end{question}
+
+A related quantitative puzzle: the counting bound of
+\S\ref{ssec:decomp} caps free graphs at $24$ vertices, yet the largest
+free graph has $20$ --- at $N=21,22,23$ every one of the $346+90+8$
+cases dies, with no tightness anywhere. A structural explanation of
+this slack of $4$ (at $k(3,3)$ the analogous cap $1+2+2+3=8$ is
+attained, by Bermond's graph) is exactly what a human proof would have
+to supply.
+
+\subsection{The gap at $k(6,3)$}\label{ssec:qk63}
+Proposition~\ref{prop:k63} leaves $k(6,3)\in[29,33]$, now the smallest
+open case of the $k(m,3)$ column. Every witness on $26$ or more vertices
+is connected in the underlying adjacency, which points toward
+vertex-transitive candidates: for Cayley digraphs, $\TT{3}$-freeness of
+$\mathrm{Cay}(G,S)$ is exactly sum-freeness of $S$, which makes the
+search cheap. This is how the $28$-vertex witness was found. An
+exhaustive sweep of connection sets over the cyclic groups of orders
+$29$, $30$ and $31$ --- the only abelian groups of those orders --- and
+over three of the seven abelian groups of order $32$ produced nothing,
+so any witness beating $28$ lies outside that range of constructions. The
+upper bound looks harder: an exhaustion in this note's style
+would need complete inventories of $\{\I5,\TT{3}\}$-free graphs on up
+to $22$ vertices, far beyond present enumeration, so progress below
+$33$ seems likelier to come from sharpening the $m^2-m+3$ argument of
+\cite{IRW21}.
+
+\subsection{$k(4,4)$ and beyond}\label{ssec:qk44}
+The new value propagates through the standard recursion. By
+Lemma~\ref{lem:nbhd} in its general form \cite[Lemma~2.1]{IRW21},
+every $\{\I4,\TT{4}\}$-free graph has $d^{\pm}(v)\le k(4,3)-1=14$ and
+$|\NI(v)|\le k(3,4)-1=20$, so such a graph has at most
+$1+14+14+20=49$ vertices, and likewise every $\{\I3,\TT{5}\}$-free
+graph has at most $1+20+20+13=54$; hence
+\[
+k(4,4)\;\le\;50,
+\qquad\qquad
+k(3,5)\;\le\;55 ,
+\]
+which is the recursion of \cite[Lemma~2.3]{IRW21} evaluated at the new
+value. Meanwhile $k(4,4)\ge k(3,4)=21$, since a graph with no $\I3$ has
+no $\I4$,
+so $W$ is also $\{\I4,\TT{4}\}$-free. An honest feasibility assessment:
+determining $k(4,4)$ or $k(3,5)$ by the present method is out of reach.
+The decomposition would require complete isomorph inventories of
+$\{\I4,\TT{3}\}$-free graphs up to $14$ vertices, or of
+$\{\I3,\TT{4}\}$-free graphs up to $20$ vertices --- and the labelled
+counts of the latter family are already $35{,}488$ at $5$ vertices and
+$4{,}490{,}572$ at $6$ --- and the resulting instances at $N$ in the
+forties would dwarf the $10^9$ checked steps spent here at $N=21$. What
+does look feasible: raising lower bounds by witness search (any
+verified witness is a one-line check), and isomorph-free generation of
+the free families at small orders to map the terrain.
+
+\subsection{Toward a human-readable proof}\label{ssec:qhuman}
+The upper-bound half of Theorem~\ref{thm:main} is $346$ machine proofs
+averaging about two and a half million checked steps. Two concrete paths would shrink
+it. First, structure theory: the proof
+of Proposition~\ref{prop:canon} shows that any free graph on $21$
+vertices is assembled from three blocks drawn from very short lists
+around every vertex simultaneously; a human argument that such an
+assembly forces an $\I3$ or a $\TT{4}$ --- perhaps via the $QR_7$ and
+Bermond blocks, which dominate the type table --- would replace the
+certificates outright, and would likely explain the slack of
+\S\ref{ssec:qstruct} as a by-product. Second, proof compression: the
+LRAT corpus is an upper bound on the difficulty of the theorem, not a
+measure of it, and nothing is known about the minimum certificate size;
+a decomposition chosen for proof economy rather than for engineering
+convenience might cut the corpus by orders of magnitude and expose
+which cases are genuinely hard. Either advance would turn a determined
+value into an understood one.
+
+\section*{Acknowledgments}
+
+The problem is Erd\H{o}s and Rado's; its continued visibility owes much
+to Thomas Bloom's Erd\H{o}s problems collection \cite{Blo}. The line of
+exact values this note extends was opened by Jean-Claude Bermond and
+carried to $k(4,3)$ and $k(5,3)$ by Ferdinand Ihringer, Deepak
+Rajendraprasad, and Thilo Weinert, whose paper also named this note's
+target. The certificate infrastructure rests on CaDiCaL by Armin Biere
+and coauthors, on the LRAT format of Cruz-Filipe, Heule, Hunt, Kaufmann,
+and Schneider-Kamp, and on the cube-and-conquer paradigm of Heule,
+Kullmann, Wieringa, and Biere. The computation and drafting were
+AI-assisted as stated in the first footnote; the adversarial referee
+protocol of \S\ref{ssec:referee} and the referee's rule that a
+computation-only paper close with the questions it opens shaped this
+note's final form.
+
+\begin{thebibliography}{99}
+\footnotesize
+
+\bibitem[Ber74]{Ber74}
+J.-C. Bermond,
+\emph{Some Ramsey numbers for directed graphs},
+Discrete Math.\ \textbf{9} (1974), 313--321.
+
+\bibitem[BFF{+}24]{CaDiCaL}
+A.~Biere, T.~Faller, K.~Fazekas, M.~Fleury, N.~Froleyks and F.~Pollitt,
+\emph{CaDiCaL 2.0},
+in: Computer Aided Verification --- CAV 2024, Lecture Notes in Comput.\
+Sci.\ \textbf{14681}, Springer, 2024, 133--152. Version used to produce
+the proofs: CaDiCaL 3.0.1 (\texttt{--lrat}).
+
+\bibitem[Blo]{Blo}
+T.~F. Bloom, \emph{Erd\H{o}s Problem \#112},
+\url{https://www.erdosproblems.com/112}, accessed 2026-08-11.
+
+\bibitem[CFHKS17]{LRAT}
+L.~Cruz-Filipe, M.~J.~H. Heule, W.~A. Hunt~Jr., M.~Kaufmann and
+P.~Schneider-Kamp,
+\emph{Efficient certified RAT verification},
+in: Automated Deduction --- CADE-26, Lecture Notes in Comput.\ Sci.\
+\textbf{10395}, Springer, 2017, 220--236.
+
+\bibitem[ErRa67]{ErRa67}
+P.~Erd\H{o}s and R.~Rado,
+\emph{Partition relations and transitivity domains of binary relations},
+J.\ London Math.\ Soc.\ \textbf{42} (1967), 624--633.
+
+\bibitem[HKM16]{HKM16}
+M.~J.~H. Heule, O.~Kullmann and V.~W. Marek,
+\emph{Solving and verifying the Boolean Pythagorean triples problem via
+cube-and-conquer},
+in: Theory and Applications of Satisfiability Testing --- SAT 2016,
+Lecture Notes in Comput.\ Sci.\ \textbf{9710}, Springer, 2016, 228--245.
+
+\bibitem[HKWB11]{HKWB11}
+M.~J.~H. Heule, O.~Kullmann, S.~Wieringa and A.~Biere,
+\emph{Cube and conquer: guiding CDCL SAT solvers by lookaheads},
+in: Hardware and Software: Verification and Testing --- HVC 2011,
+Lecture Notes in Comput.\ Sci.\ \textbf{7261}, Springer, 2012, 50--65.
+
+\bibitem[IRW21]{IRW21}
+F.~Ihringer, D.~Rajendraprasad and T.~Weinert,
+\emph{New bounds on the Ramsey number $r(I_m,L_n)$},
+Discrete Math.\ \textbf{344} (2021), no.~3, 112268. Also arXiv:1707.09556 (v3,
+April 2020), the text read here (see the second footnote).
+
+\bibitem[LaMi97]{LaMi97}
+J.~A. Larson and W.~J. Mitchell,
+\emph{On a problem of Erd\H{o}s and Rado},
+Ann.\ Comb.\ \textbf{1} (1997), 245--252.
+
+\end{thebibliography}
+
+\end{document}

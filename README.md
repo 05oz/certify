@@ -225,6 +225,30 @@ Three further defects the audit found are reported verbatim in §8 of the paper,
 
 ---
 
+## Part G — the oriented Ramsey value k(3,4) = 21 (v0.7.0)
+
+**A previously unknown value in Erdős Problem #112, determined and certified.** Let k(n,m) be the
+least N such that every oriented graph on N vertices contains an independent set of size n or a
+transitive tournament on m vertices. The published bounds for k(3,4) were 9 ≤ k(3,4) ≤ 25
+(Ihringer–Rajendraprasad–Weinert 2021). We determine **k(3,4) = r(I₃,L₄) = 21**: an explicit
+20-vertex oriented graph containing neither pattern (`k34-certificates/witness_sat_3_4_20.json`,
+checkable in milliseconds), together with an exhaustion of the 21-vertex case — a neighbourhood
+decomposition into 346 SAT instances, every one refuted with an LRAT certificate replayed by an
+independently written standard-library checker. From the same campaign, `29 ≤ k(6,3) ≤ 33` (the
+lower bound new, by a vertex-transitive 28-vertex witness; upper bound IRW's). Paper:
+[`k34-paper/note.pdf`](k34-paper/note.pdf).
+
+- **Reproducible without trusting us.** `k34-scripts/gen_cnf.py` builds the propositional encoding
+  directly from the definitions (no symmetry breaking on the UNSAT path), so a reader regenerates
+  the case CNFs and re-checks the proofs from the problem statement alone. `k34-scripts/lrat_check.py`
+  is standard-library Python. The LRAT proofs themselves (~245 GB) are a regenerable cache, deleted
+  after verification; [`k34-certificates/CERTLOG.txt`](k34-certificates/CERTLOG.txt) records every
+  certificate's verdict, checked-step count, and SHA-256, and [`k34-certificates/REGENERATE.md`](k34-certificates/REGENERATE.md)
+  gives the exact commands, verified to regenerate bit-for-bit.
+- **Replay the witness now:** `python3 k34-scripts/verify_witness.py k34-certificates/witness_sat_3_4_20.json 3 4`.
+- Every component was confirmed by an adversarial referee writing fresh code throughout; the
+  decision log ships as `k34-paper/FIXLOG.md`.
+
 ## Layout
 
 ```
