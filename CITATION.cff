@@ -89,11 +89,14 @@ identifiers:
     value: "10.5281/zenodo.21898722"
     description: "Part L, v0.12.0 — certified demagnetization-tensor tables"
   - type: doi
+    value: "10.5281/zenodo.21910159"
+    description: "Part L, v0.12.1 — erratum: anchor claim corrected to agreement"
+  - type: doi
     value: "10.5281/zenodo.21898996"
     description: "Part M, v0.13.0 — certified ZEFOZ brackets, 167Er3+:Y2SiO5"
 repository-code: "https://github.com/05oz/certify"
 date-released: "2026-08-12"
-version: 0.13.0
+version: 0.13.0  # newest feature release; newest tag is the v0.12.1 erratum
 license: Apache-2.0
 keywords:
   - Jacobian conjecture

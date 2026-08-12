@@ -420,7 +420,7 @@ MC confidence intervals. Paper: [`wedge2-paper/note.pdf`](wedge2-paper/note.pdf)
   circuit's. Dated sweep:
   [SWEEP-RECORD-WEDGE2-2026-08-12.md](SWEEP-RECORD-WEDGE2-2026-08-12.md).
 
-## Part L — certified Newell demagnetization-tensor reference table (v0.12.0)
+## Part L — certified Newell demagnetization-tensor reference table (v0.12.0; erratum v0.12.1)
 
 **Two-sided rational enclosures of the Newell demagnetization-tensor entries, and a rigorous
 map of where double-precision micromagnetics loses its digits.** Every finite-difference
