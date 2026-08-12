@@ -350,6 +350,24 @@ no Λ-factor. None was found. Paper: [`kelmans-paper/note.pdf`](kelmans-paper/no
   and the dated sweep as
   [SWEEP-RECORD-KELMANS-2026-08-11.md](SWEEP-RECORD-KELMANS-2026-08-11.md).
 
+## Part J — the k(3,4) extremal graph is not unique (v0.10.0)
+
+Part G left open (its Question 8.1) whether the 20-vertex extremal graph for k(3,4) = 21 is
+unique up to isomorphism. **It is not.** At least **thirteen** pairwise non-isomorphic
+{I₃,TT₄}-free oriented graphs on 20 vertices exist, and every one of them is *rigid* — trivial
+automorphism group. Each is independently verified free of both patterns over all C(20,3) triples
+and C(20,4) transitive quadruples (`k34add-scripts/verify_witnesses.py`).
+
+The note also proves that the Paley tournament QR₇ inside these graphs is **forced, not designed**:
+a vertex's non-neighbourhood induces a tournament with no transitive quadruple, such tournaments
+have at most 7 vertices, and on 7 vertices there is exactly one — so any vertex with seven
+non-neighbours necessarily carries a QR₇ block (`k34add-scripts/verify_qr7_lemma.py`). A third
+script shows the largest algebraic blow-up construction reaches only 15 vertices where the truth
+is 21, so the extremal family is substantially non-algebraic (`k34add-scripts/blowup_bound.py`).
+
+Paper: [`k34add-paper/note.pdf`](k34add-paper/note.pdf). Witnesses and verifiers:
+`k34add-certificates/`, `k34add-scripts/`.
+
 ## Part K — certified Newell demagnetization-tensor reference table (staged; v0.11.0 proposed)
 
 **Two-sided rational enclosures of the Newell demagnetization-tensor entries, and a rigorous
@@ -520,6 +538,17 @@ wedge2-certificates/ 4 exact-P_L certificate JSONs (d=3, d=5; p=1/1000, 1/100; f
 wedge2-scripts/      identity_selftest.py (both theorems vs. brute force, stdlib) +
                      tamper_demo_w2.py (8 controls)
 SWEEP-RECORD-WEDGE2-2026-08-12.md  dated novelty + verification sweep
+
+  -- Part M: certified ZEFOZ brackets, 167Er3+:Y2SiO5 (staged; v0.13.0 proposed) --
+zefoz-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
+zefoz-certificates/  certificate2.json (time-reversal identity; 2 zero-field points; 20
+                     Krawczyk existence points with gradient/Hessian/signature brackets)
+                     + stdlib checker (zefoz_checker2.py); the re-verified pilot
+                     certificate_pilot.json + zefoz_checker_pilot.py; NO generator
+zefoz-scripts/       anchor_check.py (independent 60-digit containment, mpmath) +
+                     tamper_demo.py (6 tampers + control) + kill-logs/ (the measured
+                     branch-and-bound statistics that fired kill condition K2)
+SWEEP-RECORD-ZEFOZ-2026-08-12.md  dated novelty + verification sweep
 ```
 
 For Part A, the reduction library and the system generators are intentionally not part of this repository; the published claims are the certificates themselves plus the verification scripts, which are self-contained. For Part B, the generating pipeline **is** included (`qec-scripts/certify.py`, `qec_lib.py`, `run_all.sh`) precisely because it is *not* trusted: it can be deleted and every certificate still verifies.
