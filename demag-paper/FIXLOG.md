@@ -104,3 +104,17 @@ Pre-registered kill condition: DEAD if enclosures cannot be made tighter than
 double precision anywhere in the regime of interest. NOT triggered. Enclosures
 are tighter than double precision everywhere in the regime and tens of digits
 tighter where double precision fails outright. **LIVE.**
+
+## E1 — erratum release v0.12.1 (2026-08-12, post-release)
+
+Decision S4 corrected the containment claim to an agreement claim in the anchor CODE
+(anchor_check.py) but the correction was never propagated to the prose: note.tex:233,
+note.md:61 and SWEEP-RECORD-DEMAG line 17 all shipped in v0.12.0 still asserting the 16
+Maple gold values "lie inside" the enclosures. False: the enclosures are ~77 digits
+tight; direct test shows 15 of 16 gold values lie outside (the exact zero is the
+exception). Caught 2026-08-12 by an outbound-email fact-check that re-executed
+anchor_check.py and read S4 — i.e., at the last gate before external harm, but after
+release. The 49.6-digit agreement figure and every certified enclosure are unaffected.
+Fixed in v0.12.1 with a dated erratum footnote in both note twins; sweep record
+corrected in-place with annotation. Root cause and the resulting PROTOCOL §14
+(claim-correction propagation gate) are recorded in the program PROTOCOL.

@@ -230,10 +230,19 @@ N_{\alpha\beta}\le N_{\mathrm{hi}}$ for the analytic Newell tensor entry. What i
 rigorous rational bounds; the stencil weights, the cell dimensions, the offsets
 and all the surrounding arithmetic are exact. As a numerical anchor, the
 $16$ diagonal and off-diagonal values Donahue computed to $50$ digits in Maple
-and recorded in \texttt{demagcoef.cc} all lie inside our enclosures, and agree
-with their midpoints to at least $49.6$ digits; and an independent
-$220$-digit floating-point evaluation of the same formulas lies inside every
-enclosure of the table.
+and recorded in \texttt{demagcoef.cc} agree with the midpoints of our
+enclosures to at least $49.6$ digits; containment would be the wrong test,
+since the enclosures are roughly $77$ digits tight and a $50$-digit value
+therefore lies outside them in general, so agreement at the gold values' own
+precision is what is checked. An independent
+$220$-digit floating-point evaluation of the same formulas does lie inside every
+enclosure of the table.\footnote{Erratum, v0.12.1 (2026-08-12): as first
+released in v0.12.0 this sentence asserted that the $16$ Maple values
+\emph{lie inside} the enclosures. That is false for the reason just given —
+$15$ of the $16$ lie outside, the exact zero being the exception — and the
+build log (\texttt{FIXLOG.md}, decision S4) had already recorded the correct
+test. The agreement figure of $49.6$ digits is unaffected, as is every
+certified enclosure. Only this prose claim changed.}
 
 \begin{remark}[Internal consistency, also certified]\label{rem:consistency}
 The enclosures satisfy the tensor's own structural identities, and the checker
