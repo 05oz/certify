@@ -1,8 +1,8 @@
-# Dated novelty and verification sweep — certified Newell demagnetization-tensor reference table (Part K)
+# Dated novelty and verification sweep — certified Newell demagnetization-tensor reference table (Part L)
 
 Searches run 2026-08-11 and 2026-08-12 (arXiv + web). This record is the
-priority-and-replay provenance for the demag note (`drafts/note-demag/`) and the
-staged Part K artifacts (`demag-paper/`, `demag-certificates/`, `demag-scripts/`).
+priority-and-replay provenance for the demag note and the released Part L
+artifacts (`demag-paper/`, `demag-certificates/`, `demag-scripts/`), v0.12.0.
 
 ## Primary sources, read at the relevant sections and quoted verbatim
 
@@ -82,7 +82,7 @@ certification and the certified pathology map.
 
 ## IP boundary
 
-Staged public unit = certificate JSON + stdlib checker (`check_demag.py`) only.
+Public unit = certificate JSON + stdlib checker (`check_demag.py`) only.
 The generator (`gen_demag.py`), the shared interval library used to build the
 certificate (`civ.py`, `newell.py`), and the grid-selection search remain
 PRIVATE (method repo). Note: F2 is infrastructure, so the shipped checker is by

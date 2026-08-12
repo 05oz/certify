@@ -271,7 +271,7 @@ Combinatoria 21A is hard to obtain.
 
 ---
 
-## RELEASE STAGING (Part I, v0.9.0) — staged, NOT committed, NOT released
+## RELEASE STAGING (Part I, v0.9.0) — as staged 2026-08-11; since released as v0.9.0, doi:10.5281/zenodo.21897011
 
 Staged into `certify-repo/` and left for review:
 

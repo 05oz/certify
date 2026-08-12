@@ -51,13 +51,13 @@ label for the two verifiers) were applied to NOTES.md and reflected in the note
   Poisson-binomial tail T matched string-for-string at the d=5 points; every
   Monte Carlo ratio (18,500×, 626×, 20.5×, 2.33×) and E[W] recomputed from
   scratch. Seven tamper controls rejected nonzero.
-* IP boundary: grep of the staged `wedge-certificates/` for engine/generator/MC
-  tokens returned zero; the staged public unit is certificate JSON + stdlib
-  checker only. The generator (`gen_dem_dN.py`), enumeration engine
+* IP boundary (as checked at staging, 2026-08-11): grep of `wedge-certificates/`
+  for engine/generator/MC tokens returned zero; the public unit is certificate
+  JSON + stdlib checker only. The generator (`gen_dem_dN.py`), enumeration engine
   (`enum_engine_d5.py`), Stim-driven DEM, private MC, and kill-eval builders
-  remain private and are NOT staged.
+  remain private and are NOT published.
 
-## Staged file pins (SHA-256, 2026-08-11)
+## File pins (SHA-256, 2026-08-11)
 
 ```
 cb6e617132a11e293045b877440eb08b552eff0d674e9c9971cd992aad433e60  certificate_d3_r1_p1over100.json
@@ -69,4 +69,4 @@ cb6e617132a11e293045b877440eb08b552eff0d674e9c9971cd992aad433e60  certificate_d3
 046dbeb1223a4df49c266af52d928d677d0ab41a5a30254a396366e38a119f3b  check_wedge_d5.py
 ```
 
-Staged for release, not committed: awaiting Daniel's go.
+Released as Part H, v0.8.0 (2026-08-11), doi:10.5281/zenodo.21895825.

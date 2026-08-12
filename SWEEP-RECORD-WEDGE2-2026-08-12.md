@@ -1,4 +1,4 @@
-# Novelty sweep — Part L (wedge2): exact certified logical error probability via syndrome-space transforms
+# Novelty sweep — Part K (wedge2): exact certified logical error probability via syndrome-space transforms
 
 Date: 2026-08-12. Scope: the specific claim of the v2 note — an EXACT (not
 bracketed, not estimated) logical error probability of a stated decoder on a

@@ -1,14 +1,14 @@
 # Certify: replayable certificates for machine-checked mathematics
 
-**Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112), erratum (v0.1.2) [doi:10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780), update (v0.2.1) [doi:10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018) · Part E (v0.5.0) [doi:10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896) · Part F (v0.6.0) [doi:10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028)
+**Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112), erratum (v0.1.2) [doi:10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780), update (v0.2.1) [doi:10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018) · Part E (v0.5.0) [doi:10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896) · Part F (v0.6.0) [doi:10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028) · Part G (v0.7.0) [doi:10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619) · Part H (v0.8.0) [doi:10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825) · Part I (v0.9.0) [doi:10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011) · Part J (v0.10.0) [doi:10.5281/zenodo.21898266](https://doi.org/10.5281/zenodo.21898266) · Part K (v0.11.0) [doi:10.5281/zenodo.21898343](https://doi.org/10.5281/zenodo.21898343) · Part L (v0.12.0) [doi:10.5281/zenodo.21898722](https://doi.org/10.5281/zenodo.21898722) · Part M (v0.13.0) [doi:10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996)
 
-Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-06.
+Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-12.
 
 > **Part A erratum — v0.1.2 (2026-08-06).** The Theorem D fiber count of the note over the pullback of `{Δ₂ = 0}` was wrong (stated as 2). The correct set-theoretic fiber sizes are **{3, 1, 0}**; over `{Δ₂ = 0}` the fiber has **three distinct** points (an *apparent* branch locus). No other claim depended on it. v0.1.2 supersedes v0.1.0/v0.1.1 on this point only. Details and independent re-verification: [`paper/ERRATUM-v0.1.2.md`](paper/ERRATUM-v0.1.2.md), scripts in [`scripts/erratum-check/`](scripts/erratum-check/).
 
 Two independent bodies of work live here, sharing a method rather than a subject: **produce an artifact a skeptic can re-check without trusting the tool that made it, then say exactly what still has to be believed.**
 
-| | Part A — Alpöge Keller map (v0.1.2) | Part B — quantum code distances (v0.2.0) |
+| | Part A — Alpöge Keller map (v0.1.2) | Part B — quantum code distances (v0.2.1) |
 |---|---|---|
 | Subject | Degree minimality in the equivariant class of the Alpöge Keller map; moment-map structure of its cotangent lift | Certified minimum distances of eleven stabilizer codes, including the exact **d = 18** of IBM's [[288,12,18]] and a first lower bound for [[360,12,≤24]] |
 | Artifact | 8 msolve Gröbner unit-ideal certificates + SymPy verification scripts | witness pairs + LRAT unsatisfiability proofs + ZX-duality permutations |
@@ -470,6 +470,66 @@ series), and measure the floating-point failure against it. Paper:
   log: [`demag-paper/FIXLOG.md`](demag-paper/FIXLOG.md); dated sweep:
   [SWEEP-RECORD-DEMAG-2026-08-12.md](SWEEP-RECORD-DEMAG-2026-08-12.md).
 
+## Part M — certified ZEFOZ brackets for ¹⁶⁷Er³⁺:Y₂SiO₅ (v0.13.0)
+
+**Existence, location, and curvature of the published ZEFOZ points, certified in exact rational
+arithmetic — and a pre-registered kill condition that fired on the completeness question.** The
+zero-first-order-Zeeman (ZEFOZ) points of ¹⁶⁷Er³⁺:Y₂SiO₅ — the magnetic fields at which a hyperfine
+transition frequency is stationary — set the predicted coherence times of a leading solid-state
+quantum-memory platform. The published atlas (Matsuura et al., *Phys. Rev. B* **113**, 085421 (2026);
+arXiv:2412.10126) is produced by Newton iteration from finite grids, carries no error bounds on its
+locations, frequencies, or curvatures, and its authors state that the number of points found depends
+on the initial grid. We certify the points; we do not certify the list. Paper:
+[`zefoz-paper/note.pdf`](zefoz-paper/note.pdf).
+
+- **The twenty published nonzero-field points, certified.** For each of the twenty entries of v3
+  Table 5 (ten per crystallographic site) the certificate proves, at an exactly specified dyadic
+  rational field: eigenvalue brackets of width 2e-10 MHz (hence 4e-10 MHz on the transition), a
+  gradient bound `|∇f| ≤ 3.2e-37` MHz/mT, two-sided brackets of width ≤ 2.1e-15 MHz/mT² on all three
+  eigenvalues of the 3×3 frequency Hessian with certified signs, and — by a Krawczyk contraction with
+  a rigorous third-derivative bound — **existence and local uniqueness of an exact stationary point
+  within 2.9e-14 mT** (worst contraction ratio 0.096). The certified signatures settle the
+  stationary-point types: **none of the twenty is a local minimum** of its transition frequency —
+  thirteen are saddles, seven are local maxima.
+- **Zero field, exactly.** A signed-permutation time-reversal identity (`M conj(H₀) Mᵀ = H₀`,
+  `M conj(Z_k) Mᵀ = −Z_k`) holds exactly over Q[√7,√12,√15] for both sites, so the spectrum is even
+  in **B** and all **120 transitions of both sites are stationary at B = 0** — the folklore statement
+  upgraded to a machine-checked identity — with certified curvature brackets for the ten published
+  zero-field pairs.
+- **The completeness question is reported dead, by a pre-registered rule.** Kill condition K2 was
+  registered in advance: if measured statistics project more than 200 laptop-hours to close the box
+  `‖B‖∞ ≤ 100` mT, kill the claim. Six stratified branch-and-bound sample chunks give a **strict**
+  lower bound above 7.9e5 laptop-hours per site — more than three orders of magnitude over budget.
+  **K2 fired.** The obstruction is named and quantified rather than left as a gap: quasi-degenerate
+  hyperfine doublets force the per-level spectral-gap machinery below its validity radius. The
+  measured statistics ship as run logs in `zefoz-scripts/kill-logs/` and are **not** part of the
+  certified surface.
+- **Three errata in the reference, recorded with version history.** A load-bearing sign error in the
+  printed site-1 quadrupole matrix (`Q₂₃ = +15.5` MHz) stood through arXiv v1 and v2 for eleven
+  months and was corrected upstream in v3 — credited, not claimed; two v3 Table 5 frequencies are
+  inconsistent with their own stationary points by 2.74 and 4.34 MHz (certified restatements given);
+  and one printed field vector carries an inconsistent sign pairing. Any reader who rationalized v1
+  or v2 as printed inherited a wrong Hamiltonian.
+- **Reproducible without trusting us.** The public unit is *certificate JSON + standard-library
+  checker only.* [`zefoz-certificates/zefoz_checker2.py`](zefoz-certificates/zefoz_checker2.py)
+  re-derives every claim from the certificate alone as inequalities among exact rationals. It imports
+  only `sys, json, math, fractions`; no floating point, no eigensolver, no signals, subprocesses,
+  network, or wall-clock, and no code shared with the generator. **23-object certificate: exit 0.**
+- **Replay now:** `python3 zefoz-certificates/zefoz_checker2.py zefoz-certificates/certificate2.json`
+  (1.9 MB certificate, ≈40 s → `CERTIFICATE VERIFIED`, exit 0; also passes on CPython 3.9.6); the re-verified pilot is
+  `python3 zefoz-certificates/zefoz_checker_pilot.py zefoz-certificates/certificate_pilot.json`
+  (≈47 s, exit 0). Independent anchor: `python3 zefoz-scripts/anchor_check.py` confirms containment
+  against an independent 60-digit diagonalization; `python3 zefoz-scripts/tamper_demo.py` runs six
+  corruption controls plus an untampered control, all correctly decided.
+- **Trust root, stated plainly.** The certificate is unconditional about the mathematics of the
+  exact effective spin Hamiltonian and **silent about the spectroscopy** — whether that Hamiltonian
+  describes the physical crystal is a separate, experimental question, and the printed matrix
+  entries are adopted exactly as published. The identification of certified points with rows of
+  Table 5 is by proximity of the published rounded coordinates. The search engine and the
+  interval-arithmetic generator are **not** in this repository. Build/verification log:
+  [`zefoz-paper/FIXLOG.md`](zefoz-paper/FIXLOG.md); dated sweep:
+  [SWEEP-RECORD-ZEFOZ-2026-08-12.md](SWEEP-RECORD-ZEFOZ-2026-08-12.md).
+
 ## Layout
 
 ```
@@ -484,13 +544,11 @@ paper/               both preprints (LaTeX + PDF + readable Markdown mirror)
   -- Part A: Alpoge Keller --
 certificates/        17 msolve input files (ms_*.ms) + stored outputs (out_*.txt) + D7 control record
 scripts/             the verification scripts (incl. min_verify.py) + expanded Weyl operators
-schema/              certificate-schema (pending; see schema/PENDING.md)
-checker/             independent certificate checker (pending; see checker/PENDING.md)
 
   -- Part B: quantum code distances --
 qec-certificates/    the certificate corpus, by code; manifest.json; REGENERATE.md
-qec-scripts/         the three checkers (check_witness / check_lower / check_duality),
-                     verify_manifest.py, and the (untrusted) generating pipeline
+qec-scripts/         the four checkers (check_witness / check_lower / check_duality /
+                     check_prof), verify_manifest.py, and the (untrusted) generating pipeline
 INDEPENDENT-VERIFICATION.md   the audit: 47/47 checks, 5.08 GiB replayed in pure Python
 SWEEP-RECORD-QEC-2026-08-04.md   the dated adversarial prior-art sweep
 
@@ -506,6 +564,32 @@ qec1435-certificates/  43 SHA-256-pinned certificates by symmetry class
 qec1435-scripts/     generators, check1435.c, verify_1435.py, data/ classical code tables
 SWEEP-RECORD-1435-2026-08-05.md  dated novelty sweep
 
+  -- Part E: circular Florentine rectangles, F_c(25) >= 5 (v0.5.0) --
+cfr-paper/           note (LaTeX + PDF + Markdown mirror) + FIXLOG.md review log
+cfr-certificates/    CFR_5_25.json (the explicit 5x25 rectangle) + stdlib checker
+                     (verify_cfr525.py, exhaustive and exact)
+SWEEP-RECORD-CFR-2026-08-06.md   dated novelty sweep
+
+  -- Part F: exact all-length zero-energy MPS eigenstate (v0.6.0) --
+mps-paper/           note (LaTeX + PDF + Markdown mirror) + FIXLOG.md review log
+mps-certificates/    object.json (the bond-dimension-2 MPS + telescoping certificate)
+                     + stdlib checker (reverify.py, exact integers/Fractions);
+                     xcheck.py is an auxiliary numpy cross-check, NOT trusted base
+SWEEP-RECORD-MPS-2026-08-06.md   dated novelty sweep
+
+  -- Part G: the oriented Ramsey value k(3,4) = 21 (v0.7.0) --
+k34-paper/           note (LaTeX + PDF + Markdown mirror) + FIXLOG.md review log
+                     + REFEREE-k63.md
+k34-certificates/    the two lower-bound witnesses + CERTLOG.txt (per-certificate
+                     verdict, checked-step count, SHA-256) + REGENERATE.md;
+                     the ~245 GB LRAT corpus is a regenerable cache, not shipped
+k34-scripts/         gen_cnf.py encoder, make_structured.py (structured-instance
+                     builder), lrat_check.py and verify_witness.py (stdlib
+                     checkers), audit_cnf.py; audit_multiset.py requires the
+                     private regeneration kit and does not run from this
+                     repository alone — see k34-certificates/REGENERATE.md
+SWEEP-RECORD-K34-2026-08-11.md   dated novelty sweep
+
   -- Part H: certified sub-threshold logical error brackets (v0.8.0) --
 wedge-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md review log
 wedge-certificates/  5 certificate JSONs (d=3, d=5; WMAX 4/5, plus optional WMAX 6)
@@ -519,6 +603,15 @@ kelmans-certificates/  53,356 Lambda-factor certificates by order + per-slice su
 kelmans-scripts/     the two independent stdlib checkers (verify_cert.py, refcert.py),
                      the 3-connectivity recount driver, the control builder; NO searchers
 SWEEP-RECORD-KELMANS-2026-08-11.md  dated novelty + verification sweep
+
+  -- Part J: the k(3,4) extremal graph is not unique (v0.10.0) --
+k34add-paper/        note (LaTeX + PDF + Markdown mirror)
+k34add-certificates/ the 13 pairwise non-isomorphic rigid witnesses (w01_W.json,
+                     w02-w13.json) + README.md inventory
+k34add-scripts/      the three stdlib verifiers: verify_witnesses.py (both patterns,
+                     all triples and transitive quadruples), verify_qr7_lemma.py,
+                     blowup_bound.py; NO searchers
+SWEEP-RECORD-K34ADD-2026-08-11.md  dated novelty + verification sweep
 
   -- Part K: the exact logical error probability (v0.11.0) --
 wedge2-paper/        note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
@@ -554,15 +647,37 @@ For Part A, the reduction library and the system generators are intentionally no
 
 Dual license by content type:
 
-- **Code and machine-readable certificate files** — everything under `scripts/`, `certificates/`, `schema/`, `checker/`, `qec-scripts/`, `qec-certificates/`, and the corresponding `*-scripts/` and `*-certificates/` directories of the later parts (`tt3-`, `qec1435-`, `cfr-`, `mps-`, `k34-`, `wedge-`, `kelmans-`, `demag-`, `wedge2-`) — are licensed under the **Apache License 2.0** ([LICENSE-CODE](LICENSE-CODE)).
+- **Code and machine-readable certificate files** — everything under `scripts/`, `certificates/`, `qec-scripts/`, `qec-certificates/`, and the corresponding `*-scripts/` and `*-certificates/` directories of the later parts (`tt3-`, `qec1435-`, `cfr-`, `mps-`, `k34-`, `wedge-`, `kelmans-`, `k34add-`, `wedge2-`, `demag-`, `zefoz-`) — are licensed under the **Apache License 2.0** ([LICENSE-CODE](LICENSE-CODE)).
 - **Documentation and the paper** — `paper/`, `README.md`, `PROVENANCE.md`, and all other prose — are licensed under **CC BY 4.0** ([LICENSE-DOCS](LICENSE-DOCS)).
 
 ## Platforms
 
-The **trusted base is operating-system-independent**: every checker in this repository
-(`qec-scripts/`, `tt3-scripts/`, `qec1435-scripts/verify_1435.py`, `scripts/`) is Python —
-Parts B–D standard library only, Part A standard library plus SymPy — with no OS-specific
-calls, and verification requires nothing else. On Windows, substitute the platform's usual
+The **trusted base is operating-system-independent**: every checker in this repository is Python,
+with no OS-specific calls on any default verification path — the one opt-in exception is noted
+below — and verification requires nothing else. **Part A** (`scripts/`) is the one part whose
+checkers need a third-party package — standard library plus SymPy. **The checkers of every other
+part, B through M, are standard library only.** Checked import-by-import: Part B
+`qec-scripts/check_witness.py`, `check_lower.py`, `check_duality.py`, `check_prof.py`,
+`verify_manifest.py`; Part C `tt3-scripts/verify_minimizer.py`, `verify_sweep.py`; Part D
+`qec1435-scripts/verify_1435.py`; Part E `cfr-certificates/verify_cfr525.py`; Part F
+`mps-certificates/reverify.py`; Part G `k34-scripts/verify_witness.py`, `lrat_check.py`; Part H
+`wedge-certificates/check_wedge.py`, `check_wedge_d5.py`; Part I `kelmans-scripts/verify_cert.py`,
+`refcert.py`; Part J `k34add-scripts/verify_witnesses.py`, `verify_qr7_lemma.py`, `blowup_bound.py`;
+Part K `wedge2-certificates/check_wedge2.py`; Part L `demag-certificates/check_demag.py`; Part M
+`zefoz-certificates/zefoz_checker2.py`, `zefoz_checker_pilot.py`. Between them they import nothing
+outside the Python standard library (re-confirmed by AST scan over all 23 files, 2026-08-12).
+
+Outside Part A, five scripts use third-party packages, and none is in any trusted base. Two are
+auxiliary cross-checks: `mps-certificates/xcheck.py` (numpy), an independent cross-check of Part F's
+stdlib checker, and `zefoz-scripts/anchor_check.py` (mpmath), Part M's independent 60-digit anchor.
+Three are generators this README already labels untrusted: `qec-scripts/certify.py` and
+`qec-scripts/qec_lib.py` (numpy), and `qec1435-scripts/gen_generic.py` (sympy). Deleting all five
+leaves every certified claim verifiable. One further caveat, documented since the Part B audit: the
+only non-portable call anywhere in a checker is the `os.mkfifo` in `check_lower.py`'s **opt-in**
+`--external BINARY` path, which hands LRAT replay to a compiled third-party checker that this
+repository deliberately does not vendor. That path is outside the trusted base by construction (see
+[INDEPENDENT-VERIFICATION.md](INDEPENDENT-VERIFICATION.md) §5.1), was never invoked for any published
+number, and is not needed to verify anything shipped here. On Windows, substitute the platform's usual
 forms: `venv\Scripts\python` for `venv/bin/python`, backslash paths, and
 `python -m gzip -d <file>.lrat.gz` where the quickstart uses `gunzip`. The `for` loops in the
 quickstarts are POSIX-shell; on Windows run the listed commands individually or use WSL or
@@ -579,12 +694,13 @@ across Parts A–D — the Part B witness/lower-bound/duality checkers, the Part
 verifiers, the Part D control (`verify_1435.py`, expected distance-4 verdict with exit 1 by
 design), and the Part A SymPy suite including `min_verify.py I` after the SIGALRM-portability
 fix — all nine at their documented exit codes. Not yet covered on Windows: the large bb288/bb360
-LRAT replays and the full n = 10 tournament sweep. Reports from other platforms are welcome and
-will be credited.
+LRAT replays and the full n = 10 tournament sweep. That replay predates Parts E–M, whose checkers
+are standard-library-only and OS-independent by inspection but have not been independently replayed
+on Windows. Reports from other platforms are welcome and will be credited.
 
 ## Citing
 
-See [CITATION.cff](CITATION.cff). Archival DOIs are minted per release on Zenodo — concept DOI for all versions [10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111); Part A (v0.1.x) [10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112); Part B (v0.2.0) [10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780); Part C (v0.3.0) [10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010); Part D (v0.4.0) [10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018). To cite an individual result, cite its note and the matching version DOI. External timestamps for this repository's claims begin at the first public push and the Zenodo deposits — not at local file dates (see PROVENANCE.md §3).
+See [CITATION.cff](CITATION.cff). Archival DOIs are minted per release on Zenodo — concept DOI for all versions [10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111); Part A (v0.1.x) [10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112); Part B (v0.2.0) [10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780); Part B update (v0.2.1) [10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995); Part C (v0.3.0) [10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010); Part D (v0.4.0) [10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018); Part E (v0.5.0) [10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896); Part F (v0.6.0) [10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028); Part G (v0.7.0) [10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619); Part H (v0.8.0) [10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825); Part I (v0.9.0) [10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011); Part J (v0.10.0) [10.5281/zenodo.21898266](https://doi.org/10.5281/zenodo.21898266); Part K (v0.11.0) [10.5281/zenodo.21898343](https://doi.org/10.5281/zenodo.21898343); Part L (v0.12.0) [10.5281/zenodo.21898722](https://doi.org/10.5281/zenodo.21898722); Part M (v0.13.0) [10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996); the Part A erratum (v0.1.2) is [10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894). To cite an individual result, cite its note and the matching version DOI. External timestamps for this repository's claims begin at the first public push and the Zenodo deposits — not at local file dates (see PROVENANCE.md §3).
 
 ## Contact
 

@@ -5,7 +5,17 @@ message: >-
   Part A (Alpöge Keller map) v0.1.x doi:10.5281/zenodo.21799112; Part B
   (quantum code distances) v0.2.0 doi:10.5281/zenodo.21799780; Part C
   (tournament packing) v0.3.0 doi:10.5281/zenodo.21816010; Part D
-  ([[14,3,5]] automorphism exclusion) v0.4.0 doi:10.5281/zenodo.21816018.
+  ([[14,3,5]] automorphism exclusion) v0.4.0 doi:10.5281/zenodo.21816018;
+  Part E (circular Florentine rectangles) v0.5.0 doi:10.5281/zenodo.21831896;
+  Part F (exact MPS eigenstate) v0.6.0 doi:10.5281/zenodo.21832028; Part G
+  (k(3,4) = 21) v0.7.0 doi:10.5281/zenodo.21890619; Part H (sub-threshold
+  logical error brackets) v0.8.0 doi:10.5281/zenodo.21895825; Part I
+  (Kelmans 1984, n <= 22) v0.9.0 doi:10.5281/zenodo.21897011; Part J
+  (k(3,4) extremal non-uniqueness) v0.10.0 doi:10.5281/zenodo.21898266;
+  Part K (exact logical error probability) v0.11.0
+  doi:10.5281/zenodo.21898343; Part L (certified demagnetization tensors)
+  v0.12.0 doi:10.5281/zenodo.21898722; Part M (certified ZEFOZ brackets)
+  v0.13.0 doi:10.5281/zenodo.21898996.
   The concept DOI below resolves to the latest version. For Part A,
   credit for the underlying counterexample map belongs to Levent Alpöge
   (announcement of 2026-07-19; problem posed by Akhil Mathew); the
@@ -22,14 +32,15 @@ message: >-
   are {3, 1, 0}, not {3, 2, 1}); {Delta_2 = 0} is an apparent branch
   locus. No other claim depended on it. v0.1.2 supersedes v0.1.0 and
   v0.1.1 on this point only; see paper/ERRATUM-v0.1.2.md and the scripts
-  in scripts/erratum-check/. For Parts B–D, credit statements are in the
+  in scripts/erratum-check/. For Parts B–M, credit statements are in the
   README and in each note.
 type: software
 title: >-
-  Certify: replayable certificates for machine-checked mathematics
-  (degree minimality of the Alpöge Keller map; certified quantum code
-  distances; the tournament packing numbers nu_3(9), nu_3(10); a
-  [[14,3,5]] automorphism exclusion)
+  Certify: replayable certificates for machine-checked mathematics,
+  Parts A through M (algebraic geometry, quantum code distances and
+  logical error rates, tournament and oriented-graph Ramsey results,
+  combinatorial designs, an exact MPS eigenstate, Kelmans path packings,
+  certified demagnetization tensors, and certified ZEFOZ brackets)
 authors:
   - family-names: Kirtchakov
     given-names: Daniel
@@ -53,9 +64,36 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.21816018"
     description: "Part D, v0.4.0 — [[14,3,5]] monomial automorphism exclusion"
+  - type: doi
+    value: "10.5281/zenodo.21831896"
+    description: "Part E, v0.5.0 — an explicit CFR(5,25): F_c(25) >= 5"
+  - type: doi
+    value: "10.5281/zenodo.21832028"
+    description: "Part F, v0.6.0 — exact all-length MPS zero-energy eigenstate"
+  - type: doi
+    value: "10.5281/zenodo.21890619"
+    description: "Part G, v0.7.0 — the oriented Ramsey value k(3,4) = 21"
+  - type: doi
+    value: "10.5281/zenodo.21895825"
+    description: "Part H, v0.8.0 — certified sub-threshold logical error brackets"
+  - type: doi
+    value: "10.5281/zenodo.21897011"
+    description: "Part I, v0.9.0 — Kelmans' 1984 problem verified through 22 vertices"
+  - type: doi
+    value: "10.5281/zenodo.21898266"
+    description: "Part J, v0.10.0 — k(3,4) extremal graph non-uniqueness"
+  - type: doi
+    value: "10.5281/zenodo.21898343"
+    description: "Part K, v0.11.0 — exact logical error probability"
+  - type: doi
+    value: "10.5281/zenodo.21898722"
+    description: "Part L, v0.12.0 — certified demagnetization-tensor tables"
+  - type: doi
+    value: "10.5281/zenodo.21898996"
+    description: "Part M, v0.13.0 — certified ZEFOZ brackets, 167Er3+:Y2SiO5"
 repository-code: "https://github.com/05oz/certify"
-date-released: "2026-08-06"
-version: 0.4.0
+date-released: "2026-08-12"
+version: 0.13.0
 license: Apache-2.0
 keywords:
   - Jacobian conjecture

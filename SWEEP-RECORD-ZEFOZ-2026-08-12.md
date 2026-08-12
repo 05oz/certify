@@ -2,8 +2,8 @@
 
 Searches run 2026-08-12 (arXiv + web), same day as every "first" phrasing in the
 note. This record is the priority-and-replay provenance for the ZEFOZ note
-(`drafts/note-zefoz/`, staged as `zefoz-paper/`) and the staged Part M
-artifacts (`zefoz-certificates/`, `zefoz-scripts/`).
+(`zefoz-paper/`) and the released Part M artifacts (`zefoz-certificates/`,
+`zefoz-scripts/`), v0.13.0.
 
 ## Primary sources, read at the relevant sections and quoted verbatim
 
