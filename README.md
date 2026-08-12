@@ -368,57 +368,7 @@ is 21, so the extremal family is substantially non-algebraic (`k34add-scripts/bl
 Paper: [`k34add-paper/note.pdf`](k34add-paper/note.pdf). Witnesses and verifiers:
 `k34add-certificates/`, `k34add-scripts/`.
 
-## Part K — certified Newell demagnetization-tensor reference table (staged; v0.11.0 proposed)
-
-**Two-sided rational enclosures of the Newell demagnetization-tensor entries, and a rigorous
-map of where double-precision micromagnetics loses its digits.** Every finite-difference
-micromagnetic simulator — OOMMF, MuMax3, magnum.np, Fidimag, MagTense — builds its demagnetizing
-field from the same analytic object: Newell's demagnetization tensor of a pair of uniformly
-magnetized rectangular cells (Newell–Williams–Dunlop, *J. Geophys. Res.* 98 (1993) 9551). It is
-documented but uncertified that the closed-form evaluation loses all significant digits to
-catastrophic cancellation once the cells are more than a few hundred cell widths apart
-(Chernyshenko–Fangohr, arXiv:1403.1978: relative error `~10^-15 r^6`, no significant digits past
-`~300` cells). We pin each entry with a certified interval `[N_lo, N_hi]` of dyadic rationals,
-`N_lo ≤ N_true ≤ N_hi`, obtained by evaluating Newell's formulas in outward-rounded interval
-arithmetic (77-digit working precision; `sqrt`, `atan`, `log` enclosed by rigorously-truncated
-series), and measure the floating-point failure against it. Paper:
-[`demag-paper/note.pdf`](demag-paper/note.pdf).
-
-- **The pathology, certified.** For the canonical cube on-axis `Nxx`, the naive double-precision
-  analytic value falls by ~6 correct decimal digits per decade of separation — from **15.2** digits
-  at one cell to **0.4** near `n = 300` (no correct significant figure, the documented breakdown)
-  to **−8.9** at `n = 10^4`, where it returns `+1.2×10^-4` for a true value of `−1.6×10^-13`
-  (wrong sign, nine orders of magnitude too large). The breakdown radius is **not** a universal
-  300: across common geometries it ranges from `~100` cells (elongated cells, off-diagonal) to
-  `~2000` (a thin film's out-of-plane `Nzz`); the certificate maps it for each of 50
-  geometry/component pairs. OOMMF's asymptotic expansion is the mirror image — poor at short range,
-  good at long — and the crossover is bracketed rigorously.
-- **Tighter than double precision everywhere.** At the worst point (`n = 10^4`) the enclosure is
-  ~54 digits tight where double precision has none. Pre-registered kill condition (DEAD if
-  enclosures cannot beat double precision anywhere in the regime): **not triggered — LIVE.**
-- **Reproducible without trusting us.** The public unit is *certificate JSON + standard-library
-  checker only.* [`demag-certificates/check_demag.py`](demag-certificates/check_demag.py)
-  re-derives every enclosure by its own independent interval arithmetic and Newell evaluation,
-  verifies containment (`N_lo ≤ N_true ≤ N_hi`) with a width-sanity bound, recomputes each naive
-  double bit-for-bit, recomputes every rigorous digit-loss bracket, and re-tests the tensor's own
-  identities (trace encloses 0 at all 136 mutual points; each self-term's three diagonals sum to
-  enclose 1). It imports only `sys, json, math, hashlib, fractions`; no signals, subprocesses,
-  network, or wall-clock. **All 862 entries: `CHECK PASS`.**
-- **Replay now:** `python3 demag-certificates/check_demag.py
-  demag-certificates/demag_certificate.json --sample 40` (seconds → `CHECK PASS` on a
-  deterministic sample); the full 862-entry verification is `CHECK PASS` in ≈7.5 min. Independent
-  anchor: `python3 demag-scripts/anchor_check.py` confirms the 16 OOMMF/Maple 50-digit gold values
-  agree with the recomputed enclosures to ≥49.6 digits; `python3 demag-scripts/tamper_demo.py`
-  runs six corruption controls, all rejected.
-- **Trust root, stated plainly.** The certificate bounds the value of the *analytic Newell tensor
-  entry* the simulators compute; whether that entry is the right physical kernel for a given
-  discretization is Newell's modelling choice, cited not claimed. The generator and the
-  interval/Newell engine that built the certificate are **not** in this repository; the checker
-  shares no code with them and re-derives everything from the certificate alone. Build/verification
-  log: [`demag-paper/FIXLOG.md`](demag-paper/FIXLOG.md); dated sweep:
-  [SWEEP-RECORD-DEMAG-2026-08-12.md](SWEEP-RECORD-DEMAG-2026-08-12.md).
-
-## Part L — the exact logical error probability (staged; v0.12.0 proposed)
+## Part K — the exact logical error probability (v0.11.0)
 
 **The Part H bracket, collapsed to a single exact rational — and the weight-7 wall broken at
 d≤5.** Part H (v0.8.0, DOI [10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825))
@@ -470,6 +420,56 @@ MC confidence intervals. Paper: [`wedge2-paper/note.pdf`](wedge2-paper/note.pdf)
   circuit's. Dated sweep:
   [SWEEP-RECORD-WEDGE2-2026-08-12.md](SWEEP-RECORD-WEDGE2-2026-08-12.md).
 
+## Part L — certified Newell demagnetization-tensor reference table (v0.12.0)
+
+**Two-sided rational enclosures of the Newell demagnetization-tensor entries, and a rigorous
+map of where double-precision micromagnetics loses its digits.** Every finite-difference
+micromagnetic simulator — OOMMF, MuMax3, magnum.np, Fidimag, MagTense — builds its demagnetizing
+field from the same analytic object: Newell's demagnetization tensor of a pair of uniformly
+magnetized rectangular cells (Newell–Williams–Dunlop, *J. Geophys. Res.* 98 (1993) 9551). It is
+documented but uncertified that the closed-form evaluation loses all significant digits to
+catastrophic cancellation once the cells are more than a few hundred cell widths apart
+(Chernyshenko–Fangohr, arXiv:1403.1978: relative error `~10^-15 r^6`, no significant digits past
+`~300` cells). We pin each entry with a certified interval `[N_lo, N_hi]` of dyadic rationals,
+`N_lo ≤ N_true ≤ N_hi`, obtained by evaluating Newell's formulas in outward-rounded interval
+arithmetic (77-digit working precision; `sqrt`, `atan`, `log` enclosed by rigorously-truncated
+series), and measure the floating-point failure against it. Paper:
+[`demag-paper/note.pdf`](demag-paper/note.pdf).
+
+- **The pathology, certified.** For the canonical cube on-axis `Nxx`, the naive double-precision
+  analytic value falls by ~6 correct decimal digits per decade of separation — from **15.2** digits
+  at one cell to **0.4** near `n = 300` (no correct significant figure, the documented breakdown)
+  to **−8.9** at `n = 10^4`, where it returns `+1.2×10^-4` for a true value of `−1.6×10^-13`
+  (wrong sign, nine orders of magnitude too large). The breakdown radius is **not** a universal
+  300: across common geometries it ranges from `~100` cells (elongated cells, off-diagonal) to
+  `~2000` (a thin film's out-of-plane `Nzz`); the certificate maps it for each of 50
+  geometry/component pairs. OOMMF's asymptotic expansion is the mirror image — poor at short range,
+  good at long — and the crossover is bracketed rigorously.
+- **Tighter than double precision everywhere.** At the worst point (`n = 10^4`) the enclosure is
+  ~54 digits tight where double precision has none. Pre-registered kill condition (DEAD if
+  enclosures cannot beat double precision anywhere in the regime): **not triggered — LIVE.**
+- **Reproducible without trusting us.** The public unit is *certificate JSON + standard-library
+  checker only.* [`demag-certificates/check_demag.py`](demag-certificates/check_demag.py)
+  re-derives every enclosure by its own independent interval arithmetic and Newell evaluation,
+  verifies containment (`N_lo ≤ N_true ≤ N_hi`) with a width-sanity bound, recomputes each naive
+  double bit-for-bit, recomputes every rigorous digit-loss bracket, and re-tests the tensor's own
+  identities (trace encloses 0 at all 136 mutual points; each self-term's three diagonals sum to
+  enclose 1). It imports only `sys, json, math, hashlib, fractions`; no signals, subprocesses,
+  network, or wall-clock. **All 862 entries: `CHECK PASS`.**
+- **Replay now:** `python3 demag-certificates/check_demag.py
+  demag-certificates/demag_certificate.json --sample 40` (seconds → `CHECK PASS` on a
+  deterministic sample); the full 862-entry verification is `CHECK PASS` in ≈7.5 min. Independent
+  anchor: `python3 demag-scripts/anchor_check.py` confirms the 16 OOMMF/Maple 50-digit gold values
+  agree with the recomputed enclosures to ≥49.6 digits; `python3 demag-scripts/tamper_demo.py`
+  runs six corruption controls, all rejected.
+- **Trust root, stated plainly.** The certificate bounds the value of the *analytic Newell tensor
+  entry* the simulators compute; whether that entry is the right physical kernel for a given
+  discretization is Newell's modelling choice, cited not claimed. The generator and the
+  interval/Newell engine that built the certificate are **not** in this repository; the checker
+  shares no code with them and re-derives everything from the certificate alone. Build/verification
+  log: [`demag-paper/FIXLOG.md`](demag-paper/FIXLOG.md); dated sweep:
+  [SWEEP-RECORD-DEMAG-2026-08-12.md](SWEEP-RECORD-DEMAG-2026-08-12.md).
+
 ## Layout
 
 ```
@@ -520,14 +520,7 @@ kelmans-scripts/     the two independent stdlib checkers (verify_cert.py, refcer
                      the 3-connectivity recount driver, the control builder; NO searchers
 SWEEP-RECORD-KELMANS-2026-08-11.md  dated novelty + verification sweep
 
-  -- Part K: certified Newell demagnetization-tensor table (staged; v0.11.0 proposed) --
-demag-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
-demag-certificates/  demag_certificate.json (862 certified enclosures) + stdlib checker
-                     (check_demag.py); NO generator, NO interval/Newell engine
-demag-scripts/       anchor_check.py (16 OOMMF/Maple gold values) + tamper_demo.py (6 controls)
-SWEEP-RECORD-DEMAG-2026-08-12.md  dated novelty + verification sweep
-
-  -- Part L: the exact logical error probability (staged; v0.12.0 proposed) --
+  -- Part K: the exact logical error probability (v0.11.0) --
 wedge2-paper/        note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
 wedge2-certificates/ 4 exact-P_L certificate JSONs (d=3, d=5; p=1/1000, 1/100; full A_w and
                      N_w spectra + exact rational P_L) + stdlib checker (check_wedge2.py);
@@ -535,6 +528,13 @@ wedge2-certificates/ 4 exact-P_L certificate JSONs (d=3, d=5; p=1/1000, 1/100; f
 wedge2-scripts/      identity_selftest.py (both theorems vs. brute force, stdlib) +
                      tamper_demo_w2.py (8 controls)
 SWEEP-RECORD-WEDGE2-2026-08-12.md  dated novelty + verification sweep
+
+  -- Part L: certified Newell demagnetization-tensor table (v0.12.0) --
+demag-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
+demag-certificates/  demag_certificate.json (862 certified enclosures) + stdlib checker
+                     (check_demag.py); NO generator, NO interval/Newell engine
+demag-scripts/       anchor_check.py (16 OOMMF/Maple gold values) + tamper_demo.py (6 controls)
+SWEEP-RECORD-DEMAG-2026-08-12.md  dated novelty + verification sweep
 
   -- Part M: certified ZEFOZ brackets, 167Er3+:Y2SiO5 (v0.13.0) --
 zefoz-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
