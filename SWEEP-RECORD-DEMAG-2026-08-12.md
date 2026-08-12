@@ -14,9 +14,11 @@ artifacts (`demag-paper/`, `demag-certificates/`, `demag-scripts/`), v0.12.0.
   Donahue 2018-01-25), pulled from the `fangohr/oommf` mirror at commit on
   `master`. The functions `Oxs_Newell_f`, `Oxs_Newell_g`, `Oxs_SelfDemagNx`,
   `Oxs_CalculateNxx/Nxy` are implemented here line for line. The header carries
-  16 Maple-computed 50-digit check values for Nxx and Nxy; all 16 lie inside our
-  certified enclosures and agree with their midpoints to >= 49.6 digits (our
-  independent numerical anchor).
+  16 Maple-computed 50-digit check values for Nxx and Nxy; all 16 agree with the
+  midpoints of our certified enclosures to >= 49.6 digits (our independent
+  numerical anchor). [Corrected 2026-08-12: an earlier phrasing said "lie inside";
+  the enclosures are ~77 digits tight, so a 50-digit value cannot lie inside one —
+  agreement at the gold values' own precision is the right test, per FIXLOG S4.]
 * **Chernyshenko & Fangohr**, JMMM 381 (2015) 440-445; arXiv:1403.1978. The
   pathology, quoted verbatim in the note (S II.B): relative error "is of the
   order 10^-15 r^6," so "for cell separations greater than 10^(15/6) ~ 300 the
