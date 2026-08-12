@@ -1,0 +1,14 @@
+== verify_cert.py, one line at a time (it exits on the first violation), 2026-08-11 ==
+line 1: VERIFIED 1 certificates (1 distinct graphs) by order: [(18, 1)]   [exit 0]
+line 2: 9-3-10 is not a path in the graph   [exit 1]
+line 3: triples+avoided is not a partition of V   [exit 1]
+line 4: triples not vertex-disjoint   [exit 1]
+line 5: not a maximum packing shape: 5 triples, 3 avoided, n=18   [exit 1]
+line 6: VERIFIED 1 certificates (1 distinct graphs) by order: [(18, 1)]   [exit 0]
+line 7: graph6 decode: bad g6 length   [exit 1]
+line 8: vertex 2 degree 4 != 3   [exit 1]
+line 9: graph not 3-connected   [exit 1]
+
+== line 9 with the 3-connectivity gate disabled (control on the control) ==
+VERIFIED 1 certificates (1 distinct graphs) by order: [(18, 1)]
+exit: 0

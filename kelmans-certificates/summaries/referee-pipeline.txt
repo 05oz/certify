@@ -1,0 +1,48 @@
+# Per-slice summary lines -- REFEREE pipeline (refcheck), independent recount
+# RSUMMARY n=<order> read=<read> noncubic=<rejected as non-cubic> conn3=<3-connected kept>
+#          basefail=<base-claim failures> sfail=<strong-form failures> rcerts=<referee certificates emitted>
+
+# orders 4-16 (one job, all strong forms: -strong -z7 -f2)
+RSUMMARY n=4 read=1 noncubic=0 conn3=1 basefail=0 sfail=0 rcerts=0
+RSUMMARY n=6 read=2 noncubic=0 conn3=2 basefail=0 sfail=0 rcerts=0
+RSUMMARY n=8 read=5 noncubic=0 conn3=4 basefail=0 sfail=0 rcerts=0
+RSUMMARY n=10 read=19 noncubic=0 conn3=14 basefail=0 sfail=0 rcerts=0
+RSUMMARY n=12 read=85 noncubic=0 conn3=57 basefail=0 sfail=0 rcerts=0
+RSUMMARY n=14 read=509 noncubic=0 conn3=341 basefail=0 sfail=0 rcerts=0
+RSUMMARY n=16 read=4060 noncubic=0 conn3=2828 basefail=0 sfail=0 rcerts=5
+
+# order 18, 4 slices (-strong -z7)
+RSUMMARY n=18 read=8460 noncubic=0 conn3=5827 basefail=0 sfail=0 rcerts=2
+RSUMMARY n=18 read=10926 noncubic=0 conn3=8469 basefail=0 sfail=0 rcerts=4
+RSUMMARY n=18 read=8677 noncubic=0 conn3=6146 basefail=0 sfail=0 rcerts=3
+RSUMMARY n=18 read=13238 noncubic=0 conn3=10026 basefail=0 sfail=0 rcerts=5
+
+# order 20, 8 slices (-strong = base + t2)
+RSUMMARY n=20 read=60454 noncubic=0 conn3=44476 basefail=0 sfail=0 rcerts=8
+RSUMMARY n=20 read=61314 noncubic=0 conn3=50617 basefail=0 sfail=0 rcerts=10
+RSUMMARY n=20 read=77286 noncubic=0 conn3=67345 basefail=0 sfail=0 rcerts=13
+RSUMMARY n=20 read=62960 noncubic=0 conn3=45188 basefail=0 sfail=0 rcerts=9
+RSUMMARY n=20 read=58933 noncubic=0 conn3=46550 basefail=0 sfail=0 rcerts=9
+RSUMMARY n=20 read=59995 noncubic=0 conn3=49951 basefail=0 sfail=0 rcerts=9
+RSUMMARY n=20 read=61992 noncubic=0 conn3=50288 basefail=0 sfail=0 rcerts=10
+RSUMMARY n=20 read=67555 noncubic=0 conn3=41735 basefail=0 sfail=0 rcerts=8
+
+# order 22, 8 slices (-strong = base + f1)
+RSUMMARY n=22 read=518580 noncubic=0 conn3=424804 basefail=0 sfail=0 rcerts=42
+RSUMMARY n=22 read=670736 noncubic=0 conn3=458412 basefail=0 sfail=0 rcerts=45
+RSUMMARY n=22 read=982556 noncubic=0 conn3=765759 basefail=0 sfail=0 rcerts=76
+RSUMMARY n=22 read=1068280 noncubic=0 conn3=886684 basefail=0 sfail=0 rcerts=88
+RSUMMARY n=22 read=1569040 noncubic=0 conn3=1408573 basefail=0 sfail=0 rcerts=140
+RSUMMARY n=22 read=879959 noncubic=0 conn3=693971 basefail=0 sfail=0 rcerts=69
+RSUMMARY n=22 read=978267 noncubic=0 conn3=699819 basefail=0 sfail=0 rcerts=69
+RSUMMARY n=22 read=652029 noncubic=0 conn3=571270 basefail=0 sfail=0 rcerts=57
+
+# order 24: NOT RECOUNTED (queue q_ref24.jsonl written, never run)
+
+# certificate cross-checks (refcert.py over the search pipeline's certificates)
+   41301 out_ref/geng18.g6
+REFCERT-SUMMARY file=out/n18_strong.txt ok=30468 rejected=0 [membership checked]
+  510489 out_ref/geng20.g6
+REFCERT-SUMMARY file=out/n20_strong.txt ok=3961 rejected=0 [membership checked] [3-connectivity checked]
+ 7319447 out_ref/geng22.g6
+REFCERT-SUMMARY file=out_ref/n22_certs_all.txt ok=5904 rejected=0 [membership checked] [3-connectivity checked]

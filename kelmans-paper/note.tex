@@ -1,0 +1,881 @@
+%% ==========================================================================
+%% DRAFT -- August 11, 2026. Author byline: Daniel Kirtchakov (05oz,
+%% halfounce.io; no institutional affiliation; ORCID 0009-0009-5213-4098).
+%%
+%% Claim stated at exactly referee-confirmed strength:
+%%   * n <= 20: signed adversarial-referee verdict 2026-08-06 (429,865
+%%     3-connected cubic graphs, all applicable Theorem 3.1 strong forms).
+%%   * n = 22: independent referee recount COMPLETE 2026-08-11 (9/9 jobs
+%%     rc=0; read 7,319,447 = A002851, conn3 5,909,292 = A204198,
+%%     basefail = sfail = 0 on all 8 slices; certificate cross-check
+%%     ok=5904 rejected=0 with membership + 3-connectivity).
+%%   * n = 24: attack-side complete ONLY (98,101,019 graphs, zero failures,
+%%     counts matching the published enumeration; the independent recount
+%%     queue q_ref24.jsonl has NOT been run). Reported at that strength and
+%%     no higher -- see 1.4 and 3.4. Do not inflate.
+%%
+%% Novelty sweep re-run on the drafting date (2026-08-11), BLOCKING, clean:
+%% arXiv API (P_3-factor / 3-vertex-path abstracts; "Kelmans" in math.CO;
+%% "Akiyama-Kano"), OpenAlex and Semantic Scholar on the citing literature
+%% of 0910.2766, the Open Problem Garden entry fetched live, West's REGS
+%% "Factors in regular graphs" page fetched live, plus general web sweeps.
+%% No computational verification of the problem at any order was found.
+%%
+%% Framing constraints honored throughout (PROTOCOL section 11): the note
+%% opens with the mathematical question, cites the computation in ONE
+%% Certification paragraph (no file inventories, no chronology in the body),
+%% and closes with the questions it opens.
+%% ==========================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\emergencystretch=3em
+\tolerance=1200
+\hbadness=4000
+
+\newcommand{\Lam}{\Lambda}
+\newcommand{\vv}{v}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+
+\begin{document}
+
+\title[Kelmans' 1984 problem verified through $22$ vertices]{Kelmans'
+1984 problem on $3$-vertex path packings in cubic $3$-connected graphs:
+exhaustive verification through $22$ vertices}
+
+\author{Daniel Kirtchakov}
+\address{Independent researcher (\texttt{05oz}); no institutional
+affiliation. ORCID:
+\href{https://orcid.org/0009-0009-5213-4098}{0009-0009-5213-4098}.}
+\email{daniel@halfounce.io}
+\urladdr{https://halfounce.io}
+
+\thanks{\emph{Computation and authorship.} The searchers, the independent
+verifiers, and the audits in this work were produced by \textbf{Claude}
+(Anthropic), directed by the author, on a single Apple~M4 laptop. The
+certificate checkers import only the Python standard library and share no
+code with the searchers; the adversarial referee of \S\ref{ssec:referee}
+was a separate agent instance given no access to the search pipeline's
+code and wrote its own code throughout. This is a factual methods
+statement, and it is part of the point of the note: the artifacts are
+designed so that the provenance of the \emph{search} is irrelevant to the
+validity of the \emph{result}. External tools used by the pipelines:
+\texttt{geng} from \texttt{nauty}~2.9.3 \cite{nauty}, Apple clang 17,
+and Python~3.}
+
+\thanks{\emph{Prior-art record.} The primary source \cite{Kel11} was read
+in full (arXiv v2; a copy is archived with the artifacts, and all
+statement numbers below follow its numbering). A novelty sweep was run on
+August~5 and again on August~11, 2026, the latter immediately before this
+draft was written: the arXiv API (abstracts mentioning $P_3$-factors or
+$3$-vertex paths; \emph{Kelmans} in math.CO; \emph{Akiyama--Kano}), the
+citing literature of \cite{Kel11} through OpenAlex and Semantic Scholar,
+the Open Problem Garden entry \cite{OPG} fetched live, West's REGS page
+\cite{West} fetched live, and general web sweeps. The problem is recorded
+as open in both problem collections, and no computational verification of
+it at any order was found anywhere in the record. \emph{Draft of
+August~11, 2026.}}
+
+\subjclass[2020]{Primary 05C70; Secondary 05C40, 05C69, 68V15}
+\keywords{Cubic graph, $3$-connected graph, $3$-vertex path packing,
+$P_3$-factor, $\Lambda$-factor, Kelmans' problem, Akiyama--Kano
+conjecture, Reed's domination conjecture, exhaustive verification,
+certified computation}
+
+\date{August 11, 2026}
+
+\begin{abstract}
+A $\Lambda$-packing of a graph is a subgraph all of whose components are
+$3$-vertex paths, and a $\Lambda$-factor is a spanning one; $\lambda(G)$
+denotes the maximum number of vertex-disjoint $3$-vertex paths in $G$, so
+that $\lambda(G)\le\lfloor \vv(G)/3\rfloor$ always. Kelmans asked in
+$1984$ whether equality holds for every cubic $3$-connected graph;
+specialized to $\vv(G)\equiv 0 \bmod 6$ this is the Akiyama--Kano
+conjecture that such a graph has a $P_3$-factor, and a positive answer
+would give Reed's domination conjecture for cubic $3$-connected graphs.
+The problem is open, and no computational verification of it at any order
+appears in the record.
+
+We supply one. For every $3$-connected cubic graph on at most $22$
+vertices --- all $6{,}339{,}157$ of them --- $\lambda(G)=\lfloor
+\vv(G)/3\rfloor$, and the applicable strong forms of Kelmans' equivalence
+theorem hold as well: $(z2),(z3),(z7),(z8)$ at orders $6,12,18$; $(t2)$ at
+$8,14,20$; $(f\mkern-2mu1),(f\mkern-2mu2)$ at $4,10,16$ and $(f\mkern-2mu1)$ at $22$. Those equivalences
+are constructive, so a single failure at any of these orders would have
+yielded an explicit cubic $3$-connected graph of order divisible by $6$
+with no $\Lambda$-factor. None was found. The graphs were generated with
+\texttt{geng}, and the generated counts agree exactly, at every order,
+with the published enumerations of connected cubic graphs and of
+$3$-connected cubic graphs. Two pipelines sharing no code --- different
+connectivity tests, different search orders, both negative-controlled ---
+agree on every count and report zero failures, and all $43{,}580$
+$\Lambda$-factor certificates in the corpus were re-verified from the
+\texttt{graph6} strings alone by standard-library checkers sharing no code
+with the searcher that produced them ($34{,}429$ of them by two such
+checkers independently). At $24$ vertices the search pipeline has
+completed all $98{,}101{,}019$ $3$-connected cubic graphs with no failure
+and with counts again matching the published enumeration, but the
+independent recount is outstanding; that order is reported at that
+strength and no higher. We close with the questions the computation
+opens.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+\subsection{The question}\label{ssec:question}
+All graphs here are finite, undirected, and simple. Write $\vv(G)$ for
+the number of vertices of $G$ and $\Lam$ for the $3$-vertex path $P_3$.
+Following \cite{Kel11}, a \emph{$\Lam$-packing} of $G$ is a subgraph all
+of whose components are isomorphic to $\Lam$, and a \emph{$\Lam$-factor}
+is a spanning $\Lam$-packing --- what is elsewhere called a
+\emph{$P_3$-factor}. Let $\lambda(G)$ be the maximum number of pairwise
+disjoint $3$-vertex paths in $G$. Counting vertices gives
+\begin{equation}\label{eq:trivial}
+  \lambda(G)\;\le\;\left\lfloor \vv(G)/3 \right\rfloor
+\end{equation}
+for every graph, and the question is when \eqref{eq:trivial} is tight.
+
+\begin{quote}
+\textbf{Problem} (A. Kelmans, 1984; Problem 1.10 of \cite{Kel11}).
+\emph{Is the following claim true?}
+\smallskip
+
+\noindent $(P)$ \emph{If $G$ is a $3$-connected cubic graph, then
+$\lambda(G)=\lfloor \vv(G)/3\rfloor$.}
+\end{quote}
+
+\noindent A cubic graph has even order, so $(P)$ splits into three cases
+by the residue of $\vv(G)$ modulo $6$: for $\vv(G)\equiv 0$ the claim is
+that $G$ has a $\Lam$-factor; for $\vv(G)\equiv 4$ that some $G-x$ has
+one; for $\vv(G)\equiv 2$ that some $G-\{x,y\}$ has one. The first of
+these is the conjecture of Akiyama and Kano, which we take in the form
+recorded by West \cite{West} --- ``when $3$ divides $n$, every
+$3$-connected $3$-regular $n$-vertex graph has a $P_3$-factor'', there
+attributed to the survey \cite{AK85} --- and it
+is the form in which the problem is posed at the Open Problem Garden
+\cite{OPG}: does every $3$-connected cubic graph on $3k$ vertices admit a
+partition into $k$ paths on $3$ vertices?
+
+Three facts fix the difficulty. First, the $\Lam$-packing problem is
+$NP$-hard in general \cite{HK86} and remains $NP$-hard already for cubic
+bipartite planar graphs \cite{KMZ05}, so $(P)$ is not
+a statement about an easy optimization problem but about a class on which
+the optimum is conjecturally forced. Second, $3$-connectivity is not a
+convenience: Kelmans \cite{Kel07} constructs infinitely many $2$-connected
+cubic bipartite planar graphs $G$ with $\lambda(G)<\lfloor
+\vv(G)/3\rfloor$, so the hypothesis cannot be weakened by one unit of
+connectivity. Third, the problem has a consequence outside path packing.
+Reed \cite{Reed96} conjectured that a connected cubic graph $G$ has
+domination number $\gamma(G)\le\lceil \vv(G)/3\rceil$; that conjecture is
+false for connected and even for $2$-connected cubic graphs
+\cite{Kel06,KS05}, but as Kelmans observes \cite[\S1]{Kel11}, if $(P)$
+holds then --- by way of the strong forms of
+Theorem~\ref{thm:kelmans}, not directly --- Reed's conjecture holds for
+cubic $3$-connected graphs. A \emph{positive} resolution of $(P)$
+therefore settles a domination question as a corollary; a counterexample
+would leave Reed's conjecture on this class untouched.
+
+The problem has been open since 1984. Partial results are known. For
+every cubic graph $\lambda(G)\ge\lceil \vv(G)/4\rceil$ \cite{KM04}, and
+for connected cubic graphs this has been improved to
+$\lambda(G)\ge\frac{39}{152}\vv(G)$ when $\vv(G)\ge 17$ \cite{KMZ08} and
+to $\lambda(G)\ge\frac{3}{11}\vv(G)$ when $\vv(G)\ge 9$ \cite{KZ08}, as
+recorded in \cite[1.3, 1.6, 1.8]{Kel11}. In restricted classes the exact
+statement is known: $\lambda(G)=\lfloor \vv(G)/3\rfloor$ for
+$2$-connected claw-free graphs \cite{KKN01}, and claims $(z1)$--$(z5)$ of
+Theorem~\ref{thm:kelmans} below hold for cubic $3$-connected claw-free
+graphs \cite{Kel07b} (see also \cite{Kel11b}). But the general case is
+untouched, and, as far as our sweeps can determine, no exhaustive
+verification of $(P)$ at any order has ever been published.
+
+\subsection{Result}\label{ssec:result}
+
+\begin{theorem}\label{thm:main}
+Let $G$ be a $3$-connected cubic graph with $\vv(G)\le 22$. Then
+$\lambda(G)=\lfloor \vv(G)/3\rfloor$. In particular, every $3$-connected
+cubic graph on $6$, $12$, or $18$ vertices has a $\Lam$-factor, i.e.\
+admits a partition of its vertex set into $\vv(G)/3$ paths on $3$
+vertices.
+\end{theorem}
+
+\noindent The statement ranges over all $6{,}339{,}157$ $3$-connected
+cubic graphs of order at most $22$; the counts by order are in
+Table~\ref{tab:counts}. Theorem~\ref{thm:main} is the base claim $(P)$.
+The verification also establishes the applicable strong forms of Kelmans'
+equivalence theorem, which is where its counterexample-hunting power lies
+(\S\ref{ssec:strong}).
+
+\begin{theorem}\label{thm:strong}
+Let $G$ be a $3$-connected cubic graph. Then, in the ranges indicated,
+\begin{itemize}
+\item[$(z2)$] for $\vv(G)\in\{6,12,18\}$: $G-e$ has a $\Lam$-factor for
+  every $e\in E(G)$;
+\item[$(z3)$] for $\vv(G)\in\{6,12,18\}$: for every $e\in E(G)$ some
+  $\Lam$-factor of $G$ contains $e$;
+\item[$(z7)$] for $\vv(G)\in\{6,12,18\}$: $G-X$ has a $\Lam$-factor for
+  every $X\subseteq E(G)$ with $|X|=2$;
+\item[$(z8)$] for $\vv(G)\in\{6,12,18\}$: $G-L$ has a $\Lam$-factor for
+  every $3$-vertex path $L$ in $G$;
+\item[$(t2)$] for $\vv(G)\in\{8,14,20\}$: $G-\{x,y\}$ has a $\Lam$-factor
+  for every $xy\in E(G)$;
+\item[$(f\mkern-2mu1)$] for $\vv(G)\in\{4,10,16,22\}$: $G-x$ has a $\Lam$-factor
+  for every $x\in V(G)$;
+\item[$(f\mkern-2mu2)$] for $\vv(G)\in\{4,10,16\}$: $G-\{x,e\}$ has a $\Lam$-factor
+  for every $x\in V(G)$ and every $e\in E(G)$ not incident with $x$.
+\end{itemize}
+\end{theorem}
+
+\noindent Kelmans states $(f\mkern-2mu2)$ without an incidence
+restriction; restricting it here to edges not incident with $x$ loses
+nothing, and for the reason his own proof gives: if $e$ is incident with
+$x$ then $G-\{x,e\}=G-x$, so the incident case is $(f\mkern-2mu1)$
+\cite[3.21]{Kel11}.
+
+The evidence for both theorems is a complete search: every $3$-connected
+cubic graph of each order was generated, and for each the relevant
+existence questions were decided exactly --- not estimated, not sampled
+--- by an exhaustive procedure (\S\ref{ssec:decide}). The result was then
+recounted end to end by a second pipeline written independently of the
+first, and the whole was confirmed by an adversarial referee
+(\S\ref{sec:verif}).
+
+One further order was searched but is \emph{not} part of
+Theorems~\ref{thm:main} and~\ref{thm:strong}, and is recorded separately
+at the strength it has reached.
+
+\begin{proposition}\label{prop:n24}
+The search pipeline reports $\lambda(G)=\vv(G)/3$ --- that is, a
+$\Lam$-factor --- for every one of the $98{,}101{,}019$ $3$-connected
+cubic graphs on $24$ vertices, with no failure on any graph. The
+enumeration underlying that sweep was audited independently (job
+accounting reconstructed from the run records, generated counts matched
+against the published enumerations, zero failure lines in any output),
+but the graphs themselves have not been re-solved by the independent
+pipeline. This order is asserted at exactly that strength.
+\end{proposition}
+
+\subsection{Why the strong forms are the counterexample hunt}
+\label{ssec:strong}
+Theorem~\ref{thm:strong} is not a collection of sanity checks. Its
+statements are the ones Kelmans proves equivalent to $(P)$ as universal
+claims over the class of cubic $3$-connected graphs.
+
+\begin{theorem}[Kelmans {\cite[3.1]{Kel11}}]\label{thm:kelmans}
+Read as universal statements over the class of cubic $3$-connected
+graphs, the nineteen claims $(z1)$--$(z9)$, $(t1)$--$(t4)$,
+$(f\mkern-2mu1)$--$(f\mkern-2mu6)$ --- conditioned on $\vv(G)\equiv0$,
+$2$, $4 \bmod 6$ respectively, and including the seven forms listed in
+Theorem~\ref{thm:strong} --- are pairwise equivalent.
+\end{theorem}
+
+\noindent Two remarks on the statement. Claim $(P)$ is not one of the
+nineteen, but is equivalent to them, as Kelmans records
+\cite[\S1]{Kel11}: $(z1)$ is exactly the $\vv(G)\equiv0$ case of $(P)$,
+so $(P)$ implies $(z1)$, while conversely $(z1)$ yields $(t1)$ and
+$(f\mkern-2mu1)$ by the theorem, and those are stronger than the
+$\vv(G)\equiv 2$ and $\vv(G)\equiv 4$ cases of $(P)$. And the
+quantification is over the class: the equivalences hold between claims
+each universally quantified over all cubic $3$-connected graphs, not
+graph by graph. A single graph failing one strong form is therefore not
+by itself a graph failing another; what it yields is a construction, and
+that is the next point.
+
+The equivalences are proved by explicit graph compositions --- the
+operations $A a\sigma b B$ and $Y(\cdot)$ and the graph-compositions
+$B\{\cdot\}$ of \cite[\S2]{Kel11}, all of which preserve cubicity and
+$3$-connectivity \cite[2.1--2.3]{Kel11} --- and Kelmans draws the
+consequence himself: he gives several different proofs of $3.1$, so that
+``if there is a counterexample $C$ to one of the above claims, then these
+different proofs provide different constructions of counterexamples to
+the other claims in 3.1'' \cite[\S1]{Kel11}. The implications therefore
+run constructively in the direction that matters here: a single cubic
+$3$-connected graph violating any one of $(z2),(z3),(z7),(z8),(t2),(f\mkern-2mu1)$,
+or $(f\mkern-2mu2)$ can be converted, by those compositions, into an explicit cubic
+$3$-connected graph of order $\equiv 0 \bmod 6$ with no $\Lam$-factor,
+i.e.\ into a counterexample to $(P)$ and to the Akiyama--Kano conjecture.
+
+This changes what the orders $\vv(G)\equiv 2,4 \bmod 6$ are worth. They
+are not orders at which the factor question is vacuous; they are orders
+at which a cheap local test --- delete an edge's two endpoints, or one
+vertex, and ask for a factor of the remainder --- is a valid search for a
+counterexample to the factor case. Of the $6{,}339{,}157$ graphs covered
+by Theorem~\ref{thm:main}, only $30{,}527$ have order divisible by $3$;
+the strong forms are what makes the other $99.5\%$ of the corpus
+evidence rather than context.
+
+Kelmans also records where the strong forms stop \cite[(r1)--(r8)]{Kel11},
+and the boundary is close. Claim $(z7)$ is false for $|X|=3$: a $3$-edge
+cut whose sides have orders not divisible by $3$ obstructs any
+$\Lam$-factor of $G-X$. Claim $(z8)$ is tight for two disjoint paths ---
+\cite[6.1]{Kel11} constructs cubic graphs $R_s$ with $\vv(R_s)=12s$,
+cyclically $6$-connected for $s\ge2$ (the smallest member has
+$c(R_1)=5$, \cite[6.1(a2)]{Kel11}), having disjoint $3$-vertex paths
+$L,L'$ for which $R_s-(L\cup L')$ has no $\Lam$-factor, while $R_s-L-e$
+has one for every edge $e$ and every $3$-vertex path $L$ of $R_s-e$.
+Since $\vv(R_1)=12$, the exact boundary of the phenomenon lies inside the
+verified range: the sweep confirms $(z8)$ for every single $3$-vertex
+path at order $12$, and Kelmans' construction exhibits the two-path
+failure at the same order. A verification that reported success on a strong form known to be
+false would be diagnostic of a broken pipeline; none of the forms tested
+here is known to be false in the tested range, and none failed.
+
+\subsection{What is not claimed}\label{ssec:notclaimed}
+We do not claim to resolve Kelmans' problem, the Akiyama--Kano
+conjecture, or Reed's conjecture for cubic $3$-connected graphs. Each is
+a statement about an infinite class and is untouched by any finite
+computation; what a proof would have to supply is discussed in
+\S\ref{sec:questions}. We do not claim a bound on the order of a putative
+counterexample beyond the one Theorem~\ref{thm:main} gives, namely that
+none has at most $22$ vertices. We do not claim the strong forms outside
+the orders listed in Theorem~\ref{thm:strong}: in particular $(f\mkern-2mu2)$ was
+not tested at order $22$, and $(z7)$ and $(z8)$ were not tested at order
+$24$. We do not claim order $24$ at the strength of
+Theorem~\ref{thm:main}: Proposition~\ref{prop:n24} is a report of a
+completed search whose independent recount has not been performed, and it
+is stated in those terms deliberately. Finally, we claim no priority over
+the mathematics: the problem, the equivalence theorem, the tightness
+constructions, and the link to Reed's conjecture are all Kelmans'
+\cite{Kel11}, and the conjecture in its $P_3$-factor form is Akiyama and
+Kano's \cite{AK85}.
+
+\section{The verification}\label{sec:comp}
+
+\subsection{Enumeration}\label{ssec:enum}
+Each order was swept over the output of \texttt{geng} from
+\texttt{nauty}~2.9.3 \cite{nauty}, invoked as
+\texttt{geng -q -c -d3 -D3 $n$}, which emits one \texttt{graph6} string
+per isomorphism class of connected cubic graph on $n$ vertices; the large
+orders were split into residue classes by \texttt{geng}'s \texttt{res/mod}
+slicing. Each pipeline then applied its own $3$-connectivity filter. No
+graph was excluded on any other ground, and no symmetry reduction beyond
+\texttt{geng}'s isomorph rejection was used at any stage.
+
+The completeness of the enumeration is the load-bearing external
+assumption of this note (\S\ref{sec:tcb}), and it is supported by count
+agreement at every order against two independent published sources. The
+number of connected cubic graphs read matches the published enumeration
+of Brinkmann, Goedgebeur, and McKay \cite{BGM11} --- whose Table~1 gives
+$7{,}319{,}447$ at $22$ vertices and $117{,}940{,}535$ at $24$ --- and
+equivalently OEIS \texttt{A002851}. The number surviving the
+$3$-connectivity filter matches the published counts of $3$-connected
+cubic graphs: through $20$ vertices those of McKay and Royle
+\cite{McKR86}, and through $24$ vertices OEIS \texttt{A204198}, whose
+terms
+\[
+  0,\;1,\;2,\;4,\;14,\;57,\;341,\;2828,\;30468,\;396150,\;5909292,\;
+  98101019,\;\dots
+\]
+(indexed by half the order, with $a(11)$ and $a(12)$ credited to Ed Wynn,
+2023) reproduce our filtered counts exactly at every order. The two
+checks are independent of each other in the useful direction: the first
+tests the generator, the second tests the filter.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{r r r l l}
+\toprule
+$n$ & connected cubic & $3$-connected & strong forms verified & recount \\
+\midrule
+$4$  & $1$ & $1$ & $(f\mkern-2mu1),(f\mkern-2mu2)$ & yes \\
+$6$  & $2$ & $2$ & $(z2),(z3),(z7),(z8)$ & yes \\
+$8$  & $5$ & $4$ & $(t2)$ & yes \\
+$10$ & $19$ & $14$ & $(f\mkern-2mu1),(f\mkern-2mu2)$ & yes \\
+$12$ & $85$ & $57$ & $(z2),(z3),(z7),(z8)$ & yes \\
+$14$ & $509$ & $341$ & $(t2)$ & yes \\
+$16$ & $4{,}060$ & $2{,}828$ & $(f\mkern-2mu1),(f\mkern-2mu2)$ & yes \\
+$18$ & $41{,}301$ & $30{,}468$ & $(z2),(z3),(z7),(z8)$ & yes \\
+$20$ & $510{,}489$ & $396{,}150$ & $(t2)$ & yes \\
+$22$ & $7{,}319{,}447$ & $5{,}909{,}292$ & $(f\mkern-2mu1)$ & yes \\
+\midrule
+$\le 22$ & $7{,}875{,}918$ & $6{,}339{,}157$ & & \\
+\midrule
+$24$ & $117{,}940{,}535$ & $98{,}101{,}019$ & --- (base claim only) &
+  \emph{pending} \\
+\bottomrule
+\end{tabular}
+\medskip
+\caption{Coverage by order. The ``connected cubic'' column is the
+generator's output and matches \cite{BGM11} and OEIS \texttt{A002851};
+the ``$3$-connected'' column is what survives each pipeline's own filter
+and matches OEIS \texttt{A204198} at every order and \cite{McKR86} at
+orders $10$ through $20$. Every graph counted
+in the third column was decided for the base claim $(P)$ and for the
+strong forms listed. The last row is Proposition~\ref{prop:n24}: complete
+on the search side, not yet recounted independently.}
+\label{tab:counts}
+\end{table}
+
+\subsection{Deciding each graph}\label{ssec:decide}
+For a cubic graph on $n\le 31$ vertices the whole question fits in
+machine words, and both pipelines decide it exactly rather than
+approximately. The base claim asks for a set $S$ of $n \bmod 3$ vertices
+such that $G-S$ has a $\Lam$-factor; a $\Lam$-factor is found, or proved
+absent, by depth-first search over vertex triples $(a,b,c)$ with
+$ab,bc\in E(G)$, extending a partial packing until the covered set is
+everything, with a hash cache of covered-set masks already shown to
+admit no completion. The strong forms are decided by running the same
+factor decision on each of the linearly or quadratically many derived
+graphs: $G-e$ and $G$-with-$e$-forced for $(z2),(z3)$; $G-\{e,f\}$ over
+all $\tbinom{|E|}{2}$ pairs for $(z7)$; $G-V(L)$ over all $3$-vertex paths
+for $(z8)$; $G-\{x,y\}$ over all edges for $(t2)$; $G-x$ over all
+vertices for $(f\mkern-2mu1)$; $G-\{x,e\}$ for $(f\mkern-2mu2)$. Because the procedure is
+exhaustive, a negative answer is a proof of non-existence, which is why a
+single failure anywhere would have been the object of interest rather
+than a nuisance.
+
+The second pipeline decides the same questions by deliberately different
+means: connectivity by union--find rather than bitmask breadth-first
+search; $3$-vertex-path triples precomputed into per-vertex tables rather
+than generated on the fly; depth-first branching on the highest uncovered
+vertex rather than the lowest; the base claim by explicit iteration over
+avoided sets rather than by a skip counter; and a four-way probed failure
+cache rather than a single-slot one. It shares no code with the first.
+Agreement between the two is therefore agreement between two search
+orders and two data structures, not between two runs of one program.
+
+\subsection{Certificates}\label{ssec:certs}
+A completed packing is a short, checkable object, and the sweeps emit it:
+one line per certified graph carrying the \texttt{graph6} string, the
+list of vertex triples forming the paths, and the avoided vertices, for
+example
+\begin{quote}\small\ttfamily\raggedright
+CERT U???????C?W?[?Y?C`Cc?Aa?X??BG?I\_?Ao?@K?? | 10-0-11 12-1-13 2-14-5
+15-3-17 4-16-6 18-7-19 20-8-21 | 9
+\end{quote}
+at order $22$, where the seven triples and the single avoided vertex $9$
+partition the $22$ vertices. Certificates were stored for every
+$3$-connected cubic graph through order $18$ and for a fixed sample at
+higher orders ($43{,}580$ lines through order $22$; $9{,}776$ more at
+order $24$). A checker re-derives everything from the \texttt{graph6}
+string alone: it decodes the string with its own decoder, verifies that
+the graph is simple and cubic, optionally verifies membership of the
+string in a freshly generated \texttt{geng} stream for that order and
+re-proves $3$-connectivity by exhaustive deletion of vertex pairs, checks
+that each listed triple is a path of the graph, and checks that the
+triples and the avoided vertices partition the vertex set with
+$|{\rm avoided}| = n \bmod 3$. Certificates are not the primary evidence
+--- full coverage rests on the searches themselves --- but they make
+spot-checking cheap for a reader, and they are regenerable: the searchers
+are deterministic, so any certificate reproduces from the recorded
+command.
+
+\section{Independent recount, controls, and referee}\label{sec:verif}
+
+\subsection{The recount}\label{ssec:recount}
+The second pipeline re-ran the sweep from the generator forward. Through
+order $16$ it re-solved the full stream with all strong forms enabled;
+at order $18$ with $(z2),(z3),(z7),(z8)$; at order $20$ with $(t2)$; at
+order $22$ with $(f\mkern-2mu1)$, in eight generator slices. At every order the
+count of graphs read and the count surviving the $3$-connectivity filter
+agree with the first pipeline and with the published enumerations, and
+the number of base-claim failures and strong-form failures is zero on
+every slice. At order $22$ the eight slices read
+$518{,}580 + 670{,}736 + 982{,}556 + 1{,}068{,}280 + 1{,}569{,}040 +
+879{,}959 + 978{,}267 + 652{,}029 = 7{,}319{,}447$ graphs and kept
+$5{,}909{,}292$, both exactly the published values; the order-$22$
+recount and its certificate cross-check together consumed under two hours
+of single-core time on the laptop.
+
+\subsection{Certificate cross-checks}\label{ssec:certcheck}
+The certificate corpus was re-verified across the pipeline boundary. All
+$30{,}468$ certificates at order $18$, all $3{,}961$ at order $20$, and
+all $5{,}904$ at order $22$ --- $40{,}333$ in total --- were accepted by
+the second pipeline's own checker, with zero rejections; at orders $20$
+and $22$ the check included re-proving $3$-connectivity from the
+\texttt{graph6} string, and at all three orders it included membership in
+a freshly regenerated generator stream ($41{,}301$, $510{,}489$, and
+$7{,}319{,}447$ lines respectively, each line count re-derived at check
+time). The $3{,}247$ certificates at orders $\le 16$ were accepted by the
+first pipeline's independent standard-library checker, and those graphs
+were in addition re-solved from scratch by the second pipeline.
+
+\subsection{Negative controls}\label{ssec:negctl}
+A sweep that only ever reports success proves nothing about its own
+failure path, so both tools were forced to fail. With the
+$3$-connectivity filter disabled, the base sweep over all \emph{connected}
+cubic graphs of orders $10$ through $16$ reports exactly one failure: the
+$16$-vertex graph with \texttt{graph6} string
+\texttt{O???E?oBEAWOKGK\_@o?W\_}, which has a cut vertex. The same graph
+had been identified independently by the first pipeline's own control,
+and a third, unrelated brute-force implementation confirms $\lambda=4<5$
+for it; the two pipelines agree on the unique sub-$3$-connected failure in
+that range. With the filter disabled the strong-form paths fire as well:
+no failure at order $8$, where none exists; $54$ at order $10$ ($2$ of
+type $(f\mkern-2mu1)$, $52$ of $(f\mkern-2mu2)$); $253$ at order $12$,
+spread over all four $(z\cdot)$ paths ($4$ of $(z2)$, $8$ of $(z3)$, $106$
+of $(z7)$, $135$ of $(z8)$); $145$ of $(t2)$ type at order $14$; and
+$15{,}691$ at order $16$ ($317$ of $(f\mkern-2mu1)$, $15{,}374$ of
+$(f\mkern-2mu2)$). Each checker was likewise run on deliberately doctored
+certificates, one corruption per line: a non-path triple, a cover gap, an
+overlapping triple, a valid partition of sub-maximum shape, a
+\texttt{graph6} string with a trailing character, a \texttt{graph6}
+string with a flipped character, a valid certificate for a non-canonical
+relabelling of the graph (a string the generator never emits), and a
+genuine $\Lam$-factor certificate for a connected cubic graph that is not
+$3$-connected. Every one is rejected, each by the gate it targets and
+with a nonzero exit code, while the intact certificate in the same file
+is accepted; and two controls on the controls confirm the diagnosis, since
+disabling the membership test admits the relabelling and nothing else,
+and disabling the $3$-connectivity test admits the sub-$3$-connected
+certificate and nothing else. All controls in this subsection were re-run
+on the drafting date against the current binaries and checkers.
+
+\subsection{The adversarial referee}\label{ssec:referee}
+The result rests on an adversarial referee pass by a separate agent
+instance under an explicit independence rule: every load-bearing check
+used code written in that session, sharing nothing with the search
+pipeline beyond the \texttt{graph6} format specification. The referee
+wrote the second pipeline, ran the recount and the cross-checks and the
+controls described above, recomputed every count sum mechanically from
+the raw per-slice summary lines rather than accepting reported totals,
+and fetched the published enumeration values itself. On this protocol the
+range $\vv(G)\le 20$ was confirmed on August~6, 2026, and order $22$ was
+recounted to completion on August~11, 2026; Theorems~\ref{thm:main}
+and~\ref{thm:strong} are stated at exactly the strength those passes
+support. Order $24$ was not recounted. What the referee did establish
+there is the completeness of the search side --- that every job finished
+successfully, that the generated and filtered counts equal the published
+enumeration values, and that no output file anywhere contains a failure
+line --- which is why Proposition~\ref{prop:n24} is phrased as a report
+of a completed search rather than as a verification.
+
+\section{Certification}\label{sec:certification}
+
+The permanent record of the computation is the part a reader can check
+without us: the two certificate checkers in source form, the recorded
+command line for every sweep and every generator slice at every order,
+the per-slice summary outputs, the full certificate corpus, the
+negative-control inputs and outputs, and the referee's verdict records.
+It ships with this note and will be deposited on publication in the
+program's public certificate repository \emph{Certify}
+(\url{https://github.com/05oz/certify}; concept DOI
+\href{https://doi.org/10.5281/zenodo.21799111}{10.5281/zenodo.21799111}).
+The two searchers are specified in \S\ref{ssec:decide} but are not part
+of that deposit, and we say so rather than imply otherwise: what is
+deposited is what re-checks their output without them, which is every
+positive answer they gave. Nothing large needs to be archived either --- the
+graph streams are outputs of \texttt{geng} and regenerate from the
+recorded commands. To replay: checking any certificate, or the whole
+corpus, requires only CPython; regenerating any graph stream requires
+\texttt{nauty}~2.9.3. The full sweep through order $22$ is about an hour
+and a half of single-core time per pipeline; order $24$ was about $29$
+hours of completing-run time on the search side, and about $48$ hours of
+machine time once the slices that exceeded their first time limit and
+were rerun are counted.
+
+\section{The trusted base}\label{sec:tcb}
+
+What a skeptic must believe, separated from what they can replay.
+
+\emph{Machine-checked, replayable:} the decision, for each of the
+$6{,}339{,}157$ graphs, of the base claim and of the strong forms listed
+in Theorem~\ref{thm:strong}, by each of two pipelines sharing no code;
+the count of graphs read and of graphs kept at every order, by both
+pipelines and against two published enumerations; all $43{,}580$
+certificates through order $22$, re-verified from the \texttt{graph6}
+strings alone, $34{,}429$ of them by two unrelated checkers; and the
+negative controls, which both pipelines' failure paths pass.
+
+\emph{Trusted:}
+\begin{enumerate}
+\item \emph{Completeness of the enumeration.} That
+\texttt{geng -c -d3 -D3 $n$} emits at least one representative of every
+isomorphism class of connected cubic graph on $n$ vertices is assumed,
+not proved here. It is the only assumption a counterexample could hide
+behind, and the mitigation is count agreement at every order with the
+independent published enumerations of \cite{BGM11} and \cite{McKR86} ---
+values obtained by different generators (\texttt{minibaum},
+\texttt{snarkhunter}, and McKay and Royle's constructions) --- and, for
+the filtered counts, with OEIS \texttt{A204198}. A generator that missed
+a class would have to miss it while still producing the published totals.
+\item \emph{The $3$-connectivity filters.} Both pipelines test
+$3$-connectivity directly, by verifying that $G$, every $G-u$, and every
+$G-\{u,v\}$ is connected, rather than by any equivalence between vertex
+and edge connectivity for cubic graphs. The two implementations differ
+(breadth-first search on bitmasks; union--find) and agree on every count;
+and the standard-library checker's own $3$-connectivity routine, driven
+over the raw generator stream by a separate driver, reproduced the
+filtered counts at orders $8$ through $16$, closing the question in both
+directions at those orders.
+\item \emph{The correctness of the exhaustive search.} A ``no'' from
+either searcher is a claim of non-existence and is not certifiable by a
+short witness. Nothing in Theorems~\ref{thm:main} and~\ref{thm:strong}
+depends on such a ``no'' being right --- every reported outcome is a
+``yes'', witnessed by a packing --- but the \emph{absence of failures}
+does depend on the searchers not silently skipping graphs, which is why
+the counts, and not only the verdicts, are cross-checked at every order.
+\item \emph{The equivalences of Theorem~\ref{thm:kelmans}}, on which the
+counterexample-hunting reading of the strong forms rests. These are
+Kelmans' theorems, proved on paper in \cite{Kel11}; they are not
+machine-checked here.
+\item \emph{CPython, the C compiler, the operating system, and the
+hardware.}
+\end{enumerate}
+
+\noindent Neither searcher is in the trusted base in the usual sense:
+every positive answer carries a packing that a reader can re-check
+without trusting the program that found it.
+
+\section{Questions}\label{sec:questions}
+
+\subsection{What a structural proof would need}\label{ssec:qproof}
+The computation supplies no tightness anywhere. Every one of the
+$6{,}339{,}157$ graphs meets the bound \eqref{eq:trivial}, and meets it
+after the deletions demanded by the strong forms as well; nothing in the
+range distinguishes hard instances from easy ones. That is evidence for
+$(P)$ and simultaneously evidence that a proof will not come from
+extremal considerations at small orders.
+
+Theorem~\ref{thm:kelmans} says a proof needs only one of the equivalent
+claims, and the local ones look most tractable: $(t2)$ asserts that
+$G-\{x,y\}$ has a $\Lam$-factor for \emph{every} edge $xy$, and $(f\mkern-2mu1)$
+that $G-x$ has one for \emph{every} vertex --- universally quantified
+statements about a single deletion, the natural shape for a discharging
+or a minimal-counterexample argument. The known obstructions say where
+such an argument must be careful: by \cite[(r1)]{Kel11} a $3$-edge cut
+with both sides of order not divisible by $3$ kills $\Lam$-factors of
+$G-X$, and by \cite[(r4)]{Kel11} claim $(t2)$ is false for non-adjacent
+$x,y$. Adjacency and the divisibility of the two sides of a cut are
+exactly the hypotheses that cannot be dropped.
+
+\begin{question}\label{q:cyclic}
+Does $(P)$ reduce to cyclically $4$- or $5$-connected cubic graphs? That
+is, do the compositions of \cite[\S2]{Kel11} let a minimum
+counterexample be assumed to have large cyclic connectivity, and if so,
+does the $\Lam$-factor problem become tractable on that class --- where,
+by \cite[6.1]{Kel11}, cyclically $6$-connected examples with delicate
+behaviour already exist, from $24$ vertices upward?
+\end{question}
+
+\begin{question}\label{q:clawfree}
+Kelmans proves $(z1)$--$(z5)$ for cubic $3$-connected \emph{claw-free}
+graphs \cite{Kel07b,Kel11b}. The class is narrow: in a cubic claw-free graph the
+three neighbours of any vertex cannot be pairwise non-adjacent, so every
+vertex lies in a triangle. What is the weakest local-structure hypothesis
+--- a bound on the number of independent claws, say --- under which the
+claw-free argument still runs?
+\end{question}
+
+\subsection{The strong forms' status}\label{ssec:qstrong}
+Theorem~\ref{thm:strong} is complete for the forms it lists and silent
+elsewhere. Three gaps are immediate. Claim $(f\mkern-2mu2)$ was tested only through
+order $16$; at order $22$ its cost is the number of vertex--edge pairs
+times a factor decision, an order of magnitude above $(f\mkern-2mu1)$, and it was
+not run. Claims $(z7)$ and $(z8)$ have never been tested at order $24$,
+which is the first order divisible by $6$ beyond the verified range and
+therefore the first place where a $(z\cdot)$ failure would be a direct
+counterexample rather than a converted one. And the remaining forms of
+Theorem~\ref{thm:kelmans} --- $(z4),(z5),(z6),(z9),(t1),(t3),(t4)$,
+$(f\mkern-2mu3)$--$(f\mkern-2mu6)$ --- have not been tested at any order. They are equivalent
+to $(P)$, so testing them adds no logical strength, but they are
+different searches with different failure modes, and one of them may be
+cheap enough to push several orders past $22$ on its own. Identifying
+which is a concrete question.
+
+\begin{question}\label{q:cheapest}
+Among the claims of Theorem~\ref{thm:kelmans}, which admits the cheapest
+exhaustive test per graph at order $n$? A form testable in time
+comparable to a single factor decision would move the frontier further
+than any improvement to the base search.
+\end{question}
+
+\subsection{Where the frontier sits}\label{ssec:qfrontier}
+The binding constraint is enumeration, not search. Order $24$ took about
+$29$ hours of completing-run single-core time on the search side for
+$117{,}940{,}535$ generated graphs, a throughput near a thousand graphs
+per second; the outstanding work at that order is the independent
+recount, which is a comparable cost and would raise
+Proposition~\ref{prop:n24} to the strength of Theorem~\ref{thm:main}.
+Order $26$ requires generating $2{,}094{,}480{,}864$ connected cubic
+graphs and deciding $1{,}782{,}392{,}646$ of them --- roughly three weeks
+of single-core time per pipeline at the order-$24$ throughput, and more
+than that in truth, since per-graph cost grows with order; it is
+embarrassingly parallel across generator slices and so is a matter of
+core-days, not of algorithms. Order $26$ is $\equiv 2 \bmod 6$, so it
+tests $(t2)$; order $28$ ($\equiv 4$) tests $(f\mkern-2mu1)$ and has
+$35{,}085{,}504{,}243$ graphs to decide.
+
+The real wall is at order $30$, the next order divisible by $6$ after
+$24$. OEIS \texttt{A204198} currently stops at $28$ vertices, so beyond
+that order there is no published count of $3$-connected cubic graphs to
+check a generator against --- and count agreement with an independent
+enumeration is the mitigation that makes the trusted base of
+\S\ref{sec:tcb} tolerable. Past $28$ vertices a sweep would be asserting
+its own completeness.
+
+\begin{question}\label{q:restricted}
+Can the frontier be advanced much further on a restricted class? The
+obstructions of \cite[(r1)--(r4)]{Kel11} are cuts and short cycles, which
+suggests looking where neither is available; but the suggestion is not
+safe, since \cite[(r5), (r6)]{Kel11} exhibit obstructions to the
+$(f\mkern-2mu\cdot)$ forms in cubic $3$-connected graphs with no
+$3$-cycles and no $4$-cycles. Generators for sparse families ---
+\texttt{genreg} \cite{genreg},
+\texttt{snarkhunter} \cite{BGM11} --- reach far higher orders than the
+full cubic enumeration does, because the families are far sparser.
+A sweep of, say, all cyclically $5$-connected cubic graphs of order
+$\equiv 0 \bmod 6$ up to $34$ or $36$ vertices looks feasible today, and
+would test the conjecture on the class where the compositions of
+\cite[\S2]{Kel11} have the least room to work.
+\end{question}
+
+\section*{Acknowledgments}
+
+The problem is Alexander Kelmans'; the equivalence theorem, the tightness
+constructions, and the connection to Reed's domination conjecture that
+give this verification its meaning are all his, and this note is a
+computation performed inside his framework. The $P_3$-factor form of the
+conjecture is due to Jun-ichi Akiyama and Mikio Kano, and its continued
+visibility owes much to Douglas West's problem pages and to the Open
+Problem Garden. The enumeration rests on Brendan McKay's \texttt{nauty},
+and the count cross-checks on the published cubic-graph enumerations of
+Brinkmann, Goedgebeur, and McKay and of McKay and Royle, and on the OEIS.
+The computation and drafting were AI-assisted as stated in the first
+footnote; the adversarial referee protocol of \S\ref{ssec:referee}, its
+rule that a claim be stated at exactly the strength its recount supports,
+and its rule that a computation-only note close with the questions it
+opens shaped this note's final form.
+
+\begin{thebibliography}{99}
+\footnotesize
+
+\bibitem[AK85]{AK85}
+J.~Akiyama and M.~Kano,
+\emph{Factors and factorizations of graphs --- a survey},
+J.\ Graph Theory \textbf{9} (1985), no.~1, 1--42. Updated and augmented
+in: \emph{Factors and Factorizations of Graphs}, Lecture Notes in Math.\
+\textbf{2031}, Springer, 2011.
+
+\bibitem[BGM11]{BGM11}
+G.~Brinkmann, J.~Goedgebeur and B.~D. McKay,
+\emph{Generation of cubic graphs},
+Discrete Math.\ Theor.\ Comput.\ Sci.\ \textbf{13} (2011), no.~2,
+69--80. Table~1 supplies the connected cubic counts used here; the
+generator is \texttt{snarkhunter}.
+
+\bibitem[HK86]{HK86}
+P.~Hell and D.~G. Kirkpatrick,
+\emph{Packings by complete bipartite graphs},
+SIAM J.\ Algebraic Discrete Methods \textbf{7} (1986), no.~2, 199--209.
+
+\bibitem[KKN01]{KKN01}
+A.~Kaneko, A.~Kelmans and T.~Nishimura,
+\emph{On packing $3$-vertex paths in a graph},
+J.\ Graph Theory \textbf{36} (2001), 175--197.
+
+\bibitem[Kel06]{Kel06}
+A.~Kelmans,
+\emph{Counterexamples to the cubic graph domination conjecture},
+arXiv:math/0607512 (2006).
+
+\bibitem[Kel07]{Kel07}
+A.~Kelmans,
+\emph{Packing $3$-vertex paths in $2$-connected graphs},
+arXiv:0712.4151 (2007); also RUTCOR Research Report RRR 21--2005,
+Rutgers University (2005).
+
+\bibitem[Kel07b]{Kel07b}
+A.~Kelmans,
+\emph{Packing $3$-vertex paths in claw-free graphs},
+arXiv:0711.3871 (2007).
+
+\bibitem[Kel11]{Kel11}
+A.~Kelmans,
+\emph{Packing $3$-vertex paths in cubic $3$-connected graphs},
+arXiv:0910.2766v2 (July~25, 2011); the text records acceptance by
+Discrete Math.\ on August~14, 2009, but no journal version has appeared,
+and the arXiv text is the version of record used here. Problem~1.10 is
+the 1984 problem; Theorem~3.1 is the equivalence theorem; \S6 is the
+$R_s$ construction.
+
+\bibitem[Kel11b]{Kel11b}
+A.~Kelmans,
+\emph{Packing $3$-vertex paths in claw-free graphs and related topics},
+Discrete Appl.\ Math.\ \textbf{159} (2011), no.~2--3, 112--127.
+
+\bibitem[KM04]{KM04}
+A.~Kelmans and D.~Mubayi,
+\emph{How many disjoint $2$-edge paths must a cubic graph have?},
+J.\ Graph Theory \textbf{45} (2004), 57--79.
+
+\bibitem[KMZ05]{KMZ05}
+A.~Kosowski, M.~Ma\l afiejski and P.~\.Zyli\'nski,
+\emph{Parallel processing subsystems with redundancy in a distributed
+environment},
+in: Parallel Processing and Applied Mathematics (PPAM 2005), Lecture
+Notes in Comput.\ Sci.\ \textbf{3911}, Springer, 2006, 1002--1009; cited
+in \cite{Kel11} for the $NP$-hardness of $3$-vertex path packing on cubic
+bipartite planar graphs.
+
+\bibitem[KMZ08]{KMZ08}
+A.~Kosowski, M.~Ma\l afiejski and P.~\.Zyli\'nski,
+\emph{Tighter bounds on the size of a maximum $P_3$-matching in a cubic
+graph},
+Graphs Combin.\ \textbf{24} (2008), no.~5, 461--468.
+
+\bibitem[KS05]{KS05}
+A.~V. Kostochka and B.~Y. Stodolsky,
+\emph{On domination in connected cubic graphs},
+Discrete Math.\ \textbf{304} (2005), no.~1--3, 45--50.
+
+\bibitem[KZ08]{KZ08}
+A.~Kosowski and P.~\.Zyli\'nski,
+\emph{Packing three-vertex paths in $2$-connected cubic graphs},
+Ars Combin.\ \textbf{89} (2008). (The bound quoted here is the one
+recorded as \cite[1.8]{Kel11}.)
+
+\bibitem[McKR86]{McKR86}
+B.~D. McKay and G.~F. Royle,
+\emph{Constructing the cubic graphs on up to $20$ vertices},
+Ars Combin.\ \textbf{21A} (1986), 129--140. Author's copy:
+\url{https://users.cecs.anu.edu.au/~bdm/papers/Gobstoppers.pdf}; the
+connectivity tables there give the $3$-connected counts used above.
+
+\bibitem[McKP14]{nauty}
+B.~D. McKay and A.~Piperno,
+\emph{Practical graph isomorphism, II},
+J.\ Symbolic Comput.\ \textbf{60} (2014), 94--112. Version used:
+\texttt{nauty}~2.9.3 (\texttt{geng}).
+
+\bibitem[Mer99]{genreg}
+M.~Meringer,
+\emph{Fast generation of regular graphs and construction of cages},
+J.\ Graph Theory \textbf{30} (1999), 137--146. (\texttt{genreg}.)
+
+\bibitem[OPG]{OPG}
+\emph{Partition of a cubic $3$-connected graph into paths of length $2$},
+Open Problem Garden, posed by A.~Kelmans, posted March~4, 2013,
+\url{http://www.openproblemgarden.org/op/partition_of_a_cubic_3_connected_graphs_into_paths_of_length_2},
+accessed 2026-08-11.
+
+\bibitem[Reed96]{Reed96}
+B.~Reed,
+\emph{Paths, stars and the number three},
+Combin.\ Probab.\ Comput.\ \textbf{5} (1996), 277--295.
+
+\bibitem[West]{West}
+D.~B. West,
+\emph{Factors in regular graphs}, REGS problem page,
+\url{https://dwest.web.illinois.edu/regs/facreg.html}, accessed
+2026-08-11.
+
+\end{thebibliography}
+
+\end{document}

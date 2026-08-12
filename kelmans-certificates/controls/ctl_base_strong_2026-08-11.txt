@@ -1,0 +1,33 @@
+== base-claim negative control, 3-connectivity filter disabled, orders 10-16 (2026-08-11) ==
+RSUMMARY n=10 read=19 noncubic=0 conn3=19 basefail=0 sfail=0 rcerts=0
+RSUMMARY n=12 read=85 noncubic=0 conn3=85 basefail=0 sfail=0 rcerts=0
+RSUMMARY n=14 read=509 noncubic=0 conn3=509 basefail=0 sfail=0 rcerts=0
+BASEFAIL O???E?oBEAWOKGK_@o?W_
+RSUMMARY n=16 read=4060 noncubic=0 conn3=4060 basefail=1 sfail=0 rcerts=0
+
+== strong-form negative control, filter disabled, orders 8-16, all forms (-strong -z7 -f2) ==
+-- n=8
+   total strong-form failures 0
+   RSUMMARY n=8 read=5 noncubic=0 conn3=5 basefail=0 sfail=0 rcerts=0
+-- n=10
+   F1FAIL 2
+   F2FAIL 52
+   total strong-form failures 54
+   RSUMMARY n=10 read=19 noncubic=0 conn3=19 basefail=0 sfail=54 rcerts=0
+-- n=12
+   Z2FAIL 4
+   Z3FAIL 8
+   Z7FAIL 106
+   Z8FAIL 135
+   total strong-form failures 253
+   RSUMMARY n=12 read=85 noncubic=0 conn3=85 basefail=0 sfail=253 rcerts=0
+-- n=14
+   T2FAIL 145
+   total strong-form failures 145
+   RSUMMARY n=14 read=509 noncubic=0 conn3=509 basefail=0 sfail=145 rcerts=0
+-- n=16
+   BASEFAIL 1
+   F1FAIL 317
+   F2FAIL 15374
+   total strong-form failures 15692
+   RSUMMARY n=16 read=4060 noncubic=0 conn3=4060 basefail=1 sfail=15691 rcerts=0

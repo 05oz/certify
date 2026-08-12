@@ -293,6 +293,63 @@ width equal to an exactly-computed Poisson-binomial tail `T = P(W ≥ WMAX+1)`. 
   novelty/priority) found no MUST-level defect; the decision log ships as `wedge-paper/FIXLOG.md`
   and the dated sweep as [SWEEP-RECORD-WEDGE-2026-08-11.md](SWEEP-RECORD-WEDGE-2026-08-11.md).
 
+## Part I — Kelmans' 1984 problem, verified through 22 vertices (v0.9.0)
+
+**The first recorded computational verification of Kelmans' 1984 problem at any order.**
+Let λ(G) be the maximum number of vertex-disjoint 3-vertex paths in G; counting vertices
+gives λ(G) ≤ ⌊v(G)/3⌋. Kelmans asked in 1984 (Problem 1.10 of arXiv:0910.2766) whether
+equality holds for every cubic 3-connected graph; at orders divisible by 3 this is the
+Akiyama–Kano P₃-factor conjecture, and a positive answer would give Reed's domination
+conjecture for cubic 3-connected graphs. The problem is open, and no computational
+verification of it at any order appears in the record. We supply one: for **every**
+3-connected cubic graph on at most 22 vertices — all **6,339,157** of them —
+**λ(G) = ⌊v(G)/3⌋**, together with the applicable strong forms of Kelmans' equivalence
+theorem ((z2),(z3),(z7),(z8) at orders 6, 12, 18; (t2) at 8, 14, 20; (f1),(f2) at 4, 10, 16
+and (f1) at 22). Those equivalences are constructive, so a single failure at any of these
+orders would have yielded an explicit cubic 3-connected graph of order divisible by 6 with
+no Λ-factor. None was found. Paper: [`kelmans-paper/note.pdf`](kelmans-paper/note.pdf).
+
+- **Reproducible without trusting us.** The public unit is *certificates + standard-library
+  checkers only*. **53,356** Λ-factor certificates ship — all 43,580 through order 22 and
+  9,776 at order 24 — each carrying only a `graph6` string, the vertex triples forming the
+  paths, and the avoided vertices. Two checkers written independently of each other and of
+  the searchers, [`kelmans-scripts/verify_cert.py`](kelmans-scripts/verify_cert.py) and
+  [`kelmans-scripts/refcert.py`](kelmans-scripts/refcert.py), re-derive everything from the
+  `graph6` string: own decoder, cubicity, 3-connectivity re-proved by exhaustive vertex-pair
+  deletion, each triple a path, triples plus avoided vertices a partition with
+  `|avoided| = n mod 3`. Both import only the Python standard library; verified on system
+  CPython 3.9.6 and 3.14.2. **Every one of the 53,356 certificates passes both, 0 rejected.**
+- **Replay the whole corpus now:** `python3 kelmans-scripts/verify_cert.py
+  kelmans-certificates/certs_n*.txt` (about 35 s → `VERIFIED 53356 certificates`).
+- **Two pipelines, no shared code.** Different connectivity tests (bitmask BFS vs.
+  union–find), different search orders, different failure caches; they agree on every count
+  at every order and report zero failures. Generated counts match OEIS A002851 and
+  Brinkmann–Goedgebeur–McKay; filtered counts match OEIS A204198 at every order and
+  McKay–Royle at orders 10–20. Per-slice summaries for both pipelines ship in
+  [`kelmans-certificates/summaries/`](kelmans-certificates/summaries/).
+- **Both failure paths are exercised.** With the 3-connectivity filter disabled the sweep
+  finds the unique sub-3-connected base-claim failure at orders 10–16 (`O???E?oBEAWOKGK_@o?W_`,
+  λ = 4 < 5), and the strong-form paths fire at orders 10, 12, 14, 16 with a recorded
+  per-type breakdown. Each checker rejects eight distinct classes of doctored certificate,
+  each by the gate it targets, with two controls-on-the-controls. See
+  [`kelmans-certificates/controls/`](kelmans-certificates/controls/).
+- **Stated at exactly the strength the recount supports.** Orders ≤ 20 carry the referee's
+  signed verdict of 2026-08-06; order 22's independent recount completed 2026-08-11 (read
+  7,319,447, kept 5,909,292, zero failures, all 5,904 certificates cross-checked with
+  membership and 3-connectivity). **Order 24 is search-side complete only** — 98,101,019
+  graphs, zero failures, counts matching the published enumeration — with **no independent
+  recount**, and is reported at that strength and no higher, in the paper and in
+  [`kelmans-certificates/verdict-n22-24.md`](kelmans-certificates/verdict-n22-24.md).
+- **Not in this deposit:** the two searchers. A reader can re-check every positive answer
+  they gave and reproduce the enumeration counts, but cannot re-run a sweep from this
+  deposit alone; the paper says so in §4. Replay instructions, exact commands and SHA-256
+  hashes: [`kelmans-certificates/REGENERATE.md`](kelmans-certificates/REGENERATE.md).
+- The three-lens review (claims-vs-artifacts, replay with tamper controls,
+  novelty/priority) found two must-fix defects, both about the cited source rather than the
+  computation; the decision log ships as [`kelmans-paper/FIXLOG.md`](kelmans-paper/FIXLOG.md)
+  and the dated sweep as
+  [SWEEP-RECORD-KELMANS-2026-08-11.md](SWEEP-RECORD-KELMANS-2026-08-11.md).
+
 ## Layout
 
 ```
@@ -334,6 +391,14 @@ wedge-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md review log
 wedge-certificates/  5 certificate JSONs (d=3, d=5; WMAX 4/5, plus optional WMAX 6)
                      + two stdlib checkers (check_wedge.py, check_wedge_d5.py); NO generator
 SWEEP-RECORD-WEDGE-2026-08-11.md  dated novelty + verification sweep
+
+  -- Part I: Kelmans' 1984 problem, verified through 22 vertices (v0.9.0) --
+kelmans-paper/       note (LaTeX + PDF + Markdown mirror) + FIXLOG.md review log
+kelmans-certificates/  53,356 Lambda-factor certificates by order + per-slice summaries
+                     + negative controls + both referee verdict records + REGENERATE.md
+kelmans-scripts/     the two independent stdlib checkers (verify_cert.py, refcert.py),
+                     the 3-connectivity recount driver, the control builder; NO searchers
+SWEEP-RECORD-KELMANS-2026-08-11.md  dated novelty + verification sweep
 ```
 
 For Part A, the reduction library and the system generators are intentionally not part of this repository; the published claims are the certificates themselves plus the verification scripts, which are self-contained. For Part B, the generating pipeline **is** included (`qec-scripts/certify.py`, `qec_lib.py`, `run_all.sh`) precisely because it is *not* trusted: it can be deleted and every certificate still verifies.
@@ -342,7 +407,7 @@ For Part A, the reduction library and the system generators are intentionally no
 
 Dual license by content type:
 
-- **Code and machine-readable certificate files** — everything under `scripts/`, `certificates/`, `schema/`, `checker/`, `qec-scripts/`, `qec-certificates/` — are licensed under the **Apache License 2.0** ([LICENSE-CODE](LICENSE-CODE)).
+- **Code and machine-readable certificate files** — everything under `scripts/`, `certificates/`, `schema/`, `checker/`, `qec-scripts/`, `qec-certificates/`, and the corresponding `*-scripts/` and `*-certificates/` directories of the later parts (`tt3-`, `qec1435-`, `cfr-`, `mps-`, `k34-`, `wedge-`, `kelmans-`) — are licensed under the **Apache License 2.0** ([LICENSE-CODE](LICENSE-CODE)).
 - **Documentation and the paper** — `paper/`, `README.md`, `PROVENANCE.md`, and all other prose — are licensed under **CC BY 4.0** ([LICENSE-DOCS](LICENSE-DOCS)).
 
 ## Platforms

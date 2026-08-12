@@ -1,0 +1,15 @@
+== refcert.py, full gates (--n 18 --g6set out_ref/geng18.g6 --check3c), 2026-08-11 ==
+REJECT line 2: triple 9-3-10 is not a path (missing edge)
+REJECT line 3: cover gap: triples+avoided != V
+REJECT line 4: overlap between triples/avoided
+REJECT line 5: avoided count 3 != n mod 3 = 0
+REJECT line 6: g6 not in reference generator stream
+REJECT line 7: g6 decode: bad length
+REJECT line 8: not cubic
+REJECT line 9: not 3-connected
+REFCERT-SUMMARY file=out_ref/ctl_certs_2026-08-11_input.txt ok=1 rejected=8 [membership checked] [3-connectivity checked]
+refcert exit: 1
+
+== refcert.py, membership gate DISABLED (control on the control) ==
+REJECT line 9: not 3-connected
+REFCERT-SUMMARY file=out_ref/ctl_certs_2026-08-11_input.txt ok=2 rejected=7 [3-connectivity checked]

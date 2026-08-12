@@ -1,0 +1,9 @@
+line 1: INTACT -- must be accepted
+line 2: non-path triple (9-3-10) -- path gate
+line 3: cover gap (one triple deleted) -- partition gate
+line 4: overlapping triples -- disjointness gate
+line 5: sub-maximum packing, |avoided|=3 != n mod 3=0 -- avoided-count gate
+line 6: valid certificate for a NON-CANONICAL relabelling (Q??????wF?J?e?D_?w?L?AW?`_?) -- membership gate only
+line 7: graph6 string with one extra character -- length gate
+line 8: one graph6 character flipped -- cubicity gate
+line 9: genuine Lambda-factor certificate for a CONNECTED CUBIC graph that is NOT 3-connected and IS in the geng stream -- only the 3-connectivity gate can reject it
