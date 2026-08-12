@@ -1,0 +1,239 @@
+{
+ "title": "Exact logical error probability of the d=3 rotated surface code, one round, circuit-level depolarizing noise, under the lookup-table (coset-leader) decoder -- supersedes the two-sided bracket of Part H",
+ "model": {
+  "code": "surface_code:rotated_memory_z (Stim generated)",
+  "distance": 3,
+  "rounds": 1,
+  "noise": "circuit-level depolarizing, single parameter p on all four knobs (after_clifford_depolarization, after_reset_flip_probability, before_measure_flip_probability, before_round_data_depolarization)",
+  "p": "1/1000",
+  "stim_version": "1.16.0",
+  "semantics": "Independent-mechanism fault model: each mechanism fires independently with its listed exact rational probability (the exact dyadic value of the IEEE-754 double emitted by Stim's detector_error_model). The certified statement is exact for THIS model; the independent-mechanism approximation of the depolarizing channels is Stim's standard DEM semantics."
+ },
+ "num_detectors": 8,
+ "num_observables": 1,
+ "num_mechanisms": 23,
+ "mechanisms": [
+  {
+   "det": 1,
+   "obs": 0,
+   "p_num": 8906008414848853,
+   "p_den": 4611686018427387904
+  },
+  {
+   "det": 2,
+   "obs": 1,
+   "p_num": 5664055356770377,
+   "p_den": 1152921504606846976
+  },
+  {
+   "det": 3,
+   "obs": 0,
+   "p_num": 8906008414848853,
+   "p_den": 4611686018427387904
+  },
+  {
+   "det": 4,
+   "obs": 0,
+   "p_num": 5359386695126063,
+   "p_den": 1152921504606846976
+  },
+  {
+   "det": 6,
+   "obs": 0,
+   "p_num": 8906008414848853,
+   "p_den": 4611686018427387904
+  },
+  {
+   "det": 8,
+   "obs": 1,
+   "p_num": 316605260367777,
+   "p_den": 144115188075855872
+  },
+  {
+   "det": 12,
+   "obs": 0,
+   "p_num": 1572515926921925,
+   "p_den": 576460752303423488
+  },
+  {
+   "det": 16,
+   "obs": 0,
+   "p_num": 7066332763168153,
+   "p_den": 4611686018427387904
+  },
+  {
+   "det": 17,
+   "obs": 0,
+   "p_num": 2915971529017301,
+   "p_den": 1152921504606846976
+  },
+  {
+   "det": 18,
+   "obs": 0,
+   "p_num": 307445734561719,
+   "p_den": 576460752303423488
+  },
+  {
+   "det": 20,
+   "obs": 0,
+   "p_num": 307445734561719,
+   "p_den": 576460752303423488
+  },
+  {
+   "det": 32,
+   "obs": 1,
+   "p_num": 3833398422294391,
+   "p_den": 1152921504606846976
+  },
+  {
+   "det": 34,
+   "obs": 0,
+   "p_num": 881938157127447,
+   "p_den": 288230376151711744
+  },
+  {
+   "det": 36,
+   "obs": 0,
+   "p_num": 2458254108026289,
+   "p_den": 2305843009213693952
+  },
+  {
+   "det": 40,
+   "obs": 0,
+   "p_num": 307445734561719,
+   "p_den": 576460752303423488
+  },
+  {
+   "det": 48,
+   "obs": 0,
+   "p_num": 2379590304511965,
+   "p_den": 1152921504606846976
+  },
+  {
+   "det": 64,
+   "obs": 0,
+   "p_num": 8277762322992303,
+   "p_den": 2305843009213693952
+  },
+  {
+   "det": 68,
+   "obs": 0,
+   "p_num": 881938157127447,
+   "p_den": 288230376151711744
+  },
+  {
+   "det": 72,
+   "obs": 0,
+   "p_num": 307445734561719,
+   "p_den": 576460752303423488
+  },
+  {
+   "det": 96,
+   "obs": 0,
+   "p_num": 5839336851699515,
+   "p_den": 4611686018427387904
+  },
+  {
+   "det": 128,
+   "obs": 1,
+   "p_num": 5839336851699515,
+   "p_den": 4611686018427387904
+  },
+  {
+   "det": 136,
+   "obs": 0,
+   "p_num": 2915971529017301,
+   "p_den": 1152921504606846976
+  },
+  {
+   "det": 192,
+   "obs": 0,
+   "p_num": 5839336851699515,
+   "p_den": 4611686018427387904
+  }
+ ],
+ "mechanism_list_sha256": "46728ec1d7b20307e7fa5783b4df67d15a20971d9f89b798d5286613c1f53c06",
+ "mechanism_hash_spec": "sha256 over newline-terminated lines 'det:obs:p_num/p_den' in canonical order (ascending by (det, obs)), UTF-8",
+ "decoder_spec": "Lookup-table (coset-leader) decoder. FULL (untruncated) FIFO BFS over the syndrome space {0,1}^n_det from syndrome 0 (weight 0, predicted observable 0), mechanisms applied in canonical index order; first assignment wins. Decoder output D(s) = pred[s]. A fault set F is correctable iff D(sigma(F)) == obs(F). The detector masks span the syndrome space, so every syndrome is assigned. Identical on weight-<=WMAX syndromes to the depth-truncated BFS of the Part H certificates.",
+ "masks_span_syndrome_space": true,
+ "method": "Syndrome-space character sums (Walsh-Hadamard transforms). For y in F_2^{n+1}, a(y) = #{j : <y,v_j> = 0} with v_j = (d_j, o_j). Counting: A_w = 2^{-(n+1)} sum_y I^(y) g_w(a(y)), g_w(k) = [t^w](1+t)^k(1-t)^{m-k}. Probability: P_L = 2^{-(n+1)} sum_y I^(y) prod_{j:<y,v_j>=1}(1-2 p_j), exact in integer arithmetic over the dyadic common denominator. I^ is the transform of the failure indicator [b != D(s)]. The checker re-derives both from the mechanism list alone.",
+ "A_w_full_spectrum": {
+  "0": "0",
+  "1": "0",
+  "2": "55",
+  "3": "690",
+  "4": "4078",
+  "5": "16467",
+  "6": "50769",
+  "7": "124049",
+  "8": "246924",
+  "9": "409196",
+  "10": "570778",
+  "11": "673264",
+  "12": "673672",
+  "13": "572122",
+  "14": "410566",
+  "15": "246886",
+  "16": "123092",
+  "17": "50172",
+  "18": "16399",
+  "19": "4198",
+  "20": "810",
+  "21": "107",
+  "22": "9",
+  "23": "1"
+ },
+ "N_w_logical_spectrum": {
+  "0": "0",
+  "1": "0",
+  "2": "0",
+  "3": "9",
+  "4": "28",
+  "5": "60",
+  "6": "208",
+  "7": "528",
+  "8": "932",
+  "9": "1516",
+  "10": "2248",
+  "11": "2634",
+  "12": "2532",
+  "13": "2228",
+  "14": "1728",
+  "15": "1048",
+  "16": "476",
+  "17": "164",
+  "18": "40",
+  "19": "5",
+  "20": "0",
+  "21": "0",
+  "22": "0",
+  "23": "0"
+ },
+ "circuit_level_distance": 3,
+ "invariants": {
+  "sum_A_w": "4194304",
+  "sum_A_w_equals": "2^(m-1) = 2^22",
+  "sum_N_w": "16384",
+  "sum_N_w_equals": "2^(m-n-1) = 2^14"
+ },
+ "P_L_exact": {
+  "statement": "P_L is the probability that the decoder's predicted observable flip differs from the actual observable flip under the independent-mechanism model of the certificate's mechanism list. The value below is exact (a dyadic rational, reduced).",
+  "num": "3773993425984638696937172732691834945153554714015415242583368248367980226630544357714912919403260394620617982805610883468957855623988643066084753408418525442057369711329415068161640393669453311050036898178699350910515479675543306085749014197301289598468203115675678633055013235621222927112606937801201969",
+  "den": "11235582092889474423308157442431404585112356118389416079589380072358292237843810195794279832650471001320007117491962084853674360550901038905802964414967132773610493339054092829768888725077880882465817684505312860552384417646403930092119569408801702322709406917786643639996702871154982269052209770601514008576",
+  "decimal_shadow": "3.358965645735e-04"
+ },
+ "v1_reference": {
+  "part": "Part H, Certify v0.8.0",
+  "doi": "10.5281/zenodo.21895825",
+  "WMAX": 4,
+  "A_w_certified": {
+   "1": 0,
+   "2": 55,
+   "3": 690,
+   "4": 4078
+  },
+  "bracket_L": "141813881349394559046236396029655401432666867916843375560268411966807290879145004100051665430984700045099007752069073605849220136546362271847753053286090442143325180898854804233347902721546879847198638607703774185420126533893171986791348811700858011216131968384159768095693974423313512920078996625113285891197960777929041252139980569971246426863637093270257409149721413907710929766054535709203754041313749679407029/422195887798433229774352145185468813016238336131097319380815938242257919877032759055678682325872212299032555117279041959654015279739053454668832857993357497160660916766822054198977340111664599558102697040290856557224005740728229651081256478104685172984831138501872159407593068952851198194574416241549499596609861510631826988369559184497748026624786660912594905737228087742453737599954463816552696563892037688613666816",
+  "bracket_U": "4431699988249916646933373518170728690237652024408455406874728476429599638355856318231051573027235403245951776585962838562766371038104509200321994338148838565925350274125179656238437247664924245538112097012526796984143805927083214729967214970961871608994146613426326687539113707516594103585597758404757716903736946349006574812355208953959439610656215947285460196680526974476639359427744764579994092200532768788993/13193621493701038430448504537045900406757448004096791230650498070070559996157273720489958822683506634344767347414970061239187977491845420458401026812292421786270653648963189193718041878489518736190709282509089267413250179397757176596289264940771411655775973078183504981487283404776599943580450507548421862394058172207244593386548724515554625832024583153518590804288377741951679299998576994267271767621626177769177088",
+  "containment": "The exact P_L above lies inside the Part H bracket [L, U]; the checker re-verifies this."
+ }
+}

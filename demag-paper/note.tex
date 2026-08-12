@@ -1,0 +1,500 @@
+%% ==========================================================================
+%% DRAFT -- August 12, 2026. Author byline: Daniel Kirtchakov (05oz,
+%% halfounce.io; no institutional affiliation; ORCID 0009-0009-5213-4098).
+%%
+%% Framing constraints honoured (PROTOCOL section 11): the note opens with the
+%% mathematical question, states the certified object as real mathematics with
+%% the Newell formulas and the interval enclosure made precise, reports the
+%% pathology quantification with rigorous numbers, separates what is certified
+%% from what is enclosed and what is trusted, cites the computation in a single
+%% paragraph, and closes with the questions it opens. Every reported digit-loss
+%% figure is a rigorous consequence of the shipped two-sided enclosure.
+%% ==========================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\emergencystretch=3em
+\tolerance=1200
+\hbadness=4000
+
+\newcommand{\Nxx}{N_{xx}}
+\newcommand{\Nxy}{N_{xy}}
+\newcommand{\Rnorm}{R}
+\newcommand{\asinh}{\operatorname{asinh}}
+\DeclareMathOperator{\atan}{atan}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+
+\begin{document}
+
+\title[Certified Newell demagnetization-tensor tables]{Certified
+demagnetization-tensor reference tables: two-sided rational enclosures of the
+Newell entries, and a rigorous map of where double-precision micromagnetics
+loses its digits}
+
+\author{Daniel Kirtchakov}
+\address{Independent researcher (\texttt{05oz}), Half Ounce Research; no
+institutional affiliation. ORCID 0009-0009-5213-4098.
+\texttt{daniel@halfounce.io} $\cdot$ \texttt{https://halfounce.io}}
+
+\date{Draft of August 12, 2026.}
+
+\begin{abstract}
+Every finite-difference micromagnetic simulator --- OOMMF, MuMax3, magnum.np,
+Fidimag, MagTense, and the newer GPU codes --- builds its demagnetizing field
+from the same analytic object: the Newell demagnetization tensor of a pair of
+uniformly magnetized rectangular cells. It is a textbook fact, documented but
+uncertified, that the closed-form evaluation of this tensor loses all
+significant digits by catastrophic cancellation once the two cells are more
+than a few hundred cell widths apart. We ask whether the tensor entries can be
+pinned rigorously --- by two-sided rational enclosures a skeptic re-derives from
+a small certificate using nothing but a standard-library program --- across the
+whole regime a real simulation uses, including the large-separation regime
+where double precision fails. We give such a certificate. Each entry carries an
+interval $[N_{\mathrm{lo}},N_{\mathrm{hi}}]$ of dyadic rationals with
+$N_{\mathrm{lo}}\le N_{\mathrm{true}}\le N_{\mathrm{hi}}$, obtained by
+evaluating Newell's formulas in interval arithmetic that rounds outward on every
+operation; the transcendental pieces (\texttt{sqrt}, \texttt{atan},
+\texttt{log}) are enclosed by rigorously-truncated series, and everything else
+is exact rational arithmetic. Against these enclosures we measure, rigorously,
+the two floating-point routes a simulator can take: the naive double-precision
+analytic evaluation and OOMMF's asymptotic expansion. The naive analytic route
+degrades by about six correct decimal digits per decade of separation --- from
+$\sim\!15$ digits at one cell to \emph{zero} correct digits near $300$ cells and
+a value with the wrong sign and wrong order of magnitude beyond --- exactly the
+$r^{6}$ law and the $\sim\!300$-cell breakdown that the accuracy literature
+predicts but never certified; the asymptotic route is complementary, poor at
+short range and good at long range, and the crossover is located rigorously.
+The enclosures remain tight to tens of digits everywhere, including where double
+precision has none. A certificate JSON and a standard-library checker that
+re-derives every enclosure, the naive value, and every digit-loss figure from
+scratch --- and rejects tampering at both the hash layer and the mathematical
+re-derivation layer --- are the public unit. We state what is certified, what
+is merely enclosed, and what is trusted, and close with the questions the table
+opens.
+\end{abstract}
+
+\maketitle
+
+\section{The question}
+
+A finite-difference micromagnetic simulation spends almost all of its arithmetic
+on one thing: the demagnetizing (magnetostatic) field. In the energy-based
+discretization used by OOMMF and its descendants the field is a discrete
+convolution of the magnetization with a fixed kernel, the \emph{demagnetization
+tensor} $\mathbf N(\mathbf r)$, whose entry $N_{\alpha\beta}(\mathbf r)$
+measures the magnetostatic interaction between two uniformly magnetized
+rectangular cells separated by $\mathbf r$. The kernel is computed once, at
+setup, from Newell's closed-form analytic formulas \cite{Newell1993}, and it is
+then reused for the life of the simulation. Every reported number a
+micromagnetic study produces --- a switching field, a coercivity, a resonance
+frequency, an energy barrier --- inherits whatever error is in that kernel.
+
+The kernel has a known pathology. Newell's formulas express each tensor entry as
+a fixed linear combination of a transcendental ``governing function'' $f$ (for
+the diagonal entries) or $g$ (for the off-diagonal entries) evaluated at the
+corners of the two cells. Each governing-function value grows like $r^{3}$ with
+the separation $r$, while their combination --- the tensor entry itself --- decays
+like $1/r^{3}$. Evaluated in floating point, the combination is a difference of
+large nearly-equal quantities, and the cancellation is catastrophic.
+Chernyshenko and Fangohr state the consequence precisely: the relative error of
+the double-precision analytic formula ``is of the order $10^{-15}r^{6}$,'' so
+``for cell separations greater than $10^{15/6}\approx 300$ the analytical
+computation will contain no significant digits at all'' \cite[\S II.B]{CF2015}.
+The simulation packages know this and route around it --- OOMMF switches to an
+asymptotic $1/r$ expansion beyond a cutoff radius \cite{CF2015}, and evaluates
+the analytic formula in double-double ($106$-bit) arithmetic below it --- but the
+routing is itself uncertified, and the codes that do neither inherit the failure
+directly.
+
+This note asks a different question. Not ``what is the fastest accurate
+kernel?'' but: \emph{can each tensor entry be bracketed rigorously, by a rational
+interval a stranger re-derives from a small certificate using only a
+standard-library program, across the entire regime a simulation uses --- and can
+the floating-point failure then be measured, rather than merely predicted?} The
+cancellation that defeats double precision is not an obstruction to a
+certificate; it is a statement about working precision, and it is defeated
+outright by carrying the same arithmetic in exact rationals with outward-rounded
+transcendental enclosures. The output is, for each cell aspect ratio, offset
+direction, separation, and tensor component, a pair of dyadic rationals
+$N_{\mathrm{lo}}\le N_{\mathrm{hi}}$ with
+\[
+   N_{\mathrm{lo}} \;\le\; N_{\alpha\beta}(\mathbf r) \;\le\; N_{\mathrm{hi}},
+\]
+together with the naive double value at the same point and a rigorous bracket,
+derived from the enclosure, on how many of its digits are correct. The
+comparison is the contribution: it tells a simulation author exactly where, and
+by how much, their tensor goes wrong.
+
+\section{The certified object}\label{sec:object}
+
+\paragraph{The tensor.}
+Following the convention of \cite{CF2015}, the demagnetization tensor of two
+cells of common volume $|\sigma|=\Delta x\,\Delta y\,\Delta z$ with centre
+offset $\mathbf r$ is
+\begin{equation}
+  \mathbf N(\mathbf r) \;=\; -\frac{1}{4\pi|\sigma|}
+  \int_{\sigma_1}\!\!\int_{\sigma_2(\mathbf r)}
+  \nabla_{\mathbf r_1}\nabla_{\mathbf r_2}\frac{1}{|\mathbf r_1-\mathbf r_2|}
+  \,\mathrm d\mathbf r_2\,\mathrm d\mathbf r_1 ,
+  \label{eq:tensordef}
+\end{equation}
+so that the demagnetizing field is $\mathbf H=-\mathbf N\cdot\mathbf M$; in
+Newell's own notation \cite{Newell1993} this is $H_x=-N_{xx}M_x$, his
+formula~(16). The tensor is symmetric and trace-free for $\mathbf r\neq 0$, and
+the diagonal self-term $\mathbf r=0$ obeys $N_{xx}+N_{yy}+N_{zz}=1$.
+
+\paragraph{Newell's governing functions.}
+The double volume integral in \eqref{eq:tensordef} has a closed form. For the
+diagonal entry, with $R=\sqrt{x^2+y^2+z^2}$,
+\begin{equation}
+  f(x,y,z) = \tfrac16(2x^2-y^2-z^2)R
+  + \tfrac{y}{2}(z^2-x^2)\,\asinh\!\frac{y}{\sqrt{x^2+z^2}}
+  + \tfrac{z}{2}(y^2-x^2)\,\asinh\!\frac{z}{\sqrt{x^2+y^2}}
+  - xyz\,\atan\!\frac{yz}{xR},
+  \label{eq:newellf}
+\end{equation}
+and for the off-diagonal entry,
+\begin{align}
+  g(x,y,z) = {}&{-}\tfrac13 xyR
+  - \tfrac{z^3}{6}\atan\!\frac{xy}{zR}
+  - \tfrac{z y^2}{2}\atan\!\frac{xz}{yR}
+  - \tfrac{z x^2}{2}\atan\!\frac{yz}{xR}
+  + xyz\,\asinh\!\frac{z}{\sqrt{x^2+y^2}} \notag\\
+  &{}+ \tfrac{y}{6}(3z^2-y^2)\asinh\!\frac{x}{\sqrt{y^2+z^2}}
+  + \tfrac{x}{6}(3z^2-x^2)\asinh\!\frac{y}{\sqrt{x^2+z^2}} ,
+  \label{eq:newellg}
+\end{align}
+where $\asinh t=\ln\!\big(t+\sqrt{1+t^2}\big)$. These are the functions
+\texttt{Oxs\_Newell\_f} and \texttt{Oxs\_Newell\_g} of OOMMF's
+\texttt{demagcoef.cc}; we implement them in the mathematically equivalent
+logarithm form the code uses, $\asinh\!\frac{y}{\sqrt{x^2+z^2}}
+=\tfrac12\ln\!\frac{(y+R)^2}{x^2+z^2}$, and we mirror every guard the code takes
+when an argument coordinate vanishes.
+
+\paragraph{The stencil.}
+The tensor entry is a second difference of the governing function in each of the
+three axes, at step equal to the cell edge:
+\begin{equation}
+  \Nxx(\mathbf r) = \frac{1}{4\pi\,\Delta x\,\Delta y\,\Delta z}\,
+  \Delta^{2}_{x}\Delta^{2}_{y}\Delta^{2}_{z}\,[\,f\,](\mathbf r),
+  \qquad
+  \Nxy(\mathbf r) = \frac{1}{4\pi\,\Delta x\,\Delta y\,\Delta z}\,
+  \Delta^{2}_{x}\Delta^{2}_{y}\Delta^{2}_{z}\,[\,g\,](\mathbf r),
+  \label{eq:stencil}
+\end{equation}
+a $27$-point stencil with weights $-1$ at the eight corners, $+2$ at the twelve
+edges, $-4$ at the six faces and $+8$ at the centre. The remaining diagonal and
+off-diagonal entries are coordinate relabelings:
+$N_{yy}(\mathbf r;\Delta)=N_{xx}$ with $(x,\Delta x)\leftrightarrow(y,\Delta y)$,
+$N_{zz}$ with $x\leftrightarrow z$, and $N_{xz},N_{yz}$ from $N_{xy}$ likewise.
+The self-term $\mathbf r=0$ uses Newell's separate closed form for $N_{xx}(0)$
+(\texttt{Oxs\_SelfDemagNx}), which we also carry.
+
+\paragraph{The enclosure, and what is certified.}
+We evaluate \eqref{eq:newellf}--\eqref{eq:stencil} in interval arithmetic over
+dyadic-rational endpoints. Every interval $[a,b]$ rigorously encloses the true
+value; every operation --- addition, multiplication, division, and the three
+transcendentals --- rounds its result \emph{outward} to the grid of denominator
+$D=2^{P}$ (working precision $P=256$ bits, about $77$ decimal digits), which
+keeps the rationals bounded and makes the whole computation deterministic. The
+transcendentals are enclosed from below and above:
+\begin{itemize}
+  \item $\sqrt q$ for a nonnegative rational $q$ by integer square root at the
+  grid scale: with $m=\lfloor\sqrt{\lfloor qD^2\rfloor}\rfloor$ one has
+  $(m/D)^2\le q<((m{+}1)/D)^2$, a two-sided rational bound;
+  \item $\atan t$ by half-angle reduction $\atan t = 2\atan\!\big(t/(1+\sqrt{1+t^2})\big)$
+  until $|t|\le\tfrac12$, then the alternating Maclaurin series, whose truncation
+  error is bounded by the first omitted term;
+  \item $\ln p$ by pulling out powers of two until the mantissa lies in
+  $[\tfrac23,\tfrac43]$, then $2\operatorname{atanh}\frac{m-1}{m+1}$ with a
+  geometric-series tail bound; $\ln 2$ and $\pi$ (Machin's $4\atan\tfrac15-\atan\tfrac1{239}$)
+  are certified once at the same precision.
+\end{itemize}
+What is \emph{certified} is the two-sided inequality $N_{\mathrm{lo}}\le
+N_{\alpha\beta}\le N_{\mathrm{hi}}$ for the analytic Newell tensor entry. What is
+\emph{enclosed} rather than exact are exactly the transcendental pieces, each to
+rigorous rational bounds; the stencil weights, the cell dimensions, the offsets
+and all the surrounding arithmetic are exact. As a numerical anchor, the
+$16$ diagonal and off-diagonal values Donahue computed to $50$ digits in Maple
+and recorded in \texttt{demagcoef.cc} all lie inside our enclosures, and agree
+with their midpoints to at least $49.6$ digits; and an independent
+$220$-digit floating-point evaluation of the same formulas lies inside every
+enclosure of the table.
+
+\begin{remark}[Internal consistency, also certified]\label{rem:consistency}
+The enclosures satisfy the tensor's own structural identities, and the checker
+can test them without any external reference. At every mutual point the interval
+sum $[N_{xx}]+[N_{yy}]+[N_{zz}]$ encloses $0$ (trace-freeness for
+$\mathbf r\neq0$); at the self-term the same sum encloses $1$; and the
+permutation identities among the six components hold as interval containments,
+since $N_{yy},N_{zz},N_{xz},N_{yz}$ are computed by relabeling the \emph{same}
+$f$ and $g$ evaluations that produce $N_{xx}$ and $N_{xy}$. These are not
+independent physical facts to be trusted --- they are consequences of
+\eqref{eq:newellf}--\eqref{eq:stencil} that a rigorous enclosure must respect, and
+their violation would signal a defect in the enclosure itself. Every one holds
+across the table.
+\end{remark}
+
+\section{Where this sits}
+
+The analytic formulas are Newell, Williams and Dunlop's \cite{Newell1993}; the
+reference implementation is Donahue and Porter's OOMMF \cite{OOMMF}, whose
+\texttt{demagcoef.cc} we follow line for line and whose double-double evaluation
+and asymptotic switch are the state of the practice. The large-separation
+cancellation is analysed by Chernyshenko and Fangohr \cite{CF2015}, who give the
+$10^{-15}r^{6}$ error law and the $\approx 300$-cell breakdown, and propose
+numerical integration as an alternative; Bj\o rk and d'Aquino \cite{Bjork2023}
+measure the accuracy of the analytic tensor against the dipolar field across
+prism, tetrahedron and cylinder tiles and report accuracy \emph{plots} out to
+$10^{4}$ tile radii for single and double precision. Both use high-precision
+floating point internally to obtain a reference value ``exact up to machine
+precision'' for their error estimates. None of this work produces a
+\emph{certified} object: the reference values are floating-point, not two-sided
+rigorous enclosures; they are used inside an error study, not published as a
+table a third party can rely on; and there is no checker and no artifact. Our
+same-day novelty sweep (\S\ref{sec:cert}) found no certified or interval-arithmetic
+demagnetization-tensor table anywhere. What is new here is the intersection: a
+rigorous two-sided enclosure of the Newell entries across the simulation regime,
+a rigorous measurement of the double-precision and asymptotic failures against
+those enclosures, and independent re-verification from a standard-library
+checker. We claim that intersection, and no new tensor value or physical result
+within it.
+
+\section{Results}\label{sec:results}
+
+We instantiate the certificate over four cell aspect ratios --- a cube
+$(1,1,1)$, a thin film $(1,1,\tfrac14)$, an elongated cell $(1,1,4)$, and a
+rectangular in-plane cell $(2,1,1)$ --- four offset directions (along $x$, along
+$z$, the in-plane face diagonal, and the body diagonal), and separations from
+one to ten thousand cells, keeping the nonzero components at each point and the
+self-term at the origin --- $862$ certified entries in all.
+Table~\ref{tab:pathology} reads the central result off the canonical case: the
+cube, on-axis $N_{xx}$.
+
+\begin{table}[h]
+\centering
+\caption{Cube cell, on-axis offset $\mathbf r=(n,0,0)$, component $N_{xx}$. The
+certified enclosure midpoint (all endpoints are exact dyadic rationals in the
+certificate); the naive IEEE-754 double analytic value; and rigorous brackets on
+the number of correct significant digits each floating-point route retains,
+derived from the enclosure. ``Naive'' is the double-precision analytic Newell
+stencil; ``asymptotic'' is OOMMF's $1/r$ expansion.}
+\label{tab:pathology}
+\begin{tabular}{r r r r}
+\toprule
+$n$ (cells) & certified $N_{xx}$ (midpoint) & naive double: correct digits &
+asymptotic: correct digits \\
+\midrule
+$1$      & $-1.35017180544\times10^{-1}$ & $15.2$ & $0.5$ \\
+$5$      & $-1.27235750359\times10^{-3}$ & $11.2$ & $5.1$ \\
+$13$     & $-7.24408320619\times10^{-5}$ & $8.6$  & $7.7$ \\
+$21$     & $-1.71854643363\times10^{-5}$ & $7.1$  & $9.0$ \\
+$55$     & $-9.56603669319\times10^{-7}$ & $5.4$  & $11.5$ \\
+$100$    & $-1.59154942396\times10^{-7}$ & $5.1$  & $13.1$ \\
+$300$    & $-5.89462752160\times10^{-9}$ & $\mathbf{0.4}$ & $17.2$ \\
+$500$    & $-1.27323954473\times10^{-9}$ & $-1.0$ & $16.0$ \\
+$1000$   & $-1.59154943092\times10^{-10}$ & $-2.9$ & $16.4$ \\
+$10000$  & $-1.59154943092\times10^{-13}$ & $-8.9$ & $16.3$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The naive analytic route, measured.}
+The correct-digit count of the double-precision analytic evaluation falls by
+almost exactly six per decade of separation --- the signature of the
+$10^{-15}r^{6}$ relative-error law: from $15.2$ digits at one cell to $-8.9$ at
+$n=10^{4}$ is $24.1$ digits over four decades, $6.0$ per decade. It drops below
+a single correct digit near $n=300$ ($0.4$ digits, i.e. essentially no correct
+significant figure, precisely the breakdown \cite{CF2015} predicts) and below
+zero by $n=500$. Beyond that the value is not merely imprecise but wrong: at
+$n=1000$ the naive $-1.14\times10^{-7}$ is three orders of magnitude too large,
+and at $n=10^{4}$ it is $+1.17\times10^{-4}$ --- wrong sign, nine orders of
+magnitude too large --- while the true value is $-1.59\times10^{-13}$. This is a
+kernel entry that a from-scratch double-precision analytic implementation returns
+as garbage, certified as garbage against a rigorous enclosure.
+
+\paragraph{The breakdown radius is not a single number.}
+The ``$\approx 300$ cells'' of \cite{CF2015} is a cube-scale rule of thumb, and
+the certificate shows it is exactly that. Across the four aspect ratios and four
+directions, the separation at which the naive double first reaches zero correct
+digits ranges from about $100$ cells (the elongated cell, off-diagonal
+components) to about $2000$ cells (the thin film's normal component $N_{zz}$,
+which is large and so tolerates more cancellation before the relative error
+reaches one). A thin film loses its \emph{in-plane} $N_{xx}$ near $300$ cells but
+holds its \emph{out-of-plane} $N_{zz}$ to nearly $2000$; an elongated cell is the
+reverse. The certificate records the crossing separation for each of the $50$
+geometry/component combinations, turning a folklore constant into a per-geometry
+map; Table~\ref{tab:breakdown} shows a representative slice.
+
+\begin{table}[h]
+\centering
+\caption{The breakdown radius is geometry-dependent. For a representative set of
+cell/component pairs, the smallest separation $n$ (in cells) at which the naive
+double analytic value first retains \emph{zero} correct significant digits ---
+rigorously determined from the certified enclosure. The ``$\approx 300$'' of
+\cite{CF2015} is the cube scale; real geometries span an order of magnitude
+around it.}
+\label{tab:breakdown}
+\begin{tabular}{l l r}
+\toprule
+cell $(\Delta x,\Delta y,\Delta z)$ & component (direction) & breakdown $n$ \\
+\midrule
+cube $(1,1,1)$          & $N_{xx}$ on-axis                 & $500$ \\
+thin film $(1,1,\tfrac14)$ & $N_{xx}$ in-plane (along $x$) & $300$ \\
+thin film $(1,1,\tfrac14)$ & $N_{zz}$ normal (along $z$)   & $2000$ \\
+elongated $(1,1,4)$     & $N_{xx}$ (along $x$)             & $1000$ \\
+elongated $(1,1,4)$     & $N_{zz}$ (along $z$)             & $200$ \\
+rectangular $(2,1,1)$   & $N_{xy}$ (face diagonal $xy$)    & $200$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The asymptotic route, and the crossover.}
+OOMMF's asymptotic expansion is the mirror image: it is \emph{poor} at short
+range --- $0.5$ correct digits at $n=1$, where the $1/r$ expansion has no right to
+converge --- and good at long range, saturating near $16$ digits (its own
+double-precision floor) beyond a few tens of cells. The two floating-point
+routes therefore cross: for the cube on-axis $N_{xx}$ the naive analytic value is
+the more accurate up to about thirteen cells and the asymptotic from about
+twenty-one on ($8.6$ versus $7.7$ digits at $n=13$; $7.1$ versus $9.0$ at
+$n=21$), and both are dominated everywhere by the certified enclosure. Because
+the enclosure brackets the truth, the crossover radius --- the separation at
+which a simulator should switch formulas --- is itself bracketed rigorously by
+the certificate, per aspect ratio and direction. This is the practical artifact:
+not ``the analytic formula is inaccurate far away,'' but a certified map of which
+formula is trustworthy where.
+
+\paragraph{The enclosures stay tight where double precision has nothing.}
+The point of carrying exact rationals is that the cancellation is defeated, not
+merely diagnosed. At the worst point of the table, the cube on-axis $N_{xx}$ at
+$n=10^{4}$, the certified enclosure has width $\approx 3.6\times10^{-67}$ about a
+value of magnitude $1.6\times10^{-13}$ --- a relative width near $2\times10^{-54}$,
+i.e. the entry is pinned to some fifty-four correct digits exactly where the
+double-precision analytic formula has none. Across the whole table the relative
+enclosure width never exceeds this order. We had pre-registered a kill
+condition: if the certified enclosures could not be made tighter than double
+precision anywhere in the regime of interest, the target dies. They are tighter
+than double precision \emph{everywhere} in the regime, and by tens of digits
+where it matters most. The target is \textsc{live}.
+
+\paragraph{Self-demag factors.}
+As a byproduct the certificate carries the diagonal self-terms $\mathbf r=0$ ---
+the single most-used demag numbers, the thin-film and cube demagnetizing factors
+--- as certified rationals: the cube's $N_{xx}(0)=\tfrac13$ exactly, and the film
+and rod factors to the full working precision. These have no cancellation
+pathology; we include them because a certified reference table of demag
+constants is exactly the kind of common, load-bearing, unowned object this
+program targets.
+
+\section{What is certified, what is enclosed, what is trusted}
+
+\paragraph{Machine-checked, replayable with standard-library Python.}
+The checker reads only the certificate. It (i)~recomputes the SHA-256 of the
+canonical entry list; (ii)~for every entry, re-derives the enclosure by its own
+independent interval arithmetic and Newell evaluation at the certificate's stated
+precision, and verifies that the recomputed rigorous interval lies inside the
+certified $[N_{\mathrm{lo}},N_{\mathrm{hi}}]$ --- which pins
+$N_{\mathrm{lo}}\le N_{\mathrm{true}}\le N_{\mathrm{hi}}$ --- while rejecting an
+enclosure that has been narrowed off the truth, shifted, or implausibly widened;
+(iii)~recomputes the naive double value bit-for-bit and each rigorous digit-loss
+bracket. Any mismatch prints \texttt{CHECK FAIL} and exits nonzero. The checker
+imports only \texttt{sys}, \texttt{json}, \texttt{math}, \texttt{hashlib} and
+\texttt{fractions}; it uses no signals, subprocesses, network or wall-clock, and
+runs unchanged under a clean environment. A tamper battery --- an enclosure
+narrowed to exclude the true value, an enclosure shifted off it, an enclosure
+grossly widened, a corrupted naive value, an altered digit-loss claim, a
+falsified hash --- is rejected nonzero in every case, at the hash layer and, when
+the hash is recomputed to match, at the mathematical re-derivation layer.
+
+\paragraph{Trusted.} Three things, stated plainly.
+\begin{enumerate}
+  \item \emph{The Newell formulas are the object.} The certificate bounds the
+  value of the analytic Newell tensor entry \eqref{eq:newellf}--\eqref{eq:stencil}.
+  Whether that analytic entry is the right physical kernel for a given
+  discretization --- the energy-based averaging, the rectangular-cell assumption
+  --- is Newell's modelling choice \cite{Newell1993}, not something a certificate
+  can establish. We bound the number the simulators actually compute.
+  \item \emph{CPython, the operating system, and the hardware}, for the checker's
+  own exact-rational arithmetic.
+  \item \emph{SHA-256 collision resistance}, for the bookkeeping only; a skeptic
+  can regenerate and re-check every enclosure without trusting any hash.
+\end{enumerate}
+The generator that emitted the certificate is \emph{not} trusted: the checker
+shares no code with it and re-derives every enclosure from scratch, so the
+certificate stands on its own re-derivation, not on its provenance.
+
+\section{The reference table, and certification}\label{sec:cert}
+
+The permanent record is a single certificate JSON --- the method parameters (the
+working precision, the transcendental enclosure scheme, the stencil), and for
+each grid point the certified enclosure, the naive double value, the asymptotic
+value where defined, and the rigorous digit-loss brackets --- together with the
+standard-library checker that re-derives all of it. The two together are the
+public unit; a reader with nothing but CPython replays any enclosure from the
+certificate alone. The novelty sweep (dated, shipped with the artifacts) found
+no certified or interval-arithmetic demagnetization-tensor table in the
+literature: the accuracy studies \cite{CF2015,Bjork2023} use floating-point
+reference values inside error plots, and the newer codes inherit the same
+uncertified kernels. The generator and the search that chose the grid remain
+private, per this program's boundary; they are not needed to check anything.
+
+\section{Questions}
+
+\begin{question}[The certified crossover, shipped to the codes]
+The certificate brackets, per aspect ratio and direction, the separation at
+which OOMMF's asymptotic expansion overtakes the naive analytic formula. Can this
+crossover map be turned into a certified switching rule that a simulator adopts
+directly --- a table of ``use analytic below $n^\ast$, asymptotic above'' with
+$n^\ast$ rigorously bracketed --- and does the double-double arithmetic OOMMF uses
+below the cutoff move $n^\ast$ by exactly the amount the $10^{-15}\to10^{-32}$
+precision change predicts?
+\end{question}
+
+\begin{question}[Certifying the asymptotic tail]
+The asymptotic expansion is itself only enclosed here through its floating-point
+value. Can its truncation error be enclosed rigorously --- a certified remainder
+bound for OOMMF's order-$1/r^{6}$ expansion --- so that, together with the
+analytic enclosure, one obtains a single certified kernel that is tight at
+\emph{every} separation, short and long, with a proof-carrying handover in
+between?
+\end{question}
+
+\begin{question}[Beyond the rectangular prism]
+The tetrahedral and cylindrical tiles of \cite{Bjork2023}, and the periodic and
+spatially-adaptive kernels of the newer codes, share the same cancellation
+structure. Do their governing functions admit the same outward-rounded interval
+treatment, and is the breakdown radius a computable function of the tile geometry?
+\end{question}
+
+\begin{thebibliography}{9}
+\bibitem{Bjork2023} R. Bj\o rk and M. d'Aquino, \emph{Accuracy of the
+demagnetization tensor}, in ``Accuracy of the analytical demagnetization tensor
+for various geometries,'' J. Magn. Magn. Mater. \textbf{587} (2023) 171235
+(S0304885323008958).
+\bibitem{CF2015} D. S. Chernyshenko and H. Fangohr, \emph{Computing the
+demagnetizing tensor for finite difference micromagnetic simulations via
+numerical integration}, J. Magn. Magn. Mater. \textbf{381} (2015) 440--445;
+arXiv:1403.1978.
+\bibitem{Newell1993} A. J. Newell, W. Williams and D. J. Dunlop, \emph{A
+generalization of the demagnetizing tensor for nonuniform magnetization}, J.
+Geophys. Res. Solid Earth \textbf{98}(B6) (1993) 9551--9555.
+\bibitem{OOMMF} M. J. Donahue and D. G. Porter, \emph{OOMMF User's Guide,
+Version 1.0}, Interagency Report NISTIR 6376, NIST (1999); source file
+\texttt{app/oxs/ext/demagcoef.cc}.
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,536 @@
+%% ==========================================================================
+%% DRAFT -- August 12, 2026. Author byline: Daniel Kirtchakov (05oz,
+%% halfounce.io; no institutional affiliation; ORCID 0009-0009-5213-4098).
+%%
+%% Part L (wedge v2). Supersedes the core result of Part H
+%% (doi:10.5281/zenodo.21895825): the two-sided bracket L <= P_L <= U
+%% collapses to the exact rational P_L, and the weight-7 count wall named in
+%% Part H, section 6 falls at d=5. Framing constraints honoured (PROTOCOL
+%% section 11): the note opens with the question Part H itself asked (its
+%% Question 7.1), states the identity as real mathematics with proof, reports
+%% the honest trade (the C(m,w) wall is exchanged for a 2^n wall; d=7 remains
+%% out of reach on a laptop and the note says so precisely), cites the
+%% computation once in a Certification paragraph, and closes with the
+%% questions the computation opens. The novelty claim is scoped to the
+%% intersection recorded in SWEEP-RECORD-WEDGE2-2026-08-12.md; the character
+%% sum is acknowledged as MacWilliams-type and classical in lineage.
+%% ==========================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\emergencystretch=3em
+\tolerance=1200
+\hbadness=4000
+
+\newcommand{\PL}{P_{L}}
+\newcommand{\sig}{\sigma}
+\newcommand{\obs}{\mathrm{obs}}
+\newcommand{\Prb}{\mathbb{P}}
+\newcommand{\Zt}{\mathbb{F}_2}
+\newcommand{\FWHT}{\widehat{\phantom{x}}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+
+\begin{document}
+
+\title[The exact logical error probability]{The exact logical error
+probability of the rotated surface code under a lookup-table decoder:
+syndrome-space character sums collapse a certified bracket to a single
+rational, replayable in the standard library}
+
+\author{Daniel Kirtchakov}
+\address{Independent researcher (\texttt{05oz}), Half Ounce Research; no
+institutional affiliation. ORCID
+\href{https://orcid.org/0009-0009-5213-4098}{0009-0009-5213-4098}.}
+\email{daniel@halfounce.io}
+\urladdr{https://halfounce.io}
+
+\date{August 12, 2026}
+
+\thanks{\textbf{Computation and authorship.} All derivation, implementation,
+verification, and drafting in this work were produced by \textbf{Claude}
+(Anthropic), directed by the author, on a single Apple laptop. The public
+artifact is a certificate together with a checker that imports only the
+Python standard library and shares no code with the engine that produced the
+certificate; the checker re-derives every certified quantity from the
+mechanism list alone. The detector error models are those of Part H
+\cite{PartH}, generated there with Stim 1.16.0 (Gidney), which is a generator
+and is \emph{not} in the trusted base (\S5).}
+
+\thanks{\textbf{Prior-art record.} Novelty was swept on August 12, 2026
+against arXiv and the web; the dated record ships with the artifacts as
+\texttt{SWEEP-RECORD-WEDGE2-2026-08-12.md}. The character-sum technique is
+MacWilliams-type and classical in lineage; the claim is scoped to the
+intersection stated in \S3.}
+
+\begin{abstract}
+Part H of this program \cite{PartH} published machine-checkable two-sided
+rational brackets $L \le \PL \le U$ on the logical error probability of the
+distance-3 and distance-5 rotated surface codes, one round, circuit-level
+depolarizing noise, under a fixed lookup-table (coset-leader) decoder --- and
+named its own frontier: exact re-verification of the uncorrectable-set counts
+at weight 7 exceeds a pure-Python checker, because the shipped method
+enumerates $\binom{77}{7} = 2{,}404{,}808{,}340$ fault sets. This note
+removes both the truncation and the wall at $d \le 5$. A syndrome-space
+character sum (a MacWilliams-type Walsh--Hadamard argument) yields
+\emph{every} uncorrectable count $A_w$, $w = 0, \dots, m$, in a single
+$O(2^n n)$ pass over the $2^n$ syndromes --- no per-weight enumeration ---
+and its probability-weighted variant yields the \emph{exact} rational $\PL$,
+eliminating the bracket altogether. At $d=5$ this delivers the previously
+unreachable $A_7 = 832{,}441{,}445$, the full spectrum through $A_{77} = 1$,
+the undetectable-logical spectrum $N_w$ (re-deriving the circuit-level
+distance~5), and exact dyadic rationals $\PL$ at both published operating
+points, each lying strictly inside the corresponding Part H bracket --- at
+$0.36$ and $0.51$ of the bracket widths, never near an endpoint. A
+standard-library Python checker re-derives all of it from the mechanism list
+alone in about two minutes at $d=5$ within $0.85$ GB, and rejects eight
+classes of tampered certificate. The honest trade: the
+$\binom{m}{w}$ enumeration wall is exchanged for a $2^n$ syndrome-space wall,
+so one-round distance-7 codes ($n \gtrsim 48$ detectors) remain out of reach
+on a laptop by this method, and we state precisely why. The exact values
+supersede the Part H brackets; the brackets survive as the independent check
+the exact values passed.
+\end{abstract}
+
+\maketitle
+
+\section{The question}\label{sec:question}
+
+Part H \cite{PartH} asked whether the logical error probability $\PL$ of a
+quantum error-correcting code, in the deep sub-threshold regime that defeats
+direct Monte Carlo sampling \cite{MWB}, can be pinned by a certificate a
+skeptic replays with nothing but a standard-library Python interpreter. Its
+answer was a two-sided exact-rational bracket $L \le \PL \le U$, built from
+exhaustively enumerated uncorrectable-set counts $A_w$ up to a truncation
+weight $W_{\max}$, with the width $U - L$ a Poisson-binomial tail. Its
+\S6 then located the method's own frontier, and its Question 7.1 asked:
+
+\begin{quote}
+\emph{Is there a proof-carrying counter for the exact weighted enumeration at
+$W_{\max} = 7$ --- a CPOG-style weighted model-counting certificate, or an
+exact locality-exploiting convolution / transfer-matrix --- that a
+standard-library checker can re-verify in minutes rather than hours?}
+\end{quote}
+
+This note answers that question affirmatively at $d \le 5$, and with a
+stronger object than the question requested. The answer is not a faster
+enumeration and not a tighter bracket: a character sum over the syndrome
+space computes all counts $A_w$ simultaneously, with cost independent of the
+weight, and its probability-weighted form computes $\PL$ \emph{exactly} ---
+as a single reduced rational --- so that the truncation weight, the tail, and
+the bracket disappear from the certified statement. The Part H brackets are
+retained by the new certificates in one role only: as published, independent
+enclosures that the exact values are verified to satisfy. Everything else
+about the Part H trust architecture --- the mechanism list as trust root, the
+fixed decoder, the standard-library checker, the private generator --- is
+unchanged, and the new checker re-verifies in two minutes, at all weights at
+once, what the enumeration checker could not reach at weight 7 in hours.
+
+\section{The identity}\label{sec:identity}
+
+\textbf{Model.} Fix a detector error model (DEM): $n$ detectors, one logical
+observable, $m$ independent fault mechanisms; mechanism $j$ carries a
+detector mask $d_j \in \Zt^n$, an observable bit $o_j \in \Zt$, and a
+probability $p_j \in (0,1)$, an exact dyadic rational (the IEEE-754 double
+emitted by Stim). Write $v_j = (d_j, o_j) \in \Zt^{n+1}$. A fault
+configuration $F \subseteq [m]$ has syndrome $\sig(F) = \bigoplus_{j \in F}
+d_j$, observable flip $\obs(F) = \bigoplus_{j \in F} o_j$, weight $|F|$, and
+probability $\Prb(F) = \prod_{j \in F} p_j \prod_{j \notin F} (1 - p_j)$.
+
+\textbf{Decoder.} The decoder $D : \Zt^n \to \Zt$ is the coset-leader lookup
+table of Part H: a full breadth-first search over the syndrome space from the
+zero syndrome, expanding by the mechanism masks in canonical index order,
+first assignment winning; $D(s)$ is the observable flip of the first-found
+minimum-cardinality configuration reaching $s$. In the two DEMs certified
+here the masks span $\Zt^n$, so every syndrome is assigned (the checker
+verifies this), and $F$ is uncorrectable iff $D(\sig(F)) \ne \obs(F)$. On
+syndromes of BFS depth $\le W_{\max}$ this table coincides with the
+depth-truncated table of Part H, so the decoder is the same decoder.
+
+\textbf{The counts, all at once.} For $u \in \Zt^{n+1}$ let $I(u)$ be the
+failure indicator: $I(s, b) = 1$ iff $b \ne D(s)$. Let $A_w$ be the number of
+uncorrectable $F$ with $|F| = w$, and let
+$N_w = \#\{F : |F| = w,\ \sig(F) = 0,\ \obs(F) = 1\}$ count the undetectable
+logical operators, so that the circuit-level distance is $\min\{w : N_w >
+0\}$. For $y \in \Zt^{n+1}$ write $\langle y, u\rangle$ for the standard
+pairing, $\widehat{f}(y) = \sum_u (-1)^{\langle y,u \rangle} f(u)$ for the
+(unnormalised) Walsh--Hadamard transform, and
+\[
+a(y) \;=\; \#\{\, j : \langle y, v_j\rangle = 0 \,\}, \qquad
+g_w(k) \;=\; [t^w]\,(1+t)^k (1-t)^{m-k} .
+\]
+
+\begin{theorem}[Counting identity]\label{thm:star}
+$\displaystyle A_w \;=\; \frac{1}{2^{\,n+1}} \sum_{y \in \Zt^{n+1}}
+\widehat{I}(y)\, g_w(a(y))$, and the same identity with $\widehat{I}$
+replaced by the transform of the indicator of $(0,1)$-cosets gives
+$\displaystyle N_w = \frac{1}{2^{\,n+1}} \sum_{y \in \Zt^{n+1}} (-1)^{y_b}\,
+g_w(a(y))$, where $y = (y_s, y_b)$, $y_s \in \Zt^n$, $y_b \in \Zt$.
+\end{theorem}
+
+\begin{proof}
+Let $N_w(u) = \#\{F : |F| = w,\ \bigoplus_{j \in F} v_j = u\}$. In the group
+algebra of $\Zt^{n+1}$, $\sum_{w,u} N_w(u)\, t^w e_u = \prod_j (1 + t\,
+e_{v_j})$, and the character $\chi_y(e_u) = (-1)^{\langle y,u\rangle}$ maps
+the product to $\prod_j (1 + t(-1)^{\langle y, v_j\rangle}) =
+(1+t)^{a(y)} (1-t)^{m - a(y)}$. Fourier inversion gives $N_w(u) =
+2^{-(n+1)} \sum_y (-1)^{\langle y,u\rangle} g_w(a(y))$, and $A_w = \sum_u
+I(u) N_w(u) = 2^{-(n+1)} \sum_y \widehat{I}(y)\, g_w(a(y))$ by exchanging
+the finite sums. Taking $u = (0,1)$ instead of summing against $I$ gives the
+$N_w$ statement, since $(-1)^{\langle y, (0,1)\rangle} = (-1)^{y_b}$.
+\end{proof}
+
+\begin{theorem}[Exact probability identity]\label{thm:dia}
+$\displaystyle \PL \;=\; \frac{1}{2^{\,n+1}} \sum_{y \in \Zt^{n+1}}
+\widehat{I}(y) \prod_{j\,:\, \langle y, v_j\rangle = 1} (1 - 2p_j)$.
+\end{theorem}
+
+\begin{proof}
+Identical character argument applied to $\prod_j \bigl((1-p_j)\,e_0 + p_j\,
+e_{v_j}\bigr)$: the coefficient of $e_u$ is the total probability of
+$\{F : \bigoplus_{j\in F} v_j = u\}$, and $\chi_y$ maps each factor to
+$(1-p_j) + p_j(-1)^{\langle y, v_j\rangle}$, which is $1$ when
+$\langle y, v_j \rangle = 0$ and $1 - 2p_j$ otherwise. Summing the inverted
+coefficients against $I$ gives $\PL = \sum_u I(u) \cdot [\text{coefficient}]$
+as claimed.
+\end{proof}
+
+Splitting $y = (y_s, y_b)$ makes both identities computable by transforms of
+$n$-bit arrays: with $c(s) = 1$ (all syndromes reachable), $e(s) =
+(-1)^{D(s)}$, one finds $\widehat{I}(y_s, 0) = 2^n[y_s = 0]$ and
+$\widehat{I}(y_s, 1) = -\widehat{e}(y_s)$; and $a(y)$ becomes $a_0(y_s) =
+\#\{j : \langle y_s, d_j\rangle = 0\}$ resp.\ $a_1(y_s) = \#\{j : \langle
+y_s, d_j\rangle = o_j\}$, each obtainable for all $y_s$ from one transform of
+a sparse mask histogram. Four transforms of length $2^n$ therefore produce
+every $A_w$ and every $N_w$; the total cost is $O(2^n n)$ arithmetic
+operations on integers of magnitude at most $2^n$, plus the $O(2^n m)$ BFS
+that builds $D$ --- \emph{independent of $w$}, which is what removes the
+$\binom{m}{w}$ wall. For Theorem~\ref{thm:dia} the product
+$\prod_{\langle y, v_j\rangle = 1} (1 - 2p_j)$ depends only on how many
+mechanisms of each distinct probability class have $\langle y, v_j \rangle =
+1$ (17 classes at $d=5$, 14 at $d=3$), so the exact big-integer assembly
+groups the $2^n$ characters by a class-count key; all denominators are
+powers of two, so the common-denominator scaling is a bit shift and the
+result is a dyadic rational, reduced at the end. Cancellation is severe ---
+the sum is $2^n$ minus a nearly-equal character sum --- which is exactly why
+the arithmetic is exact integers throughout; a floating-point evaluation of
+Theorem~\ref{thm:dia} would be meaningless at these magnitudes.
+
+Two closed-form invariants gate the whole computation.
+
+\begin{proposition}\label{prop:invariants}
+If some $F_0$ satisfies $\sig(F_0) = 0$, $\obs(F_0) = 1$ (true here: $N_5 =
+111 > 0$ at $d = 5$, $N_3 = 9 > 0$ at $d=3$), then $\sum_{w} A_w = 2^{m-1}$.
+If moreover the $(d_j, o_j)$ span $\Zt^{n+1}$ (true here), then $\sum_w N_w
+= 2^{\,m-n-1}$.
+\end{proposition}
+
+\begin{proof}
+$F \mapsto F \,\triangle\, F_0$ is an involution on subsets fixing
+$\sig$ and flipping $\obs$; since $D(\sig)$ is fixed, exactly one of each
+pair is uncorrectable, giving $2^m/2$. The second claim: $F \mapsto
+(\sig(F), \obs(F))$ is a surjective homomorphism $(\Zt^m, \triangle) \to
+\Zt^{n+1}$, so each fiber has $2^{m-(n+1)}$ elements.
+\end{proof}
+
+\section{Where this sits}\label{sec:placement}
+
+The character sum is not new mathematics: computing the probability of
+correct syndrome decoding from coset weight enumerators via MacWilliams-type
+transforms is classical coding theory \cite{JP}. What the classical setting
+lacks is everything the certificate needs: there, the channel is symmetric
+with one parameter and the error positions are the code coordinates; here,
+$m > n$ heterogeneous dyadic mechanisms carry an extra observable bit, the
+decoder is a specific tabulated function fixed by a BFS convention, and the
+output is an exact rational that an independent standard-library checker
+re-derives, hash-bound to a mechanism list. The neighbouring modern
+literature splits as in Part H: estimators return values with error bars
+\cite{MWB, BV}; tensor-network maximum-likelihood computations
+\cite{BSV, DP} are numerically exact floating-point contractions with no
+certified output; closed-form and enumerator-based analyses \cite{Regev,
+FVC} are approximations or code-level bounds, not decoder-specific exact
+values; recent uses of Walsh--Hadamard relations on DEMs
+\cite{Willow, CAHR} estimate or reconstruct the model from data rather than
+certify anything about a decoder; formal verifiers \cite{LeanQEC, VeriQEC}
+machine-check Boolean error-correction conditions, not probabilities. The
+dated sweep (2026-08-12) found no prior exact certified logical error
+probability of a stated decoder on a circuit-level DEM, by transform methods
+or otherwise, with independent standard-library re-verification; we claim
+that intersection and nothing broader, and this note supersedes our own
+Part H bracket \cite{PartH} rather than any external result.
+
+\section{Results}\label{sec:results}
+
+The two DEMs are byte-identical to Part H's (same mechanism lists, same
+SHA-256 hashes): $d = 3$ with $n = 8$, $m = 23$; $d = 5$ with $n = 24$,
+$m = 77$. All counts below are $p$-independent; the exact $\PL$ is computed
+at the two published operating points of each code.
+
+\textbf{The spectra.} At $d = 5$ the transform yields in one pass the full
+uncorrectable spectrum $A_0, \dots, A_{77}$, whose head is
+\[
+A_3 = 2728, \quad A_4 = 154{,}394, \quad A_5 = 4{,}057{,}999, \quad
+A_6 = 67{,}711{,}204, \quad \mathbf{A_7 = 832{,}441{,}445},
+\]
+continuing through $A_{77} = 1$ (the full-support configuration). $A_3,
+A_4, A_5$ equal the Part H certified counts; $A_6$ equals the value of the
+optional $W_{\max} = 6$ certificate of Part H; $A_7$ and beyond are new ---
+weight 7 is precisely where Part H's enumeration hit its wall
+($\binom{77}{7} \approx 2.4 \times 10^9$ subsets, hours of pure-Python
+re-verification). The undetectable-logical spectrum begins $N_5 = 111$,
+$N_6 = 786$, $N_7 = 3706$, re-deriving circuit-level distance $5$ by
+transform rather than enumeration. Both closed-form invariants hold to the
+digit: $\sum_w A_w = 2^{76}$ and $\sum_w N_w = 2^{52}$ (at $d=3$: $2^{22}$
+and $2^{14}$). At $d = 3$ the head $A_2 = 55$, $A_3 = 690$, $A_4 = 4078$
+matches Part H, and $A_5 = 16{,}467$ was confirmed by direct enumeration.
+
+\textbf{The exact values.} Table~\ref{tab:exact} is the core supersession:
+the exact $\PL$ at all four published operating points, with the Part H
+bracket it collapses. Every exact value lies \emph{strictly inside} its
+bracket --- the containment $L < \PL < U$ is verified in exact rational
+arithmetic by the shipped checker, and had it failed the release would have
+stopped, since it would have falsified Part H.
+
+\begin{table}[ht]
+\centering
+\caption{Exact $\PL$ (decimal shadows of exact dyadic rationals; the
+certificates carry full numerators and denominators, e.g.\ 1026/1030 digits
+at $d{=}5$, $p{=}10^{-3}$) against the Part H brackets $[L, U]$. ``Position''
+is $(\PL - L)/(U - L)$.}
+\label{tab:exact}
+\begin{tabular}{lllll}
+\toprule
+code, $p$ & exact $\PL$ & Part H $L$ & Part H $U$ & position \\
+\midrule
+$d{=}3$, $10^{-3}$ & 3.358965645735e-4 & 3.3589593231e-4 & 3.3589715988e-4 & 0.515 \\
+$d{=}3$, $10^{-2}$ & 2.714610979781e-2 & 2.7101553370e-2 & 2.7188139126e-2 & 0.515 \\
+$d{=}5$, $10^{-3}$ & 2.613858119750e-5 & 2.6135024167e-5 & 2.6144956889e-5 & 0.358 \\
+$d{=}5$, $10^{-2}$ & 1.734152068512e-2 & 1.6118428758e-2 & 1.9426205101e-2 & 0.370 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three further consistency checks. The $d{=}5$, $p = 10^{-3}$ exact value
+lies inside the tighter optional $W_{\max}{=}6$ bracket of Part H,
+$[2.6138502142\mathrm{e}{-5},\, 2.6138690261\mathrm{e}{-5}]$, at position
+$0.42$ --- a check about $53\times$ more stringent than the released
+$W_{\max}{=}5$ bracket. The exact values at both $d=5$ points lie inside the
+$10^7$-shot Monte Carlo 95\% confidence intervals recorded in Part H. And at
+$p = 10^{-2}$, $d = 5$ --- the regime where Part H's bracket was honestly
+reported \textbf{DEAD}, $20.5\times$ wider than Monte Carlo --- the exact
+value $1.734152\mathrm{e}{-2}$ settles what the bracket could not resolve:
+the bracket is now beaten not by more shots but by eliminating the
+truncation altogether. The supersession is uniform: where the bracket was
+LIVE it is replaced by the exact value; where it was DEAD it is replaced by
+the exact value; nothing bracketed remains.
+
+\textbf{Independent confirmations (pre-registered standard).} Because the
+headline numbers pass beyond what Part H could re-verify, each was confirmed
+by at least one computational route sharing no arithmetic with the transform
+engine. At $d = 3$, \emph{three} independent exact routes agree digit-for-digit
+on $\PL$ at both operating points: the class-binned character sum
+(Theorem~\ref{thm:dia}), a syndrome-space signed convolution reconstructed
+over 25-bit primes by the Chinese remainder theorem, and a Gray-code full
+enumeration of all $2^{23}$ fault configurations in exact integer
+arithmetic. At $d = 5$, where full enumeration is impossible ($2^{77}$
+configurations), the character-sum values were checked against the
+independent convolution route modulo 24 distinct 25-bit primes ---
+$\approx 600$ bits of agreement --- at both operating points, and the count
+spectrum was checked against every Part H certified count, the $W_{\max}=6$
+engine value, both invariants of Proposition~\ref{prop:invariants}, and Part
+H's Monte Carlo. Before this build, the scoping run had also cross-checked
+$A_7$ by a truncated-BFS Monte Carlo estimator ($z = 0.19$).
+
+\textbf{Certification.} The permanent record is four certificate JSONs ---
+the mechanism list and hash (identical to Part H), the full $A_w$ and $N_w$
+spectra, the circuit-level distance, both invariants, the exact $\PL$
+numerator and denominator, and the cited Part H bracket --- together with
+one standard-library checker, \texttt{check\_wedge2.py}, that re-derives
+every certified quantity from the mechanism list alone: it rebuilds the full
+BFS decoder, verifies spanning, runs the Walsh--Hadamard transforms on
+\texttt{array('q')} buffers, assembles the spectra and the exact rational
+$\PL$ in big-integer arithmetic, and verifies $L \le \PL \le U$ against the
+embedded Part H bracket. It imports only \texttt{hashlib}, \texttt{json},
+\texttt{sys}, \texttt{array}, \texttt{fractions}; no signals, subprocesses,
+network, or wall-clock. Runtime: $0.15$ s at $d=3$; at $d=5$, $129$ s and
+$0.79$--$0.84$ GB peak resident memory per certificate on the build laptop
+(measured with \texttt{/usr/bin/time -l}) --- for comparison, Part H's
+enumeration checker took a comparable $34$ s to certify weights ${\le}5$
+only, ten-plus minutes for ${\le}6$, and hours for ${\le}7$; this checker
+certifies all $78$ weights \emph{and} the exact $\PL$ in two minutes. A
+tamper battery of eight corruptions --- a flipped count, a perturbed
+probability with and without a recomputed hash, an altered $\PL$ digit, a
+swapped observable bit, an overstated distance, a corrupted $N_w$, a shifted
+bracket --- is rejected gate-by-gate on the $d{=}3$ certificate, where the
+battery replays in under a second (\texttt{tamper\_demo\_w2.py}; the
+corruptions are certificate-generic and the script runs against any of the
+four). The
+identity itself ships with a standard-library self-test
+(\texttt{identity\_selftest.py}) that verifies both theorems against brute
+force on random small DEMs, including non-spanning mask sets, in exact
+\texttt{Fraction} arithmetic. The transform engine, like Part H's
+enumeration engine, is private and is not needed to check anything.
+
+\section{What is certified, and what is trusted}\label{sec:trust}
+
+The trust boundary is unchanged from Part H \cite{PartH}, and is restated
+plainly. \textbf{Machine-checked:} everything in \S4 --- spectra,
+invariants, distance, the exact $\PL$, bracket containment --- is re-derived
+by the standard-library checker from the certificate's mechanism list, which
+is hash-pinned and byte-identical to Part H's. \textbf{Trusted:} (1) the
+binding of that mechanism list to Stim's DEM at the stated $p$ lives in the
+private generator and cannot be re-checked from the public artifact; (2) the
+independent-mechanism DEM is Stim's standard approximation of the physical
+depolarizing circuit, and the certified $\PL$ is the DEM's, not the
+circuit's --- Part H measured the gap at $d=5$, $p=10^{-3}$ (a raw-circuit
+Monte Carlo point estimate about $1.17$ standard errors above the DEM
+bracket) and that caveat carries over verbatim; (3) CPython, the OS, the
+hardware; (4) SHA-256, for bookkeeping only. One trusted item is
+\emph{removed}: the depth-truncation soundness argument of Part H (that a
+depth-$W_{\max}$ BFS agrees with the full table on low-weight syndromes) is
+no longer needed, because the checker builds the full table.
+
+\section{The wall that replaces the wall}\label{sec:wall}
+
+Part H's frontier was the enumeration $\binom{m}{w}$; this note's method
+replaces it with the syndrome space $2^n$. The exchange is decisively
+favourable at $d = 5$ --- $2^{24} \approx 1.7 \times 10^7$ versus
+$\binom{77}{7} \approx 2.4 \times 10^9$, with all weights for free --- and
+unfavourable beyond. Every step of the method --- the full BFS decoder, the
+$2^n$-length transforms, the class-binned assembly --- materialises arrays
+of length $2^n$. One round of the distance-7 rotated surface code has $n
+\approx 48$ detectors: $2^{48} \approx 2.8 \times 10^{14}$ syndromes, seven
+orders of magnitude beyond what fits in laptop memory, before any
+arithmetic. The obstruction to doing better is specific and worth naming:
+the masks are local (at $d=5$, every mechanism flips at most two detectors),
+so the mask-side transforms would factor beautifully over any tensor
+decomposition of the syndrome space --- but the decoder $D(s)$ is a
+\emph{global} minimum-cardinality object, defined by a BFS over the whole
+space, and it is $\widehat{e}$, the transform of $(-1)^{D(s)}$, that the
+identities cannot do without. A method that reaches $d = 7$ must either
+localise this global object (a frontier transfer-matrix that carries
+coset-leader information without materialising $2^n$ states) or abandon the
+lookup decoder for one with local structure. We state this as the honest
+limit: \emph{by the method of this note, on a laptop, $d = 7$ circuit-level
+is out of reach, and no amount of engineering of the present checker
+changes that.}
+
+\section{Questions}\label{sec:questions}
+
+\begin{question}
+(Part H's Question 7.2, sharpened.) Is there an exact representation of the
+coset-leader decoder --- or of any explicitly specified decoder of
+comparable quality --- whose failure transform $\widehat{e}$ admits
+evaluation without materialising $2^n$ states, opening $d = 7$ at one round
+to a laptop-checkable exact certificate?
+\end{question}
+
+\begin{question}\label{q:ml}
+The signed syndrome measure $q(s) = \sum_{F : \sig(F) = s} \Prb(F)
+(-1)^{\obs(F)}$, computable exactly by the convolution route used here as a
+cross-check, determines the maximum-likelihood decoder for the observable:
+$D_{\mathrm{ML}}(s) = [q(s) < 0]$. The identities of \S2 apply verbatim to
+\emph{any} tabulated decoder. Can the exact $\PL$ of the maximum-likelihood
+decoder --- the code's true operational figure, Part H's Question 7.4 ---
+be certified at $d = 5$ by combining the two routes, with the sign
+tabulation itself made checker-re-derivable?
+\end{question}
+
+\begin{question}
+Multiple rounds multiply the detector count, so the $2^n$ wall arrives
+immediately even at $d = 3$. Is there a round-by-round factorisation of the
+character sum --- the time direction is where the DEM \emph{is} local ---
+that trades $2^n$ for per-round transforms of the single-round syndrome
+space?
+\end{question}
+
+\begin{question}
+Part H's Question 7.3 (certify the DEM-to-circuit gap) is untouched by this
+note and remains open; the exact DEM value makes it sharper, since the gap
+is now the only distance between the certificate and the physical circuit.
+\end{question}
+
+\section*{Acknowledgments}
+
+This note upgrades Part H of this program and answers its Question 7.1; the
+question, the decoder convention, the DEMs, the operating points, and the
+kill-test record are all Part H's, and the supersession is of our own
+published bracket, not of any external result. The framing that
+sub-threshold logical error rates defeat direct sampling is Mullan,
+Weippert, and Brown's \cite{MWB}. The lookup-table decoder is Tomita and
+Svore's \cite{TS}. The coset-enumerator lineage of the character sum is
+classical \cite{JP}. The detector error models were produced with Stim
+(Craig Gidney), used as an untrusted generator. The computation and drafting
+were AI-assisted as stated in the first footnote; the note's shape --- open
+with the question, cite the computation once, close with the questions it
+opens --- follows the program's standing constraint.
+
+\begin{thebibliography}{99}
+
+\bibitem[PartH]{PartH} D. Kirtchakov, \emph{Certified sub-threshold logical
+error rates: exact uncorrectable-set counts and a two-sided rational bracket
+for the rotated surface code, replayable in the standard library}, Certify
+v0.8.0 (Part H), Zenodo (2026), doi:10.5281/zenodo.21895825.
+
+\bibitem[MWB]{MWB} M. Mullan, M. Weippert and W. Brown, \emph{Improved
+methods for determining quantum error correcting code performance and fault
+tolerance}, arXiv:2607.27153 (2026).
+
+\bibitem[BV]{BV} S. Bravyi and A. Vargo, \emph{Simulation of rare events in
+quantum error correction}, Phys. Rev. A \textbf{88} (2013), 062308.
+
+\bibitem[BSV]{BSV} S. Bravyi, M. Suchara and A. Vargo, \emph{Efficient
+algorithms for maximum likelihood decoding in the surface code}, Phys. Rev.
+A \textbf{90} (2014), 032326; arXiv:1405.4883.
+
+\bibitem[DP]{DP} A. S. Darmawan and D. Poulin, \emph{Tensor-network
+simulations of the surface code under realistic noise}, Phys. Rev. Lett.
+\textbf{119} (2017), 040502; arXiv:1607.06460.
+
+\bibitem[JP]{JP} R. Jurrius and R. Pellikaan, \emph{Codes, arrangements and
+matroids}, in: Algebraic Geometry Modeling in Information Theory, World
+Scientific (2013); and standard references on coset weight enumerators and
+the probability of correct syndrome decoding.
+
+\bibitem[Regev]{Regev} G. Regev, G. Dilley, T. Nutaro, R. Delgado and
+R. Bennink, \emph{Closed form logical error rate approximations for surface
+codes}, arXiv:2605.03054 (2026).
+
+\bibitem[FVC]{FVC} D. Forlivesi, L. Valentini and M. Chiani,
+\emph{Performance analysis of quantum error-correcting codes via MacWilliams
+identities}, Quantum \textbf{9} (2025), 1950; arXiv:2305.01301.
+
+\bibitem[Willow]{Willow} \emph{Estimating detector error models on Google's
+Willow}, arXiv:2512.10814 (2026).
+
+\bibitem[CAHR]{CAHR} \emph{Reconstruction of detector error model for
+quantum error correction}, arXiv:2606.16288 (2026).
+
+\bibitem[LeanQEC]{LeanQEC} K. Ehatamm, S. Lee, Y. Wu and R. Tao,
+\emph{Lean-QEC: machine-checked quantum error-correcting code distances via
+a verified SAT reduction}, arXiv:2605.16523 (2026).
+
+\bibitem[VeriQEC]{VeriQEC} C. Huang et al., \emph{Veri-QEC: verifying error
+correction and detection conditions for quantum error correcting codes},
+Proc. ACM Program. Lang. (2025), DOI 10.1145/3729293.
+
+\bibitem[TS]{TS} Y. Tomita and K. M. Svore, \emph{Low-distance surface codes
+under realistic quantum noise}, Phys. Rev. A \textbf{90} (2014), 062320.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,377 @@
+%% ==========================================================================
+%% ADDENDUM to Part G (Certify v0.7.0, DOI 10.5281/zenodo.21890619),
+%% "An Erdos--Rado oriented Ramsey number determined: k(3,4)=r(I_3,L_4)=21".
+%% DRAFT -- August 11, 2026. Author byline: Daniel Kirtchakov (05oz,
+%% halfounce.io; no institutional affiliation; ORCID 0009-0009-5213-4098).
+%%
+%% Answers Question 8.1 of Part G in the negative, at exactly the strength
+%% independently certified here: at least THIRTEEN pairwise non-isomorphic
+%% {I_3,TT_4}-free oriented graphs on 20 vertices exist, all rigid.
+%% Novelty swept clean on the drafting date (2026-08-11): the value
+%% k(3,4)=21 has no prior appearance beyond Part G (erdosproblems.com/112
+%% OPEN; IRW the only paper on r(I_m,L_n)), so a fortiori its extremal
+%% multiplicity is new.  Framing per PROTOCOL section 11: open with the
+%% question, cite computation in one paragraph, close with open questions.
+%% ==========================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\emergencystretch=3em
+\tolerance=1200
+\hbadness=4000
+
+\newcommand{\TT}[1]{\mathrm{TT}_{#1}}
+\newcommand{\I}[1]{I_{#1}}
+\newcommand{\QR}{\mathrm{QR}_7}
+\newcommand{\Aut}{\mathrm{Aut}}
+\DeclareMathOperator{\Cay}{Cay}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+
+\begin{document}
+
+\title[The $k(3,4)=21$ extremal graph is not unique]{The extremal graph
+for $k(3,4)=r(I_3,L_4)=21$ is not unique: thirteen rigid witnesses, and a
+forced Paley tournament}
+
+\author{Daniel Kirtchakov}
+\address{Independent researcher (\texttt{05oz}); no institutional
+affiliation. ORCID:
+\href{https://orcid.org/0009-0009-5213-4098}{0009-0009-5213-4098}.}
+\email{daniel@halfounce.io}
+\urladdr{https://halfounce.io}
+
+\thanks{\emph{Computation and authorship.} All witnesses, checkers, and
+enumerations in this note were produced by \textbf{Claude} (Anthropic),
+directed by the author, on a single Apple~M4 laptop. The three shipped
+checkers import only the Python standard library and share no code with
+the search that produced the witnesses; the tournament and rigidity facts
+were re-established here by code written from scratch. This addendum uses
+no propositional solver: every claim is a finite check a reader can rerun.}
+
+\thanks{\emph{Prior-art record.} This note answers Question~8.1 of the
+companion determination \cite{PartG} of $k(3,4)=21$. The value was
+absent from the literature before \cite{PartG}: the Erd\H{o}s problems
+entry \cite{Blo} (\#112) records no exact $k(n,m)$, and \cite{IRW21}
+remains the only paper on $r(I_m,L_n)$. A novelty sweep on the drafting
+date, August~11, 2026, found nothing on the number of extremal
+$\{I_3,\TT{4}\}$-free graphs on $20$ vertices, which is a fortiori new.
+\emph{Draft of August~11, 2026.}}
+
+\subjclass[2020]{Primary 05C55; Secondary 05C20, 05D10, 68V15}
+\keywords{Oriented graph, Ramsey number, transitive tournament,
+independent set, extremal graph, Paley tournament, rigidity, certified
+computation}
+
+\date{August 11, 2026}
+
+\begin{abstract}
+The companion note \cite{PartG} determines the Erd\H{o}s--Rado oriented
+Ramsey number $k(3,4)=r(I_3,L_4)=21$ by an explicit $\{I_3,\TT{4}\}$-free
+oriented graph $W$ on $20$ vertices together with a certified exhaustion
+at $21$ vertices, and asks (Question~8.1) whether $W$ is the unique such
+graph. We answer in the negative. There are at least thirteen pairwise
+non-isomorphic $\{I_3,\TT{4}\}$-free oriented graphs on $20$ vertices,
+and every one of the thirteen is \emph{rigid} (trivial automorphism
+group), so the extremal configuration is far from a single symmetric
+object. We record the local structure they share as a
+short forcing lemma: in any $\{I_3,\TT{4}\}$-free oriented graph a vertex
+has at most $7$ non-neighbours, and a vertex with exactly $7$ carries a
+copy of the Paley tournament $\QR=\Cay(\mathbb{Z}_7,\{1,2,4\})$ as its
+non-neighbourhood. Finally the algebraic route falls short: the largest
+$\{I_3,\TT{4}\}$-free tournament blow-up has only $14$ vertices, six short
+of the extremal order, and the thirteen exhibited witnesses are rigid
+rather than Cayley. We close with the sharpened question of whether a
+$\QR$ block is unavoidable in every witness.
+\end{abstract}
+
+\maketitle
+
+\section{The question}\label{sec:q}
+
+An \emph{oriented graph} is a loopless digraph with at most one arc
+between any two vertices. Write $\I{n}$ for the independent set on $n$
+vertices and $\TT{m}$ (equivalently $L_m$) for the transitive tournament
+on $m$ vertices; call an oriented graph \emph{free} if it contains
+neither $\I{3}$ nor $\TT{4}$. For a vertex $w$ let $N^{+}(w)$, $N^{-}(w)$,
+$I(w)$ be its out-neighbours, in-neighbours, and non-neighbours, and call
+$(p,q,s)=(|N^{+}(w)|,|N^{-}(w)|,|I(w)|)$ the \emph{type} of $w$, so
+$p+q+s=|V|-1$. The companion note \cite{PartG} proves
+$k(3,4)=r(I_3,L_4)=21$: every oriented graph on $21$ vertices contains an
+$\I{3}$ or a $\TT{4}$, and the explicit $20$-vertex graph $W$ of its
+Table~1 is free. Its Question~8.1 asks:
+
+\begin{quote}
+\emph{Is $W$ the unique free oriented graph on $20$ vertices up to
+isomorphism? If not, what is the number of extremal graphs, and does any
+admit an algebraic description?}
+\end{quote}
+
+The first part has a clean negative answer.
+
+\begin{theorem}\label{thm:main}
+There are at least thirteen pairwise non-isomorphic free oriented graphs
+on $20$ vertices. Every one of the thirteen is rigid: its automorphism
+group is trivial. In particular $W$ is not the unique $20$-vertex
+extremal graph.
+\end{theorem}
+
+The thirteen graphs are $W$ itself together with twelve further free
+graphs; all thirteen are printed as arc lists with the artifacts. Each of
+the thirteen is in particular not vertex-transitive, since a
+vertex-transitive graph on $n\ge 2$ vertices has $|\Aut|\ge n$. We
+prove Theorem~\ref{thm:main} by direct verification
+(\S\ref{sec:witnesses}); the local structure that the thirteen share is
+explained by the forcing lemma of \S\ref{sec:qr7}; and the sense in which
+the algebraic construction falls short is made precise in
+\S\ref{sec:blowup}.
+
+\section{The witnesses}\label{sec:witnesses}
+
+Table~\ref{tab:inv} lists the thirteen graphs by three isomorphism
+invariants: the number of arcs, the degree sequence of the
+non-adjacency graph $\overline{N}$ (whose edges are the non-adjacent
+pairs, so the $\overline{N}$-degree of $w$ is $s=|I(w)|$), and the number
+of vertices of type $s=7$. By Lemma~\ref{lem:forcing} below the last
+column equals the number of induced $\QR$ blocks.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lccc}
+\toprule
+witness & arcs & $\overline{N}$-degree sequence & $\#\{s{=}7\}=\#\QR$ blocks\\
+\midrule
+$w_{1}=W$ & $126$ & $7^{11}\,6^{6}\,5^{3}$ & $11$\\
+$w_{2}$   & $125$ & $7^{12}\,6^{6}\,5^{2}$ & $12$\\
+$w_{3}$   & $128$ & $7^{6}\,6^{12}\,5^{2}$ & $6$\\
+$w_{4}$   & $125$ & $7^{12}\,6^{6}\,5^{2}$ & $12$\\
+$w_{5}$   & $126$ & $7^{11}\,6^{6}\,5^{3}$ & $11$\\
+$w_{6}$   & $123$ & $7^{14}\,6^{6}$        & $14$\\
+$w_{7}$   & $126$ & $7^{9}\,6^{10}\,5^{1}$ & $9$\\
+$w_{8}$   & $126$ & $7^{12}\,6^{4}\,5^{4}$ & $12$\\
+$w_{9}$   & $124$ & $7^{14}\,6^{4}\,5^{2}$ & $14$\\
+$w_{10}$  & $127$ & $7^{8}\,6^{10}\,5^{2}$ & $8$\\
+$w_{11}$  & $124$ & $7^{13}\,6^{6}\,5^{1}$ & $13$\\
+$w_{12}$  & $125$ & $7^{13}\,6^{4}\,5^{3}$ & $13$\\
+$w_{13}$  & $125$ & $7^{11}\,6^{8}\,5^{1}$ & $11$\\
+\bottomrule
+\end{tabular}
+\caption{The thirteen free graphs on $20$ vertices. Even this coarse
+fingerprint separates all thirteen: no two rows agree in all three
+columns (e.g.\ $w_1$ and $w_5$ share the first and second, but their full
+relation matrices differ; see the certification). Arc counts range over
+$123$--$128$ and the number of $\QR$ blocks over $6$--$14$.}
+\label{tab:inv}
+\end{table}
+
+Each $w_i$ was verified free by an exhaustive test over all
+$\binom{20}{3}=1140$ triples (none independent) and all
+$\binom{20}{4}=4845$ quadruples (none a $\TT{4}$: a quadruple is a
+$\TT{4}$ exactly when its six pairs are all adjacent and its four in-set
+out-degrees are $0,1,2,3$). Rigidity, $|\Aut(w_i)|=1$, was certified two
+independent ways: Weisfeiler--Leman colour refinement reaches twenty
+distinct colours, so any automorphism fixes every vertex; and an explicit
+automorphism backtracker returns count $1$. Pairwise non-isomorphism was
+decided by a canonical form read off the discrete refinement, and
+cross-checked by the invariant fingerprint of Table~\ref{tab:inv}, which
+already separates all thirteen; no two are isomorphic.
+
+\begin{remark}
+The thirteen are only a lower bound on the extremal population. They were
+obtained by completing random partial orientations to free graphs and
+discarding isomorphic duplicates; in that sampling every completion that
+survived deduplication was a new isomorphism class, which suggests --- but
+does not prove --- that the family is large. Theorem~\ref{thm:main}
+claims only what the thirteen exhibited certificates establish.
+\end{remark}
+
+\section{A forced Paley block}\label{sec:qr7}
+
+The thirteen witnesses have no global symmetry, yet they share a rigid
+local feature, visible in the last column of Table~\ref{tab:inv}: each
+carries several induced copies of the Paley tournament. This is forced by
+freeness alone.
+
+\begin{lemma}[$\QR$ forcing]\label{lem:forcing}
+Let $D$ be a free oriented graph and $w$ a vertex. Then $I(w)$ induces a
+tournament with no transitive subtournament on $4$ vertices; consequently
+$|I(w)|\le 7$, and if $|I(w)|=7$ then $I(w)$ induces a tournament
+isomorphic to the Paley tournament $\QR=\Cay(\mathbb{Z}_7,\{1,2,4\})$.
+\end{lemma}
+
+\begin{proof}
+If two vertices $x,y\in I(w)$ were non-adjacent, then $\{w,x,y\}$ would be
+an $\I{3}$; so every pair inside $I(w)$ is adjacent and $I(w)$ induces a
+tournament. A transitive subtournament on $4$ vertices inside $I(w)$ is a
+$\TT{4}$ of $D$ (for a tournament target, induced and subdigraph
+containment coincide), so $I(w)$ is $\TT{4}$-free.
+
+It remains to bound and identify a $\TT{4}$-free tournament $T$. Every
+tournament on $8$ vertices contains a transitive subtournament on $4$
+vertices --- the tournament Ramsey value is $v(4)=8$ --- so $|V(T)|\le 7$;
+and the unique tournament on $7$ vertices with no transitive
+subtournament on $4$ vertices is the quadratic-residue tournament $\QR$
+\cite{SanchezFlores98,ErdosMoser64}. Applying this to $T=I(w)$ gives
+$|I(w)|\le 7$, with equality forcing $I(w)\cong\QR$.
+\end{proof}
+
+Both tournament inputs were re-established here from scratch, by
+exhaustive enumeration: there are exactly $240$ labelled $\TT{4}$-free
+tournaments on $7$ vertices, and every one is isomorphic to $\QR$ (so the
+class is unique; and $240=7!/|\Aut(\QR)|$ with $|\Aut(\QR)|=21$), while
+there are none on $8$ vertices. This matches the certified block
+inventory of \cite[Prop.~3.3]{PartG} and the classical characterisation
+\cite{SanchezFlores98}.
+
+\begin{corollary}\label{cor:s7}
+In any free oriented graph every vertex has at most $7$ non-neighbours;
+and a vertex has exactly $7$ non-neighbours if and only if its
+non-neighbourhood is a copy of $\QR$.
+\end{corollary}
+
+Corollary~\ref{cor:s7} is the endpoint $|I(w)|\le 7$ that drives the
+counting bound of \cite[\S3]{PartG}. It also explains the last column of
+Table~\ref{tab:inv}: in each witness the number of induced $\QR$ blocks
+equals the number of type-$s{=}7$ vertices, which was confirmed
+independently. Every one of the thirteen has between $6$ and $14$ such
+vertices, so $\QR$ appears in each; whether it must appear in \emph{every}
+free graph on $20$ vertices is left open in \S\ref{sec:open}.
+
+\section{The algebraic route falls short}\label{sec:blowup}
+
+The natural algebraic construction from $\QR$ is a blow-up, and it falls
+well short of the extremal order.
+
+\begin{proposition}\label{prop:blowup}
+Let $T$ be a tournament and $m\ge 1$, and let $T[\I{m}]$ be the
+lexicographic blow-up in which each vertex of $T$ is replaced by an
+independent $m$-set. Then $T[\I{m}]$ is free if and only if $m\le 2$ and
+$T$ is $\TT{4}$-free. Consequently the largest free graph of the form
+$T[\I{m}]$ is $\QR[\I{2}]$ on $14$ vertices, which gives only
+$k(3,4)\ge 15$.
+\end{proposition}
+
+\begin{proof}
+In $T[\I{m}]$ two vertices are adjacent exactly when they lie in
+different groups (within a group there are no arcs; between groups the
+arc follows $T$, which is a tournament). Hence the underlying graph is
+complete multipartite with parts of size $m$, its independence number is
+$m$, and $T[\I{m}]$ is $\I{3}$-free iff $m\le 2$. A set of pairwise
+adjacent vertices meets each group at most once, so it projects
+injectively onto a subtournament of $T$ and the projection is an
+isomorphism of induced sub-oriented-graphs; thus $T[\I{m}]$ contains a
+$\TT{4}$ iff $T$ does. Combining the two, $T[\I{m}]$ is free iff $m\le 2$
+and $T$ is $\TT{4}$-free. The largest $\TT{4}$-free tournament is $\QR$ on
+$7$ vertices (Lemma~\ref{lem:forcing}), so the largest such blow-up is
+$\QR[\I{2}]$ on $2\cdot 7=14$ vertices.
+\end{proof}
+
+The bound $k(3,4)\ge 15$ of Proposition~\ref{prop:blowup} is six short of
+the truth $21$: the extremal order is $20$, but the best tournament
+blow-up reaches $14$. The thirteen witnesses that reach the extremal
+order are rigid (Theorem~\ref{thm:main}), hence not vertex-transitive,
+hence not Cayley digraphs; and they are not blow-ups, since a proper
+blow-up has two vertices with identical neighbourhoods and every $w_i$
+has twenty distinct colour classes under refinement. In the language of
+\cite[\S8.1]{PartG}, where the extremal graph for $k(3,3)=9$ is a single
+circulant, the picture at $(3,4)$ is the opposite: the extremal graph is
+not unique, and the thirteen exhibited here are aperiodic and
+non-algebraic, with $\QR$ surviving only as a forced local block.
+
+\section{Certification}\label{sec:cert}
+
+The thirteen witnesses (as arc lists) and three standard-library checkers
+are deposited with this note in the program's public certificate
+repository \emph{Certify}
+(\href{https://github.com/05oz/certify}{github.com/05oz/certify};
+concept DOI \href{https://doi.org/10.5281/zenodo.21799111}{10.5281/zenodo.21799111}),
+as Part~J. From each witness's arc list alone, \texttt{verify\_witnesses.py}
+re-derives validity as an oriented graph, freeness over all
+$\binom{20}{3}$ triples and $\binom{20}{4}$ quadruples, rigidity
+(Weisfeiler--Leman refinement to twenty singleton colours, cross-checked
+by an explicit automorphism count), and pairwise non-isomorphism (a
+canonical form from the discrete refinement, cross-checked by the
+invariant fingerprint of Table~\ref{tab:inv}); \texttt{verify\_qr7\_lemma.py}
+enumerates the labelled $\TT{4}$-free tournaments on $7$ and $8$ vertices
+($240$, all isomorphic to $\QR$; and $0$) and reports $|\Aut(\QR)|=21$;
+and \texttt{blowup\_bound.py} checks $\QR[\I{2}]$ and $\QR[\I{3}]$. All
+three checkers import only the Python standard library, share no code
+with the search that produced the witnesses, and return \textsc{pass}.
+
+\section{The sharpened question}\label{sec:open}
+
+Question~8.1 of \cite{PartG} is answered: $W$ is not unique, and the
+extremal count is at least $13$. The thirteen exhibited here are rigid,
+hence none is vertex-transitive or Cayley; whether \emph{some other}
+extremal graph might still be algebraic is not decided here. Three
+questions remain.
+
+\begin{question}\label{q:forced}
+Is a $\QR$ block unavoidable? Equivalently, does every free oriented
+graph on $20$ vertices have a vertex of type $s=7$?
+\end{question}
+
+By Corollary~\ref{cor:s7} a vertex of type $s=7$ is exactly a vertex
+whose non-neighbourhood is a $\QR$; so Question~\ref{q:forced} asks
+whether the propositional instance ``free on $20$ vertices with every
+vertex having at most $6$ non-neighbours'' is unsatisfiable. All thirteen
+exhibited witnesses carry between $6$ and $14$ such vertices, so $\QR$ is
+present in each, but this is evidence, not a proof; the all-vertices-%
+$s\le 6$ instance was not decided in a short trial and a certified answer
+belongs to a dedicated computation.
+
+\begin{question}
+What is the exact number of free graphs on $20$ vertices? The thirteen
+here are a lower bound; the sampling behaviour suggests a large family,
+but no count is certified.
+\end{question}
+
+\begin{question}
+Can the counting slack of \cite[\S8.1]{PartG} --- the cap of $24$ vertices
+against the true maximum of $20$ --- be explained structurally, for
+instance through the forced $\QR$ and Bermond blocks? Such an explanation
+would bear on both the exact count and a human-readable upper bound.
+\end{question}
+
+\begin{thebibliography}{9}
+
+\bibitem{Ber74} J.-C. Bermond, \emph{Some Ramsey numbers for directed
+graphs}, Discrete Math. \textbf{9} (1974), 313--321.
+
+\bibitem{Blo} T. F. Bloom, \emph{Erd\H{o}s Problem \#112},
+\url{https://www.erdosproblems.com/112}, accessed 2026-08-11.
+
+\bibitem{ErdosMoser64} P. Erd\H{o}s and L. Moser, \emph{On the
+representation of directed graphs as unions of orderings}, Magyar Tud.
+Akad. Mat. Kutat\'o Int. K\"ozl. \textbf{9} (1964), 125--132.
+
+\bibitem{IRW21} F. Ihringer, D. Rajendraprasad and T. Weinert,
+\emph{New bounds on the Ramsey number $r(I_m,L_n)$}, Discrete Math.
+\textbf{344} (2021), no. 3, 112268. Also arXiv:1707.09556.
+
+\bibitem{PartG} D. Kirtchakov, \emph{An Erd\H{o}s--Rado oriented Ramsey
+number determined: $k(3,4)=r(I_3,L_4)=21$, by explicit witness and
+certified exhaustion}, Certify (2026), version DOI
+\href{https://doi.org/10.5281/zenodo.21890619}{10.5281/zenodo.21890619}.
+
+\bibitem{SanchezFlores98} A. S\'anchez-Flores, \emph{On tournaments free
+of large transitive subtournaments}, Graphs Combin. \textbf{14} (1998),
+181--200.
+
+\end{thebibliography}
+
+\end{document}

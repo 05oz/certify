@@ -350,6 +350,111 @@ no Λ-factor. None was found. Paper: [`kelmans-paper/note.pdf`](kelmans-paper/no
   and the dated sweep as
   [SWEEP-RECORD-KELMANS-2026-08-11.md](SWEEP-RECORD-KELMANS-2026-08-11.md).
 
+## Part K — certified Newell demagnetization-tensor reference table (staged; v0.11.0 proposed)
+
+**Two-sided rational enclosures of the Newell demagnetization-tensor entries, and a rigorous
+map of where double-precision micromagnetics loses its digits.** Every finite-difference
+micromagnetic simulator — OOMMF, MuMax3, magnum.np, Fidimag, MagTense — builds its demagnetizing
+field from the same analytic object: Newell's demagnetization tensor of a pair of uniformly
+magnetized rectangular cells (Newell–Williams–Dunlop, *J. Geophys. Res.* 98 (1993) 9551). It is
+documented but uncertified that the closed-form evaluation loses all significant digits to
+catastrophic cancellation once the cells are more than a few hundred cell widths apart
+(Chernyshenko–Fangohr, arXiv:1403.1978: relative error `~10^-15 r^6`, no significant digits past
+`~300` cells). We pin each entry with a certified interval `[N_lo, N_hi]` of dyadic rationals,
+`N_lo ≤ N_true ≤ N_hi`, obtained by evaluating Newell's formulas in outward-rounded interval
+arithmetic (77-digit working precision; `sqrt`, `atan`, `log` enclosed by rigorously-truncated
+series), and measure the floating-point failure against it. Paper:
+[`demag-paper/note.pdf`](demag-paper/note.pdf).
+
+- **The pathology, certified.** For the canonical cube on-axis `Nxx`, the naive double-precision
+  analytic value falls by ~6 correct decimal digits per decade of separation — from **15.2** digits
+  at one cell to **0.4** near `n = 300` (no correct significant figure, the documented breakdown)
+  to **−8.9** at `n = 10^4`, where it returns `+1.2×10^-4` for a true value of `−1.6×10^-13`
+  (wrong sign, nine orders of magnitude too large). The breakdown radius is **not** a universal
+  300: across common geometries it ranges from `~100` cells (elongated cells, off-diagonal) to
+  `~2000` (a thin film's out-of-plane `Nzz`); the certificate maps it for each of 50
+  geometry/component pairs. OOMMF's asymptotic expansion is the mirror image — poor at short range,
+  good at long — and the crossover is bracketed rigorously.
+- **Tighter than double precision everywhere.** At the worst point (`n = 10^4`) the enclosure is
+  ~54 digits tight where double precision has none. Pre-registered kill condition (DEAD if
+  enclosures cannot beat double precision anywhere in the regime): **not triggered — LIVE.**
+- **Reproducible without trusting us.** The public unit is *certificate JSON + standard-library
+  checker only.* [`demag-certificates/check_demag.py`](demag-certificates/check_demag.py)
+  re-derives every enclosure by its own independent interval arithmetic and Newell evaluation,
+  verifies containment (`N_lo ≤ N_true ≤ N_hi`) with a width-sanity bound, recomputes each naive
+  double bit-for-bit, recomputes every rigorous digit-loss bracket, and re-tests the tensor's own
+  identities (trace encloses 0 at all 136 mutual points; each self-term's three diagonals sum to
+  enclose 1). It imports only `sys, json, math, hashlib, fractions`; no signals, subprocesses,
+  network, or wall-clock. **All 862 entries: `CHECK PASS`.**
+- **Replay now:** `python3 demag-certificates/check_demag.py
+  demag-certificates/demag_certificate.json --sample 40` (seconds → `CHECK PASS` on a
+  deterministic sample); the full 862-entry verification is `CHECK PASS` in ≈7.5 min. Independent
+  anchor: `python3 demag-scripts/anchor_check.py` confirms the 16 OOMMF/Maple 50-digit gold values
+  agree with the recomputed enclosures to ≥49.6 digits; `python3 demag-scripts/tamper_demo.py`
+  runs six corruption controls, all rejected.
+- **Trust root, stated plainly.** The certificate bounds the value of the *analytic Newell tensor
+  entry* the simulators compute; whether that entry is the right physical kernel for a given
+  discretization is Newell's modelling choice, cited not claimed. The generator and the
+  interval/Newell engine that built the certificate are **not** in this repository; the checker
+  shares no code with them and re-derives everything from the certificate alone. Build/verification
+  log: [`demag-paper/FIXLOG.md`](demag-paper/FIXLOG.md); dated sweep:
+  [SWEEP-RECORD-DEMAG-2026-08-12.md](SWEEP-RECORD-DEMAG-2026-08-12.md).
+
+## Part L — the exact logical error probability (staged; v0.12.0 proposed)
+
+**The Part H bracket, collapsed to a single exact rational — and the weight-7 wall broken at
+d≤5.** Part H (v0.8.0, DOI [10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825))
+certified two-sided rational brackets `L ≤ P_L ≤ U` on the logical error probability of the
+d=3 and d=5 rotated surface codes (one round, circuit-level depolarizing noise, lookup-table
+coset-leader decoder) and named its own frontier: exact re-verification at weight 7 exceeds a
+pure-Python checker, because it enumerates `C(77,7) = 2,404,808,340` fault sets. This part
+removes both the truncation and the wall: a syndrome-space character sum (a MacWilliams-type
+Walsh–Hadamard argument, Theorems 2.1–2.2 of the note) computes **every** uncorrectable count
+`A_w` in one `O(2^n n)` pass — delivering the previously unreachable **`A_7 = 832,441,445`**
+and the full spectrum through `A_77 = 1` — and its probability-weighted variant computes the
+**exact** dyadic-rational `P_L`, eliminating the bracket. At all four published operating
+points the exact value lies strictly inside the Part H bracket (positions 0.36–0.52 of the
+width), inside the tighter optional WMAX=6 bracket at d=5, p=1/1000, and inside both 10^7-shot
+MC confidence intervals. Paper: [`wedge2-paper/note.pdf`](wedge2-paper/note.pdf).
+
+- **Supersedes our own Part H core result, and nothing external.** The brackets survive inside
+  the new certificates in one role: as published independent enclosures the exact values are
+  verified to satisfy. The DEMs, decoder, hashes, and trust architecture are Part H's,
+  byte-identical.
+- **Reproducible without trusting us.** The public unit is *certificates + standard-library
+  checker only*: [`wedge2-certificates/check_wedge2.py`](wedge2-certificates/check_wedge2.py)
+  rebuilds the full BFS decoder, verifies syndrome-space spanning, runs the Walsh–Hadamard
+  transforms on `array('q')` buffers, and re-derives the full `A_w` and `N_w` spectra, the
+  circuit-level distance, two closed-form invariants (`sum A_w = 2^{m-1}`,
+  `sum N_w = 2^{m-n-1}`), the exact `P_L` numerator/denominator, and the Part H bracket
+  containment. Imports only `hashlib, json, sys, array, fractions`; no signals, subprocesses,
+  network, or wall-clock. **All four certificates: `CHECK PASS`.**
+- **Replay now:** `python3 wedge2-certificates/check_wedge2.py
+  wedge2-certificates/certificate_d3_r1_p1over1000_exact.json` (0.15 s → `CHECK PASS`); the
+  d=5 certificates verify in ≈129 s each within 0.85 GB. Identity self-test:
+  `python3 wedge2-scripts/identity_selftest.py` (both theorems vs. exact brute force on random
+  small DEMs). Tamper battery: `python3 wedge2-scripts/tamper_demo_w2.py
+  wedge2-certificates/check_wedge2.py wedge2-certificates/certificate_d3_r1_p1over1000_exact.json`
+  (8/8 corruption classes rejected).
+- **Verification battery behind the release:** at d=3, three independent exact routes
+  (character sum, CRT-reconstructed syndrome convolution, Gray-code full 2^23 enumeration)
+  agree digit-for-digit at both operating points; at d=5 the character-sum values were checked
+  against the independent convolution route modulo 24 distinct 25-bit primes (~600 bits of
+  agreement) and the spectrum against every Part H certified count plus both invariants.
+  Log: [`wedge2-paper/FIXLOG.md`](wedge2-paper/FIXLOG.md).
+- **The honest trade, stated in §6 of the note:** the `C(m,w)` enumeration wall is exchanged
+  for a `2^n` syndrome-space wall. One-round d=7 has n≈48 detectors (`2^48` syndromes), so d=7
+  remains out of reach on a laptop by this method; the obstruction (the global
+  minimum-cardinality decoder blocks localisation) is named precisely, and the note's
+  questions ask for the structure that would break it.
+- **Trust root unchanged:** the mechanism list (hash-pinned, identical to Part H) and its
+  private binding to Stim's DEM; the certified `P_L` is the DEM's, not the physical
+  circuit's. Dated sweep:
+  [SWEEP-RECORD-WEDGE2-2026-08-12.md](SWEEP-RECORD-WEDGE2-2026-08-12.md).
+- **Release note for the principal:** `.zenodo.json` currently names v0.10.0 (Part J,
+  staged); when Part L's turn comes it must name v0.12.0 (the pre-push hook enforces this).
+  Proposed order: v0.10.0 (k34add) → v0.11.0 (demag) → v0.12.0 (wedge2).
+
 ## Layout
 
 ```
@@ -399,6 +504,22 @@ kelmans-certificates/  53,356 Lambda-factor certificates by order + per-slice su
 kelmans-scripts/     the two independent stdlib checkers (verify_cert.py, refcert.py),
                      the 3-connectivity recount driver, the control builder; NO searchers
 SWEEP-RECORD-KELMANS-2026-08-11.md  dated novelty + verification sweep
+
+  -- Part K: certified Newell demagnetization-tensor table (staged; v0.11.0 proposed) --
+demag-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
+demag-certificates/  demag_certificate.json (862 certified enclosures) + stdlib checker
+                     (check_demag.py); NO generator, NO interval/Newell engine
+demag-scripts/       anchor_check.py (16 OOMMF/Maple gold values) + tamper_demo.py (6 controls)
+SWEEP-RECORD-DEMAG-2026-08-12.md  dated novelty + verification sweep
+
+  -- Part L: the exact logical error probability (staged; v0.12.0 proposed) --
+wedge2-paper/        note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
+wedge2-certificates/ 4 exact-P_L certificate JSONs (d=3, d=5; p=1/1000, 1/100; full A_w and
+                     N_w spectra + exact rational P_L) + stdlib checker (check_wedge2.py);
+                     NO generator, NO transform engine
+wedge2-scripts/      identity_selftest.py (both theorems vs. brute force, stdlib) +
+                     tamper_demo_w2.py (8 controls)
+SWEEP-RECORD-WEDGE2-2026-08-12.md  dated novelty + verification sweep
 ```
 
 For Part A, the reduction library and the system generators are intentionally not part of this repository; the published claims are the certificates themselves plus the verification scripts, which are self-contained. For Part B, the generating pipeline **is** included (`qec-scripts/certify.py`, `qec_lib.py`, `run_all.sh`) precisely because it is *not* trusted: it can be deleted and every certificate still verifies.
@@ -407,7 +528,7 @@ For Part A, the reduction library and the system generators are intentionally no
 
 Dual license by content type:
 
-- **Code and machine-readable certificate files** — everything under `scripts/`, `certificates/`, `schema/`, `checker/`, `qec-scripts/`, `qec-certificates/`, and the corresponding `*-scripts/` and `*-certificates/` directories of the later parts (`tt3-`, `qec1435-`, `cfr-`, `mps-`, `k34-`, `wedge-`, `kelmans-`) — are licensed under the **Apache License 2.0** ([LICENSE-CODE](LICENSE-CODE)).
+- **Code and machine-readable certificate files** — everything under `scripts/`, `certificates/`, `schema/`, `checker/`, `qec-scripts/`, `qec-certificates/`, and the corresponding `*-scripts/` and `*-certificates/` directories of the later parts (`tt3-`, `qec1435-`, `cfr-`, `mps-`, `k34-`, `wedge-`, `kelmans-`, `demag-`, `wedge2-`) — are licensed under the **Apache License 2.0** ([LICENSE-CODE](LICENSE-CODE)).
 - **Documentation and the paper** — `paper/`, `README.md`, `PROVENANCE.md`, and all other prose — are licensed under **CC BY 4.0** ([LICENSE-DOCS](LICENSE-DOCS)).
 
 ## Platforms
