@@ -469,9 +469,6 @@ MC confidence intervals. Paper: [`wedge2-paper/note.pdf`](wedge2-paper/note.pdf)
   private binding to Stim's DEM; the certified `P_L` is the DEM's, not the physical
   circuit's. Dated sweep:
   [SWEEP-RECORD-WEDGE2-2026-08-12.md](SWEEP-RECORD-WEDGE2-2026-08-12.md).
-- **Release note for the principal:** `.zenodo.json` currently names v0.10.0 (Part J,
-  staged); when Part L's turn comes it must name v0.12.0 (the pre-push hook enforces this).
-  Proposed order: v0.10.0 (k34add) → v0.11.0 (demag) → v0.12.0 (wedge2).
 
 ## Layout
 
@@ -539,7 +536,7 @@ wedge2-scripts/      identity_selftest.py (both theorems vs. brute force, stdlib
                      tamper_demo_w2.py (8 controls)
 SWEEP-RECORD-WEDGE2-2026-08-12.md  dated novelty + verification sweep
 
-  -- Part M: certified ZEFOZ brackets, 167Er3+:Y2SiO5 (staged; v0.13.0 proposed) --
+  -- Part M: certified ZEFOZ brackets, 167Er3+:Y2SiO5 (v0.13.0) --
 zefoz-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
 zefoz-certificates/  certificate2.json (time-reversal identity; 2 zero-field points; 20
                      Krawczyk existence points with gradient/Hessian/signature brackets)

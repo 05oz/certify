@@ -1,0 +1,24 @@
+{
+ "chunk": [
+  87.5,
+  62.5,
+  37.5
+ ],
+ "half": 0.390625,
+ "site": 1,
+ "boxes": 177,
+ "excl_events": 3024,
+ "closed_boxes": 153,
+ "residual_boxes": 16,
+ "residual_volume_mT3": 0.3343448042869568,
+ "depth_hist": {
+  "0.78125": 1,
+  "0.390625": 3,
+  "0.1953125": 20,
+  "0.09765625": 153
+ },
+ "pair_survivors": {},
+ "budget_exhausted": true,
+ "rmin": 0.09,
+ "wall_s": 340.4
+}

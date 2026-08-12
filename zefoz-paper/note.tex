@@ -1,0 +1,610 @@
+%% ==========================================================================
+%% DRAFT -- August 12, 2026. Author byline: Daniel Kirtchakov (05oz,
+%% halfounce.io; no institutional affiliation; ORCID 0009-0009-5213-4098).
+%%
+%% Framing constraints honoured (PROTOCOL section 11): the note opens with the
+%% mathematical question, states every certified object precisely, separates
+%% what is certified from what is enclosed and what is trusted, reports the
+%% pre-registered kill condition and its measured statistics as plainly as the
+%% positive results, cites the computation in a single paragraph, and closes
+%% with the questions it opens.
+%% ==========================================================================
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\emergencystretch=3em
+\tolerance=1200
+\hbadness=4000
+
+\newcommand{\mT}{\mathrm{mT}}
+\newcommand{\MHz}{\mathrm{MHz}}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\tr}{tr}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}[theorem]{Question}
+
+\begin{document}
+
+\title[Certified brackets at the ZEFOZ points of
+$^{167}$Er$^{3+}$:Y$_2$SiO$_5$]{Certified brackets at the published ZEFOZ
+points of $^{167}$Er$^{3+}$:Y$_2$SiO$_5$: existence, curvature, and the
+measured cost of a completeness certificate}
+
+\author{Daniel Kirtchakov}
+\address{Independent researcher (\texttt{05oz}), Half Ounce Research; no
+institutional affiliation. ORCID 0009-0009-5213-4098.
+\texttt{daniel@halfounce.io} $\cdot$ \texttt{https://halfounce.io}}
+
+\date{Draft of August 12, 2026.}
+
+\begin{abstract}
+The magnetic-field points at which a hyperfine transition frequency of
+$^{167}$Er$^{3+}$:Y$_2$SiO$_5$ is stationary --- the ZEFOZ
+(zero-first-order-Zeeman) points --- set the predicted coherence times of a
+leading solid-state quantum-memory platform.  The published atlas of these
+points (Matsuura et al., Phys.\ Rev.\ B \textbf{113}, 085421 (2026);
+arXiv:2412.10126) is produced by Newton iteration from finite grids of starting
+fields, and its authors state plainly that the number of points found depends
+on the initial grid.  Two questions follow.  First: do the published points
+survive rigorous scrutiny --- does a true stationary point of the exact spin
+Hamiltonian provably exist near each tabulated field, and can its location,
+frequency, and curvature (the quantity that sets the predicted $T_2$) be pinned
+by two-sided bounds a skeptic can re-derive with a standard-library program?
+Second: can the published list be proven \emph{complete} over an explicit field
+box at laptop scale?  To the first question we give a full positive answer: for
+each of the twenty tabulated nonzero-field points of both crystallographic
+sites we certify, in exact rational arithmetic, eigenvalue and transition
+brackets of width $4\times10^{-10}$~MHz, a gradient-norm bound
+$|\nabla f|\le 3.2\times10^{-37}$~MHz/mT at an exactly specified rational
+field, two-sided brackets on all three eigenvalues of the $3\times3$ frequency
+Hessian, its signature, and --- by a Krawczyk contraction with a rigorous
+third-derivative bound --- the existence and local uniqueness of an exact
+stationary point within $2.9\times10^{-14}$~mT of the stated field.  The
+certified signatures show that none of the twenty published points is a local
+minimum of its transition frequency: thirteen are saddles and seven are local
+maxima.  At zero field we certify exactly, by an explicit time-reversal
+identity, that all 120 transitions of both sites are stationary, with certified
+curvature brackets for the ten published zero-field pairs.  To the second
+question the answer is a documented negative: a pre-registered kill condition
+for the completeness search fired.  Certified branch-and-bound exclusion over
+the box $\|B\|_\infty\le100$~mT, measured on stratified sample chunks, gives a
+strict lower bound above $10^{6}$ laptop-hours against a pre-registered budget
+of $200$; the
+obstruction --- quasi-degenerate hyperfine doublets that force per-level
+spectral-gap machinery below its validity radius --- is quantified.  Three
+errata in the reference paper are recorded, with version history: a
+load-bearing sign error in a printed quadrupole matrix that stood for eleven
+months (v1, v2; corrected upstream in v3), two tabulated frequencies
+inconsistent with their own stationary points by $2.7$ and $4.3$~MHz
+(certified restatements given), and an inconsistent sign pairing in a printed
+field vector.  The certificate and a standard-library checker are the public
+unit.
+\end{abstract}
+
+\maketitle
+
+\section{The question}\label{sec:question}
+
+A hyperfine transition of an $^{167}$Er$^{3+}$ ion in Y$_2$SiO$_5$ has a
+frequency $f_{ij}(B)=\lambda_j(B)-\lambda_i(B)$, the difference of two
+eigenvalues of a $16\times16$ effective spin Hamiltonian depending on the
+applied magnetic field $B\in\mathbb R^3$.  At a field where $\nabla
+f_{ij}(B)=0$ --- a ZEFOZ point \cite{Fraval2004} --- the transition is
+first-order insensitive to magnetic noise, and the residual dephasing is set by
+the second-order response, i.e.\ by the $3\times3$ Hessian of $f_{ij}$.
+Operating at such points is the standard route to long spin coherence in
+rare-earth quantum memories \cite{Zhong2015,Ortu2601}, and for
+$^{167}$Er$^{3+}$:Y$_2$SiO$_5$ --- a rare-earth system combining a
+telecom-band optical interface with a nuclear spin --- the atlas of ZEFOZ
+points and their curvatures published by Matsuura, Yasui, Kaji, Sasakura,
+Tawara, and Adachi \cite{Matsuura} is the design input for spin-wave storage
+proposals \cite{Matsuura,Business2606}.
+
+That atlas is numerical in an essential way.  The points are found by Newton
+iteration from finite grids of initial fields, and the authors state the
+consequence themselves: ``because the total number of ZEFOZ points found
+depends on the initial grid conditions, the initial magnetic fields for the
+search were established by combining the three conditions below''
+\cite[App.~D]{Matsuura}.  No error bounds accompany the tabulated locations,
+frequencies, or curvatures; nothing excludes further points; and, as we found
+in the course of this work (Section~\ref{sec:errata}), the printed inputs of
+the calculation carried a load-bearing sign error through two arXiv versions.
+
+We therefore ask two questions, of different difficulty.
+
+\begin{question}\label{q:certify}
+Near each published ZEFOZ field, does a stationary point of the \emph{exact}
+transition frequency provably exist?  Can its location, its frequency, and the
+full spectrum of its Hessian be enclosed in two-sided brackets that are
+machine-checkable from first principles --- exact rational arithmetic on the
+published Hamiltonian --- by a program short enough to audit, with no trust in
+the software that produced the brackets?
+\end{question}
+
+\begin{question}\label{q:complete}
+Can the published list be proven \emph{complete} --- every stationary point of
+every one of the 120 transitions enumerated --- over an explicit field box, at
+laptop scale?
+\end{question}
+
+Question~\ref{q:certify} we answer in full (Theorems~\ref{thm:zero} and
+\ref{thm:points}).  Question~\ref{q:complete} carried a pre-registered kill
+condition, and the kill condition fired; Section~\ref{sec:kill} reports the
+measured exclusion statistics that fired it and the structural obstruction they
+expose.  Both outcomes are results, and both are recorded with the same
+precision.
+
+\section{The model and its exact rationalization}\label{sec:model}
+
+The ground-manifold ($^{4}I_{15/2}$, $Z_1$) effective Hamiltonian of
+$^{167}$Er$^{3+}$:Y$_2$SiO$_5$ used throughout \cite{Matsuura} is
+\begin{equation}\label{eq:H}
+H(B) \;=\; \mathbf I\cdot A\,\mathbf S \;+\; \mathbf I\cdot Q\,\mathbf I
+\;+\; \mu_B\, B\cdot g\,\mathbf S \;-\; \mu_N\, g_n\, B\cdot \mathbf I ,
+\end{equation}
+with electron spin $S=1/2$, nuclear spin $I=7/2$ (dimension $16$), field $B$ in
+the optical frame $(D_1,D_2,b)$, and $A$, $Q$, $g$ the site-dependent
+$3\times3$ matrices printed in \cite[App.~B]{Matsuura} (v3), attributed there
+to Wang et al.\ \cite{Wang2023}.  We adopt every printed entry exactly as a
+rational number, take $\mu_B/h=13.996244936$~MHz/mT and
+$\mu_N/h=7.622593285\times10^{-3}$~MHz/mT (CODATA truncations, again as exact
+rationals), $g_n=-0.1618$ as printed, and both crystallographic sites.  The
+only irrationalities in $H(B)$ are the nuclear ladder amplitudes $\sqrt7$,
+$\sqrt{12}$, $\sqrt{15}$; the certificate encloses them in rational intervals
+validated by squaring, and all further arithmetic is exact rational
+rectangle-interval arithmetic with outward rounding.  Levels
+$\lambda_0\le\dots\le\lambda_{15}$ are indexed ascending, $f_{ij}=\lambda_j-
+\lambda_i$, and all bracket claims below are claims about the exact spectrum of
+the exact matrix \eqref{eq:H}: every stated interval contains the corresponding
+true value.  (Whether \eqref{eq:H} with these matrices describes the physical
+crystal is a separate, experimental question; the certificate is unconditional
+about the mathematics and silent about the spectroscopy.)
+
+\section{Certified statements}\label{sec:results}
+
+\subsection{Zero field}\label{sec:zero}
+
+\begin{theorem}[exact zero-field stationarity]\label{thm:zero}
+Let $M\in\{0,\pm1\}^{16\times16}$ be the signed permutation
+$M=R^{(1/2)}\otimes R^{(7/2)}$, $R^{(j)}\lvert j,m\rangle=(-1)^{\,j-m}\lvert
+j,-m\rangle$.  Then, as an exact identity of matrices over
+$\mathbb Q[\sqrt7,\sqrt{12},\sqrt{15}]$, for both sites,
+\[
+M\,\overline{H_0}\,M^{\mathsf T}=H_0,\qquad
+M\,\overline{Z_k}\,M^{\mathsf T}=-Z_k\quad(k=1,2,3),
+\]
+where $H_0=H(0)$ and $Z_k=\partial H/\partial B_k$.  Consequently
+$H(-B)=MH(B)^{\mathsf T}M^{\mathsf T}$, the spectrum of $H(B)$ is even in $B$;
+and since the certificate also proves the sixteen zero-field levels of each
+site simple (disjoint brackets of width $2\times10^{-10}$~MHz), every level is
+analytic near $B=0$ and
+\[
+\nabla f_{ij}(0)=0 \qquad\text{exactly, for all } 0\le i<j\le15,
+\text{ both sites.}
+\]
+\end{theorem}
+
+This upgrades the folklore statement that ``at zero field all transitions are
+ZEFOZ'' to a machine-checked identity: the checker verifies the symbolic
+transform entry-by-entry in $\mathbb Q[\sqrt d]$ and the simplicity via
+Sylvester inertia counts (below).  For the ten zero-field pairs tabulated in
+\cite[Table~4]{Matsuura} the certificate additionally carries two-sided
+brackets on all three eigenvalues of each Hessian $\nabla^2 f_{ij}(0)$
+(Section~\ref{sec:method}); for example, for site~1 $(i,j)=(7,9)$ the certified
+Hessian spectrum is $\{-11.9910\ldots,\,+1.6899\ldots\times10^{-4},\,
++1.1300\ldots\}$~MHz/mT$^2$, each bracket of width below $2.1\times10^{-9}$.  The
+signatures are mixed: none of the ten published zero-field transitions has a
+definite Hessian, so at zero field each of these frequencies is a saddle in
+$B$.
+
+\subsection{The twenty published nonzero-field points}\label{sec:points}
+
+\begin{theorem}[certified brackets, curvature, and existence]\label{thm:points}
+For each of the twenty entries of \cite[Table~5]{Matsuura} (ten per site)
+there is an exactly specified rational field $B^*$ (dyadic, denominator
+$2^{120}$), within the rounding radius of the published coordinates, such that
+the certificate proves:
+\begin{enumerate}
+\item[(i)] brackets of width $2\times10^{-10}$~MHz for all sixteen
+$\lambda_n(B^*)$, hence a bracket of width $4\times10^{-10}$~MHz for
+$f_{ij}(B^*)$;
+\item[(ii)] $\lvert\nabla f_{ij}(B^*)\rvert \le 3.2\times10^{-37}$~MHz/mT;
+\item[(iii)] two-sided brackets, of width at most $2.1\times10^{-15}$~MHz/mT$^2$,
+for the three eigenvalues of $\nabla^2 f_{ij}(B^*)$, with certified signs;
+\item[(iv)] existence and uniqueness of a point $\hat B$ with $\nabla
+f_{ij}(\hat B)=0$ in the box $B^*+[-r,r]^3$, $r=2^{-45}\,\mT\approx
+2.9\times10^{-14}\,\mT$ (Krawczyk contraction; worst-case contraction ratio
+$0.096$ over the twenty points).
+\end{enumerate}
+\end{theorem}
+
+\begin{corollary}[certified stationary-point types]\label{cor:sig}
+Of the twenty published ZEFOZ points, none is a local minimum of its
+transition frequency.  All ten site-1 points and the three site-2 points
+$(5,6)$, $(5,7)$, $(6,7)$ have certified signature $(-,-,+)$ (saddles); the
+remaining seven site-2 points, including the optimal $(14,15)$ transition of
+\cite{Matsuura}, have signature $(-,-,-)$ (local maxima).
+\end{corollary}
+
+The Hessian brackets are the certified form of the quantity the application
+consumes: in the noise model of \cite[Eq.~(8)]{Matsuura} the predicted $T_2$ at
+a ZEFOZ point is a function of the second-order response along the noise
+distribution, i.e.\ of the enclosed Hessian; every curvature number a
+proposal takes from \cite{Matsuura} can now be taken with a proof.  For the
+site-2 $(14,15)$ point singled out in \cite{Matsuura} the certified Hessian
+spectrum is
+$\{-1.65241\times10^{-4},\,-8.94878\times10^{-5},\,-1.44676\times10^{-6}\}$
+MHz/mT$^2$ (brackets of width $<3\times10^{-16}$), and the certified field is
+$\hat B=(-378.9856,\,+73.2675,\,+502.3521)$~mT $\pm\,2.9\times10^{-14}$~mT ---
+which also settles the sign question of Section~\ref{sec:errata}, item (E3).
+
+\subsection{Method, in brief}\label{sec:method}
+
+All claims reduce to rational inequalities verified by the checker; the
+mathematical ingredients are classical.  Eigenvalue brackets come from
+interval $LDL^{\mathsf T}$ factorizations of $H(B^*)-\mu I$ at certified
+shifts: when every pivot interval is sign-definite, Sylvester's law of inertia
+proves the number of eigenvalues below $\mu$.  High-precision eigenvectors
+(computed to $70$ digits, then frozen as dyadic rationals with denominator
+$2^{170}$ --- candidates, not trusted) are certified a posteriori: the exact
+interval residual $\|H\hat v-\tilde\lambda\hat v\|$ against the certified gaps
+gives Davis--Kahan $\sin\theta$ bounds \cite{DavisKahan} of order $10^{-42}$;
+Hellmann--Feynman then turns them into gradient enclosures (ii), and
+second-order perturbation sums with certified matrix elements and certified
+spectral gaps give a signed enclosure of the full Hessian (iii), whose
+eigenvalues are bracketed by Gershgorin discs after an approximate rotation,
+with the exact Ostrowski congruence correction \cite[Thm.~4.5.9]{HornJohnson}
+for the rotation's dyadic non-orthogonality.  Existence (iv) is the Krawczyk
+test \cite{Krawczyk,Neumaier}: with $C\approx(\nabla^2f)^{-1}$ rational and
+$X=B^*+[-r,r]^3$,
+\[
+K(X)=B^*-C\,\nabla f(B^*)+\bigl(I-C\,\nabla^2 f(X)\bigr)\,[-r,r]^3
+\subset\operatorname{int}X
+\]
+proves a unique zero of $\nabla f$ in $X$.  The Hessian enclosure over $X$ is
+the center enclosure inflated entrywise by $9\sqrt3\,Mr$, where
+$M=192\,D^3(\gamma_i^{-2}+\gamma_j^{-2})$ is a rigorous bound on all third
+directional derivatives of $f_{ij}$ over $X$, derived in
+Appendix~\ref{app:third} from a resolvent estimate and a Cauchy coefficient
+bound; $D$ bounds $\sup_{|e|=1}\|\partial_e H\|_2$ and $\gamma_{i},\gamma_j$
+are certified gap lower bounds over $X$.  The margins are enormous ---
+$\lvert\nabla f(B^*)\rvert\lesssim10^{-37}$ against a needed
+$\lesssim10^{-18}$ --- because the flatness of clock transitions makes the
+Krawczyk test brutally stringent: the smallest certified Hessian eigenvalue
+magnitude among the twenty points is $5.67\times10^{-8}$~MHz/mT$^2$, so the
+preconditioner norm reaches $1.8\times10^{7}$ and existence at these points is
+provable only from a candidate polished far beyond double precision.  A
+Newton--Kantorovich argument with double-precision data alone would fail by
+many orders of magnitude; this appears to be intrinsic to certifying clock
+points, not an artifact of our route.
+
+\subsection{Relation to the pilot certificate and to prior tools}
+
+A same-program pilot release certified eigenvalue and transition brackets at
+these fields (without stationarity, curvature, or existence); its certificate
+re-verified here (checker exit 0; 352 brackets against an independent 60-digit
+diagonalization, zero containment failures).  The present certificate strictly
+extends it.  Generic verified eigensolvers exist --- symveig \cite{symveig}
+encloses spectra of fixed Hermitian matrices, and verified-numerics methodology
+is standard \cite{Rump} --- but we find no prior certified treatment of
+\emph{parametric} eigenvalue-difference stationary points (gradients, Hessians,
+existence, or completeness) for spin Hamiltonians, and no certified object of
+any kind attached to a ZEFOZ table (novelty sweep of 2026-08-12, shipped with
+the release).  The claims here are application-first in that sense; every
+mathematical tool is classical and credited above.
+
+\section{The completeness question: a pre-registered kill}\label{sec:kill}
+
+The completeness target was specified in advance: certify that the published
+list is the whole list --- every stationary point of every $f_{ij}$, both
+sites --- over the box $\|B\|_\infty\le100$~mT (the region the literature's own
+grids explored; note that all twenty published points lie \emph{outside} this
+box, at $191$~mT--$5.3$~T, so the completeness claim over the box would state
+that $B=0$ is the only in-box stationary set).  The pre-registered kill
+condition K2 read: at $\sim$20 laptop-hours of exclusion work, if the measured
+statistics project more than $200$ laptop-hours to close the domain, kill the
+completeness claim and downgrade to certified existence and curvature at the
+known points.
+
+The exclusion engine is the natural one: adaptive subdivision of the box; per
+box $X=B_c+[-r,r]^3$, certified eigenvalue brackets at $B_c$ (Bauer--Fike
+residual discs with component counting), per-level gap bounds over $X$ via the
+Lipschitz bound $\sqrt3\,rD$, Davis--Kahan eigenvector enclosures over $X$,
+certified Hellmann--Feynman gradient at $B_c$, a signed perturbation-sum
+Hessian enclosure over $X$, and the first-order exclusion test $\lvert
+g_k(B_c)\rvert>\sum_l \sup_X\lvert\partial_k\partial_l f\rvert\,r$ for some
+$k$.  A box is closed when all 120 pairs are excluded; otherwise it splits.
+
+The measured statistics are unambiguous.  Certified per-box cost is
+$1.4$--$2.4$~s (all 120 pairs amortized over one diagonalization).  At box radius
+$r=6.25$~mT and $r=0.78$~mT, \emph{zero} of the 120 pairs can be excluded at a
+generic center ($B_c=(50,50,50)$~mT): the certified Hessian sup-bounds, inflated
+by eigenvector drift $\propto rD/\gamma$, dominate the certified gradients.
+First majority exclusions appear only at $r\approx0.1$~mT ($87/120$ at the
+generic center; $68/120$ at $(6.25,6.25,6.25)$~mT), and $33\text{--}52$ pairs
+survive even there.  Adaptive runs on sample chunks (six chunks of half-width
+$0.39$~mT, both sites, stratified in radius) give
+the following (all six exhausted their 340-s budgets with their
+subdivision trees unfinished):
+\begin{center}\small
+\begin{tabular}{clccc}
+\toprule
+site & chunk center (mT) & boxes & closed boxes & surviving pairs \\
+\midrule
+1 & generic $(50,50,50)$ & 234 & 0 & 2 \\
+1 & near-origin $(1.2,1.2,1.2)$ & 176 & 0 & 32 \\
+1 & far $(87.5,62.5,37.5)$ & 177 & 153 & 0 \\
+1 & near-axis $(75,5,5)$ & 136 & 10 & 3 \\
+2 & generic $(50,50,50)$ & 251 & 218 & 0 \\
+2 & near-origin $(1.2,1.2,1.2)$ & 191 & 0 & 19 \\
+\bottomrule
+\end{tabular}
+\end{center}
+Closed boxes are finest-level ($r=0.098$~mT) boxes with all 120 pairs
+excluded; surviving pairs are those still active at the depth cap.  No
+chunk finished, so the certified cost per unit volume strictly exceeds
+each chunk's wall-clock/volume rate; the weakest measured rate is
+$713$~s/mT$^3$.
+Scaling that weakest rate to the half
+domain ($4\times10^{6}$~mT$^3$ after the $B\to-B$ symmetry) gives a strict
+lower bound of
+more than $\mathbf{7.9\times10^{5}}$ per site ($1.6\times10^{6}$ for both sites)
+laptop-hours --- before any refinement of the surviving pairs, which the
+calibration shows needs two further depth levels for the flattest pairs at
+generic fields and diverges for the near-origin web --- against the
+pre-registered budget of $200$.  The lower bound alone exceeds the budget by
+a factor of $8{,}000$, i.e.\ nearly four orders of magnitude.  \textbf{K2 fired; the completeness claim is dead at laptop scale},
+and this note's certificate is the pre-registered downgrade.
+
+The obstruction is structural and worth recording.  The zero-field spectrum of
+each site contains near-degenerate level pairs --- certified splittings as
+small as $0.004$~MHz (site~1) and $0.16$~MHz (site~2), with six site-1
+spacings below $36$~MHz --- alongside spacings of $300$--$900$~MHz.  Every per-level certified bound in the exclusion engine ---
+eigenvector drift, matrix-element enclosures, perturbation denominators ---
+degrades as the ratio $rD/\gamma_n$, with $D\approx104$~MHz/mT the certified
+field-Lipschitz constant and $\gamma_n$ the local gap of level $n$.  A level
+inside a quasi-doublet of splitting $\gamma$ is processable only for
+$r\lesssim\gamma/(4\sqrt3D)$, i.e.\ boxes of $10^{-5}$--$5\times10^{-2}$~mT
+near the doublet-crossing set, which has positive two-dimensional measure in
+the box.  Closing the domain therefore requires either cluster-projector
+enclosures (certifying the two-dimensional doublet subspace as a block, with
+block-resolved perturbation sums) or a different certification principle
+altogether; with single-level machinery the cost diverges near the crossing
+set.  We record this as the concrete engineering frontier, not as an
+impossibility result.
+
+\section{Errata in the reference}\label{sec:errata}
+
+Three defects of \cite{Matsuura} were found and verified in the course of this
+work.  We record them with version history; the first was corrected upstream
+by the authors, and we credit that correction.
+
+\begin{enumerate}
+\item[(E1)] \emph{Site-1 quadrupole sign, v1 and v2.}  Appendix~B of v1
+(2024-12-13) and v2 (2025-02-12) prints the site-1 $Q$ matrix with
+$Q_{23}=Q_{32}=+15.5$~MHz.  With $+15.5$ the paper's own zero-field
+frequencies (its Table~4) are irreproducible --- off by up to $68$~MHz ---
+while with $-15.5$ they reproduce to $\le0.05$~MHz.  The paper's computations
+therefore used $-15.5$ throughout; the printed table was wrong for eleven
+months.  v3 (2025-11-14), which matches the version of record
+\cite{MatsuuraPRB}, prints $-15.5$: corrected upstream, and any reader who
+rationalized v1/v2 as printed inherited a wrong Hamiltonian.
+\item[(E2)] \emph{Two tabulated frequencies inconsistent with their own
+points, v3.}  In v3 Table~5, site~1, the pair $(6,7)$ is tabulated at
+$745.8$~MHz and $(4,7)$ at $2216.2$~MHz.  The certified brackets at the
+stationary points nearest the stated coordinates (Theorem~\ref{thm:points},
+existence certified) are
+$f_{67}=748.5431883\pm2\times10^{-10}$~MHz and
+$f_{47}=2220.5387344\pm2\times10^{-10}$~MHz: discrepancies of $-2.74$ and
+$-4.34$~MHz, roughly $50\times$ the rounding of the table.  No alternative
+level pair at those fields is both stationary and at the tabulated frequency;
+the other eighteen entries agree with our brackets to $\le0.06$~MHz.  The two
+values appear to be stale.
+\item[(E3)] \emph{Sign pairing of the highlighted site-2 field, v3.}  The
+high-precision bullet for the site-2 $(14,15)$ point prints
+$B_{(D_1,D_2,b)}=(\mp378.9,\pm73.2,\mp502.3)$~mT alongside
+$B_{(B,\theta,\phi)}=(633.52~\mathrm{mT},\mp37.5383^\circ,-10.9417^\circ)$.
+The two are inconsistent: the stated angles (upper signs) give
+$(-379.0,+73.3,+502.3)$~mT, and the certified stationary point
+(Theorem~\ref{thm:points}) is at $(-378.99,+73.27,+502.35)$~mT.  The printed
+Cartesian sign pairing should read $(\mp,\pm,\pm)$.
+\end{enumerate}
+
+We verified (E1) against the v1, v2, and v3 source files directly and (E2),
+(E3) against certified brackets; the version of record \cite{MatsuuraPRB} was
+not re-checked entry-by-entry against v3 beyond its Appendix~B.
+
+\section{What is certified, what is enclosed, what is
+trusted}\label{sec:trust}
+
+\emph{Certified} (machine-checked from first principles by the standard-library
+checker): every claim of Theorems~\ref{thm:zero} and \ref{thm:points} and
+Corollary~\ref{cor:sig}, as inequalities among exact rationals: the symbolic
+time-reversal identity, all inertia counts, all eigenvalue/transition brackets,
+the gradient enclosures, the signed Hessian enclosures and their eigenvalue
+brackets and signatures, and every Krawczyk contraction, including the
+third-derivative bound of Appendix~\ref{app:third} re-derived from the
+certified gaps.  \emph{Enclosed but pointing at published data:} the
+identification of each certified point with a row of \cite[Table~5]{Matsuura}
+is by proximity of the published rounded coordinates; the published rounding
+($0.001$~T, $0.01^\circ$) is far coarser than our boxes.  \emph{Trusted:} the
+Python \texttt{fractions}/\texttt{json}/\texttt{math} standard library; the
+classical theorems cited (Sylvester, Davis--Kahan, Ostrowski, Krawczyk, and
+the resolvent/Cauchy lemma proved in the appendix); and nothing else --- in
+particular no floating point, no eigensolver, and no code shared with the
+generator enters the verification.  The kill-condition statistics of
+Section~\ref{sec:kill} are measurements of a private search engine and are
+\emph{not} part of the certified surface; they are reported as run logs.
+
+The computation, in one paragraph, per the program's protocol.  Candidate
+fields and eigenvectors were produced by Newton iteration and 70-digit
+diagonalization (mpmath), then frozen as dyadic rationals; certification is a
+separate pass in exact rational interval arithmetic (outward rounding,
+denominator cap $2^{200}$), $\sim4.6$~s per point; the 23-object certificate
+(1.9~MB JSON: one time-reversal object, two zero-field objects, twenty
+Krawczyk objects) verifies in $39$~s under \texttt{zefoz\_checker2.py}
+(CPython~3.14, stdlib only, OS-independent), exit code 0; a six-item tamper
+battery (corrupted inertia count, shifted Hessian bracket, narrowed gradient
+enclosure, flipped time-reversal sign, understated gradient norm, inflated
+Krawczyk radius) is rejected item-by-item with exit code 1, and an untampered
+control passes; the pilot certificate re-verifies (47~s, exit 0) and its 352
+brackets contain an independent 60-digit recomputation.  The branch-and-bound
+measurements ran as memory-capped queued jobs
+(34~min wall-clock total, peak 38~MB per job against the 2500~MB cap); all artifacts, the checker, the run logs, and
+the dated novelty sweep ship in the repository release; the search engine
+itself stays private per the program's certificate-plus-checker model.
+
+\section{Open questions}\label{sec:open}
+
+\begin{question}
+Cluster-certified completeness.  Can the box $\|B\|_\infty\le100$~mT be closed
+by replacing per-level Davis--Kahan enclosures with certified two-dimensional
+doublet-projector enclosures (block perturbation sums with inter-cluster gaps
+only), and what is the measured cost?  The engine interface already isolates
+the per-level bounds; this is the one concrete route our measurements leave
+open at laptop scale.
+\end{question}
+
+\begin{question}
+Existence certificates from double precision.  The Krawczyk test at clock
+points needed candidates polished to $10^{-40}$; is there a certification
+principle (exploiting the evenness of the spectrum in $B$, or the analyticity
+of $f_{ij}$) whose stringency does not scale with the inverse Hessian, i.e.\
+that certifies flat stationary points from double-precision data?
+\end{question}
+
+\begin{question}
+The physical atlas.  The certified signatures (all published points saddles or
+maxima, none minima) and the certified zero-field curvatures are properties of
+the model \eqref{eq:H} with the printed matrices.  Do measured second-order
+shifts at the $(14,15)$ site-2 point distinguish the certified Hessian
+spectrum $\{-1.652\times10^{-4},-8.949\times10^{-5},-1.447\times10^{-6}\}$
+MHz/mT$^2$ from the scalar $\lvert S_2\rvert$ summaries in use?
+\end{question}
+
+\begin{question}
+Which certified object does the experiment want next: brackets at the
+$\lvert B\rvert\le3$~T points of the v3 search for site-independent field
+orientations, certified \emph{optimality} of the $(10,11)$/$(14,15)$ choices
+within the tabulated list, or completeness over the small ball
+$\lvert B\rvert\le25$~mT actually swept by the published grids?
+\end{question}
+
+\appendix
+
+\section{A third-derivative bound from a resolvent estimate}\label{app:third}
+
+\begin{lemma}\label{lem:cauchy}
+Let $H$ be Hermitian, $\lambda$ a simple eigenvalue with
+$\gamma=\dist(\lambda,\operatorname{spec}H\setminus\{\lambda\})>0$, $V$
+Hermitian with $\|V\|\le D$.  For complex $t$ with $\lvert t\rvert<\rho:=
+\gamma/(4D)$ the matrix $H+tV$ has exactly one eigenvalue $\lambda(t)$ in the
+open disc of radius $\gamma/2$ about $\lambda$; $\lambda(t)$ is analytic, and
+$\bigl|\lambda'''(0)\bigr|\le 192\,D^3/\gamma^2$.
+\end{lemma}
+
+\begin{proof}
+This is the standard resolvent perturbation argument (cf.\ \cite{Kato}) with
+constants tracked.  For $z$ on the circle $\Gamma$ of radius $\gamma/2$ about
+$\lambda$,
+$\|(H-z)^{-1}\|=\dist(z,\operatorname{spec}H)^{-1}\le2/\gamma$, so for
+$\lvert t\rvert<\rho$ the Neumann series of
+$(H+tV-z)^{-1}=(H-z)^{-1}\sum_{k\ge0}\bigl(-tV(H-z)^{-1}\bigr)^k$ converges
+($\lVert tV(H-z)^{-1}\rVert\le\rho D\cdot2/\gamma=1/2$).  Hence $\Gamma$ lies
+in the resolvent set of $H+tV$ for all such $t$; the Riesz projection
+$P(t)=-\frac1{2\pi i}\oint_\Gamma(H+tV-z)^{-1}dz$ is analytic in $t$ and of
+constant rank $1$, and $\lambda(t)=\tr\bigl[(H+tV)P(t)\bigr]$ is the unique
+eigenvalue inside $\Gamma$, analytic in $t$, with
+$\lvert\lambda(t)-\lambda\rvert\le\gamma/2$.  Writing
+$\lambda(t)-\lambda=\sum_{k\ge1}a_kt^k$ on $\lvert t\rvert<\rho$ and applying
+the Cauchy estimates on circles of radius $\rho'\uparrow\rho$,
+$\lvert a_3\rvert\le(\gamma/2)/\rho^3$, so
+$\lvert\lambda'''(0)\rvert=6\lvert a_3\rvert\le3\gamma\,(4D/\gamma)^3
+=192\,D^3/\gamma^2$.
+\end{proof}
+
+Applied at every real point $B$ of a box $X$ with $V=\partial_e H=\sum_k e_k
+Z_k$ ($\lvert e\rvert=1$, so $\|V\|\le D:=(\sum_k\|Z_k\|_2^2)^{1/2}$) and with
+$\gamma$ replaced by certified box-uniform gap lower bounds
+$\tilde\gamma_i,\tilde\gamma_j$, the lemma gives, for the cubic form
+$g_B(e)=\partial_e^3 f_{ij}(B)$,
+$\sup_{\lvert e\rvert=1}\lvert g_B(e)\rvert\le
+M:=192\,D^3(\tilde\gamma_i^{-2}+\tilde\gamma_j^{-2})$.  Polarization of the
+symmetric trilinear form $T=D^3f_{ij}(B)$,
+$T[a,b,c]=\frac1{48}\sum_{\varepsilon\in\{\pm1\}^3}\varepsilon_1\varepsilon_2
+\varepsilon_3\,g_B(\varepsilon_1a+\varepsilon_2b+\varepsilon_3c)$, with
+$\lVert\varepsilon_1a+\varepsilon_2b+\varepsilon_3c\rVert\le3$ for unit
+$a,b,c$, gives $\lvert T[a,b,c]\rvert\le\frac{8\cdot27}{48}M=4.5\,M$; the
+certificate uses the laxer constant $9M$.  Integrating along the segment from
+$B^*$ to $B\in X$ bounds each Hessian entry's variation by
+$9M\lVert B-B^*\rVert\le9\sqrt3\,Mr$, which is the entrywise inflation used in
+the Krawczyk operator, and which the checker recomputes from the certified
+$D$ and gaps.
+
+\begin{thebibliography}{99}
+
+\bibitem{Matsuura} K.~Matsuura, S.~Yasui, R.~Kaji, H.~Sasakura, T.~Tawara,
+S.~Adachi, \emph{Exploration of optimal hyperfine transitions for spin-wave
+storage in $^{167}$Er$^{3+}$:Y$_2$SiO$_5$}, arXiv:2412.10126; v1 2024-12-13,
+v2 2025-02-12, v3 2025-11-14.  Version citations in the text refer to the
+arXiv versions.
+
+\bibitem{MatsuuraPRB} K.~Matsuura et al., Phys.\ Rev.\ B \textbf{113}, 085421
+(2026).  Version of record of \cite{Matsuura}.
+
+\bibitem{Wang2023} S.-J.~Wang, Y.-H.~Chen, J.~J.~Longdell, X.~Zhang,
+J.~Lumin.\ \textbf{262}, 119935 (2023).  Source of the $A$, $Q$, $g$ matrices
+reproduced in \cite[App.~B]{Matsuura}.
+
+\bibitem{Fraval2004} E.~Fraval, M.~J.~Sellars, J.~J.~Longdell, \emph{Method of
+extending hyperfine coherence times in ${\rm Pr}^{3+}$:${\rm Y_2SiO_5}$},
+Phys.\ Rev.\ Lett.\ \textbf{92}, 077601 (2004).
+
+\bibitem{Zhong2015} M.~Zhong et al., \emph{Optically addressable nuclear spins
+in a solid with a six-hour coherence time}, Nature \textbf{517}, 177 (2015).
+
+\bibitem{Ortu2601} Z.~Wang et al., \emph{Quadrupole coupling and ZEFOZ points
+of $^{167}$Er in CaWO$_4$}, arXiv:2601.16362 (2026).
+
+\bibitem{Business2606} \emph{On-demand coherent mapping of telecom optical
+states onto erbium hyperfine spins}, arXiv:2606.15009 (2026).
+
+\bibitem{DavisKahan} C.~Davis, W.~M.~Kahan, \emph{The rotation of eigenvectors
+by a perturbation. III}, SIAM J.\ Numer.\ Anal.\ \textbf{7}, 1--46 (1970).
+
+\bibitem{Krawczyk} R.~Krawczyk, \emph{Newton-Algorithmen zur Bestimmung von
+Nullstellen mit Fehlerschranken}, Computing \textbf{4}, 187--201 (1969).
+
+\bibitem{Neumaier} A.~Neumaier, \emph{Interval Methods for Systems of
+Equations}, Cambridge University Press (1990).
+
+\bibitem{HornJohnson} R.~A.~Horn, C.~R.~Johnson, \emph{Matrix Analysis}, 2nd
+ed., Cambridge University Press (2013).  Ostrowski's theorem is Thm.~4.5.9.
+
+\bibitem{Kato} T.~Kato, \emph{Perturbation Theory for Linear Operators},
+Springer (1980).
+
+\bibitem{Rump} S.~M.~Rump, \emph{Verification methods: rigorous results using
+floating-point arithmetic}, Acta Numerica \textbf{19}, 287--449 (2010).
+
+\bibitem{symveig} \emph{symveig: verified eigenvalue enclosures for
+symmetry-decomposed Hermitian matrices}, arXiv:2606.16217 (2026).
+
+\end{thebibliography}
+
+\end{document}
