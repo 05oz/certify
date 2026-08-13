@@ -42,7 +42,7 @@
 %%     the gross-code distance d = 12 confirmed exactly by MILP at MIP gap 0.
 %%     No certificate is emitted.
 %%   * arXiv:2603.22532 (Webster, Jacob, Higgott), full text.
-%% Independent audit: qec/INDEPENDENT-VERIFICATION.md, 47/47 checks passed,
+%% Independent audit: INDEPENDENT-VERIFICATION.md, 47/47 checks passed,
 %%   5.08 GiB LRAT replayed in pure Python, all five BB matrices rebuilt
 %%   byte-identically from arXiv:2308.07915. Four discrepancies (D1-D4) are
 %%   reported verbatim in Section 8 of this note; D2 has since been closed.
@@ -246,7 +246,7 @@ prose and not machine-verified anywhere.
 
 \subsection{Results}\label{ssec:results}
 Table~\ref{tab:main} is the corpus. Every entry traces to a file in
-\texttt{certificates/}; the byte counts are the actual proof sizes and the
+\texttt{qec-certificates/}; the byte counts are the actual proof sizes and the
 replay times are wall clock from the independent audit of
 \S\ref{sec:audit}, measured with \texttt{/usr/bin/python3} (CPython 3.9.6, no
 \texttt{numpy}, no compiled helper of any kind).
@@ -1340,7 +1340,10 @@ them is left open (\S\ref{ssec:rest288}).
 
 \section{Reproducibility}\label{sec:repro}
 
-The artifacts sit beside this note in \texttt{qec/}. To re-check anything:
+The artifacts sit beside this note in the release repository: the four checkers
+in \texttt{qec-scripts/}, the certificates in \texttt{qec-certificates/}. Every
+command below is run from the repository root; the six commands of group~(i)
+were re-executed verbatim from that root on 2026-08-12. To re-check anything:
 
 \begin{verbatim}
 # check_prof.py reads its LRAT gzipped: do NOT gunzip the
@@ -1349,20 +1352,22 @@ The artifacts sit beside this note in \texttt{qec/}. To re-check anything:
 # no gunzip step; for the wider corpus, gunzip the *non-prof*
 # .lrat.gz as REGENERATE.md describes.
 
+S=qec-scripts; C=qec-certificates      # from the repository root
+
 # (i) Runs on a fresh clone, from the shipped artifacts alone:
-python3 check_witness.py certificates/bb144/witness_X.json
-python3 check_duality.py certificates/bb144/duality.json
-python3 check_prof.py    certificates/bb288/bb288_prof_K14.json   # d_X>=16
-python3 check_prof.py    certificates/bb360/bb360_prof_K12.json   # >=14
-python3 check_prof.py    certificates/bb360/bb360_prof_K14.json   # d_X>=16
-python3 check_duality.py certificates/bb288/duality.json          # d=d_X
+python3 $S/check_witness.py $C/bb144/witness_X.json
+python3 $S/check_duality.py $C/bb144/duality.json
+python3 $S/check_prof.py    $C/bb288/bb288_prof_K14.json   # d_X>=16
+python3 $S/check_prof.py    $C/bb360/bb360_prof_K12.json   # >=14
+python3 $S/check_prof.py    $C/bb360/bb360_prof_K14.json   # d_X>=16
+python3 $S/check_duality.py $C/bb288/duality.json          # d=d_X
 
 # (ii) Each needs one large proof regenerated first, none in git
 #      (REGENERATE.md items 1, 2, 4, 5):
-python3 check_lower.py certificates/bb144/lower_X_K11.json        # 868MB
-python3 check_lower.py certificates/bb144/lower_Z_K11.json        # 672MB
-python3 check_lower.py certificates/bb288/lower_X_K13_sym.json    # 2.94GB
-python3 check_prof.py  certificates/bb288/bb288_prof_K16_exact.json  # =>d=18
+python3 $S/check_lower.py $C/bb144/lower_X_K11.json        # 868MB
+python3 $S/check_lower.py $C/bb144/lower_Z_K11.json        # 672MB
+python3 $S/check_lower.py $C/bb288/lower_X_K13_sym.json    # 2.94GB
+python3 $S/check_prof.py  $C/bb288/bb288_prof_K16_exact.json  # =>d=18
 \end{verbatim}
 
 \noindent No virtual environment, no packages, no compiled binary. Any
@@ -1371,10 +1376,18 @@ CPython~3.8 or later should do; the audit used the macOS system interpreter,
 \texttt{check\_lower} large replays on an idle M4, more under load; the two
 $n=288$ \texttt{prof} rungs replay in about $62$\,s and $1{,}587$\,s and the
 $n=360$ rung in about $40$\,s. \texttt{manifest.json} carries the SHA-256 and
-byte count of the $182$ audited artifacts and \texttt{manifest.py} re-checks
-them; the profile-normalisation certificates postdate the manifest and are
-checked directly by \texttt{check\_prof.py}, which regenerates each CNF from the
-polynomial spec. (The four commands in group~(ii) --- the two symmetry-free
+byte count of the $182$ audited artifacts and \texttt{verify\_manifest.py}
+re-checks them --- on a fresh clone it prints \texttt{172 match, 0 mismatch, 10
+absent}, the ten absent being the six proofs that ship gzipped and the four too
+large for git. (\texttt{manifest.py}, also shipped, is the pipeline's manifest
+\emph{generator}, not a verifier: it walks a \texttt{certificates/} directory
+beside itself, re-runs the checkers --- handing only the largest
+\texttt{check\_lower} replays to a non-vendored
+\texttt{tools-drat-trim/lrat-check}, and writes a fresh \texttt{manifest.json}.
+It is in the repository because it is part of the pipeline, and the pipeline is
+explicitly not trusted.) The profile-normalisation certificates postdate the
+manifest and are checked directly by \texttt{check\_prof.py}, which regenerates
+each CNF from the polynomial spec. (The four commands in group~(ii) --- the two symmetry-free
 gross-code proofs, the $K{=}13$ rung at $n=288$, and the exact-weight-$16$
 \texttt{prof} instance --- each require regenerating one large proof first, per
 \texttt{REGENERATE.md} items 1, 2, 4 and 5; on a fresh clone group~(i) runs as

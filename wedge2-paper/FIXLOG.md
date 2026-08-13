@@ -1,4 +1,4 @@
-# FIXLOG — wedge v2 (Part L): the exact logical error probability
+# FIXLOG — wedge v2 (Part K): the exact logical error probability
 
 Build and verification log, 2026-08-12. Decisions and fixes recorded in the
 order they were made.

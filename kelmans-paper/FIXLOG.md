@@ -5,7 +5,8 @@ them. Three review reports (CLAIMS, PRIORITY, REPLAY). Every finding was re-sett
 against the primary artifact or the archived primary source before any edit; where a
 reviewer and the draft disagreed, the winner is recorded. Primary source throughout:
 Kelmans, *Packing 3-vertex paths in cubic 3-connected graphs*, arXiv:0910.2766v2,
-archived with the note.
+fetched and archived in the author's working tree during this pass; not redistributed
+in the deposit.
 
 ---
 
@@ -48,7 +49,9 @@ and Question 6.1 now says the cyclically 6-connected members start at 24 vertice
 `certify-repo` contained no problem-4 content at review time (no match for
 `kelmans|p3span|refcert|A204198`, no SWEEP-RECORD for this note). The Part I staging done
 in this same pass is staged, not committed, not released — so the present tense would still
-be false at the moment the byline goes on. Future tense it is.
+be false at the moment the byline goes on. Future tense it is. **Superseded 2026-08-12:**
+the deposit is public (Certify v0.9.0, doi:10.5281/zenodo.21897011, Zenodo record fetched
+2026-08-12), so §4 now states the deposit in the present tense and names the version DOI.
 
 **C-5. "A third, standard-library implementation reproduced the filtered counts" → the
 standard-library checker's own routine, run by a separate driver.** An honest downgrade of
@@ -188,9 +191,14 @@ weaken the sentence, the controls were rebuilt and re-run in full today: eight d
 corruption classes (non-path triple, cover gap, overlap, sub-maximum packing shape,
 trailing graph6 character, flipped graph6 character, valid certificate for a non-canonical
 relabelling, genuine certificate for a connected cubic graph that is not 3-connected), each
-rejected by the gate it targets, by **both** checkers, plus two controls-on-the-controls
-(disabling membership admits the relabelling and nothing else; disabling 3-connectivity
-admits the sub-3-connected certificate and nothing else). §3.3 now describes exactly this.
+rejected by the gate it targets. The gates are not distributed alike between the checkers:
+`refcert.py` with `--g6set` and `--check3c` rejects all eight, while `verify_cert.py` has no
+membership gate and therefore rejects seven and accepts the relabelling with exit code 0 —
+visible in the shipped control records `ctl_certs_2026-08-11_refcert.txt` (`ok=1
+rejected=8`) and `ctl_certs_2026-08-11_verifycert.txt` (line 6 `VERIFIED`, exit 0). Plus two
+controls-on-the-controls (disabling membership admits the relabelling and nothing else;
+disabling 3-connectivity admits the sub-3-connected certificate and nothing else). §3.3 now
+describes exactly this.
 Builder `mkcontrols.py`, artifacts `out_ref/ctl_certs_2026-08-11_*`.
 
 **S-10. Table 1 caption.** The 3-connected column matches A204198 at every order but

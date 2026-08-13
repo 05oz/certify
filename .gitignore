@@ -2,3 +2,4 @@
 venv/
 __pycache__/
 certificates/ms_*.out
+*_prof_K16_exact.lrat.gz

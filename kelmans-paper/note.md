@@ -426,14 +426,18 @@ triple, a valid partition of sub-maximum shape, a `graph6` string with a
 trailing character, a `graph6` string with a flipped character, a valid
 certificate for a non-canonical relabelling of the graph (a string the
 generator never emits), and a genuine Λ-factor certificate for a
-connected cubic graph that is not 3-connected. Every one is rejected,
-each by the gate it targets and with a nonzero exit code, while the
-intact certificate in the same file is accepted; and two controls on the
-controls confirm the diagnosis, since disabling the membership test
-admits the relabelling and nothing else, and disabling the
-3-connectivity test admits the sub-3-connected certificate and nothing
-else. All controls in this subsection were re-run on the drafting date
-against the current binaries and checkers.
+connected cubic graph that is not 3-connected. Each corruption is
+rejected by the gate that targets it, with a nonzero exit code, while
+the intact certificate in the same file is accepted. The membership gate
+is `refcert.py`'s alone: run with `--g6set` and `--check3c` it rejects
+all eight, whereas `verify_cert.py`, which tests no membership in a
+generator stream, rejects seven and accepts the relabelling with exit
+code 0 (it exits on the first violation, so the control is run one line
+at a time). Two controls on the controls confirm the diagnosis, since
+disabling the membership test admits the relabelling and nothing else,
+and disabling the 3-connectivity test admits the sub-3-connected
+certificate and nothing else. All controls in this subsection were
+re-run on the drafting date against the current binaries and checkers.
 
 ### 3.4. The adversarial referee
 
@@ -464,10 +468,11 @@ without us: the two certificate checkers in source form, the recorded
 command line for every sweep and every generator slice at every order,
 the per-slice summary outputs, the full certificate corpus, the
 negative-control inputs and outputs, and the referee's verdict records.
-It ships with this note and will be deposited on publication in the
-program's public certificate repository *Certify*
-(<https://github.com/05oz/certify>; concept DOI
-[10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111)). The
+It ships with this note in the program's public certificate repository
+*Certify* (<https://github.com/05oz/certify>; concept DOI
+[10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111)), as
+Part I, version DOI
+[10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011). The
 two searchers are specified in §2.2 but are not part of that deposit, and
 we say so rather than imply otherwise: what is deposited is what
 re-checks their output without them, which is every positive answer they
@@ -500,8 +505,9 @@ the negative controls, which both pipelines' failure paths pass.
    least one representative of every isomorphism class of connected cubic
    graph on n vertices is assumed, not proved here. It is the only
    assumption a counterexample could hide behind, and the mitigation is
-   count agreement at every order with the independent published
-   enumerations of [BGM11] and [McKR86] — values obtained by different
+   count agreement with the independent published
+   enumerations — [BGM11] at every order and [McKR86] at orders 10 through 20,
+   its tables stopping there — values obtained by different
    generators (`minibaum`, `snarkhunter`, and McKay and Royle's
    constructions) — and, for the filtered counts, with OEIS A204198. A
    generator that missed a class would have to miss it while still

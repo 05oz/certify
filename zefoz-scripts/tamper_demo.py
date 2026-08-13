@@ -11,7 +11,8 @@ layer in this certificate).
 
 Battery:
   T1  Hessian eigenvalue bracket shifted off the recomputed enclosure
-  T2  gradient enclosure narrowed/shifted so the recomputed one escapes
+  T2  gradient enclosure shifted (both endpoints, width preserved) so the
+      recomputed one escapes
   T3  LDL^T inertia count corrupted at one shift
   T4  one sign of the time-reversal matrix M16 flipped
   T5  gradient-norm bound eps understated below the recomputed bound

@@ -101,6 +101,15 @@ the proof; it never trusts the shipped `.cnf`. The other `prof` rungs behind the
 the `bb360` rungs — **do** ship in git; only this 310 MB exact-weight-16 proof
 is too large.
 
+**The path `bb288/bb288_prof_K16_exact.lrat.gz` is empty in this repository.**
+No file, and no link to a file, is carried there: the descriptor
+`bb288_prof_K16_exact.json` names that path, and the procedure below is what
+puts a proof at it. A reader who has not run the procedure will find nothing
+there, and `check_prof.py bb288_prof_K16_exact.json` will stop with a missing-file
+error until it has been run. (The tag trees v0.2.1 and v0.5.0 through v0.13.0 did
+carry a machine-specific absolute symlink at this path, which dangled on every
+clone; it has been removed from the index. See `paper/FIXLOG-qec.md` S3.)
+
 ```sh
 cd bb288
 cadical -q --unsat --lrat --no-binary bb288_prof_K16_exact.cnf \
@@ -131,8 +140,8 @@ different but equally valid proof, so the SHA-256 will not match; the check is
 
 ## What ships, and what it already proves
 
-Nothing else is missing. With only what is in this repository, and nothing but
-CPython, a reader can replay:
+Beyond the five proofs above, no LRAT proof is missing. With only what is in
+this repository, and nothing but CPython, a reader can replay:
 
 | code | certified from the shipped artifacts alone |
 |---|---|
@@ -144,7 +153,7 @@ CPython, a reader can replay:
 | BB [[108,8,10]] | `d = 10` |
 | BB [[144,12,12]] (gross) | `d = 12` — weight-12 witnesses, the symmetry-broken X certificate, and the duality certificate |
 | BB [[288,12,18]] | `16 <= d <= 18` — the shipped `prof` K14 rung (`d_X >= 16` under Lemma P) with the weight-18 witness and duality; the final step to `d = 18` is one regenerated proof away (item 5) |
-| BB [[360,12,≤24]] | `16 <= d <= 24` — `prof` K14 + Lemma P + duality (lower, `check_prof.py`); Bravyi et al. Table 3 (upper, cited, not certified) |
+| BB [[360,12,≤24]] | `d_X >= 16` — `prof` K14 + Lemma P (`check_prof.py`); a K12 rung corroborates `d_X >= 14`. The passage to `d >= 16` uses the ZX-duality lemma for this code, verified in exact F2 arithmetic but — unlike n = 288 — not shipped as a replayable artifact: `bb360/` carries no `duality.json`, no `duality_perm.txt` and no `HX.txt`/`HZ.txt`, and `check_prof.py` does not verify ZX-duality. Upper end `d <= 24` is Bravyi et al. Table 3 (cited, not certified) |
 
 The five regenerable proofs upgrade that to: `d = 12` for the gross code with
 **no symmetry lemma at all** in the trusted base, and the exact **`d = 18`** at
@@ -153,12 +162,24 @@ rung of the ladder.
 
 ## Compressed files
 
-Proofs that do ship and are larger than a few MB ship gzipped. The certificate
-descriptors name the uncompressed file, so decompress first:
+Proofs that do ship and are larger than a few MB ship gzipped. The two checkers
+differ in how they name them, and the difference is destructive if ignored.
+
+The `check_lower.py` descriptors name the **uncompressed** file (`lrat_file:
+lower_*.lrat`), so those six proofs must be decompressed first:
 
 ```sh
-gunzip bb90/*.lrat.gz bb108/*.lrat.gz bb144/*.lrat.gz bb288/*.lrat.gz
+gunzip bb90/lower_*.lrat.gz bb108/lower_*.lrat.gz \
+       bb144/lower_*.lrat.gz bb288/lower_*.lrat.gz
 ```
+
+The `check_prof.py` descriptors name the **compressed** file (`proof:
+*_prof_*.lrat.gz`; see item 5 above, where the regeneration procedure ends in
+`gzip`), and `check_prof.py` has no uncompressed fallback. Decompressing a
+`*_prof_*.lrat.gz` therefore breaks the certificate it belongs to: `gunzip
+bb288/*.lrat.gz` destroys `bb288_prof_K14_atmost.lrat.gz` and with it the
+shipped `d_X >= 16` rung at n = 288, and `gunzip bb360/*.lrat.gz` breaks both
+n = 360 rungs. **Never gunzip a `*_prof_*.lrat.gz`.**
 
 `manifest.json` hashes the **uncompressed** bytes, so a successful
 `verify_manifest.py` run after decompression also confirms the archives were
@@ -175,10 +196,13 @@ python3 ../qec-scripts/verify_manifest.py
 ```
 
 On a fresh clone that prints `172 match, 0 mismatch, 10 absent`; after
-`gunzip */*.lrat.gz` it prints `178 match, 0 mismatch, 4 absent`, the four being
-the proofs listed above. Two known gaps, both documented in the paper: the
-manifest predates `bb288/duality.json` and does not list it, and the manifest
-covers files this repository does not carry.
+`gunzip */lower_*.lrat.gz` it prints `178 match, 0 mismatch, 4 absent`, the four
+being `check_lower` proofs listed above. The glob is restricted to `lower_*`
+because the `*_prof_*.lrat.gz` files are not manifest entries at all — the
+manifest's 182 entries predate the profile-normalisation certificates — and
+decompressing them breaks their descriptors. Two known gaps, both documented in
+the paper: the manifest predates `bb288/duality.json` and does not list it, and
+the manifest covers files this repository does not carry.
 
 (`../qec-scripts/manifest.py` is the pipeline's manifest *generator*, not a
 verifier — it expects a `certificates/` directory beside itself and overwrites

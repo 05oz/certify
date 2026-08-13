@@ -15,7 +15,8 @@ source during this pass (verdicts below). Fixes applied identically to note.tex 
 2. **Provenance of primary-source reading.** The draft claimed both primary sources were
    "read in full." The record (NOTES.md) documents only KY08. Downgraded to: KY08 read in
    full from the archived copy; Yus04's concluding-remarks account checked verbatim
-   against the arXiv text (math/0304180, fetched and archived with this note during this
+   against the arXiv text (math/0304180, fetched and archived in the author's working
+   tree during this
    fix pass); Yus04 otherwise used as reported in KY08.
 3. **Upper-bound credit reassigned KY08 → Yuster 2004.** Yus04 §4 proves the full integral
    upper bound f(n) ≤ ⌈n(n−1)/6 − n/3⌉ with the identical Turán-orientation argument

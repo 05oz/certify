@@ -2,7 +2,21 @@
 """Re-hash every artifact against qec-certificates/manifest.json.
 
 Run from anywhere:  python3 qec-scripts/verify_manifest.py
-Standard library only. Decompress first:  gunzip qec-certificates/*/*.lrat.gz
+Standard library only.
+
+The manifest hashes the UNCOMPRESSED bytes, so the six check_lower proofs that
+ship gzipped read as absent until they are decompressed:
+
+    gunzip qec-certificates/*/lower_*.lrat.gz
+
+That glob is restricted to lower_* on purpose. The *_prof_*.lrat.gz files are
+not manifest entries -- the manifest predates them -- and their own descriptors
+name the compressed file, so decompressing one breaks the certificate it
+belongs to. Never gunzip a *_prof_*.lrat.gz.
+
+Expected: 172 match, 0 mismatch, 10 absent on a fresh clone; 178 match, 0
+mismatch, 4 absent after the gunzip above, the four being the proofs too large
+for git (qec-certificates/REGENERATE.md).
 """
 import hashlib, json, os, sys
 

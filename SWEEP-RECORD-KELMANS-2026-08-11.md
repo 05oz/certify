@@ -16,8 +16,9 @@ Conjecture 1.
 * **2026-08-06 (adversarial referee, n ≤ 20).** Verdict signed: `kelmans-certificates/
   verdict-n04-20.md`. Independent pipeline (`refcheck.c` + `refcert.py`, no code shared
   with the search side), independent recount of all 429,865 3-connected cubic graphs on
-  ≤ 20 vertices, counts cross-checked against OEIS A002851, OEIS A204198 and McKay–Royle's
-  published connectivity tables, negative controls on both failure paths.
+  ≤ 20 vertices, counts cross-checked against OEIS A002851, OEIS A204198 and — at orders 10
+  through 20 — McKay–Royle's published connectivity tables, negative controls on both
+  failure paths.
 * **2026-08-11 (pre-draft, independent).** All of the above re-run by the drafting agent
   immediately before the note was written: the arXiv API (abstracts mentioning P₃-factors
   or 3-vertex paths; *Kelmans* in math.CO; *Akiyama–Kano*), the citing literature of
@@ -29,10 +30,15 @@ Conjecture 1.
   (Semantic Scholar `citationCount: 0`, no OpenAlex record, no Crossref published version);
   eight fresh arXiv API queries returned nothing relevant in the last 24 months; the Open
   Problem Garden entry and West's REGS page were fetched live again. Novelty component:
-  CLEAN. Two must-fix defects found, both about the source and not about the computation
-  (the smallest member of Kelmans' R_s family is cyclically 5-connected, not 6-connected;
-  the page range of the Kostochka–Stodolsky reference, inherited from Kelmans'
-  bibliography, is wrong).
+  CLEAN. The fix pass logged five must-fix entries (`kelmans-paper/FIXLOG.md`, M-1 to M-5):
+  two about the cited source (the smallest member of Kelmans' R_s family is cyclically
+  5-connected, not 6-connected; the page range of the Kostochka–Stodolsky reference,
+  inherited from Kelmans' bibliography, is wrong), two about this deposit's own records
+  (the order-12 negative control had been recorded with the wrong per-type breakdown; the
+  n = 22 referee verdict was an unsigned stub), and one about the tense of the deposit
+  sentence. No theorem, proposition or certified count of the note changed. How the three
+  review reports themselves graded these findings is not recoverable from the deposit — the
+  reports do not ship.
 * **2026-08-11 (fix pass, this release).** Every review finding re-settled against the
   primary artifact or the archived primary source before any edit; decision log ships as
   `kelmans-paper/FIXLOG.md`. Re-verified here, first-hand: West's REGS page fetched live
@@ -45,9 +51,10 @@ Conjecture 1.
 
 **Verification summary.** All 6,339,157 3-connected cubic graphs on at most 22 vertices
 decided for the base claim and for the applicable strong forms of Kelmans' Theorem 3.1, by
-two pipelines sharing no code, with zero failures; generated and filtered counts equal to
-the published enumerations at every order (A002851 / Brinkmann–Goedgebeur–McKay; A204198 /
-McKay–Royle). 53,356 Λ-factor certificates ship — all 43,580 through order 22 and 9,776 at
+two pipelines sharing no code, with zero failures; generated counts equal the published
+enumeration at every order (OEIS A002851, Brinkmann–Goedgebeur–McKay), and filtered counts
+equal OEIS A204198 at every order and the McKay–Royle counts at orders 10 through 20.
+53,356 Λ-factor certificates ship — all 43,580 through order 22 and 9,776 at
 order 24 — every one re-verified from the graph6 string alone by both standard-library
 checkers in this release, 0 rejected. Order 24 is search-side complete (98,101,019 graphs,
 zero failures) with **no independent recount**, and is claimed at exactly that strength and

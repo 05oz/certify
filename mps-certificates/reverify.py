@@ -26,7 +26,11 @@ Proof structure verified here:
        - contiguous half-cut rank at L=4,6,8 (claim: 4 = D^2)
        - odd/even-site bipartition rank at L=4,6,8 (claim: 2,4,8 growing)
        A sum of k product states has rank <= k across every bipartition, so
-       growing rank => not a finite cat of product states.
+       the odd/even rank is the minimal number of product states in a
+       decomposition across that cut; that minimum grows over the computed
+       range L=4,6,8. The 2^(L/2-1) pattern is observed at those three
+       lengths, not established for all L: nothing here bounds the
+       product-state complexity of the family uniformly in L.
   (P5) Irreducibility: {I, A0, A1, A0A1} spans M_2 (det of coefficient matrix != 0).
   (P6) Not frustration-free: a single bond term applied to psi_4 is nonzero.
 """
@@ -302,5 +306,7 @@ if FAIL:
     print("RESULT: FAILURES:", FAIL)
     sys.exit(1)
 print("RESULT: ALL CHECKS PASS — the object is a real, exact, all-L eigenstate "
-      "(E=0) of H = -sum_i (1+X_i)(X_{i+1}+Z_{i+1}), periodic, genuinely "
-      "bond-dimension-2 and not a finite sum of product states.")
+      "(E=0) of H = -sum_i (1+X_i)(X_{i+1}+Z_{i+1}), periodic, and genuinely "
+      "bond-dimension-2; its odd/even Schmidt rank is 2, 4, 8 at L = 4, 6, 8, "
+      "so the minimal number of product states across that cut grows over "
+      "those three lengths. Growth beyond L = 8 is not checked here.")

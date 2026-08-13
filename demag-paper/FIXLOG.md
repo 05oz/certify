@@ -31,7 +31,8 @@ cited to their primary sources at point of use.
 
 ## Verification (independent, this build)
 
-- ANCHOR: the 16 OOMMF/Maple 50-digit gold values in the demagcoef.cc header all
+- ANCHOR: the demagcoef.cc header table of Maple 50-digit check values has 31
+  rows (24 of them nonzero); the 16 of those rows we anchor against all
   agree with the recomputed enclosure midpoints to >= 49.6 digits
   (`anchor_check.py`, exercising the shipped checker's own Newell/interval code).
 - INDEPENDENT CROSSCHECK (build only, not shipped): an independent mpmath 220-dps
@@ -76,7 +77,7 @@ cited to their primary sources at point of use.
 - **S4 (anchor test precision, corrected).** `anchor_check.py` initially tested
   CONTAINMENT of the 50-digit gold values in the recomputed enclosures; this is
   wrong -- the enclosures are ~77 digits tight, far tighter than the 50-digit
-  gold, so a gold value cannot lie inside. Corrected to test AGREEMENT to the
+  gold, so a nonzero gold value lies outside. Corrected to test AGREEMENT to the
   gold's own precision (>= 48 digits). The enclosures' rigor is established
   separately by the two-sided-bound construction, not by the anchor.
 - **S5 (symmetry zeros excluded).** Entries whose certified midpoint is below

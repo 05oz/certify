@@ -228,10 +228,12 @@ What is \emph{certified} is the two-sided inequality $N_{\mathrm{lo}}\le
 N_{\alpha\beta}\le N_{\mathrm{hi}}$ for the analytic Newell tensor entry. What is
 \emph{enclosed} rather than exact are exactly the transcendental pieces, each to
 rigorous rational bounds; the stencil weights, the cell dimensions, the offsets
-and all the surrounding arithmetic are exact. As a numerical anchor, the
-$16$ diagonal and off-diagonal values Donahue computed to $50$ digits in Maple
-and recorded in \texttt{demagcoef.cc} agree with the midpoints of our
-enclosures to at least $49.6$ digits; containment would be the wrong test,
+and all the surrounding arithmetic are exact. As a numerical anchor,
+\texttt{demagcoef.cc} carries in its header a table of $N_{xx}$ and $N_{xy}$
+values Donahue computed to $50$ digits in Maple --- $31$ rows, $24$ of them
+nonzero --- and the $16$ of those rows that form our anchor agree with the
+midpoints of our enclosures to at least $49.6$ digits; containment would be the
+wrong test,
 since the enclosures are roughly $77$ digits tight and a $50$-digit value
 therefore lies outside them in general, so agreement at the gold values' own
 precision is what is checked. An independent
@@ -242,16 +244,23 @@ released in v0.12.0 this sentence asserted that the $16$ Maple values
 $15$ of the $16$ lie outside, the exact zero being the exception — and the
 build log (\texttt{FIXLOG.md}, decision S4) had already recorded the correct
 test. The agreement figure of $49.6$ digits is unaffected, as is every
-certified enclosure. Only this prose claim changed.}
+certified enclosure. Only this prose claim changed. Erratum, v0.12.2
+(2026-08-12): through v0.12.1 the same sentence read ``the $16$ diagonal and
+off-diagonal values Donahue computed to $50$ digits in Maple and recorded in
+\texttt{demagcoef.cc},'' which misdescribes the source table --- the header
+carries $31$ rows, $24$ of them nonzero, and $16$ is the size of the subset we
+anchor against, not of the table. The anchor set, the agreement figure and the
+enclosures are unchanged.}
 
 \begin{remark}[Internal consistency, also certified]\label{rem:consistency}
 The enclosures satisfy the tensor's own structural identities, and the checker
 can test them without any external reference. At every mutual point the interval
 sum $[N_{xx}]+[N_{yy}]+[N_{zz}]$ encloses $0$ (trace-freeness for
 $\mathbf r\neq0$); at the self-term the same sum encloses $1$; and the
-permutation identities among the six components hold as interval containments,
-since $N_{yy},N_{zz},N_{xz},N_{yz}$ are computed by relabeling the \emph{same}
-$f$ and $g$ evaluations that produce $N_{xx}$ and $N_{xy}$. These are not
+permutation identities hold as interval containments among the components the
+table carries, since $N_{yy},N_{zz},N_{xz}$ are computed by relabeling the
+\emph{same} $f$ and $g$ evaluations that produce $N_{xx}$ and $N_{xy}$
+($N_{yz}$ is carried nowhere, so no identity involving it is tested). These are not
 independent physical facts to be trusted --- they are consequences of
 \eqref{eq:newellf}--\eqref{eq:stencil} that a rigorous enclosure must respect, and
 their violation would signal a defect in the enclosure itself. Every one holds
@@ -289,8 +298,27 @@ We instantiate the certificate over four cell aspect ratios --- a cube
 $(1,1,1)$, a thin film $(1,1,\tfrac14)$, an elongated cell $(1,1,4)$, and a
 rectangular in-plane cell $(2,1,1)$ --- four offset directions (along $x$, along
 $z$, the in-plane face diagonal, and the body diagonal), and separations from
-one to ten thousand cells, keeping the nonzero components at each point and the
-self-term at the origin --- $862$ certified entries in all.
+one to ten thousand cells, carrying a selected set of tensor components at each
+point together with the diagonal self-terms at the origin --- $862$ certified
+entries in all: $850$ across fifty geometry-and-component combinations (cell,
+offset direction, tensor component) away from the origin, and twelve self-terms,
+$N_{xx}(0),N_{yy}(0),N_{zz}(0)$ for each of the four cells. The selection is not
+the whole tensor at every point. A component that vanishes identically at a
+point is dropped there --- no carried enclosure contains $0$ --- and $N_{yy}$ is
+dropped off the coordinate axes, where it either vanishes or is returned by
+trace-freeness from the certified $N_{xx}$ and $N_{zz}$; $N_{yz}$ is carried
+nowhere in the table. For the cube, the film and the elongated cell
+$N_{yz}$ is a relabelling of a component the table does carry, but for the
+rectangular cell on the body diagonal it is neither zero nor a relabelling ---
+at offset $(4,2,2)$ it is $\approx-8.15\times10^{-4}$ --- so that one component,
+at that one cell and direction, lies outside the certified
+table.\footnote{Erratum, v0.12.2 (2026-08-12): v0.12.0 and v0.12.1 described the
+grid as ``keeping the nonzero components at each point.'' That is false as
+stated: the table carries no $N_{yz}$ anywhere, and for the rectangular cell on
+the body diagonal $N_{yz}$ is nonzero and is not a relabelling of any carried
+component. The coverage is restated above, and the count of $862$ entries, every
+certified enclosure and every digit-loss bracket are unchanged. Only this prose
+claim changed.}
 Table~\ref{tab:pathology} reads the central result off the canonical case: the
 cube, on-axis $N_{xx}$.
 
@@ -421,9 +449,15 @@ $N_{\mathrm{lo}}\le N_{\mathrm{true}}\le N_{\mathrm{hi}}$ --- while rejecting an
 enclosure that has been narrowed off the truth, shifted, or implausibly widened;
 (iii)~recomputes the naive double value bit-for-bit and each rigorous digit-loss
 bracket. Any mismatch prints \texttt{CHECK FAIL} and exits nonzero. The checker
-imports only \texttt{sys}, \texttt{json}, \texttt{math}, \texttt{hashlib} and
-\texttt{fractions}; it uses no signals, subprocesses, network or wall-clock, and
-runs unchanged under a clean environment. A tamper battery --- an enclosure
+imports only \texttt{sys}, \texttt{json}, \texttt{math}, \texttt{hashlib},
+\texttt{fractions} and \texttt{collections}; it uses no signals, subprocesses,
+network or wall-clock, and
+runs unchanged under a clean environment.\footnote{Erratum, v0.12.2
+(2026-08-12): v0.12.0 and v0.12.1 gave this import list without
+\texttt{collections}, which \texttt{check\_demag.py} imports for the
+consistency-identity pass. The list is now complete; every import remains in the
+Python standard library, and nothing about the checker changed.} A tamper
+battery --- an enclosure
 narrowed to exclude the true value, an enclosure shifted off it, an enclosure
 grossly widened, a corrupted naive value, an altered digit-loss claim, a
 falsified hash --- is rejected nonzero in every case, at the hash layer and, when

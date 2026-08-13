@@ -6,7 +6,7 @@ Independent researcher (`05oz`); no institutional affiliation — daniel@halfoun
 *Draft of August 11, 2026.*
 
 > **Computation and authorship.** All encodings, decompositions, searches,
-> verifiers, and audits in this work were produced by **Claude** (Anthropic)
+> verifiers, and audits in this work were produced by **Claude**
 > (Anthropic), directed by the author, on a single Apple M4 laptop. The
 > independent proof checker imports only the Python standard library and
 > shares no code with the solving pipeline; the adversarial referee of
@@ -18,7 +18,8 @@ Independent researcher (`05oz`); no institutional affiliation — daniel@halfoun
 > the pipeline: CaDiCaL 3.0.1 (`--lrat`) and Python 3.
 
 > **Prior-art record.** The primary source [IRW21] was read in full on
-> August 5, 2026 (arXiv v3; a copy is archived with the artifacts, and
+> August 5, 2026 (arXiv v3; a copy is archived in the author's working tree, not
+> redistributed here, and
 > section references follow its numbering). The Erdős problems entry
 > [Blo] was fetched live on August 5 and again on August 11, 2026
 > (including once more immediately before this draft was written): status
@@ -60,7 +61,7 @@ of the 346 instance files against the decomposition re-derived from the
 definitions. With logically redundant confirming exhaustions at
 N = 22, 23, 24, the corpus is 445 certificates and just over 10⁹ checked
 proof steps; certificates regenerate bit-for-bit from the recorded
-solver commands (8 of 8 attempts). Every component was then confirmed by
+solver commands (11 of 11 attempts). Every component was then confirmed by
 an adversarial referee writing fresh code throughout. From the same
 campaign: 29 ≤ k(6,3) ≤ 33, the lower bound new, by an explicit Cayley
 witness on 28 vertices; the upper bound is IRW's. We close with the
@@ -432,8 +433,10 @@ canonicalizations across three graphs, including a family member at 18
 vertices found by simulated annealing from a uniformly random start,
 sharing no ancestry with the witness; no escape from the inventory was
 found. Novelty was swept live the same day. On this protocol the result
-was confirmed on August 11, 2026; the referee's verdict record and fresh
-code ship with the artifacts.
+was confirmed on August 11, 2026. The referee's verdict record and fresh
+code are retained by the author and are not part of the public deposit;
+what the deposit carries is the review log and the separate verdict
+record for the k(6,3) bound of §5.2.
 
 ## 5. Redundant layers, and k(6,3)
 
@@ -488,19 +491,36 @@ count, SHA-256 of formula and of proof, and the proof's byte count), the
 queue files recording the exact solver command line for every cube of
 the N = 21, 22 and 23 layers, the generator and checker scripts, the
 block-inventory representatives the generator consumes, the witness
-files, and the audit and referee records. All of it is deposited with
-this note in the program's public certificate repository *Certify*
-([github.com/05oz/certify](https://github.com/05oz/certify); concept DOI
+files, and the audit and referee records. That record is split between a
+public deposit and a private regeneration kit.
+
+Deposited with this note in the program's public certificate repository
+*Certify* ([github.com/05oz/certify](https://github.com/05oz/certify);
+concept DOI
 [10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111)),
-version DOI [10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619). The multi-gigabyte proofs themselves are
-a cache, not the record: each regenerates from its recorded command —
-deterministically, in our environment: the referee's eight regenerations
-were all byte-identical to the originals, matching the ledger's digests
-— and the repository documents the regeneration procedure. To replay:
-verifying any shipped or regenerated certificate, the witnesses, the
-enumerations, and the content-level completeness audit requires only
-CPython (the checkers are standard-library only); regenerating proofs
-requires CaDiCaL 3.0.1.
+version DOI [10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619),
+are the ledger, the regeneration instructions, the two witness files,
+six scripts — the encoder `gen_cnf.py`, the structured-cube generator
+`make_structured.py`, the proof checker `lrat_check.py`, the witness
+checker `verify_witness.py`, and the audits `audit_cnf.py` and
+`audit_multiset.py` — and the review log together with the referee
+verdict for k(6,3). Retained by the author and not redistributed are the
+queue files, the 70 block-class representatives the generators consume,
+the rest of the checking and audit pipeline, and the audit and k(3,4)
+referee records. So the lower-bound half replays from the deposit
+outright, as does any certificate whose formula and proof the reader
+has; regenerating a case formula to its recorded `cnf_sha256` needs the
+representatives, and `audit_multiset.py` imports a module of the kit and
+does not run from the deposit alone.
+
+The multi-gigabyte proofs themselves are a cache, not the record: each
+regenerates from its recorded command — deterministically, in our
+environment: the referee's eight regenerations were all byte-identical to
+the originals, matching the ledger's digests — and the deposit documents
+the regeneration procedure and what it requires. As to tooling, the
+checkers are standard-library only, so replaying a certificate or a
+witness requires only CPython; regenerating proofs requires
+CaDiCaL 3.0.1.
 
 ## 7. The trusted base
 
@@ -512,7 +532,8 @@ labelled enumerations behind Lemma 3.2 and Proposition 3.3, performed
 three independent times, with closure assertions (minutes); the
 brute-force semantics of base(4) and base(5) over all orientations; the
 clause-multiset identity of all 445 cube files with their re-derived
-specifications; and the LRAT replay of all 445 certificates by an
+specifications (this audit runs in the regeneration kit, not from the
+deposit alone); and the LRAT replay of all 445 certificates by an
 independently written checker, with twelve of them re-run by a second,
 unrelated checker agreeing on the exact step count in every case. Both
 checkers reject all negative controls.
@@ -535,8 +556,10 @@ checkers reject all negative controls.
    every audited order) and on the independent re-derivation of the
    exact clause multiset from the definitions.
 4. *SHA-256 collision resistance*, for the bookkeeping that ties ledger
-   lines to files — not for the mathematics, since a skeptic can
-   regenerate and re-check everything without trusting any hash.
+   lines to files. A skeptic can replay every shipped LRAT certificate
+   without trusting any hash; regenerating a case formula to its recorded
+   `cnf_sha256`, however, needs the block representatives, which are part
+   of the private regeneration kit and not of this deposit.
 5. *CPython, the operating system, and the hardware.*
 
 CaDiCaL, the cube generators, and the solving pipeline are *not* in the

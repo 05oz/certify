@@ -70,12 +70,22 @@ so both pinned SHA-256 values remain valid.
 
 ## Observed, NOT changed (out of trusted base; flagged for author)
 
-- The authorship footnote describes the search space as "the K-equivariant
+- The authorship footnote described the search space as "the K-equivariant
   orthomorphisms of Z_25," but row 0 is the identity t->t, whose difference map
   t->0 is not a permutation, so the identity is not an orthomorphism. This is a
   provenance detail, explicitly excluded from the trusted base (the object is
-  independently verified), so it was left unchanged pending the author's own
-  check of the search-space description. It does not affect Theorem 2.1.
+  independently verified), so it was left unchanged in this pass, pending the
+  author's own check of the search-space description. It does not affect
+  Theorem 2.1.
+  RESOLVED 2026-08-12 (§14 sweep): `openprob/cfr_search.c` searches in the
+  normal form phi_0 = id, phi_i(0) = 0 and looks for a clique of size r-1 in
+  the compatibility graph on the K-equivariant orthomorphisms, prepending the
+  identity row to the clique on output; re-checked against the shipped object,
+  rows 1-4 are K-equivariant orthomorphisms and row 0 is not. The footnote in
+  note.tex and note.md was reworded to that structure. The `found_by` field of
+  the SHA-256-pinned `CFR_5_25.json` still carries the older "exhaustive max
+  clique over the ... K-equivariant orthomorphisms" phrasing and was not
+  touched, the object file being pinned in the note.
 
 ## Result strength — unchanged
 

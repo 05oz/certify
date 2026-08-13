@@ -87,8 +87,10 @@ the note is application-first ("we find no prior certified treatment of ...").
   time-reversal identity (exact symbolic check over Q[sqrt d]); 2 zero-field
   points (simple spectra certified; Hessian brackets for the 10 published
   Table-4 pairs); 20 Krawczyk points (gradient bound <= 3.2e-37 MHz/mT,
-  Hessian eigenvalue brackets width <= 2.5e-16, signatures certified,
-  contraction ratio <= 0.096 at radius 2^-45 mT).
+  Hessian eigenvalue bracket width <= 2.1e-15 MHz/mT^2 over the twenty
+  (worst 2.009e-15; the highlighted site-2 (14,15) brackets are the narrowest
+  at 2.51e-16), signatures certified, contraction ratio <= 0.096 at radius
+  2^-45 mT).
 * Tamper battery (6 items + control): `tamper_demo.py` — control passes exit
   0; T1 shifted Hessian bracket, T2 shifted gradient enclosure, T3 corrupted
   inertia count, T4 flipped time-reversal sign, T5 understated gradient-norm
@@ -98,7 +100,8 @@ the note is application-first ("we find no prior certified treatment of ...").
   eigenvalue; zero containment failures.
 * Kill condition K2 (pre-registered in the program's target dossier): FIRED.
   Measured certified-exclusion statistics (memory-capped queued jobs, logs in
-  `zefoz-scripts/kill-logs/`) project ~1e5+ laptop-hours against the
+  `zefoz-scripts/kill-logs/`) give a strict lower bound above 7.9e5
+  laptop-hours per site (above 1.58e6 for both sites) against the
   pre-registered 200-hour budget; the completeness claim is dead at laptop
   scale and the note says so plainly (note Section 4). Deliverable downgraded
   exactly as pre-registered: certified existence + curvature at the known

@@ -2,7 +2,7 @@
 %% DRAFT -- August 12, 2026. Author byline: Daniel Kirtchakov (05oz,
 %% halfounce.io; no institutional affiliation; ORCID 0009-0009-5213-4098).
 %%
-%% Part L (wedge v2). Supersedes the core result of Part H
+%% Part K (wedge v2). Supersedes the core result of Part H
 %% (doi:10.5281/zenodo.21895825): the two-sided bracket L <= P_L <= U
 %% collapses to the exact rational P_L, and the weight-7 count wall named in
 %% Part H, section 6 falls at d=5. Framing constraints honoured (PROTOCOL
@@ -95,7 +95,7 @@ unreachable $A_7 = 832{,}441{,}445$, the full spectrum through $A_{77} = 1$,
 the undetectable-logical spectrum $N_w$ (re-deriving the circuit-level
 distance~5), and exact dyadic rationals $\PL$ at both published operating
 points, each lying strictly inside the corresponding Part H bracket --- at
-$0.36$ and $0.51$ of the bracket widths, never near an endpoint. A
+$0.36$ and $0.37$ of the bracket widths, never near an endpoint. A
 standard-library Python checker re-derives all of it from the mechanism list
 alone in about two minutes at $d=5$ within $0.85$ GB, and rejects eight
 classes of tampered certificate. The honest trade: the
@@ -158,8 +158,9 @@ first assignment winning; $D(s)$ is the observable flip of the first-found
 minimum-cardinality configuration reaching $s$. In the two DEMs certified
 here the masks span $\Zt^n$, so every syndrome is assigned (the checker
 verifies this), and $F$ is uncorrectable iff $D(\sig(F)) \ne \obs(F)$. On
-syndromes of BFS depth $\le W_{\max}$ this table coincides with the
-depth-truncated table of Part H, so the decoder is the same decoder.
+syndromes of BFS depth $\le W_{\max}$ this table coincides with the table
+Part H certifies --- built there in full at $d=3$ and truncated at depth
+$W_{\max}$ at $d=5$ --- so the decoder is the same decoder.
 
 \textbf{The counts, all at once.} For $u \in \Zt^{n+1}$ let $I(u)$ be the
 failure indicator: $I(s, b) = 1$ iff $b \ne D(s)$. Let $A_w$ be the number of
@@ -301,9 +302,12 @@ matches Part H, and $A_5 = 16{,}467$ was confirmed by direct enumeration.
 \textbf{The exact values.} Table~\ref{tab:exact} is the core supersession:
 the exact $\PL$ at all four published operating points, with the Part H
 bracket it collapses. Every exact value lies \emph{strictly inside} its
-bracket --- the containment $L < \PL < U$ is verified in exact rational
-arithmetic by the shipped checker, and had it failed the release would have
-stopped, since it would have falsified Part H.
+bracket. What the shipped checker gates is the containment $L \le \PL \le U$,
+verified in exact rational arithmetic on the certificate's own numerators and
+denominators; strictness is not part of that gate, but follows from the same
+three numbers, which place every exact value between $0.35$ and $0.52$ of the
+bracket width (last column of Table~\ref{tab:exact}). Had the containment
+failed the release would have stopped, since it would have falsified Part H.
 
 \begin{table}[ht]
 \centering

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Standard-library self-test of the two transform identities of the wedge2
-note (Part L):
+note (Part K):
 
   (Thm 2.1)  A_w  = 2^{-(n+1)} sum_k g_w(k) Q(k)        (all counts at once)
   (Thm 2.2)  P_L  = 2^{-(n+1)} sum_y I^(y) prod_{j:<y,v_j>=1} (1 - 2 p_j)

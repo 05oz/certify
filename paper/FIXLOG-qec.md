@@ -127,12 +127,32 @@ REGENERATE.md item 5 already documents). Not deleted here: it is untracked (not
 in the release), it is what enabled the local K16 replay above, and deleting
 artifacts is outside a paper-text review.
 
+*Outcome, recorded 2026-08-12.* The action was not carried out. The symlink was
+staged and committed in `b3d00ba`, the v0.2.1 release commit reviewed above, and
+it is present as mode `120000` in the tag trees v0.2.1 and v0.5.0 through
+v0.13.0. Every clone of those trees received a dangling absolute symlink at the
+path REGENERATE.md item 5 tells the reader to write the regenerated proof to, so
+the documented `gzip bb288_prof_K16_exact.lrat` step, and any `gunzip
+bb288/*.lrat.gz` loop, failed on a fresh clone. The paragraph above therefore
+describes the state at review time only; its "currently untracked" was overtaken
+by the release commit. The symlink has now been removed from the index, and
+REGENERATE.md item 5 states plainly that the path is empty and that the
+procedure is what fills it.
+
 **Directory-name mismatch (observation).** The printed commands use
 `certificates/…` and bare `check_witness.py`, describing a bundled `qec/`
 layout; the dev repo uses `qec-certificates/` and `qec-scripts/`. Ensure the
 shipped bundle matches the printed paths (or vice-versa). Not edited, because the
 intended release layout is the author's to fix and the paper is internally
 consistent in the `qec/` convention.
+
+*Outcome, recorded 2026-08-12.* Resolved the other way round: no `qec/`-layout
+bundle exists in the repository, so §10 of both twins now names the release
+layout — checkers in `qec-scripts/`, certificates in `qec-certificates/`, every
+command run from the repository root. The six group-(i) commands were
+re-executed verbatim from that root on 2026-08-12 and all six pass. The two
+remaining bare `certificates/` references (§1.3 in each twin) were corrected to
+`qec-certificates/` in the same pass.
 
 ## Erratum check (task item 5)
 

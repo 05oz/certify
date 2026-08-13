@@ -36,7 +36,8 @@ the artifacts/scripts are ground truth.
    inside erratum quotations. Every live statement reads three distinct / {3,1,0}.
    PROVENANCE.md, README.md, CITATION.cff, .zenodo.json all use 3/1/0.
 5. **Compile.** `tectonic -X compile preprint-dixmier-poisson.tex` → exit 0,
-   **20 pages**, 251.60 KiB (= 257,635 B, byte-size-identical to the shipped PDF),
+   **20 pages**, 251.60 KiB (= 257,635 B, byte-size-identical to the PDF shipped
+   at v0.1.2; the 2026-08-12 documentation pass rebuilt it to 21 pages / 259,209 B),
    only pre-existing cosmetic under/overfull-hbox warnings. Corrected text renders
    ("three distinct points" ×4); wrong phrases survive only in the footnote quote.
 6. **Novelty sweep (today).** The underlying fiber-count/image result is public
@@ -77,4 +78,6 @@ wrong value, and nothing downstream depended on it.
 
 Erratum accepted. Correction verified independently in exact arithmetic; no MUST-FIX;
 five citation/precision SHOULD-FIXes applied to supporting docs and script comments
-(no live claim touched, PDF unchanged, still 20 pages, scripts still pass).
+(no live claim touched, PDF unchanged at that time, still 20 pages, scripts still
+pass; superseded 2026-08-12 by the documentation pass, which rebuilt the PDF to
+21 pages after correcting the Section 7 artifact inventory).

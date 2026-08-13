@@ -206,11 +206,14 @@ Sylvester inertia counts (below).  For the ten zero-field pairs tabulated in
 \cite[Table~4]{Matsuura} the certificate additionally carries two-sided
 brackets on all three eigenvalues of each Hessian $\nabla^2 f_{ij}(0)$
 (Section~\ref{sec:method}); for example, for site~1 $(i,j)=(7,9)$ the certified
-Hessian spectrum is $\{-11.9910\ldots,\,+1.6899\ldots\times10^{-4},\,
+Hessian spectrum is $\{-11.9905\ldots,\,+1.6899\ldots\times10^{-4},\,
 +1.1300\ldots\}$~MHz/mT$^2$, each bracket of width below $2.1\times10^{-9}$.  The
-signatures are mixed: none of the ten published zero-field transitions has a
-definite Hessian, so at zero field each of these frequencies is a saddle in
-$B$.
+signatures are mixed: six of the ten published zero-field transitions have an
+indefinite Hessian, so at zero field those six frequencies are saddles in $B$;
+the remaining four --- site~1 $(6,8)$ and $(6,9)$, site~2 $(6,8)$ and $(7,11)$
+--- carry the certified signature $(+,+,+)$, so their Hessians are
+positive-definite and at zero field those four frequencies are local minima
+in $B$.
 
 \subsection{The twenty published nonzero-field points}\label{sec:points}
 
@@ -363,7 +366,7 @@ $713$~s/mT$^3$.
 Scaling that weakest rate to the half
 domain ($4\times10^{6}$~mT$^3$ after the $B\to-B$ symmetry) gives a strict
 lower bound of
-more than $\mathbf{7.9\times10^{5}}$ per site ($1.6\times10^{6}$ for both sites)
+more than $\mathbf{7.9\times10^{5}}$ per site ($1.58\times10^{6}$ for both sites)
 laptop-hours --- before any refinement of the surviving pairs, which the
 calibration shows needs two further depth levels for the flattest pairs at
 generic fields and diverges for the near-origin web --- against the
@@ -413,8 +416,8 @@ $f_{67}=748.5431883\pm2\times10^{-10}$~MHz and
 $f_{47}=2220.5387344\pm2\times10^{-10}$~MHz: discrepancies of $-2.74$ and
 $-4.34$~MHz, roughly $50\times$ the rounding of the table.  No alternative
 level pair at those fields is both stationary and at the tabulated frequency;
-the other eighteen entries agree with our brackets to $\le0.06$~MHz.  The two
-values appear to be stale.
+the other eighteen entries agree with our brackets to $\le0.07$~MHz (worst
+$0.0634$~MHz, site~1 $(8,13)$).  The two values appear to be stale.
 \item[(E3)] \emph{Sign pairing of the highlighted site-2 field, v3.}  The
 high-precision bullet for the site-2 $(14,15)$ point prints
 $B_{(D_1,D_2,b)}=(\mp378.9,\pm73.2,\mp502.3)$~mT alongside
@@ -459,7 +462,7 @@ denominator cap $2^{200}$), $\sim4.6$~s per point; the 23-object certificate
 (1.9~MB JSON: one time-reversal object, two zero-field objects, twenty
 Krawczyk objects) verifies in $39$~s under \texttt{zefoz\_checker2.py}
 (CPython~3.14, stdlib only, OS-independent), exit code 0; a six-item tamper
-battery (corrupted inertia count, shifted Hessian bracket, narrowed gradient
+battery (corrupted inertia count, shifted Hessian bracket, shifted gradient
 enclosure, flipped time-reversal sign, understated gradient norm, inflated
 Krawczyk radius) is rejected item-by-item with exit code 1, and an untampered
 control passes; the pilot certificate re-verifies (47~s, exit 0) and its 352
@@ -489,9 +492,11 @@ that certifies flat stationary points from double-precision data?
 \end{question}
 
 \begin{question}
-The physical atlas.  The certified signatures (all published points saddles or
-maxima, none minima) and the certified zero-field curvatures are properties of
-the model \eqref{eq:H} with the printed matrices.  Do measured second-order
+The physical atlas.  The certified signatures (all twenty published
+nonzero-field points saddles or maxima, none minima; six of the ten published
+zero-field pairs saddles, the other four local minima) and the certified
+zero-field curvatures are properties of the model \eqref{eq:H} with the
+printed matrices.  Do measured second-order
 shifts at the $(14,15)$ site-2 point distinguish the certified Hessian
 spectrum $\{-1.652\times10^{-4},-8.949\times10^{-5},-1.447\times10^{-6}\}$
 MHz/mT$^2$ from the scalar $\lvert S_2\rvert$ summaries in use?

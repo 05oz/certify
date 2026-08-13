@@ -10,10 +10,12 @@ each on the live sources, before any public claim:
 2. **Post-computation sweep (afternoon):** re-run on the specific values nu_3(9), nu_3(10) and the
    conjecture's name variants: clean.
 3. **Review-pass sweep (night, priority lens):** every citation re-fetched from its primary source;
-   Yuster 2004 (arXiv math/0304180) fetched, archived with the note, and read verbatim — this pass
-   REASSIGNED the upper-bound credit from Kabiya–Yuster 2008 to Yuster 2004 (his §4) and corrected
-   the n ≤ 8 account (n ≤ 7 direct, n = 8 by computer). Verdict: PRIORITY-CLEAN with the corrected
-   attributions, which this release carries.
+   Yuster 2004 (arXiv math/0304180) fetched and archived in the author's private working tree (not
+   redistributed in this repository); its concluding remarks (§4: the verified range and the
+   upper-bound construction) checked verbatim against the arXiv text, the rest of the paper used as
+   reported in Kabiya–Yuster 2008 — this pass REASSIGNED the upper-bound credit from Kabiya–Yuster
+   2008 to Yuster 2004 (his §4) and corrected the n ≤ 8 account (n ≤ 7 direct, n = 8 by computer).
+   Verdict: PRIORITY-CLEAN with the corrected attributions, which this release carries.
 
 What is claimed as new: the certified integral lower bounds over all isomorphism classes at
 n = 9, 10, and the resulting first certified determination of both values. What is not claimed:

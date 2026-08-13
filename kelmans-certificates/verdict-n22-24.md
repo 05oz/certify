@@ -175,9 +175,11 @@ exactly that queue.
 **Negative controls.** Both referee failure paths were re-exercised on 2026-08-11
 (section 4), and again, more thoroughly, during the pre-release pass: the strong-form
 control over the raw connected-cubic stream fires at orders 10, 12, 14 and 16 with the
-per-type breakdown recorded in `out_ref/ctl_base_strong_2026-08-11.txt`, and the certificate
-checkers reject each of eight distinct corruption classes by the gate it targets, with two
-controls-on-the-controls, recorded in `out_ref/ctl_certs_2026-08-11_refcert.txt` and
+per-type breakdown recorded in `out_ref/ctl_base_strong_2026-08-11.txt`, and eight distinct
+corruption classes are each rejected by the gate that targets it — `refcert.py` with
+`--g6set` and `--check3c` rejects all eight, `verify_cert.py` has no membership gate and so
+rejects seven and accepts the non-canonical relabelling — with two controls-on-the-controls,
+recorded in `out_ref/ctl_certs_2026-08-11_refcert.txt` and
 `out_ref/ctl_certs_2026-08-11_verifycert.txt`.
 
 — closed by the pre-release fix pass, 2026-08-11; recount and artifacts the referee's,
