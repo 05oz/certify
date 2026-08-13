@@ -88,8 +88,8 @@ the note is application-first ("we find no prior certified treatment of ...").
   points (simple spectra certified; Hessian brackets for the 10 published
   Table-4 pairs); 20 Krawczyk points (gradient bound <= 3.2e-37 MHz/mT,
   Hessian eigenvalue bracket width <= 2.1e-15 MHz/mT^2 over the twenty
-  (worst 2.009e-15; the highlighted site-2 (14,15) brackets are the narrowest
-  at 2.51e-16), signatures certified, contraction ratio <= 0.096 at radius
+  (worst 2.009e-15; the site-2 (14,15) brackets highlighted below have width 2.51e-16, the
+  narrowest of the twenty being site 1 (8,13) at 1.41e-16), signatures certified, contraction ratio <= 0.096 at radius
   2^-45 mT).
 * Tamper battery (6 items + control): `tamper_demo.py` — control passes exit
   0; T1 shifted Hessian bracket, T2 shifted gradient enclosure, T3 corrupted

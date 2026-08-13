@@ -170,10 +170,11 @@ $w_{12}$  & $125$ & $7^{13}\,6^{4}\,5^{3}$ & $13$\\
 $w_{13}$  & $125$ & $7^{11}\,6^{8}\,5^{1}$ & $11$\\
 \bottomrule
 \end{tabular}
-\caption{The thirteen free graphs on $20$ vertices. Even this coarse
-fingerprint separates all thirteen: no two rows agree in all three
-columns (e.g.\ $w_1$ and $w_5$ share the first and second, but their full
-relation matrices differ; see the certification). Arc counts range over
+\caption{The thirteen free graphs on $20$ vertices. This coarse
+fingerprint does not by itself separate all thirteen --- $w_1$ and $w_5$
+agree in every column, as do $w_2$ and $w_4$ --- and the third column is
+determined by the second. Separation is established by the canonical forms
+and by the richer invariant the checker computes; see the certification. Arc counts range over
 $123$--$128$ and the number of $\QR$ blocks over $6$--$14$.}
 \label{tab:inv}
 \end{table}
@@ -187,8 +188,8 @@ independent ways: Weisfeiler--Leman colour refinement reaches twenty
 distinct colours, so any automorphism fixes every vertex; and an explicit
 automorphism backtracker returns count $1$. Pairwise non-isomorphism was
 decided by a canonical form read off the discrete refinement, and
-cross-checked by the invariant fingerprint of Table~\ref{tab:inv}, which
-already separates all thirteen; no two are isomorphic.
+cross-checked by the richer invariant the checker computes; no two are
+isomorphic.
 
 \begin{remark}
 The thirteen are only a lower bound on the extremal population. They were

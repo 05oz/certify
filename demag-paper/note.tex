@@ -244,8 +244,7 @@ released in v0.12.0 this sentence asserted that the $16$ Maple values
 $15$ of the $16$ lie outside, the exact zero being the exception — and the
 build log (\texttt{FIXLOG.md}, decision S4) had already recorded the correct
 test. The agreement figure of $49.6$ digits is unaffected, as is every
-certified enclosure. Only this prose claim changed. Erratum, v0.12.2
-(2026-08-12): through v0.12.1 the same sentence read ``the $16$ diagonal and
+certified enclosure. Only this prose claim changed. Erratum, 2026-08-12: through v0.12.1 the same sentence read ``the $16$ diagonal and
 off-diagonal values Donahue computed to $50$ digits in Maple and recorded in
 \texttt{demagcoef.cc},'' which misdescribes the source table --- the header
 carries $31$ rows, $24$ of them nonzero, and $16$ is the size of the subset we
@@ -312,7 +311,7 @@ $N_{yz}$ is a relabelling of a component the table does carry, but for the
 rectangular cell on the body diagonal it is neither zero nor a relabelling ---
 at offset $(4,2,2)$ it is $\approx-8.15\times10^{-4}$ --- so that one component,
 at that one cell and direction, lies outside the certified
-table.\footnote{Erratum, v0.12.2 (2026-08-12): v0.12.0 and v0.12.1 described the
+table.\footnote{Erratum, 2026-08-12: v0.12.0 and v0.12.1 described the
 grid as ``keeping the nonzero components at each point.'' That is false as
 stated: the table carries no $N_{yz}$ anywhere, and for the rectangular cell on
 the body diagonal $N_{yz}$ is nonzero and is not a relabelling of any carried
@@ -417,12 +416,13 @@ formula is trustworthy where.
 
 \paragraph{The enclosures stay tight where double precision has nothing.}
 The point of carrying exact rationals is that the cancellation is defeated, not
-merely diagnosed. At the worst point of the table, the cube on-axis $N_{xx}$ at
+merely diagnosed. At the canonical far point, the cube on-axis $N_{xx}$ at
 $n=10^{4}$, the certified enclosure has width $\approx 3.6\times10^{-67}$ about a
 value of magnitude $1.6\times10^{-13}$ --- a relative width near $2\times10^{-54}$,
 i.e. the entry is pinned to some fifty-four correct digits exactly where the
 double-precision analytic formula has none. Across the whole table the relative
-enclosure width never exceeds this order. We had pre-registered a kill
+enclosure width never exceeds $1.7\times10^{-46}$, attained at the elongated cell
+on the body diagonal, still some forty-five correct digits. We had pre-registered a kill
 condition: if the certified enclosures could not be made tighter than double
 precision anywhere in the regime of interest, the target dies. They are tighter
 than double precision \emph{everywhere} in the regime, and by tens of digits
@@ -452,8 +452,7 @@ bracket. Any mismatch prints \texttt{CHECK FAIL} and exits nonzero. The checker
 imports only \texttt{sys}, \texttt{json}, \texttt{math}, \texttt{hashlib},
 \texttt{fractions} and \texttt{collections}; it uses no signals, subprocesses,
 network or wall-clock, and
-runs unchanged under a clean environment.\footnote{Erratum, v0.12.2
-(2026-08-12): v0.12.0 and v0.12.1 gave this import list without
+runs unchanged under a clean environment.\footnote{Erratum, 2026-08-12: v0.12.0 and v0.12.1 gave this import list without
 \texttt{collections}, which \texttt{check\_demag.py} imports for the
 consistency-identity pass. The list is now complete; every import remains in the
 Python standard library, and nothing about the checker changed.} A tamper

@@ -719,9 +719,9 @@ across Parts A–D — the Part B witness/lower-bound/duality checkers, the Part
 verifiers, the Part D control (`verify_1435.py`, expected distance-4 verdict with exit 1 by
 design), and the Part A SymPy suite including `min_verify.py I` after the SIGALRM-portability
 fix — all nine at their documented exit codes. Not yet covered on Windows: the large bb288/bb360
-LRAT replays and the full n = 10 tournament sweep. That replay predates Parts E–M, whose checkers
-are standard-library-only and OS-independent by inspection but have not been independently replayed
-on Windows. Reports from other platforms are welcome and will be credited.
+LRAT replays and the full n = 10 tournament sweep. That replay predates Parts G–M and did not include Parts E and F,
+which were released the day before it; those checkers are standard-library-only and
+OS-independent by inspection but have not been independently replayed on Windows. Reports from other platforms are welcome and will be credited.
 
 ## Citing
 

@@ -556,8 +556,8 @@ checkers reject all negative controls.
    every audited order) and on the independent re-derivation of the
    exact clause multiset from the definitions.
 4. *SHA-256 collision resistance*, for the bookkeeping that ties ledger
-   lines to files. A skeptic can replay every shipped LRAT certificate
-   without trusting any hash; regenerating a case formula to its recorded
+   lines to files. The LRAT corpus is a regenerable cache and is not shipped,
+   so no shipped certificate depends on a hash for its replay; regenerating a case formula to its recorded
    `cnf_sha256`, however, needs the block representatives, which are part
    of the private regeneration kit and not of this deposit.
 5. *CPython, the operating system, and the hardware.*

@@ -63,7 +63,7 @@ B -> -B symmetry: (200 mT)^3 / 2 = 4.0e6 mT^3. Hence
 
   projected cost  >  713 s/mT^3 * 4.0e6 mT^3 / 3600 s/h
                   =  7.93e+05 laptop-hours per site,
-                  >  1.59e+06 laptop-hours for both sites,
+                  >  1.58e+06 laptop-hours for both sites,
 
 before any refinement of the surviving pairs (which the mid-domain calibration
 shows requires 2 further depth levels for the flattest pairs, and which the

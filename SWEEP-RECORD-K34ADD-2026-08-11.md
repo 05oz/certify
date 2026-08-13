@@ -49,8 +49,9 @@ structure-mining dig that produced the witnesses (`hunt-structure/`, private).
 Question 8.1 of Part G is answered in the negative: the 20-vertex extremal graph
 for k(3,4) = r(I_3,L_4) = 21 is not unique. There are **at least thirteen**
 pairwise non-isomorphic {I_3,TT_4}-free oriented graphs on 20 vertices, and all
-thirteen are rigid (trivial automorphism group), so no vertex-transitive or
-otherwise canonical 20-vertex extremal object exists. In any {I_3,TT_4}-free
+thirteen are rigid (trivial automorphism group), so the extremal configuration is
+far from a single symmetric object. Whether some other extremal graph might still
+be vertex-transitive or otherwise algebraic is not decided here. In any {I_3,TT_4}-free
 oriented graph every vertex has at most seven non-neighbours, and a vertex with
 exactly seven has its non-neighbourhood equal to the Paley tournament QR_7
 (the QR_7 forcing lemma). The largest {I_3,TT_4}-free tournament blow-up has 14

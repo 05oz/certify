@@ -1,4 +1,4 @@
-# Build-and-verification log — note-demag (Part K), 2026-08-12
+# Build-and-verification log — note-demag (Part L), 2026-08-12
 
 Target: the certified Newell demagnetization-tensor reference table
 (`demag-certificates/demag_certificate.json`), its standard-library checker

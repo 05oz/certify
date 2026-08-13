@@ -61,7 +61,7 @@ The same-program pilot (eigenvalue/transition brackets only) re-verifies: checke
 
 ## 4. The completeness question: a pre-registered kill
 
-Target (pre-registered): certify the published list complete over ‖B‖∞ ≤ 100 mT — all twenty published points lie *outside* this box (191 mT–5.3 T), so the claim would state that B = 0 is the only in-box stationary set. Kill condition K2 (pre-registered): if measured statistics project > 200 laptop-hours to close the domain, kill and downgrade to certified existence + curvature at the known points.
+Target (pre-registered): certify the published list complete over ‖B‖∞ ≤ 100 mT — all twenty published points lie *outside* this box (191 mT–2.48 T), so the claim would state that B = 0 is the only in-box stationary set. Kill condition K2 (pre-registered): if measured statistics project > 200 laptop-hours to close the domain, kill and downgrade to certified existence + curvature at the known points.
 
 Engine: adaptive subdivision; per box, Bauer–Fike eigenvalue brackets at the center, per-level gap bounds over the box, Davis–Kahan eigenvector enclosures, certified Hellmann–Feynman gradients, signed perturbation-sum Hessian sup-bounds, first-order exclusion test; a box closes when all 120 pairs are excluded.
 

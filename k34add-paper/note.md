@@ -99,10 +99,11 @@ induced QR₇ blocks.
 | w₁₂ | 125 | 7¹³ 6⁴ 5³ | 13 |
 | w₁₃ | 125 | 7¹¹ 6⁸ 5¹ | 11 |
 
-*Table 1. The thirteen free graphs on 20 vertices. Even this coarse
-fingerprint separates all thirteen: no two rows agree in all three columns
-(e.g. w₁ and w₅ share the first and second, but their full relation matrices
-differ; see the certification). Arc counts range over 123–128 and the number
+*Table 1. The thirteen free graphs on 20 vertices. This coarse fingerprint does
+not by itself separate all thirteen — w₁ and w₅ agree in every column, as do w₂
+and w₄ — and the third column is determined by the second. Separation is
+established by the canonical forms and by the richer invariant the checker
+computes; see the certification. Arc counts range over 123–128 and the number
 of QR₇ blocks over 6–14.*
 
 Each wᵢ was verified free by an exhaustive test over all C(20,3) = 1140 triples
@@ -113,7 +114,7 @@ independent ways: Weisfeiler–Leman colour refinement reaches twenty distinct
 colours, so any automorphism fixes every vertex; and an explicit automorphism
 backtracker returns count 1. Pairwise non-isomorphism was decided by a
 canonical form read off the discrete refinement, and cross-checked by the
-invariant fingerprint of Table 1, which already separates all thirteen; no two
+canonical forms, which separate all thirteen; no two
 are isomorphic.
 
 **Remark 2.1.** The thirteen are only a lower bound on the extremal
