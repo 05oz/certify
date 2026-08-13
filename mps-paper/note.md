@@ -299,7 +299,7 @@ data (2)–(5) by two independent codes, shipped with the note and pinned by
 SHA-256 in Table 1; the coverage of each is itemized below. The one exception
 is the determinant −4 of Proposition 2.3, which neither code computes. The
 verifier establishes rank four, which is equivalent to the determinant being
-nonzero — what the proposition's argument requires — but not to its value.
+nonzero — what the proposition's argument requires — but not to its value. The certificate's `genuine_bond_dimension_2` field attributes the value −4 to `reverify.py` P5; P5 verifies the equivalent rank-4 condition. The certificate is left byte-identical to its hash-pinned shipped form; the attribution is corrected here.
 
 *Exact-arithmetic verifier* (`reverify.py`, Python standard library only; no
 third-party imports; no POSIX-only calls). It (i) forms *h* from I, X, Z and
@@ -358,7 +358,7 @@ the amplitude and operator conventions, and the verified properties.
 |------|---------|
 | `reverify.py` | `e57a0aea13d348311fcd2e260474fb40b68a80c60ed12840a5c03718ff9179d9` |
 | `xcheck.py` | `f43eb90b738f74fef71650fd1b7c78f9a7ff706f31e367fefa3843a6bbef4fc2` |
-| `object.json` | `990b68160220f26246bebaa4a7347247c64d78bfeb6962816d5e6e8e6a57ba01` |
+| `object.json` | `1353baa37f960332ad3b6a8013d57c92168befd18be3323b4f16309ae13076a3` |
 
 ## Acknowledgments
 

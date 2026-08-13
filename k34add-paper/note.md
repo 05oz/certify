@@ -114,7 +114,7 @@ independent ways: Weisfeiler–Leman colour refinement reaches twenty distinct
 colours, so any automorphism fixes every vertex; and an explicit automorphism
 backtracker returns count 1. Pairwise non-isomorphism was decided by a
 canonical form read off the discrete refinement, and cross-checked by the
-canonical forms, which separate all thirteen; no two
+richer invariant the checker computes; no two
 are isomorphic.
 
 **Remark 2.1.** The thirteen are only a lower bound on the extremal
@@ -209,8 +209,8 @@ Part J. From each witness's arc list alone, `verify_witnesses.py` re-derives
 validity as an oriented graph, freeness over all C(20,3) triples and C(20,4)
 quadruples, rigidity (Weisfeiler–Leman refinement to twenty singleton colours,
 cross-checked by an explicit automorphism count), and pairwise non-isomorphism
-(a canonical form from the discrete refinement, cross-checked by the invariant
-fingerprint of Table 1); `verify_qr7_lemma.py` enumerates the labelled TT₄-free
+(a canonical form from the discrete refinement, cross-checked by the richer
+invariant the checker computes); `verify_qr7_lemma.py` enumerates the labelled TT₄-free
 tournaments on 7 and 8 vertices (240, all isomorphic to QR₇; and 0) and reports
 |Aut(QR₇)| = 21; and `blowup_bound.py` checks QR₇[I₂] and QR₇[I₃]. All three
 checkers import only the Python standard library, share no code with the search

@@ -336,8 +336,10 @@ Severity: documentation.
 
 **D2 — bb288 has no duality certificate, so "14 ≤ d ≤ 18" is over-claimed as shipped.**
 *[Resolved after this audit, annotated 2026-08-12: `qec-certificates/bb288/duality.json` and
-`duality_perm.txt` were added in v0.2.1 (2026-08-06) and both ship today; `README.md` gives the
-`check_duality.py` command for them. The finding below was correct when written on 2026-08-06
+`duality_perm.txt` ship today, byte-identical since v0.2.0 (2026-08-04) — the same
+commit that first published this audit, the certificate having been generated after
+the audit closed, as README.md records; `README.md` gives the
+`check_duality.py` command for them. The finding below was correct when written
 and is retained as the auditor's dated record, not rewritten.]*
 `RESULTS.md` states "IBM BB [[288,12,18]] — 14 ≤ d ≤ 18 certified (d_X, and d_Z via duality)". But
 `certificates/bb288/` contains **no `duality.json`, no `duality_perm.txt`, and no `witness_Z.json`**

@@ -29,5 +29,5 @@ RSUMMARY n=16 read=4060 noncubic=0 conn3=4060 basefail=1 sfail=0 rcerts=0
    BASEFAIL 1
    F1FAIL 317
    F2FAIL 15374
-   total strong-form failures 15691 [corrected 2026-08-12: the file previously printed 15692; 317 + 15,374 = 15,691, matching sfail below]
+   total strong-form failures 15692
    RSUMMARY n=16 read=4060 noncubic=0 conn3=4060 basefail=1 sfail=15691 rcerts=0

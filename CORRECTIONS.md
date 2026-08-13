@@ -1,8 +1,11 @@
 # CORRECTIONS — v0.14.0 documentation-correction round
 
 Dated 2026-08-13. Every corrected claim in the round, by part, with what it now says.
-**No certificate, checker, or certified value changed.** Every checker passes as before and
-every mathematical result of Parts A through M stands. What follows is prose.
+**No certificate file, checker, or certified value changed.** Every certificate and every
+checker in the deposit is byte-identical to its released form; every checker passes as before
+and every mathematical result of Parts A through M stands. Where a shipped certificate's own
+prose was found inaccurate, the certificate was left untouched and the correction is stated in
+the note. What follows is documentation.
 
 ## How these were found
 
@@ -16,8 +19,8 @@ Three passes, each catching what the one before could not:
    sentence against its artifact rather than reading it, and returned 21 further findings,
    five of them written by the repair.
 
-The procedure and the gates now standing between a claim and the public record are in
-`PROTOCOL.md` §§13–17 and `RELEASE-PIPELINE.md`.
+The procedure and the gates now standing between a claim and the public record are maintained
+in the author's working tree and are not part of this deposit.
 
 ## Corrections by part
 
@@ -76,9 +79,9 @@ The procedure and the gates now standing between a claim and the public record a
 
 ### Part L, M — demagnetization tensors (v0.12.x), ZEFOZ (v0.13.0)
 
-- The table carries no `Nyz` entries anywhere; for the rectangular cell on the body diagonal `Nyz` is nonzero and is not a relabelling of any carried component. Coverage is 862 entries across fifty geometry-and-component pairs.
+- The table carries no `Nyz` entries anywhere; for the rectangular cell on the body diagonal `Nyz` is nonzero and is not a relabelling of any carried component. Coverage is 862 entries: 850 across fifty geometry-and-component combinations away from the origin, plus twelve self-terms.
 - The sixteen Maple gold values **agree** with the enclosure midpoints to ≥ 49.6 digits; they do not lie inside the enclosures, which are far tighter, and fifteen of the sixteen lie outside. (Released as the v0.12.1 erratum.)
-- The relative enclosure width across the table reaches 1.7×10⁻⁴⁶, not the canonical far point's 2×10⁻⁵⁴; 106 of 862 entries exceed the latter.
+- The relative enclosure width across the table reaches 1.7×10⁻⁴⁶, not the canonical far point's 2×10⁻⁵⁴, which is exceeded by over a hundred of the 862 entries.
 - `demagcoef.cc`'s header carries 31 check rows, 24 of them nonzero; sixteen form the anchor.
 - Four of the ten published zero-field transitions have certified positive-definite Hessians — local minima, not saddles.
 - The twenty published points span 191 mT to 2.48 T, not 5.3 T.
@@ -90,9 +93,9 @@ The procedure and the gates now standing between a claim and the public record a
 - `PROVENANCE.md` cited two commit hashes unreachable from any ref, in the section written so a timestamp auditor could check the dates; corrected to `7992c21` and `229bf5e`. It also described four bodies of work against thirteen released parts.
 - `INDEPENDENT-VERIFICATION.md`'s finding D2 (bb288 ships no duality certificate) was true when the third-party audit was written and was resolved in v0.2.1; it is annotated as resolved rather than rewritten.
 - The Windows replay predates Parts G–M; Parts E and F were already released and were not included.
-- The two citation ladders now carry the same fifteen version DOIs.
-- Placeholder documentation stubs are removed.
+- The README header ladder and `CITATION.cff` now carry the same DOI set.
+
 
 ---
 
-76 files changed in this round.
+77 files changed in this round.

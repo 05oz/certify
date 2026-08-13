@@ -420,7 +420,7 @@ Table~\ref{tab:sha}; the coverage of each is itemized below. The one
 exception is the determinant $-4$ of Proposition~\ref{prop:irr}, which
 neither code computes. The verifier establishes rank four, which is
 equivalent to the determinant being nonzero --- what the proposition's
-argument requires --- but not to its value.
+argument requires --- but not to its value. The certificate's \texttt{genuine\_bond\_dimension\_2} field attributes the value $-4$ to \texttt{reverify.py} P5; P5 verifies the equivalent rank-4 condition. The certificate is left byte-identical to its hash-pinned shipped form; the attribution is corrected here.
 
 \emph{Exact-arithmetic verifier} (\texttt{reverify.py}, Python standard
 library only; no third-party imports; no POSIX-only calls). It (i) forms
@@ -489,7 +489,7 @@ file & SHA-256 \\
 \texttt{xcheck.py} &
 \texttt{f43eb90b738f74fef71650fd1b7c78f9a7ff706f31e367fefa3843a6bbef4fc2} \\
 \texttt{object.json} &
-\texttt{990b68160220f26246bebaa4a7347247c64d78bfeb6962816d5e6e8e6a57ba01} \\
+\texttt{1353baa37f960332ad3b6a8013d57c92168befd18be3323b4f16309ae13076a3} \\
 \bottomrule
 \end{tabular}
 \end{center}
