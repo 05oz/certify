@@ -101,3 +101,45 @@ appendix resolvent/Cauchy lemma, analytic perturbation formulas for simple
 eigenvalues); nothing else. The branch-and-bound kill statistics are engine
 measurements (run logs shipped), not certified objects, and the note labels
 them as such.
+
+## Documentation-correction round, 2026-08-13
+
+Recorded after the fact. The v0.14.0 round corrected six claims in this part and left no entry
+here; the Engine 2 re-gate of 2026-08-13 found the omission. One is a mathematical misstatement
+about the certified data; the rest are values restated from the artifacts. No certificate,
+checker or certified value changed — every correction below is prose brought into agreement with
+`zefoz-certificates/certificate2.json`, which is byte-identical to its released form.
+
+**M-1. "None of the ten published zero-field transitions has a definite Hessian" was false.**
+Re-derived from the certificate with exact `Fraction` arithmetic over all thirty eigenvalue
+brackets of the ten zero-field transitions: four carry the certified signature (+,+,+) and are
+therefore positive-definite — site 1 (6,8) and (6,9), site 2 (6,8) and (7,11) — six are
+indefinite, and none is indeterminate. At zero field those four frequencies are local minima in
+B, not saddles. Corrected in both twins and in the closing physical-atlas paragraph, which now
+distinguishes the twenty published nonzero-field points (saddles or maxima, none minima) from
+the ten zero-field pairs (six saddles, four local minima).
+Propagation grep (`none of the ten`): 0 remaining in tracked text, 0 in extracted PDF text.
+
+**M-2. The reported zero-field Hessian spectrum was stale.** The note printed a least eigenvalue
+of −11.9910…; the certificate's bracket for site 1 (7,9) is
+[−11.990569855135, −11.990569854807]. Corrected to −11.9905… in both twins.
+
+**M-3. The search box was described as 191 mT–5.3 T.** The twenty published points span
+191 mT–2.48 T; 5.3 T is not attained. Corrected in both twins.
+Propagation grep (`5.3 T`, `5.3~T`, `$5.3$`): 0 remaining in tracked text, 0 in extracted PDF
+text.
+
+**M-4. The projected both-sites cost was rounded to 1.6e6 and the per-site figure was wrong in
+the kill log.** Re-derived: 713 s/mT^3 × 4.0e6 mT^3 / 3600 s/h = 7.92e5 laptop-hours per site,
+1.58e6 for both. `zefoz-scripts/kill-logs/KILL-STATS.md` printed 7.93e5; corrected to 7.92e5.
+The note's both-sites figure corrected from 1.6e6 to 1.58e6 in both twins.
+Propagation grep (`7.93e5`): 0 remaining in tracked text, 0 in extracted PDF text.
+
+**M-5. The literature-agreement bound was stated as ≤ 0.06 MHz.** The worst of the eighteen
+agreeing entries is 0.0634 MHz at site 1 (8,13). Corrected to ≤ 0.07 MHz with the worst case
+named, in both twins.
+
+**M-6. The tamper battery's T2 case was described as a narrowed gradient enclosure.** T2 shifts
+the enclosure — both endpoints, width preserved — so the recomputed one escapes. Corrected in
+the note's battery description and in `zefoz-scripts/tamper_demo.py`'s docstring. The script's
+executable logic is unchanged; only the docstring was wrong.

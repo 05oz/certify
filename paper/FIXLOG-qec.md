@@ -119,21 +119,23 @@ completeness (and the lex-leader's) as assumed on the same footing as Sinz.
 `qec-certificates/bb288/bb288_prof_K16_exact.lrat.gz` is a symlink to
 `/Users/kirt/Documents/reserch math/algo/proofs/bb288_prof_K16_exact.lrat.gz`
 (an absolute path outside the repo). It is currently **untracked** in git, so it
-is not yet in the release; but if `git add`-ed it becomes a dangling,
-machine-specific symlink on any clone — contradicting REGENERATE.md, which says
-this 310 MB proof is not carried in git and must be regenerated. **Action for the
-author before commit:** do not commit this symlink (leave the proof absent, as
-REGENERATE.md item 5 already documents). Not deleted here: it is untracked (not
+is not yet in the release; but if `git add`-ed the release would carry a
+machine-specific symlink to an absolute path outside the repository —
+contradicting REGENERATE.md, which says this 310 MB proof is not carried in git
+and must be regenerated. **Action for the author before commit:** do not commit
+this symlink (leave the proof absent, as REGENERATE.md item 5 already
+documents). Not deleted here: it is untracked (not
 in the release), it is what enabled the local K16 replay above, and deleting
 artifacts is outside a paper-text review.
 
 *Outcome, recorded 2026-08-12.* The action was not carried out. The symlink was
 staged and committed in `b3d00ba`, the v0.2.1 release commit reviewed above, and
 it is present as mode `120000` in the tag trees v0.2.1 and v0.5.0 through
-v0.13.0. Every clone of those trees received a dangling absolute symlink at the
-path REGENERATE.md item 5 tells the reader to write the regenerated proof to, so
-the documented `gzip bb288_prof_K16_exact.lrat` step, and any `gunzip
-bb288/*.lrat.gz` loop, failed on a fresh clone. The paragraph above therefore
+v0.13.0. Those trees carry, at the path REGENERATE.md item 5 tells the reader to
+write the regenerated proof to, a machine-specific symlink to an absolute path
+outside the repository, so the documented `gzip bb288_prof_K16_exact.lrat` step,
+and any `gunzip bb288/*.lrat.gz` loop, act on that symlink rather than on a
+regular file. The paragraph above therefore
 describes the state at review time only; its "currently untracked" was overtaken
 by the release commit. The symlink has now been removed from the index, and
 REGENERATE.md item 5 states plainly that the path is empty and that the

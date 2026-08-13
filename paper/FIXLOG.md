@@ -81,3 +81,34 @@ five citation/precision SHOULD-FIXes applied to supporting docs and script comme
 (no live claim touched, PDF unchanged at that time, still 20 pages, scripts still
 pass; superseded 2026-08-12 by the documentation pass, which rebuilt the PDF to
 21 pages after correcting the Section 7 artifact inventory).
+
+## Documentation-correction round, 2026-08-13
+
+The 2026-08-12 documentation pass is recorded above only in the two page-count amendments. It
+also changed one script, and that change was recorded nowhere until now; the Engine 2 gate of
+2026-08-13 found the omission. This is the round's only change to executable content.
+
+**A-1. `scripts/erratum-check/exhibit.py` queried the wrong rational point under the Gamma
+label.** The call labelled `Gamma (p,q)=(7/3,4/27)` passed the target `(4/27, 1/3, 1)`. The
+Gamma point is `(4/27, 4/3, 1)`. Corrected to `Rational(4,3)`.
+
+Pre-state verified by execution, not by reading: `scripts/erratum-check/exhibit.py` is
+byte-identical at `v0.1.2` and at `main` (`cmp` on `git show` output), and running that released
+version prints, under the Gamma heading, `degree=3 #distinct x-roots=3` and `--> 3 distinct
+preimage point(s)`, two of them carrying `EXACT-OK=False`. So as shipped from v0.1.2 through
+v0.13.0 the script appeared to exhibit a non-empty fibre over Gamma — the opposite of what the
+erratum it supports establishes. Running the corrected script prints `GB = [1] -> EMPTY fibre
+(0 preimages)`.
+
+The defect never reached a gate: `exhibit.py` is excluded from the replay set (item 71 above),
+contains no assertion, no `sys.exit` and no `raise`, and exits 0 whatever it prints. Nothing
+depends on it. `exhibit2.py`, which was run, already carried the correct target `(4/27, 4/3, 1)`
+and was not changed in this round; the two scripts disagreed on the released record for a week.
+
+Consequence for `ERRATUM-v0.1.2.md`: its closing sentence — "`exhibit.py` prints the same
+radical preimages as `exhibit2.py`" — was FALSE as released and is TRUE of this candidate. Both
+scripts were re-run on 2026-08-13 and agree on every target, including the empty fibre over
+Gamma. The erratum text is therefore left unchanged, having been made accurate by the fix rather
+than by an edit.
+Propagation grep (`Rational(1,3)`, `4/27, 1/3`): 1 site each, this log's own quotation of the
+superseded call above. 0 elsewhere in tracked text, 0 in extracted PDF text.

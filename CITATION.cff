@@ -101,8 +101,8 @@ identifiers:
     value: "10.5281/zenodo.21898996"
     description: "Part M, v0.13.0 — certified ZEFOZ brackets, 167Er3+:Y2SiO5"
 repository-code: "https://github.com/05oz/certify"
-date-released: "2026-08-12"
-version: 0.13.0  # newest feature release; newest tag is the v0.12.1 erratum
+date-released: "2026-08-13"
+version: 0.14.0  # documentation-correction round; newest feature release is Part M, v0.13.0
 license: Apache-2.0
 keywords:
   - Jacobian conjecture

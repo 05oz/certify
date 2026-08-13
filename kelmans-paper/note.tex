@@ -523,9 +523,11 @@ type $(f\mkern-2mu1)$, $52$ of $(f\mkern-2mu2)$); $253$ at order $12$,
 spread over all four $(z\cdot)$ paths ($4$ of $(z2)$, $8$ of $(z3)$, $106$
 of $(z7)$, $135$ of $(z8)$); $145$ of $(t2)$ type at order $14$; and
 $15{,}691$ at order $16$ ($317$ of $(f\mkern-2mu1)$, $15{,}374$ of
-$(f\mkern-2mu2)$; the captured control log's own header line prints
-$15692$ for this total, an arithmetic slip in the log and not in the
-count --- its \texttt{RSUMMARY} two lines below reads
+$(f\mkern-2mu2)$; the captured control log's closing total for order $16$
+prints $15692$, which is the sum of all three failure lines in that block
+including the single base-claim failure \texttt{BASEFAIL 1}. The
+strong-form total, excluding the base failure, is $15{,}691$, as the
+\texttt{RSUMMARY} on the next line records with
 \texttt{sfail=15691}). Each checker was likewise run on deliberately doctored
 certificates, one corruption per line: a non-path triple, a cover gap, an
 overlapping triple, a valid partition of sub-maximum shape, a

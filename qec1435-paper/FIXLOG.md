@@ -87,3 +87,25 @@ anneal2_s44.out, table-column sum). No new solver campaigns; artifacts untouched
   two points.
 - No reviewer finding was rejected; every disputed fact settled on the reviewers'
   side after replay/record checks. No claim was strengthened anywhere in this pass.
+
+## Documentation-correction round, 2026-08-13
+
+Recorded after the fact. The v0.14.0 round corrected two claims in this part and left no entry
+here; the Engine 2 re-gate of 2026-08-13 found the omission. Both are artifact-inventory
+claims. No certified value, checker or mathematical result changed.
+
+**D-1. The novelty sweep's raw HTML was claimed to ship with the artifacts.** Both twins and
+the header comment read "raw HTML archived with the artifacts". The HTML is retained in the
+author's working tree and is not redistributed in this deposit; the twins now say so.
+Propagation grep (`archived with the artifacts`): 0 remaining in tracked text, 0 in extracted
+text across all thirteen shipped PDFs.
+
+**D-2. The artifact inventory read "(all run outputs)", overstating what is deposited.**
+Re-derived rather than transcribed: `git ls-files qec1435-certificates` returns 43 tracked
+files — 41 run outputs plus the two executable certificates `lemmaC_certificate.py` and
+`lemmaD_certificate.py`. The header comment now states that split, and the runs whose console
+output was not archived are itemized in Sections 3, 5 and 7. This sentence lives only in the
+`%%` provenance comment block at the head of `note.tex`: the `.md` twin carries no counterpart,
+and a LaTeX comment does not reach the compiled PDF, so this correction is neither a both-twins
+edit nor verifiable by text extraction. D-1 above is the both-twins correction of the two.
+Propagation grep (`all run outputs`): 0 remaining in tracked text, 0 in extracted PDF text.

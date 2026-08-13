@@ -119,3 +119,37 @@ release. The 49.6-digit agreement figure and every certified enclosure are unaff
 Fixed in v0.12.1 with a dated erratum footnote in both note twins; sweep record
 corrected in-place with annotation. Root cause and the resulting PROTOCOL §14
 (claim-correction propagation gate) are recorded in the program PROTOCOL.
+
+## Documentation-correction round, 2026-08-13
+
+The v0.14.0 round made three corrections to this part. All three were applied in the note and,
+for the first, in a dated erratum footnote inside the note; none was recorded in this log, whose
+only change this round was the date added to its title line. The Engine 2 gate of 2026-08-13
+found the omission. No certificate, checker or certified value changed —
+`demag-certificates/demag_certificate.json` is byte-identical to its released form.
+
+**L-1. The anchor was described as "the 16 diagonal and off-diagonal values Donahue computed to
+50 digits in Maple and recorded in `demagcoef.cc`".** That misdescribes the source: the
+`demagcoef.cc` header carries a table of Nxx and Nxy check values, 31 rows, 24 of them nonzero.
+16 is the size of the subset the certificate anchors against, not the size of the table.
+Corrected in both twins, and a dated erratum footnote records the superseded wording verbatim.
+The anchor set, the ≥ 49.6-digit agreement figure and the enclosures are unchanged.
+Propagation grep (`16 diagonal and off-diagonal`): 1 site, the erratum footnote in `note.md`
+quoting the superseded sentence, which is that footnote's purpose; the `.tex` twin carries the
+same quotation with LaTeX math delimiters. The PDF carries both the corrected sentence and the
+footnote. `demag-scripts/anchor_check.py`'s docstring was corrected to the same description.
+
+**L-2. The permutation-identity remark asserted more than is tested.** It said the identities
+hold among "the six components" because Nyy, Nzz, Nxz and Nyz are relabelings of the same f and
+g evaluations. Nyz is carried nowhere in the table, so no identity involving it is tested.
+Corrected in both twins to state the identities over the components the table actually carries,
+naming Nyy, Nzz and Nxz, and to say so of Nyz explicitly.
+
+**L-3. The coverage figure was unqualified.** The note gave 862 certified entries over "fifty
+geometry-and-component pairs", which does not account for the origin. Re-derived from the
+certificate rather than transcribed: `demag_certificate.json` carries 862 entries, of which 12
+have `sep_cells == 0` — the self-terms, Nxx, Nyy and Nzz at each of four cells — and 850 lie
+away from the origin across exactly 50 distinct (cell, direction, component) combinations.
+850 + 12 = 862. Corrected in both twins to state that split.
+Propagation grep (`fifty geometry-and-component pairs`): 0 remaining in tracked text.
+(`a gold value cannot lie inside`, the absolute retired earlier in the round): 0 remaining.

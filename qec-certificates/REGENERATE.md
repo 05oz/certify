@@ -107,8 +107,8 @@ No file, and no link to a file, is carried there: the descriptor
 puts a proof at it. A reader who has not run the procedure will find nothing
 there, and `check_prof.py bb288_prof_K16_exact.json` will stop with a missing-file
 error until it has been run. (The tag trees v0.2.1 and v0.5.0 through v0.13.0 did
-carry a machine-specific absolute symlink at this path, which dangled on every
-clone; it has been removed from the index. See `paper/FIXLOG-qec.md` S3.)
+carry a machine-specific symlink to an absolute path outside the repository at
+this path; it has been removed from the index. See `paper/FIXLOG-qec.md` S3.)
 
 ```sh
 cd bb288

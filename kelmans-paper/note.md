@@ -420,8 +420,10 @@ fire as well: no failure at order 8, where none exists; 54 at order 10
 (2 of type (f1), 52 of (f2)); 253 at order 12, spread over all four (z·)
 paths (4 of (z2), 8 of (z3), 106 of (z7), 135 of (z8)); 145 of (t2) type
 at order 14; and 15,691 at order 16 (317 of (f1), 15,374 of (f2); the captured
-control log's own header line prints 15692 for this total, an arithmetic slip in
-the log, not in the count — its `RSUMMARY` two lines below reads `sfail=15691`). Each
+control log's closing total for order 16 prints 15692, which is the sum of all
+three failure lines in that block including the single base-claim failure
+`BASEFAIL 1`. The strong-form total, excluding the base failure, is 15,691, as
+the `RSUMMARY` on the next line records with `sfail=15691`). Each
 checker was likewise run on deliberately doctored certificates, one
 corruption per line: a non-path triple, a cover gap, an overlapping
 triple, a valid partition of sub-maximum shape, a `graph6` string with a

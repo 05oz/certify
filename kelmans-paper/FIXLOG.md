@@ -312,3 +312,36 @@ holds for the staged copies.
 **Not touched:** `CITATION.cff` still reads `version: 0.4.0` and lists Part D as the last
 DOI. It has been stale since v0.5.0 and updating it is a release-process decision, not a
 fix-pass one; flagged here rather than changed.
+
+## Documentation-correction round, 2026-08-13
+
+**I-1. The note mischaracterized the shipped control log as containing an arithmetic slip.**
+The 2026-08-12 pass added, to both twins, the clause: "the captured control log's own header
+line prints 15692 for this total, an arithmetic slip in the log, not in the count — its
+`RSUMMARY` two lines below reads `sfail=15691`". Three things in it were false, and the Engine 2
+gate of 2026-08-13 caught them.
+
+Re-derived from `kelmans-certificates/controls/ctl_base_strong_2026-08-11.txt` by parsing the
+file, not by reading the sentence:
+
+- **The log commits no slip.** Its "total strong-form failures" line is the exact sum of every
+  failure line in its block, and that rule holds in all five blocks (n = 8, 10, 12, 14, 16).
+  At n = 16 the block carries `BASEFAIL 1`, `F1FAIL 317`, `F2FAIL 15374`, and 1 + 317 + 15,374
+  = 15,692. The `RSUMMARY`'s `sfail=15691` excludes the base-claim failure. The two numbers
+  count different things and both are correct; neither is a miscalculation.
+- **It is not a header line.** The line printing 15692 is the block's closing total, printed
+  after the three failure lines (line 32). The block header is `-- n=16` at line 28 and carries
+  no number.
+- **It is not two lines below.** The `RSUMMARY` is line 33, immediately after.
+
+Corrected in both twins to state that the closing total includes the base-claim failure and the
+strong-form total excludes it, and that the `RSUMMARY` on the next line records the latter.
+`note.pdf` rebuilt with tectonic (10 pp., unchanged) and verified by text extraction: the
+superseded phrasings "arithmetic slip", "own header line" and "two lines below" return 0 hits in
+the extracted text, and the corrected phrasings return 1 each.
+
+No count changed anywhere: 317 + 15,374 = 15,691 stands, as does every per-type figure in §3.3
+and in `kelmans-certificates/verdict-n04-20.md`. The control log is untouched and byte-identical
+to its released form; only the note's description of it was wrong.
+Propagation grep (`arithmetic slip`): 1 site, this log's own quotation of the superseded clause
+above. 0 elsewhere in tracked text, 0 in extracted text across all thirteen shipped PDFs.
