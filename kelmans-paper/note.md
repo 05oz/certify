@@ -18,7 +18,7 @@ Independent researcher (`05oz`); no institutional affiliation — daniel@halfoun
 > clang 17, and Python 3.
 
 > **Prior-art record.** The primary source [Kel11] was read in full (arXiv
-> v2; a copy is archived with the artifacts, and all statement numbers
+> v2; a copy is archived in the author's working tree, not redistributed here, and all statement numbers
 > below follow its numbering). A novelty sweep was run on August 5 and
 > again on August 11, 2026, the latter immediately before this draft was
 > written: the arXiv API (abstracts mentioning P₃-factors or 3-vertex

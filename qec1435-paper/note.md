@@ -28,7 +28,7 @@ GF(4), automorphism groups, linear programming bound, certificates.
 
 > **Status and provenance record.** The problem statement was verified
 > against the primary source (codetables.de, retrieved August 5, 2026, raw
-> HTML archived with the artifacts), and a novelty sweep was completed the
+> HTML archived in the author's working tree, not redistributed here), and a novelty sweep was completed the
 > same day: no published existence or nonexistence result for [[14,3,5]]
 > was found beyond the CSS case of [Koh26], and no published automorphism
 > restriction for it was found. A negative cannot be proved this way; we

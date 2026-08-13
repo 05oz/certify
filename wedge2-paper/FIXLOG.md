@@ -81,3 +81,24 @@ through `jobrunner.py --mem-mb 2500 --workers 1` on a dedicated queue
 (`wedge2/queue_w2.jsonl`); in-shell work was limited to d=3/small-case smoke
 tests (<10 s each). Peak checker RSS 836 MB, well under the cap. No job died
 at the cap; no cap was raised.
+
+## Post-release correction pass, 2026-08-12
+
+Four claim-level corrections landed after release; recorded here because the Engine 2 referee
+found only this file's title line changed while the paper had changed substantively.
+
+**K-1. Part letter.** This file and `note.tex`'s header comment labelled the release "Part L".
+wedge2 is **Part K**, v0.11.0, doi:10.5281/zenodo.21898343; Part L is the demagnetization-tensor
+release, v0.12.0. Propagation grep (`Part L` in wedge2-*): 2 hits, both corrected.
+
+**K-2. Strict containment.** The note asserted `L < P_L < U` "verified in exact rational
+arithmetic by the checker". `check_wedge2.py:300` gates the non-strict `L <= P_L <= U`.
+Strictness is true — re-verified in exact `Fraction` arithmetic — but is not what the shipped
+checker establishes. Corrected to state what the checker does.
+
+**K-3. Bracket positions.** The abstract gave the two d = 5 exact values as sitting at 0.36 and
+0.51 of their bracket widths. Re-derived positions: 0.5151 and 0.5146 at d = 3, 0.3581 and
+0.3698 at d = 5. The sentence is scoped to d = 5, so the correct pair is 0.36 and 0.37.
+
+**K-4. Supersession pointer.** Part H's README section presented its bracket as current with no
+pointer to this part. Noted for the README owner; not a wedge2-paper edit.

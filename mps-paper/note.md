@@ -358,7 +358,7 @@ the amplitude and operator conventions, and the verified properties.
 |------|---------|
 | `reverify.py` | `e57a0aea13d348311fcd2e260474fb40b68a80c60ed12840a5c03718ff9179d9` |
 | `xcheck.py` | `f43eb90b738f74fef71650fd1b7c78f9a7ff706f31e367fefa3843a6bbef4fc2` |
-| `object.json` | `1353baa37f960332ad3b6a8013d57c92168befd18be3323b4f16309ae13076a3` |
+| `object.json` | `990b68160220f26246bebaa4a7347247c64d78bfeb6962816d5e6e8e6a57ba01` |
 
 ## Acknowledgments
 

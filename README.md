@@ -1,6 +1,6 @@
 # Certify: replayable certificates for machine-checked mathematics
 
-**Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112), erratum (v0.1.2) [doi:10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780), update (v0.2.1) [doi:10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018) · Part E (v0.5.0) [doi:10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896) · Part F (v0.6.0) [doi:10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028) · Part G (v0.7.0) [doi:10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619) · Part H (v0.8.0) [doi:10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825) · Part I (v0.9.0) [doi:10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011) · Part J (v0.10.0) [doi:10.5281/zenodo.21898266](https://doi.org/10.5281/zenodo.21898266) · Part K (v0.11.0) [doi:10.5281/zenodo.21898343](https://doi.org/10.5281/zenodo.21898343) · Part L (v0.12.0) [doi:10.5281/zenodo.21898722](https://doi.org/10.5281/zenodo.21898722) · Part M (v0.13.0) [doi:10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996)
+**Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112), erratum (v0.1.2) [doi:10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780), update (v0.2.1) [doi:10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018) · Part E (v0.5.0) [doi:10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896) · Part F (v0.6.0) [doi:10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028) · Part G (v0.7.0) [doi:10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619) · Part H (v0.8.0) [doi:10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825) · Part I (v0.9.0) [doi:10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011) · Part J (v0.10.0) [doi:10.5281/zenodo.21898266](https://doi.org/10.5281/zenodo.21898266) · Part K (v0.11.0) [doi:10.5281/zenodo.21898343](https://doi.org/10.5281/zenodo.21898343) · Part L (v0.12.0) [doi:10.5281/zenodo.21898722 (erratum v0.12.1: doi:10.5281/zenodo.21910159)](https://doi.org/10.5281/zenodo.21898722) · Part M (v0.13.0) [doi:10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996)
 
 Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-12.
 
@@ -64,7 +64,7 @@ Each row: claim → certificate/artifact → how to re-run. All scripts are pure
 | 14 | Same eight certificates reproduced mod 32003 | ours | `certificates/ms_*_c32003.ms` → `certificates/out_*_p.txt` (each basis = `[1]`) | same, on the `_c32003` inputs |
 | 15 | Positive control: the degree-7 example satisfies the identical normalized degree-7 system (pipeline provably contains the counterexample) | ours | `scripts/min_verify.py` part `d7control` (exact scaled substitution, asserted); computational record in `certificates/D7CONTROL-NEGATIVE-RESULT.md` (the msolve reduced-basis run on `certificates/ms_D7control_c32003.ms` did not terminate in 600 s — expected for a nonempty variety) | `python scripts/min_verify.py d7control` |
 
-The eight emptiness certificates are the six Branch-I systems `I-A2c-g1`, `I-A2c-g2`, `I-A2L-g1`, `I-A2L-g2`, `I-B2-g1`, `I-B2-g2` and the two full-generality Branch-II systems `II-f0`, `II-f1` (19 and 18 unknowns). Naming: `*_c0` = characteristic 0 input, `*_c32003` = mod 32003 input; `out_*_q.txt` = char-0 output, `out_*_p.txt` = mod-32003 output. A stored output whose reduced Gröbner basis is `[1]` is a Nullstellensatz certificate that the corresponding system is empty.
+The eight emptiness certificates are the six Branch-I systems `I-A2c-g1`, `I-A2c-g2`, `I-A2L-g1`, `I-A2L-g2`, `I-B2-g1`, `I-B2-g2` and the two full-generality Branch-II systems `II-f0`, `II-f1` (18 and 19 unknowns respectively). Naming: `*_c0` = characteristic 0 input, `*_c32003` = mod 32003 input; `out_*_q.txt` = char-0 output, `out_*_p.txt` = mod-32003 output. A stored output whose reduced Gröbner basis is `[1]` is a Nullstellensatz certificate that the corresponding system is empty.
 
 ## Quickstart
 
@@ -264,6 +264,8 @@ lower bound new, by a vertex-transitive 28-vertex witness; upper bound IRW's). P
 
 ## Part H — certified sub-threshold logical error brackets (v0.8.0)
 
+**Superseded by Part K (v0.11.0):** the two-sided bracket below is replaced by the exact rational value of the logical error probability for these configurations; see the Part K section.
+
 **Exact uncorrectable-set counts and a two-sided rational bracket on the logical error
 probability of the rotated surface code, re-verifiable in the standard library.** Mullan,
 Weippert, and Brown (arXiv:2607.27153) name the deep sub-threshold regime as inaccessible to
@@ -289,7 +291,7 @@ width equal to an exactly-computed Poisson-binomial tail `T = P(W ≥ WMAX+1)`. 
   `U` in exact rational arithmetic from the certificate alone, failing loudly (`CHECK FAIL`, exit
   nonzero) on any mismatch. Both import only the Python standard library; no signals, subprocesses,
   network, or wall-clock. Verified on system `python3` 3.9.6.
-- **Trust root, stated plainly.** The checker certifies `L ≤ P_L ≤ U` *given* the `(det, obs, p)`
+- **Trust root, stated plainly.** Each checker certifies `L ≤ P_L ≤ U` *given* the `(det, obs, p)`
   mechanism list embedded in the certificate; it does not (and from the public artifact cannot)
   re-verify that this list equals Stim's DEM at the stated `p` — that binding lives in the private
   generator, which is **not** in this repository. The bracket bounds the independent-mechanism DEM,

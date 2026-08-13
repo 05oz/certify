@@ -66,3 +66,21 @@ Both shipped d=5 WMAX=5 certificates and both d=3 certificates were re-checked
 by the shipped stdlib checkers **from the staged `wedge-certificates/`
 directory** after staging; all `CHECK PASS` (recorded in the SWEEP-RECORD and
 the return summary).
+
+## Post-release correction pass, 2026-08-12
+
+Two claim-level corrections landed in the note after release; recorded here because the
+Engine 2 referee found this log untouched while the paper had changed.
+
+**W-1. The d = 3 uncorrectable-set count was unqualified.** The note read "the uncorrectable
+sets number 4823". 4823 is the count of uncorrectable fault sets of weight at most WMAX = 4
+(55 + 690 + 4078 from `certificate_d3_r1_p1over100.json`); the total is 2^22 = 4,194,304, per
+Part K's certificate for the same object. Corrected in both twins to name the weight bound.
+Propagation grep (`4823`): 3 hits — note.tex, note.md, note.pdf; all three now scoped, the PDF
+rebuilt and verified by text extraction.
+
+**W-2. The checker descriptions (ii)-(iii) were stated as if uniform across distances.** They
+describe `check_wedge_d5.py`; `check_wedge.py` at d = 3 runs a full untruncated BFS over all 256
+syndromes and compares against an embedded decoder table. Corrected in both twins.
+Propagation grep (`depth-truncated`, `WMAX`): checked across note twins and README; no further
+site asserts uniformity.

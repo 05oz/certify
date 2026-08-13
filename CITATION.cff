@@ -65,6 +65,12 @@ identifiers:
     value: "10.5281/zenodo.21816018"
     description: "Part D, v0.4.0 — [[14,3,5]] monomial automorphism exclusion"
   - type: doi
+    value: "10.5281/zenodo.21831894"
+    description: "Part A, v0.1.2 — erratum: Theorem D fiber count corrected to {3,1,0}"
+  - type: doi
+    value: "10.5281/zenodo.21831995"
+    description: "Part B, v0.2.1 — d([[288,12,18]]) = 18 exactly; 16 <= d for [[360,12,<=24]]"
+  - type: doi
     value: "10.5281/zenodo.21831896"
     description: "Part E, v0.5.0 — an explicit CFR(5,25): F_c(25) >= 5"
   - type: doi

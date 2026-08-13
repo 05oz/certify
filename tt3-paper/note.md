@@ -18,7 +18,8 @@ Independent researcher (`05oz`); no institutional affiliation — daniel@halfoun
 > CaDiCaL 3.0.1 (`--lrat --no-binary`), Apple clang 17.0.0, Python 3.
 
 > **Prior-art record.** The Kabiya–Yuster text [KY08] was read in full
-> on August 5, 2026, from the copy saved with the artifacts (an author
+> on August 5, 2026, from a copy retained in the author's working tree and not
+> redistributed here (an author
 > preprint; section references follow its numbering). The
 > concluding-remarks account in [Yus04] of the verified range and of the
 > upper-bound construction was checked verbatim against the arXiv text

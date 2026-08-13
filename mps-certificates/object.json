@@ -43,7 +43,7 @@
   "verified_properties": {
     "H_psi_zero_exact": "L = 3..10 (dense integer substitution; reverify.py P2), and L = 3..9 (independent numpy build; xcheck.py)",
     "psi_nonzero": "||psi_L||^2 = 4^L for L = 3..9 (xcheck.py)",
-    "genuine_bond_dimension_2": "{I, A0, A1, A0 A1} spans M_2(C); coefficient determinant = -4 (reverify.py P5)",
+    "genuine_bond_dimension_2": "{I, A0, A1, A0 A1} spans M_2(C); coefficient determinant = -4 (independent expansion; reverify.py P5 verifies the equivalent rank-4 condition)",
     "not_frustration_free": "a single bond term h_{1,2}|psi_4> is nonzero (reverify.py P6)",
     "contiguous_half_cut_schmidt_rank": {"L4": 4, "L6": 4, "L8": 4},
     "odd_even_sublattice_schmidt_rank": {"L4": 2, "L6": 4, "L8": 8},
