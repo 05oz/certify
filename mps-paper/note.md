@@ -47,11 +47,12 @@ and Verstraete (arXiv:2603.28349), so the *technique* is not new and is
 credited as such. The state is genuinely bond dimension two
 ({I, A⁰, A¹, A⁰A¹} spans M₂(ℂ)): its exact odd/even sublattice Schmidt rank
 over ℚ is 2, 4, 8 at *L* = 4, 6, 8, so the minimal number of product states
-in a decomposition across that cut grows over the computed range. Every
-quantitative claim is re-established from raw data by a standard-library
-exact-arithmetic verifier, and the eigenvalue property is independently
-re-established by a dense `numpy` build; both are shipped with SHA-256
-digests. We make no claim about
+in a decomposition across that cut grows over the computed range. The
+certificate, the eigenvalue property, the Schmidt ranks and the spanning
+property are re-established from raw data by a standard-library
+exact-arithmetic verifier; the eigenvalue property and the norms
+‖ψ_L‖² = 4ᴸ are recomputed for L = 3,…,9 by an independent dense `numpy` build; both
+codes are shipped with SHA-256 digests. We make no claim about
 the thermal or non-thermal character of the remainder of the spectrum of
 *H*, and object-level novelty rests on a finite sweep and cannot be absolute
 (§1.4).
@@ -293,8 +294,12 @@ draw no dynamical conclusion from it.
 
 ## 4. Verification and reproduction
 
-Every quantitative claim is re-established from the raw data (2)–(5) by two
-independent codes, shipped with the note and pinned by SHA-256 in Table 1.
+The quantitative claims of Theorem 1.1 and §3 are re-established from the raw
+data (2)–(5) by two independent codes, shipped with the note and pinned by
+SHA-256 in Table 1; the coverage of each is itemized below. The one exception
+is the determinant −4 of Proposition 2.3, which neither code computes. The
+verifier establishes rank four, which is equivalent to the determinant being
+nonzero — what the proposition's argument requires — but not to its value. The certificate's `genuine_bond_dimension_2` field attributes the value −4 to `reverify.py` P5; P5 verifies the equivalent rank-4 condition. The certificate is left byte-identical to its hash-pinned shipped form; the attribution is corrected here.
 
 *Exact-arithmetic verifier* (`reverify.py`, Python standard library only; no
 third-party imports; no POSIX-only calls). It (i) forms *h* from I, X, Z and
@@ -312,9 +317,11 @@ Remark 3.2 by exact integer conjugation. It reports `ALL CHECKS PASS`
 no code with `reverify.py`: the dense Hamiltonian is assembled directly from
 Pauli matrices by Kronecker products, the amplitudes from explicit
 Tr(A^{s₁} ⋯ A^{s_L}), all in `object`-dtype (arbitrary-precision integer)
-arithmetic. It confirms *H*|ψ_L⟩ = 0 exactly, ‖ψ_L‖² = 4ᴸ (hence
-|ψ_L⟩ ≠ 0), and *H* real symmetric, for *L* = 3,…,9. Two disjoint code paths
-agree.
+arithmetic. For *L* = 3,…,9 it prints *H*|ψ_L⟩ = 0 exactly, |ψ_L⟩ ≠ 0, *H*
+real symmetric, and the exact squared norm, which is 4ᴸ at each of those
+lengths. The script reports these values without asserting them — it contains
+no failure path and exits 0 unconditionally — so the comparison with 4ᴸ is
+made against its printed output. Two disjoint code paths agree.
 
 *The trusted base.* The all-length statement (Theorem 1.1, eigenvalue part)
 rests on the finite identity (6) — sixteen integer equations — and the
@@ -349,7 +356,7 @@ the amplitude and operator conventions, and the verified properties.
 
 | file | SHA-256 |
 |------|---------|
-| `reverify.py` | `eac86c337770fc6512937f17e83fb066b01a9ee529ed12ed68f1d2faf7177ec4` |
+| `reverify.py` | `e57a0aea13d348311fcd2e260474fb40b68a80c60ed12840a5c03718ff9179d9` |
 | `xcheck.py` | `f43eb90b738f74fef71650fd1b7c78f9a7ff706f31e367fefa3843a6bbef4fc2` |
 | `object.json` | `1353baa37f960332ad3b6a8013d57c92168befd18be3323b4f16309ae13076a3` |
 

@@ -15,7 +15,8 @@ source during this pass (verdicts below). Fixes applied identically to note.tex 
 2. **Provenance of primary-source reading.** The draft claimed both primary sources were
    "read in full." The record (NOTES.md) documents only KY08. Downgraded to: KY08 read in
    full from the archived copy; Yus04's concluding-remarks account checked verbatim
-   against the arXiv text (math/0304180, fetched and archived with this note during this
+   against the arXiv text (math/0304180, fetched and archived in the author's working
+   tree during this
    fix pass); Yus04 otherwise used as reported in KY08.
 3. **Upper-bound credit reassigned KY08 → Yuster 2004.** Yus04 §4 proves the full integral
    upper bound f(n) ≤ ⌈n(n−1)/6 − n/3⌉ with the identical Turán-orientation argument
@@ -58,3 +59,18 @@ source during this pass (verdicts below). Fixes applied identically to note.tex 
 - primary-source-yuster04-arxiv-math0304180.pdf — added (arXiv math/0304180 fetched 2026-08-05, backs the Yus04 verbatim checks). *[Clarification 2026-08-06: added to the author's private working tree, not to this repository — third-party PDFs are not redistributed here.]*
 - note.pdf — recompiled with tectonic after the fixes.
 - No artifact in solve/problem-2/ was modified; no solver campaign was launched.
+
+## Documentation-correction round, 2026-08-13
+
+The v0.14.0 round made one correction to this part. It was applied in place inside item 2 of the
+2026-08-05 pass above and left no entry of its own; the Engine 2 gate of 2026-08-13 found the
+omission and it is recorded here. No certificate, checker or certified value changed.
+
+**C-1. The arXiv copy of math/0304180 was described as shipping with the note.** Both twins read
+that the reference was read "from the copy saved with the artifacts"; item 2 above likewise said
+it was "fetched and archived with this note". The copy is retained in the author's working tree
+and is not redistributed in this deposit. Corrected in both twins and in item 2 to say so. The
+reading date, August 5 2026, and the novelty conclusion are unchanged.
+Propagation grep (`saved with the artifacts`, `archived with this note`): 1 site each, this
+log's own quotation of the superseded wording above. 0 elsewhere in tracked text, 0 in extracted
+text across all thirteen shipped PDFs.

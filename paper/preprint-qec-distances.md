@@ -145,7 +145,7 @@ design constraints were:
 
 ### 1.3 Results
 
-Every entry below traces to a file in `certificates/`; byte counts are the
+Every entry below traces to a file in `qec-certificates/`; byte counts are the
 actual proof sizes and replay times are wall clock from the independent audit
 of §7, measured with `/usr/bin/python3` (CPython 3.9.6, no numpy, no compiled
 helper of any kind).
@@ -1104,7 +1104,10 @@ tools, so the encoding's standing against them is left open (§6.3).
 
 ## 10. Reproducibility
 
-The artifacts sit beside this note in `qec/`. To re-check anything:
+The artifacts sit beside this note in the release repository: the four checkers
+in `qec-scripts/`, the certificates in `qec-certificates/`. Every command below
+is run from the repository root; the six commands of group (i) were re-executed
+verbatim from that root on 2026-08-12. To re-check anything:
 
 ```
 # check_prof.py reads its LRAT gzipped: do NOT gunzip the *_prof_*.lrat.gz
@@ -1112,20 +1115,22 @@ The artifacts sit beside this note in `qec/`. To re-check anything:
 # (REGENERATE.md), so this block needs no gunzip step; for the wider corpus,
 # gunzip the *non-prof* .lrat.gz as REGENERATE.md describes.
 
+S=qec-scripts; C=qec-certificates          # from the repository root
+
 # (i) Runs on a fresh clone, from the shipped artifacts alone:
-python3 check_witness.py certificates/bb144/witness_X.json
-python3 check_duality.py certificates/bb144/duality.json
-python3 check_prof.py    certificates/bb288/bb288_prof_K14.json      # d_X>=16
-python3 check_prof.py    certificates/bb360/bb360_prof_K12.json      # corrob. d_X>=14
-python3 check_prof.py    certificates/bb360/bb360_prof_K14.json      # d_X>=16
-python3 check_duality.py certificates/bb288/duality.json             # d=d_X at n=288
+python3 $S/check_witness.py $C/bb144/witness_X.json
+python3 $S/check_duality.py $C/bb144/duality.json
+python3 $S/check_prof.py    $C/bb288/bb288_prof_K14.json      # d_X>=16
+python3 $S/check_prof.py    $C/bb360/bb360_prof_K12.json      # corrob. d_X>=14
+python3 $S/check_prof.py    $C/bb360/bb360_prof_K14.json      # d_X>=16
+python3 $S/check_duality.py $C/bb288/duality.json             # d=d_X at n=288
 
 # (ii) Each needs one large proof regenerated first, none carried in git
 #      (REGENERATE.md items 1, 2, 4, 5):
-python3 check_lower.py certificates/bb144/lower_X_K11.json           # item 1 (868 MB)
-python3 check_lower.py certificates/bb144/lower_Z_K11.json           # item 2 (672 MB)
-python3 check_lower.py certificates/bb288/lower_X_K13_sym.json       # item 4 (2.94 GB)
-python3 check_prof.py  certificates/bb288/bb288_prof_K16_exact.json  # item 5 => d=18
+python3 $S/check_lower.py $C/bb144/lower_X_K11.json           # item 1 (868 MB)
+python3 $S/check_lower.py $C/bb144/lower_Z_K11.json           # item 2 (672 MB)
+python3 $S/check_lower.py $C/bb288/lower_X_K13_sym.json       # item 4 (2.94 GB)
+python3 $S/check_prof.py  $C/bb288/bb288_prof_K16_exact.json  # item 5 => d=18
 ```
 
 No virtual environment, no packages, no compiled binary. Any CPython 3.8 or
@@ -1133,10 +1138,17 @@ later should do; the audit used the macOS system interpreter, 3.9.6. Expect
 176 s, 73 s and 414 s respectively for the three `check_lower` large replays on
 an idle M4, more under load; the two *n* = 288 `prof` rungs replay in about 62 s
 and 1,587 s and the *n* = 360 rung in about 40 s. `manifest.json` carries the
-SHA-256 and byte count of the 182 audited artifacts and `manifest.py` re-checks
-them; the profile-normalisation certificates postdate the manifest and are
-checked directly by `check_prof.py`, which regenerates each CNF from the
-polynomial spec. (The four commands in group (ii) — the two symmetry-free
+SHA-256 and byte count of the 182 audited artifacts and `verify_manifest.py`
+re-checks them — on a fresh clone it prints `172 match, 0 mismatch, 10 absent`,
+the ten absent being the six proofs that ship gzipped and the four too large for
+git. (`manifest.py`, also shipped, is the pipeline's manifest *generator*, not a
+verifier: it walks a `certificates/` directory beside itself, re-runs the
+checkers — handing only the largest `check_lower` replays to a non-vendored
+`tools-drat-trim/lrat-check` — and writes a fresh
+`manifest.json`. It is in the repository because it is part of the pipeline, and
+the pipeline is explicitly not trusted.) The profile-normalisation certificates
+postdate the manifest and are checked directly by `check_prof.py`, which
+regenerates each CNF from the polynomial spec. (The four commands in group (ii) — the two symmetry-free
 gross-code proofs, the *K* = 13 rung at *n* = 288, and the exact-weight-16 `prof`
 instance — each require regenerating one large proof first, per `REGENERATE.md`
 items 1, 2, 4 and 5; on a fresh clone group (i) runs as shown and group (ii)

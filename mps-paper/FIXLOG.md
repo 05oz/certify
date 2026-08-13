@@ -1,15 +1,18 @@
 # FIXLOG — adversarial pre-release review of note-mps-eigenstate
 
 Reviewer pass: 2026-08-06. Ground truth = the shipped artifacts and the
-verifier gate (`reverify.py` 20/20; `xcheck.py` L=3..9). Edits below only ever
+verifier gate (`reverify.py` 20/20; `xcheck.py` printed cross-check, L=3..9).
+Edits below only ever
 *weaken* claims to what the gate supports; no claim was strengthened. The
 hash-pinned artifacts (`reverify.py`, `xcheck.py`, `object.json`) were NOT
 modified, so Table 1 remains valid.
 
 ## Verification performed (all passed)
 - Reran printed replay verbatim from a clean shell: `python3 reverify.py` →
-  ALL CHECKS PASS (20/20, exit 0); `python3 xcheck.py` → H@psi==0, ||psi||^2=4^L
-  for L=3..9 (exit 0); `shasum -a 256` matches Table 1 for all three files.
+  ALL CHECKS PASS (20/20, exit 0); `python3 xcheck.py` → printed H@psi==0,
+  ||psi||^2=4^L for L=3..9 (that script asserts nothing and exits 0
+  unconditionally, so its exit status is not a gate; the values were read off
+  its output); `shasum -a 256` matches Table 1 for all three files.
 - Independent symbolic re-derivation (sympy, no shared code): h matrix, all 16
   certificate entries, det[I;A0;A1;A0A1] = -4, contiguous rank 4, odd/even rank
   2/4/8 at L=4,6,8 — all reproduced. Probed L=10,12: odd/even rank 16,32 and
@@ -74,3 +77,44 @@ modified, so Table 1 remains valid.
   compact form -2 sum P0_i (Z-X)_{i+1} directly, so the slip is inert. NOT edited:
   reverify.py is SHA-256-pinned in Table 1; touching a comment would break the
   pinned hash for no substantive gain.
+
+## Addendum, 2026-08-12 (§14 retroactive sweep)
+
+- **Printed verdict rescoped in `reverify.py`.** The final RESULT line asserted
+  the object is "not a finite sum of product states," and the P4 rationale in
+  the module docstring reasoned "growing rank => not a finite cat of product
+  states." That is the unbounded-rank claim M1 above retracted from the note;
+  read at any fixed L it is also false, every finite-dimensional state being a
+  finite sum of product states. Both passages were rewritten to the gate's
+  actual content: odd/even Schmidt rank 2, 4, 8 at L = 4, 6, 8, hence a minimal
+  product-state count across that cut that grows over those three lengths, with
+  the 2^(L/2-1) pattern recorded as observed and not established for all L. No
+  check was altered; `python3 reverify.py` still reports ALL CHECKS PASS (20/20,
+  exit 0).
+- **Table 1 re-pinned.** That edit changes the file, so the digest recorded for
+  `reverify.py` in note.tex and note.md was recomputed:
+  eac86c33...7177ec4 -> e57a0aea...ff9179d9. `xcheck.py` and `object.json` are
+  unchanged. The "hash-pinned artifacts were NOT modified, so Table 1 remains
+  valid" statement in the header above, and the hash-pin rationale under
+  "Inert sign slip," are records of the 2026-08-06 pass and no longer describe
+  the shipped file; the sign-slip comment itself is still present in
+  `reverify.py`.
+- **Verification-coverage sentences scoped.** The abstract's "Every quantitative
+  claim is re-established ... by a standard-library exact-arithmetic verifier"
+  and the parallel sentence opening §4 were replaced by per-code coverage:
+  `reverify.py` re-establishes the certificate, the eigenvalue property, the
+  Schmidt ranks and the spanning property; `xcheck.py` recomputes the eigenvalue
+  property and the norms ||psi_L||^2 = 4^L; the determinant -4 of Prop. 2.3 is
+  computed by neither, the verifier establishing the equivalent rank-four
+  statement (P5). Re-derived independently this pass: det[I;A0;A1;A0A1] = -4.
+- **`xcheck.py` described as printing, not gating.** §4's "It confirms ..." now
+  states that the script prints its booleans and the exact squared norm, makes
+  no assertion, and exits 0 unconditionally, so the comparison with 4^L is made
+  against its printed output. Re-executed 2026-08-12: all booleans True, norms
+  64, 256, 1024, 4096, 16384, 65536, 262144 for L = 3..9, i.e. exactly 4^L.
+  The same scoping was applied to SWEEP-RECORD-MPS-2026-08-06.md and to the
+  replay bullet above.
+- **Not fixed, out of scope for this pass.** `mps-certificates/object.json`
+  attributes "coefficient determinant = -4" to `reverify.py` P5, which verifies
+  rank == 4 and computes no determinant. The file is a certificate JSON and was
+  left untouched.

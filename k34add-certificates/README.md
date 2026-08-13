@@ -27,8 +27,10 @@ its out-neighbourhoods). `w02`–`w13` are twelve further free graphs.
 | w12   | 125 | 7^13 6^4 5^3 | 13 |
 | w13   | 125 | 7^11 6^8 5^1 | 11 |
 
-The invariant triple (arcs, Nbar-degree sequence, #QR_7 blocks) already
-separates all thirteen; canonical forms confirm it.
+The invariant triple (arcs, Nbar-degree sequence, #QR_7 blocks) does not by
+itself separate all thirteen -- w1 and w5 agree in all three entries, as do w2
+and w4, and the third entry is determined by the second. The canonical forms
+and the richer fingerprint the checker computes do separate them.
 
 ## SHA-256
 

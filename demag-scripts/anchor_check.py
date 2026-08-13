@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-"""Independent anchor check for Part K (certified demag tensor).
+"""Independent anchor check for Part L (certified demag tensor).
 
-Standard library only.  Re-derives the certified interval Newell tensor at the
-16 geometries for which OOMMF's demagcoef.cc records Maple-computed 50-digit
-values, and verifies that each gold value agrees with the recomputed enclosure
-midpoint to >= 48 digits (the gold's own precision).  This exercises the SHIPPED
+Standard library only.  OOMMF's demagcoef.cc records a header table of
+Maple-computed 50-digit check values for Nxx and Nxy: 31 rows, 24 of them
+nonzero.  This script re-derives the certified interval Newell tensor at the 16
+of those rows listed in GOLD below, and verifies that each gold value agrees
+with the recomputed enclosure midpoint to >= 48 digits (the gold's own
+precision).  The 16 are the anchor subset, not the whole table.  This exercises
+the SHIPPED
 checker's own Newell/interval code (check_demag.py) against an external gold
 standard, with no dependence on the private generator.
 
 (Containment is not the test: the recomputed enclosure is ~77 digits tight at
-PREC=256, far tighter than the 50-digit gold, so a gold value cannot lie inside
+PREC=256, far tighter than the 50-digit gold, so a nonzero gold value lies outside
 it.  Agreement to the gold's precision is the correct consistency check.  The
 enclosure is separately verified by the two-sided-bound machinery in
 check_demag.py.)
@@ -34,7 +37,8 @@ PREC = 256
 civ = CIV(PREC)
 nw = Newell(civ)
 
-# OOMMF demagcoef.cc header: (x,y,z,dx,dy,dz, comp, Maple 50-digit value)
+# Anchor subset: 16 of the 31 rows of the OOMMF demagcoef.cc header check table.
+# (x,y,z,dx,dy,dz, comp, Maple 50-digit value)
 GOLD = [
     (0, 0, 0, 50, 10, 1, "Nxx", "0.021829576458713811627717362556500594396802771830582"),
     (0, 0, 0, 1, 1, 1, "Nxx", "0.33333333333333333333333333333333333333333333333333"),
@@ -88,8 +92,9 @@ def main():
     if fails:
         print("ANCHOR CHECK FAILED: %d/%d" % (fails, len(GOLD)))
         sys.exit(1)
-    print("all %d OOMMF/Maple gold values agree with recomputed enclosure "
-          "midpoints to at least %.1f digits" % (len(GOLD), worst))
+    print("all %d anchor rows of the OOMMF/Maple 50-digit table agree with "
+          "recomputed enclosure midpoints to at least %.1f digits"
+          % (len(GOLD), worst))
     print("ANCHOR CHECK PASS")
 
 

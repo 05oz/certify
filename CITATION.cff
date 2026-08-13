@@ -29,11 +29,11 @@ message: >-
   lemma. See PROVENANCE.md §2 and §2b. Part A v0.1.2 (2026-08-06) is an
   erratum release: it corrects the Theorem D fiber count over
   {Delta_2 = 0} to three distinct points (the set-theoretic fiber sizes
-  are {3, 1, 0}, not {3, 2, 1}); {Delta_2 = 0} is an apparent branch
-  locus. No other claim depended on it. v0.1.2 supersedes v0.1.0 and
-  v0.1.1 on this point only; see paper/ERRATUM-v0.1.2.md and the scripts
-  in scripts/erratum-check/. For Parts B–M, credit statements are in the
-  README and in each note.
+  are {3, 1, 0}, not the {3, 2, 1, 0} of v0.1.0 and v0.1.1);
+  {Delta_2 = 0} is an apparent branch locus. No other claim depended on
+  it. v0.1.2 supersedes v0.1.0 and v0.1.1 on this point only; see
+  paper/ERRATUM-v0.1.2.md and the scripts in scripts/erratum-check/.
+  For Parts B–M, credit statements are in the README and in each note.
 type: software
 title: >-
   Certify: replayable certificates for machine-checked mathematics,
@@ -65,6 +65,12 @@ identifiers:
     value: "10.5281/zenodo.21816018"
     description: "Part D, v0.4.0 — [[14,3,5]] monomial automorphism exclusion"
   - type: doi
+    value: "10.5281/zenodo.21831894"
+    description: "Part A, v0.1.2 — erratum: Theorem D fiber count corrected to {3,1,0}"
+  - type: doi
+    value: "10.5281/zenodo.21831995"
+    description: "Part B, v0.2.1 — d([[288,12,18]]) = 18 exactly; 16 <= d for [[360,12,<=24]]"
+  - type: doi
     value: "10.5281/zenodo.21831896"
     description: "Part E, v0.5.0 — an explicit CFR(5,25): F_c(25) >= 5"
   - type: doi
@@ -95,8 +101,8 @@ identifiers:
     value: "10.5281/zenodo.21898996"
     description: "Part M, v0.13.0 — certified ZEFOZ brackets, 167Er3+:Y2SiO5"
 repository-code: "https://github.com/05oz/certify"
-date-released: "2026-08-12"
-version: 0.13.0  # newest feature release; newest tag is the v0.12.1 erratum
+date-released: "2026-08-13"
+version: 0.14.0  # documentation-correction round; newest feature release is Part M, v0.13.0
 license: Apache-2.0
 keywords:
   - Jacobian conjecture

@@ -131,3 +131,42 @@ verified arc-for-arc as Cay(Z_28,{3,8,10,12,17}); novelty supported (strongest p
 bound was the trivial 18). Full verdict: REFEREE-k63.md. The model-credit footnote was
 corrected from "Claude Fable 5" to "Claude (Anthropic)" — the work spanned multiple Claude
 models and a single-model claim was inaccurate.
+
+## Documentation-correction round, 2026-08-13
+
+Recorded after the fact. The v0.14.0 round corrected four claims in this part and left no entry
+here; the Engine 2 re-gate of 2026-08-13 found the omission. All four concern what the public
+deposit contains. No certified value, checker or mathematical result changed.
+
+**G-1. The k(3,4) referee's verdict record and fresh code were claimed to ship.** The header
+comment and the confirmation paragraph said they "ship with the artifacts". They are retained by
+the author and are not deposited. What the deposit does carry is the review log and the separate
+verdict record for the k(6,3) bound of the same note. Corrected in both twins.
+Propagation grep (`ship with the artifacts`): 0 remaining in tracked text, 0 in extracted PDF
+text across all thirteen shipped PDFs.
+
+**G-2. The archived arXiv v3 copy was claimed to ship.** It is archived in the author's working
+tree and not redistributed; section references still follow its numbering. Corrected in both
+twins. Propagation grep (`archived with the artifacts`): 0 remaining in tracked text, 0 in
+extracted PDF text.
+
+**G-3. Regeneration determinism read "8 of 8 attempts" in the note.** This log already recorded
+11 of 11 at line 124, written 2026-08-11 — the note was stale, not the log, and the two
+disagreed for two days. Corrected to "11 of 11 attempts" in both twins.
+Propagation grep (`8 of 8`): 0 remaining. (`11 of 11`): 4 tracked sites — this log, note.md, and
+two Part B sites (`SWEEP-RECORD-QEC-2026-08-04.md`, `paper/preprint-qec-distances.md`) that
+count Part B negative controls and are unrelated to this claim.
+
+**G-4. "All of it is deposited in the program's public certificate repository" was false.** The
+record is split between the public deposit and a private regeneration kit. The note now itemizes
+both sides. Deposited: the ledger, the regeneration instructions, the two witness files, six
+scripts (`gen_cnf.py`, `make_structured.py`, `lrat_check.py`, `verify_witness.py`,
+`audit_cnf.py`, `audit_multiset.py`), the review log and the k(6,3) referee verdict. Retained and
+not redistributed: the queue files, the 70 block-class representatives the generators consume,
+the rest of the checking and audit pipeline, and the audit and k(3,4) referee records. Two
+consequences are now stated rather than left implicit — `audit_multiset.py` imports a module of
+the kit and does not run from the deposit alone, and regenerating a case formula to its recorded
+`cnf_sha256` needs the representatives. The LRAT corpus is a regenerable cache and is not
+shipped, so no shipped certificate depends on a hash for its replay. Corrected in both twins and
+in `k34-certificates/REGENERATE.md`.
+Propagation grep (`All of it is deposited`): 0 remaining in tracked text.

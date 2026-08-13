@@ -66,3 +66,34 @@ Both shipped d=5 WMAX=5 certificates and both d=3 certificates were re-checked
 by the shipped stdlib checkers **from the staged `wedge-certificates/`
 directory** after staging; all `CHECK PASS` (recorded in the SWEEP-RECORD and
 the return summary).
+
+## Post-release correction pass, 2026-08-12
+
+One claim-level correction landed in the note after release (W-2); recorded here because the
+Engine 2 referee found this log untouched while the paper had changed. W-1 records a defect
+this round introduced and closed before release.
+
+**W-1. Round-internal: the d = 3 uncorrectable-set count was written unqualified, and was
+scoped before release.** Correcting W-2 required a new paragraph contrasting the two checkers.
+As first drafted in this round, that paragraph gave the d = 3 count as "the uncorrectable sets
+number 4823" with no weight bound. 4823 is the count of uncorrectable fault sets of weight at
+most WMAX = 4 (55 + 690 + 4078 from `certificate_d3_r1_p1over100.json`); the total is
+2^22 = 4,194,304, per Part K's certificate for the same object. The Engine 2 referee caught the
+unqualified form and it was scoped in both twins before release.
+
+No released note ever carried the unqualified form. `4823` appears in no Part H note at any tag
+v0.8.0 through v0.13.0 — not in `.tex`, not in `.md`, not in extracted PDF text — under any of
+the renderings `4823`, `4{,}823`, `4,823`, `4 823`, and not in the superseded `drafts/` tree.
+An earlier version of this entry, written 2026-08-12, described this as a post-release
+correction of released text. That was false. Corrected 2026-08-13.
+
+Propagation grep (`4823`): 3 prose sites — this log, `note.tex`, `note.md`; both twins scoped,
+the PDF rebuilt and verified by text extraction. The 23 further tracked files matching `4823`
+are certificate, CNF and LRAT data in which it occurs as an incidental digit substring, not as
+a claim.
+
+**W-2. The checker descriptions (ii)-(iii) were stated as if uniform across distances.** They
+describe `check_wedge_d5.py`; `check_wedge.py` at d = 3 runs a full untruncated BFS over all 256
+syndromes and compares against an embedded decoder table. Corrected in both twins.
+Propagation grep (`depth-truncated`, `WMAX`): checked across note twins and README; no further
+site asserts uniformity.

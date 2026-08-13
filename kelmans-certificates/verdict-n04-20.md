@@ -133,8 +133,15 @@ The sweep only ever reports success, so both referee tools were forced to fail:
   unique sub-3-connected failure in this range, and the referee's failure path fires.
 - `refcheck -skip3c -strong -z7 -f2` (out_ref/ref_negctl_strong.txt): strong-form
   failure paths fire on non-3-connected graphs — 54 F1/F2 failures at n=10, 253
-  Z8-type failures at n=12, 145 T2 failures at n=14 (samples quoted in file, e.g.
-  "T2FAIL xy=6-9 M??CEB@W_sE_J?F??"), and 0 at n=8 where none exist.
+  failures at n=12 spread over all four Z paths (4 Z2, 8 Z3, 106 Z7, 135 Z8),
+  145 T2 failures at n=14 (samples quoted in file, e.g.
+  "T2FAIL xy=6-9 M??CEB@W_sE_J?F??"), and 0 at n=8 where none exist. The
+  per-type counts are those of the deterministic re-run recorded in
+  controls/ctl_base_strong_2026-08-11.txt. [Amendment, 2026-08-12: this
+  sentence and its per-type breakdown were added after the verdict was signed
+  on 2026-08-06, replacing a breakdown that read all 253 as Z8. The referee's
+  own totals are unchanged; only the type split is corrected, from the
+  artifact named.]
 - `refcert.py` on 6 doctored lines (out_ref/ref_negctl_certs_input.txt): the 5
   corruptions (non-path triple, cover gap, overlapping triple, overlong avoided list,
   non-member g6) are ALL rejected with the correct reasons and exit code 1; the one

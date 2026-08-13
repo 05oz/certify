@@ -1,8 +1,8 @@
 # Certify: replayable certificates for machine-checked mathematics
 
-**Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112), erratum (v0.1.2) [doi:10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780), update (v0.2.1) [doi:10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018) · Part E (v0.5.0) [doi:10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896) · Part F (v0.6.0) [doi:10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028) · Part G (v0.7.0) [doi:10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619) · Part H (v0.8.0) [doi:10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825) · Part I (v0.9.0) [doi:10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011) · Part J (v0.10.0) [doi:10.5281/zenodo.21898266](https://doi.org/10.5281/zenodo.21898266) · Part K (v0.11.0) [doi:10.5281/zenodo.21898343](https://doi.org/10.5281/zenodo.21898343) · Part L (v0.12.0) [doi:10.5281/zenodo.21898722](https://doi.org/10.5281/zenodo.21898722) · Part M (v0.13.0) [doi:10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996)
+**Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112), erratum (v0.1.2) [doi:10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780), update (v0.2.1) [doi:10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018) · Part E (v0.5.0) [doi:10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896) · Part F (v0.6.0) [doi:10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028) · Part G (v0.7.0) [doi:10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619) · Part H (v0.8.0) [doi:10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825) · Part I (v0.9.0) [doi:10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011) · Part J (v0.10.0) [doi:10.5281/zenodo.21898266](https://doi.org/10.5281/zenodo.21898266) · Part K (v0.11.0) [doi:10.5281/zenodo.21898343](https://doi.org/10.5281/zenodo.21898343) · Part L (v0.12.0) [doi:10.5281/zenodo.21898722](https://doi.org/10.5281/zenodo.21898722) · [erratum v0.12.1: doi:10.5281/zenodo.21910159](https://doi.org/10.5281/zenodo.21910159) · Part M (v0.13.0) [doi:10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996)
 
-Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-12.
+Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-13.
 
 > **Part A erratum — v0.1.2 (2026-08-06).** The Theorem D fiber count of the note over the pullback of `{Δ₂ = 0}` was wrong (stated as 2). The correct set-theoretic fiber sizes are **{3, 1, 0}**; over `{Δ₂ = 0}` the fiber has **three distinct** points (an *apparent* branch locus). No other claim depended on it. v0.1.2 supersedes v0.1.0/v0.1.1 on this point only. Details and independent re-verification: [`paper/ERRATUM-v0.1.2.md`](paper/ERRATUM-v0.1.2.md), scripts in [`scripts/erratum-check/`](scripts/erratum-check/).
 
@@ -19,7 +19,7 @@ Two independent bodies of work live here, sharing a method rather than a subject
 
 Every mathematical claim in either preprint maps to a script whose `assert` statements pass, or to a stored certificate a checker accepts. Nothing is conjectural unless labeled so.
 
-**Since v0.3.0 two further parts live here under the same method:** **Part C** (v0.3.0) — the first certified determination of the tournament packing numbers ν₃(9) = 9 and ν₃(10) = 12, extending the verified range of Yuster's 2004 formula from n ≤ 8 to n ≤ 10 (`tt3-paper/`, `tt3-certificates/`, `tt3-scripts/`); **Part D** (v0.4.0) — a certificate-backed automorphism exclusion for the [[14,3,5]] quantum code existence question, open since June 2005: any such code has monomial automorphism group of order 2^a·3^b·5^c (`qec1435-paper/`, `qec1435-certificates/`, `qec1435-scripts/`). Both notes passed a three-lens adversarial review (claims-vs-artifacts, priority against primary sources, and a replay audit with negative controls) before release; the decision logs ship as `FIXLOG.md` in each paper directory.
+**Since v0.3.0 two further parts live here under the same method:** **Part C** (v0.3.0) — the first certified determination of the tournament packing numbers ν₃(9) = 9 and ν₃(10) = 12, extending the verified range of Yuster's 2004 formula from n ≤ 8 to n ≤ 10 (`tt3-paper/`, `tt3-certificates/`, `tt3-scripts/`); **Part D** (v0.4.0) — a certificate-backed automorphism exclusion for the [[14,3,5]] quantum code existence question, which remains open (the [[14,3]] entry records lower bound 4 and upper bound 5; codetables.de, retrieved 2026-08-05): any such code has monomial automorphism group of order 2^a·3^b·5^c (`qec1435-paper/`, `qec1435-certificates/`, `qec1435-scripts/`). Both notes passed a three-lens adversarial review (claims-vs-artifacts, priority against primary sources, and a replay audit with negative controls) before release; the decision logs ship as `FIXLOG.md` in each paper directory.
 
 **Parts E and F (v0.5.0, v0.6.0, released 2026-08-06), same method and same review pipeline:** **Part E** — an explicit 5×25 circular Florentine rectangle establishing **F_c(25) ≥ 5**, one more than the lower bound of 4 recorded in Table 62.27 (p. 677) of the *Handbook of Combinatorial Designs*, 2nd ed. (2006); verified exhaustively and exactly by a self-contained standard-library checker; no priority is claimed over H.-Y. Song's 2000 paper, which we could not access (`cfr-paper/`, `cfr-certificates/`, [SWEEP-RECORD-CFR-2026-08-06.md](SWEEP-RECORD-CFR-2026-08-06.md)). **Part F** — a bond-dimension-2 matrix-product state with integer transfer matrices that is an exact zero-energy eigenstate, at every length L, of the periodic spin-½ chain H = −Σᵢ(I+Xᵢ)(Xᵢ₊₁+Zᵢ₊₁), proved by a sixteen-equation integer telescoping certificate (technique due to Derrida–Evans–Hakim–Pasquier 1993, Gehrmann–Essler, and Garre Rubio et al., credited at point of use); no claim is made about the remainder of the spectrum (`mps-paper/`, `mps-certificates/`, [SWEEP-RECORD-MPS-2026-08-06.md](SWEEP-RECORD-MPS-2026-08-06.md)).
 
@@ -64,7 +64,7 @@ Each row: claim → certificate/artifact → how to re-run. All scripts are pure
 | 14 | Same eight certificates reproduced mod 32003 | ours | `certificates/ms_*_c32003.ms` → `certificates/out_*_p.txt` (each basis = `[1]`) | same, on the `_c32003` inputs |
 | 15 | Positive control: the degree-7 example satisfies the identical normalized degree-7 system (pipeline provably contains the counterexample) | ours | `scripts/min_verify.py` part `d7control` (exact scaled substitution, asserted); computational record in `certificates/D7CONTROL-NEGATIVE-RESULT.md` (the msolve reduced-basis run on `certificates/ms_D7control_c32003.ms` did not terminate in 600 s — expected for a nonempty variety) | `python scripts/min_verify.py d7control` |
 
-The eight emptiness certificates are the six Branch-I systems `I-A2c-g1`, `I-A2c-g2`, `I-A2L-g1`, `I-A2L-g2`, `I-B2-g1`, `I-B2-g2` and the two full-generality Branch-II systems `II-f0`, `II-f1` (19 and 18 unknowns). Naming: `*_c0` = characteristic 0 input, `*_c32003` = mod 32003 input; `out_*_q.txt` = char-0 output, `out_*_p.txt` = mod-32003 output. A stored output whose reduced Gröbner basis is `[1]` is a Nullstellensatz certificate that the corresponding system is empty.
+The eight emptiness certificates are the six Branch-I systems `I-A2c-g1`, `I-A2c-g2`, `I-A2L-g1`, `I-A2L-g2`, `I-B2-g1`, `I-B2-g2` and the two full-generality Branch-II systems `II-f0`, `II-f1` (18 and 19 unknowns respectively). Naming: `*_c0` = characteristic 0 input, `*_c32003` = mod 32003 input; `out_*_q.txt` = char-0 output, `out_*_p.txt` = mod-32003 output. A stored output whose reduced Gröbner basis is `[1]` is a Nullstellensatz certificate that the corresponding system is empty.
 
 ## Quickstart
 
@@ -99,7 +99,7 @@ Every Python script must end with its `PASS` lines and no assertion failures —
 
 This is a **verification contribution.** The exact distance values are, with one exception, already known and are credited below; what did not exist is a standalone artifact anyone can replay without a SAT solver and without a proof assistant.
 
-> **Update (2026-08-06).** [[288,12,18]] is upgraded from the lower bound `d_X ≥ 14` to the **exact value `d = 18`**, certified end to end by a profile-normalisation (`prof`) encoding plus two on-paper lemmas — Lemma P (all X-logicals even; Okada–Kasai) and Lemma S (the encoding's completeness; a standard lex-leader symmetry break) — and the shipped duality certificate. This **confirms** IBM's uncertified ILP value; it does **not** correct it. A **first lower bound of any kind for [[360,12,≤24]]** (`16 ≤ d ≤ 24`) is added. The `prof` certificates are checked by a fourth standard-library checker, [`qec-scripts/check_prof.py`](qec-scripts/check_prof.py). The encoding is characterized only relative to a lex-leader baseline over the same group; it is **not** benchmarked against automated symmetry-breaking tools (BreakID, satsuma), so no novelty-versus-tools claim is made. The one honest dependency: the weight-16 exclusion (the rung that reaches 18 rather than 16) is proved only in the `prof` encoding; an independent encoding corroborates the ladder to `d_X ≥ 12`.
+> **Update (2026-08-06).** [[288,12,18]] is upgraded from the lower bound `d_X ≥ 14` to the **exact value `d = 18`**, certified end to end by a profile-normalisation (`prof`) encoding plus two on-paper lemmas — Lemma P (all X-logicals even; Okada–Kasai) and Lemma S (the encoding's completeness; a standard lex-leader symmetry break) — and the shipped duality certificate. This **confirms** IBM's uncertified ILP value; it does **not** correct it. A **first lower bound of any kind for [[360,12,≤24]]** is added (`16 ≤ d ≤ 24`: the lower end certified here, the upper end cited from Bravyi et al.). The `prof` certificates are checked by a fourth standard-library checker, [`qec-scripts/check_prof.py`](qec-scripts/check_prof.py). The encoding is characterized only relative to a lex-leader baseline over the same group; it is **not** benchmarked against automated symmetry-breaking tools (BreakID, satsuma), so no novelty-versus-tools claim is made. The one honest dependency: the weight-16 exclusion (the rung that reaches 18 rather than 16) is proved only in the `prof` encoding; an independent encoding corroborates the ladder to `d_X ≥ 12`.
 
 ## Lead with the audit
 
@@ -129,9 +129,9 @@ The corpus was re-checked by a separate agent instance with no access to the gen
 | IBM BB [[108,8,10]] | 108, 8 | **d = 10** | 72 / 82 MB | yes (gzipped) |
 | **IBM gross [[144,12,12]]** | 144, 12 | **d = 12** | 124 MB symmetry-broken; **868 / 672 MB symmetry-FREE** | symmetry-broken yes; symmetry-free regenerable |
 | **IBM BB [[288,12,18]]** | 288, 12 | **d = 18** (exact) | 358 MB (`prof` ladder: 48 MB + 310 MB) | K14 rung ships; K16-exact regenerable |
-| IBM BB [[360,12,≤24]] | 360, 12 | **16 ≤ d ≤ 24** | 43 MB (`prof` K14) + 14.7 MB (K12) | yes (gzipped) |
+| IBM BB [[360,12,≤24]] | 360, 12 | **d ≥ 16** (`d ≤ 24` cited, not certified here) | 43 MB (`prof` K14) + 14.7 MB (K12) | yes (gzipped); replays `d_X ≥ 16` — no duality certificate ships for n = 360 |
 
-Five proofs (79 MB–646 MB compressed) are too large for git — the four `check_lower` proofs and the 310 MB exact-weight-16 `prof` proof that supplies the top rung at n = 288. [`qec-certificates/REGENERATE.md`](qec-certificates/REGENERATE.md) gives the exact CaDiCaL command, expected byte count, and expected SHA-256 for each. Everything else ships, so a reader with nothing but CPython can replay a certified **d = 12 for the gross code**, **d_X ≥ 16 at n = 288** (`prof` K14, `check_prof.py`), and **16 ≤ d ≤ 24 for [[360,12,≤24]]** — the final step to the exact **d = 18** is one regenerated proof away.
+Five proofs (79 MB–646 MB compressed) are too large for git — the four `check_lower` proofs and the 310 MB exact-weight-16 `prof` proof that supplies the top rung at n = 288. [`qec-certificates/REGENERATE.md`](qec-certificates/REGENERATE.md) gives the exact CaDiCaL command, expected byte count, and expected SHA-256 for each. Everything else ships, so a reader with nothing but CPython can replay a certified **d = 12 for the gross code**, **d_X ≥ 16 at n = 288** (`prof` K14, `check_prof.py`), and **d_X ≥ 16 at n = 360** (`prof` K14, `check_prof.py`) — the final step to the exact **d = 18** is one regenerated proof away. At n = 360 the passage from `d_X ≥ 16` to `d ≥ 16` rests on the ZX-duality lemma, verified for that code in exact F₂ arithmetic but — unlike n = 288 — not shipped as a standalone certificate.
 
 ## Credit — read this first
 
@@ -156,13 +156,15 @@ python3 qec-scripts/check_lower.py    qec-certificates/steane/lower_X_K2.json
 python3 qec-scripts/check_lower.py    qec-certificates/golay/lower_X_K6.json
 
 # the gross code, d = 12, from artifacts in this repository
-gunzip qec-certificates/bb144/*.lrat.gz
+# check_lower.py descriptors name the UNCOMPRESSED .lrat, so decompress first;
+# check_prof.py descriptors name the .lrat.gz, so never gunzip a *_prof_*.lrat.gz
+gunzip qec-certificates/bb144/lower_*.lrat.gz
 python3 qec-scripts/check_witness.py  qec-certificates/bb144/witness_X.json     # d_X <= 12
 python3 qec-scripts/check_lower.py    qec-certificates/bb144/lower_X_K11_sym.json  # d_X >= 12
 python3 qec-scripts/check_duality.py  qec-certificates/bb144/duality.json       # d_X = d_Z
 
 # n = 288: the exact d = 18, via the profile-normalisation ladder
-gunzip qec-certificates/bb288/*.lrat.gz qec-certificates/bb360/*.lrat.gz
+# (no gunzip step here: check_prof.py reads its LRAT gzipped)
 python3 qec-scripts/check_prof.py     qec-certificates/bb288/bb288_prof_K14.json   # d_X >= 16 (with Lemma P)
 python3 qec-scripts/check_witness.py  qec-certificates/bb288/witness_X.json        # d_X <= 18
 python3 qec-scripts/check_duality.py  qec-certificates/bb288/duality.json          # d_X = d_Z
@@ -170,7 +172,7 @@ python3 qec-scripts/check_duality.py  qec-certificates/bb288/duality.json       
 # regenerate its 310 MB LRAT from the shipped CNF per qec-certificates/REGENERATE.md, then:
 #   python3 qec-scripts/check_prof.py qec-certificates/bb288/bb288_prof_K16_exact.json
 
-# n = 360: first lower bound of any kind, 16 <= d <= 24 (lower end certified)
+# n = 360: first lower bound of any kind; what this artifact replays is d_X >= 16
 python3 qec-scripts/check_prof.py     qec-certificates/bb360/bb360_prof_K14.json   # d_X >= 16 (with Lemma P)
 
 # integrity: re-hash every audited artifact against the manifest
@@ -186,7 +188,10 @@ it trusts neither the shipped matrices nor the shipped `.cnf`.
 `verify_manifest.py` reports `172 match, 0 mismatch, 10 absent` on a fresh clone: the
 ten "absent" are the six proofs that ship gzipped (decompress them and they match, since
 the manifest hashes the *uncompressed* bytes) and the four that are too large for git.
-After `gunzip qec-certificates/*/*.lrat.gz` the count is 178 match, 4 absent.
+After `gunzip qec-certificates/*/lower_*.lrat.gz` the count is 178 match, 4 absent. That
+glob is deliberately restricted to the `check_lower` proofs: the three shipped
+`*_prof_*.lrat.gz` are named in compressed form by their own descriptors, are not manifest
+entries, and must stay gzipped.
 
 Note that `qec-scripts/manifest.py` is the *pipeline's* manifest generator, not a verifier:
 it expects a `certificates/` directory beside itself and it **overwrites** `manifest.json`.
@@ -217,7 +222,7 @@ Three further defects the audit found are reported verbatim in §8 of the paper,
 
 # Part D — [[14,3,5]]: a certificate-backed automorphism exclusion
 
-**If a [[14,3,5]] qubit stabilizer code exists, its monomial automorphism group has order 2^a·3^b·5^c** — no automorphism of order divisible by 7, 11, or 13 is possible. The existence question itself, open since the [[14,3]] table entry's construction of June 2005 (codetables.de, retrieved 2026-08-05), **remains open and is not claimed**. Paper: [`qec1435-paper/note.pdf`](qec1435-paper/note.pdf).
+**If a [[14,3,5]] qubit stabilizer code exists, its monomial automorphism group has order 2^a·3^b·5^c** — no automorphism of order divisible by 7, 11, or 13 is possible. The existence question itself **remains open and is not claimed**: the [[14,3]] entry records lower bound 4, from a construction dated June 30, 2005, and upper bound 5 (codetables.de, retrieved 2026-08-05). Paper: [`qec1435-paper/note.pdf`](qec1435-paper/note.pdf).
 
 - **Credit.** The open entry is recorded in M. Grassl's codetables.de; the automorphism question descends from Ball–Centelles–Huber 2020 (Research Problem 1). The **CSS case is settled by Koh et al., arXiv:2601.20927** (exhaustive CSS enumeration at n ≤ 14; their Table VI gives max CSS [[14,3]] distance 4) — that result is theirs, cited and not claimed; an earlier in-house CSS derivation is subsumed and appears only as a remark. Cross–Vandeth arXiv:2501.17447 covers general stabilizer enumeration at n ≤ 9.
 - **What ships:** 43 certificate files (`qec1435-certificates/`, SHA-256-pinned in the paper), the generators and the independent checker (`qec1435-scripts/`, incl. `check1435.c` and `verify_1435.py`), and the classical code tables used (`qec1435-scripts/data/`). Every candidate of every nonzero symmetry class was distance-checked; an exact-rational Krawtchouk LP lemma closes the fixed-qubit branches (a second LP lemma belongs to the order-5 work in progress, outside the theorem). Scope, gaps, and unarchived intermediate runs are disclosed in the paper itself (§5, §7).
@@ -238,18 +243,28 @@ independently written standard-library checker. From the same campaign, `29 ≤ 
 lower bound new, by a vertex-transitive 28-vertex witness; upper bound IRW's). Paper:
 [`k34-paper/note.pdf`](k34-paper/note.pdf).
 
-- **Reproducible without trusting us.** `k34-scripts/gen_cnf.py` builds the propositional encoding
-  directly from the definitions (no symmetry breaking on the UNSAT path), so a reader regenerates
-  the case CNFs and re-checks the proofs from the problem statement alone. `k34-scripts/lrat_check.py`
-  is standard-library Python. The LRAT proofs themselves (~245 GB) are a regenerable cache, deleted
+- **Reproducible without trusting us.** `k34-scripts/gen_cnf.py` builds the base propositional
+  encoding directly from the definitions (no symmetry breaking on the UNSAT path), so the encoding
+  the proofs are checked against is re-derivable from the problem statement alone.
+  `k34-scripts/lrat_check.py` is standard-library Python and replays any LRAT certificate against
+  its CNF. The LRAT proofs themselves (~245 GB) are a regenerable cache, deleted
   after verification; [`k34-certificates/CERTLOG.txt`](k34-certificates/CERTLOG.txt) records every
-  certificate's verdict, checked-step count, and SHA-256, and [`k34-certificates/REGENERATE.md`](k34-certificates/REGENERATE.md)
-  gives the exact commands, verified to regenerate bit-for-bit.
+  certificate's verdict, checked-step count, and SHA-256.
+- **What regenerating the 346 case CNFs takes.** The case CNFs come from `make_structured.py`
+  applied to the 70 block-class representatives, and the solver command lines live in queue files;
+  neither the representatives nor the queue files are deposited — they are part of the private
+  regeneration kit, tested there end to end (it regenerates `s21_587_1.cnf` to its recorded
+  `cnf_sha256`). From this repository alone a reader replays the two witnesses and any certificate
+  whose CNF and proof they hold, but cannot reproduce a recorded `cnf_sha256`.
+  [`k34-certificates/REGENERATE.md`](k34-certificates/REGENERATE.md) states the split artifact by
+  artifact and gives the kit procedure.
 - **Replay the witness now:** `python3 k34-scripts/verify_witness.py k34-certificates/witness_sat_3_4_20.json 3 4`.
 - Every component was confirmed by an adversarial referee writing fresh code throughout; the
   decision log ships as `k34-paper/FIXLOG.md`.
 
 ## Part H — certified sub-threshold logical error brackets (v0.8.0)
+
+**Superseded by Part K (v0.11.0):** the two-sided bracket below is replaced by the exact rational value of the logical error probability for these configurations; see the Part K section.
 
 **Exact uncorrectable-set counts and a two-sided rational bracket on the logical error
 probability of the rotated surface code, re-verifiable in the standard library.** Mullan,
@@ -276,7 +291,7 @@ width equal to an exactly-computed Poisson-binomial tail `T = P(W ≥ WMAX+1)`. 
   `U` in exact rational arithmetic from the certificate alone, failing loudly (`CHECK FAIL`, exit
   nonzero) on any mismatch. Both import only the Python standard library; no signals, subprocesses,
   network, or wall-clock. Verified on system `python3` 3.9.6.
-- **Trust root, stated plainly.** The checker certifies `L ≤ P_L ≤ U` *given* the `(det, obs, p)`
+- **Trust root, stated plainly.** Each checker certifies `L ≤ P_L ≤ U` *given* the `(det, obs, p)`
   mechanism list embedded in the certificate; it does not (and from the public artifact cannot)
   re-verify that this list equals Stim's DEM at the stated `p` — that binding lives in the private
   generator, which is **not** in this repository. The bracket bounds the independent-mechanism DEM,
@@ -330,8 +345,11 @@ no Λ-factor. None was found. Paper: [`kelmans-paper/note.pdf`](kelmans-paper/no
 - **Both failure paths are exercised.** With the 3-connectivity filter disabled the sweep
   finds the unique sub-3-connected base-claim failure at orders 10–16 (`O???E?oBEAWOKGK_@o?W_`,
   λ = 4 < 5), and the strong-form paths fire at orders 10, 12, 14, 16 with a recorded
-  per-type breakdown. Each checker rejects eight distinct classes of doctored certificate,
-  each by the gate it targets, with two controls-on-the-controls. See
+  per-type breakdown. Eight distinct classes of doctored certificate are each rejected by
+  the gate that targets them: `refcert.py`, run with `--g6set` and `--check3c`, rejects all
+  eight; `verify_cert.py` carries no membership gate, so it rejects seven and accepts the
+  certificate written for a non-canonical relabelling of the graph. Two
+  controls-on-the-controls confirm the diagnosis. See
   [`kelmans-certificates/controls/`](kelmans-certificates/controls/).
 - **Stated at exactly the strength the recount supports.** Orders ≤ 20 carry the referee's
   signed verdict of 2026-08-06; order 22's independent recount completed 2026-08-11 (read
@@ -345,9 +363,14 @@ no Λ-factor. None was found. Paper: [`kelmans-paper/note.pdf`](kelmans-paper/no
   deposit alone; the paper says so in §4. Replay instructions, exact commands and SHA-256
   hashes: [`kelmans-certificates/REGENERATE.md`](kelmans-certificates/REGENERATE.md).
 - The three-lens review (claims-vs-artifacts, replay with tamper controls,
-  novelty/priority) found two must-fix defects, both about the cited source rather than the
-  computation; the decision log ships as [`kelmans-paper/FIXLOG.md`](kelmans-paper/FIXLOG.md)
-  and the dated sweep as
+  novelty/priority) produced five must-fix entries in the fix pass's log: two about the
+  cited source (the smallest member of Kelmans' R_s family is cyclically 5-connected, not
+  6-connected; the page range of the Kostochka–Stodolsky reference), two about this
+  deposit's own records (the per-type breakdown of the order-12 negative control, and an
+  n = 22 referee verdict that had been left an unsigned stub), and one about the tense of
+  the deposit sentence. None of the five changed a theorem or a proposition; M-1 corrected the per-type
+  breakdown of a negative control and added an order-16 line the draft had omitted. The decision log ships as
+  [`kelmans-paper/FIXLOG.md`](kelmans-paper/FIXLOG.md) and the dated sweep as
   [SWEEP-RECORD-KELMANS-2026-08-11.md](SWEEP-RECORD-KELMANS-2026-08-11.md).
 
 ## Part J — the k(3,4) extremal graph is not unique (v0.10.0)
@@ -355,15 +378,17 @@ no Λ-factor. None was found. Paper: [`kelmans-paper/note.pdf`](kelmans-paper/no
 Part G left open (its Question 8.1) whether the 20-vertex extremal graph for k(3,4) = 21 is
 unique up to isomorphism. **It is not.** At least **thirteen** pairwise non-isomorphic
 {I₃,TT₄}-free oriented graphs on 20 vertices exist, and every one of them is *rigid* — trivial
-automorphism group. Each is independently verified free of both patterns over all C(20,3) triples
-and C(20,4) transitive quadruples (`k34add-scripts/verify_witnesses.py`).
+automorphism group. Each is independently verified free of both patterns by an exhaustive test
+(`k34add-scripts/verify_witnesses.py`) over all C(20,3) = 1140 triples, none independent, and all
+C(20,4) = 4845 quadruples, none transitive.
 
 The note also proves that the Paley tournament QR₇ inside these graphs is **forced, not designed**:
 a vertex's non-neighbourhood induces a tournament with no transitive quadruple, such tournaments
 have at most 7 vertices, and on 7 vertices there is exactly one — so any vertex with seven
 non-neighbours necessarily carries a QR₇ block (`k34add-scripts/verify_qr7_lemma.py`). A third
-script shows the largest algebraic blow-up construction reaches only 15 vertices where the truth
-is 21, so the extremal family is substantially non-algebraic (`k34add-scripts/blowup_bound.py`).
+script shows that the largest {I₃,TT₄}-free tournament blow-up is QR₇[I₂] on 14 vertices, six
+short of the extremal order 20, so the algebraic route yields only k(3,4) ≥ 15 against the truth
+21 and the extremal family is substantially non-algebraic (`k34add-scripts/blowup_bound.py`).
 
 Paper: [`k34add-paper/note.pdf`](k34add-paper/note.pdf). Witnesses and verifiers:
 `k34add-certificates/`, `k34add-scripts/`.
@@ -454,13 +479,14 @@ series), and measure the floating-point failure against it. Paper:
   verifies containment (`N_lo ≤ N_true ≤ N_hi`) with a width-sanity bound, recomputes each naive
   double bit-for-bit, recomputes every rigorous digit-loss bracket, and re-tests the tensor's own
   identities (trace encloses 0 at all 136 mutual points; each self-term's three diagonals sum to
-  enclose 1). It imports only `sys, json, math, hashlib, fractions`; no signals, subprocesses,
-  network, or wall-clock. **All 862 entries: `CHECK PASS`.**
+  enclose 1). It imports only `sys, json, math, hashlib, fractions, collections`; no signals,
+  subprocesses, network, or wall-clock. **All 862 entries: `CHECK PASS`.**
 - **Replay now:** `python3 demag-certificates/check_demag.py
   demag-certificates/demag_certificate.json --sample 40` (seconds → `CHECK PASS` on a
   deterministic sample); the full 862-entry verification is `CHECK PASS` in ≈7.5 min. Independent
-  anchor: `python3 demag-scripts/anchor_check.py` confirms the 16 OOMMF/Maple 50-digit gold values
-  agree with the recomputed enclosures to ≥49.6 digits; `python3 demag-scripts/tamper_demo.py`
+  anchor: `python3 demag-scripts/anchor_check.py` confirms that the 16 anchor rows taken from the
+  31-row OOMMF/Maple 50-digit check table in `demagcoef.cc` agree with the recomputed enclosures
+  to ≥49.6 digits; `python3 demag-scripts/tamper_demo.py`
   runs six corruption controls, all rejected.
 - **Trust root, stated plainly.** The certificate bounds the value of the *analytic Newell tensor
   entry* the simulators compute; whether that entry is the right physical kernel for a given
@@ -609,7 +635,7 @@ k34add-paper/        note (LaTeX + PDF + Markdown mirror)
 k34add-certificates/ the 13 pairwise non-isomorphic rigid witnesses (w01_W.json,
                      w02-w13.json) + README.md inventory
 k34add-scripts/      the three stdlib verifiers: verify_witnesses.py (both patterns,
-                     all triples and transitive quadruples), verify_qr7_lemma.py,
+                     all 1140 triples and all 4845 quadruples), verify_qr7_lemma.py,
                      blowup_bound.py; NO searchers
 SWEEP-RECORD-K34ADD-2026-08-11.md  dated novelty + verification sweep
 
@@ -626,7 +652,8 @@ SWEEP-RECORD-WEDGE2-2026-08-12.md  dated novelty + verification sweep
 demag-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
 demag-certificates/  demag_certificate.json (862 certified enclosures) + stdlib checker
                      (check_demag.py); NO generator, NO interval/Newell engine
-demag-scripts/       anchor_check.py (16 OOMMF/Maple gold values) + tamper_demo.py (6 controls)
+demag-scripts/       anchor_check.py (16-row anchor subset of the OOMMF/Maple table)
+                     + tamper_demo.py (6 controls)
 SWEEP-RECORD-DEMAG-2026-08-12.md  dated novelty + verification sweep
 
   -- Part M: certified ZEFOZ brackets, 167Er3+:Y2SiO5 (v0.13.0) --
@@ -694,13 +721,13 @@ across Parts A–D — the Part B witness/lower-bound/duality checkers, the Part
 verifiers, the Part D control (`verify_1435.py`, expected distance-4 verdict with exit 1 by
 design), and the Part A SymPy suite including `min_verify.py I` after the SIGALRM-portability
 fix — all nine at their documented exit codes. Not yet covered on Windows: the large bb288/bb360
-LRAT replays and the full n = 10 tournament sweep. That replay predates Parts E–M, whose checkers
-are standard-library-only and OS-independent by inspection but have not been independently replayed
-on Windows. Reports from other platforms are welcome and will be credited.
+LRAT replays and the full n = 10 tournament sweep. That replay predates Parts G–M and did not include Parts E and F,
+which were released the day before it; those checkers are standard-library-only and
+OS-independent by inspection but have not been independently replayed on Windows. Reports from other platforms are welcome and will be credited.
 
 ## Citing
 
-See [CITATION.cff](CITATION.cff). Archival DOIs are minted per release on Zenodo — concept DOI for all versions [10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111); Part A (v0.1.x) [10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112); Part B (v0.2.0) [10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780); Part B update (v0.2.1) [10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995); Part C (v0.3.0) [10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010); Part D (v0.4.0) [10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018); Part E (v0.5.0) [10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896); Part F (v0.6.0) [10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028); Part G (v0.7.0) [10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619); Part H (v0.8.0) [10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825); Part I (v0.9.0) [10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011); Part J (v0.10.0) [10.5281/zenodo.21898266](https://doi.org/10.5281/zenodo.21898266); Part K (v0.11.0) [10.5281/zenodo.21898343](https://doi.org/10.5281/zenodo.21898343); Part L (v0.12.0) [10.5281/zenodo.21898722](https://doi.org/10.5281/zenodo.21898722); Part M (v0.13.0) [10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996); the Part A erratum (v0.1.2) is [10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894). To cite an individual result, cite its note and the matching version DOI. External timestamps for this repository's claims begin at the first public push and the Zenodo deposits — not at local file dates (see PROVENANCE.md §3).
+See [CITATION.cff](CITATION.cff). Archival DOIs are minted per release on Zenodo — concept DOI for all versions [10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111); Part A (v0.1.x) [10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112); Part B (v0.2.0) [10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780); Part B update (v0.2.1) [10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995); Part C (v0.3.0) [10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010); Part D (v0.4.0) [10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018); Part E (v0.5.0) [10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896); Part F (v0.6.0) [10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028); Part G (v0.7.0) [10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619); Part H (v0.8.0) [10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825); Part I (v0.9.0) [10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011); Part J (v0.10.0) [10.5281/zenodo.21898266](https://doi.org/10.5281/zenodo.21898266); Part K (v0.11.0) [10.5281/zenodo.21898343](https://doi.org/10.5281/zenodo.21898343); Part L (v0.12.0) [10.5281/zenodo.21898722](https://doi.org/10.5281/zenodo.21898722); Part L erratum (v0.12.1) [10.5281/zenodo.21910159](https://doi.org/10.5281/zenodo.21910159); Part M (v0.13.0) [10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996); the Part A erratum (v0.1.2) is [10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894). To cite an individual result, cite its note and the matching version DOI. External timestamps for this repository's claims begin at the first public push and the Zenodo deposits — not at local file dates (see PROVENANCE.md §3).
 
 ## Contact
 

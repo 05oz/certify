@@ -5,7 +5,8 @@ them. Three review reports (CLAIMS, PRIORITY, REPLAY). Every finding was re-sett
 against the primary artifact or the archived primary source before any edit; where a
 reviewer and the draft disagreed, the winner is recorded. Primary source throughout:
 Kelmans, *Packing 3-vertex paths in cubic 3-connected graphs*, arXiv:0910.2766v2,
-archived with the note.
+fetched and archived in the author's working tree during this pass; not redistributed
+in the deposit.
 
 ---
 
@@ -48,7 +49,9 @@ and Question 6.1 now says the cyclically 6-connected members start at 24 vertice
 `certify-repo` contained no problem-4 content at review time (no match for
 `kelmans|p3span|refcert|A204198`, no SWEEP-RECORD for this note). The Part I staging done
 in this same pass is staged, not committed, not released — so the present tense would still
-be false at the moment the byline goes on. Future tense it is.
+be false at the moment the byline goes on. Future tense it is. **Superseded 2026-08-12:**
+the deposit is public (Certify v0.9.0, doi:10.5281/zenodo.21897011, Zenodo record fetched
+2026-08-12), so §4 now states the deposit in the present tense and names the version DOI.
 
 **C-5. "A third, standard-library implementation reproduced the filtered counts" → the
 standard-library checker's own routine, run by a separate driver.** An honest downgrade of
@@ -188,9 +191,14 @@ weaken the sentence, the controls were rebuilt and re-run in full today: eight d
 corruption classes (non-path triple, cover gap, overlap, sub-maximum packing shape,
 trailing graph6 character, flipped graph6 character, valid certificate for a non-canonical
 relabelling, genuine certificate for a connected cubic graph that is not 3-connected), each
-rejected by the gate it targets, by **both** checkers, plus two controls-on-the-controls
-(disabling membership admits the relabelling and nothing else; disabling 3-connectivity
-admits the sub-3-connected certificate and nothing else). §3.3 now describes exactly this.
+rejected by the gate it targets. The gates are not distributed alike between the checkers:
+`refcert.py` with `--g6set` and `--check3c` rejects all eight, while `verify_cert.py` has no
+membership gate and therefore rejects seven and accepts the relabelling with exit code 0 —
+visible in the shipped control records `ctl_certs_2026-08-11_refcert.txt` (`ok=1
+rejected=8`) and `ctl_certs_2026-08-11_verifycert.txt` (line 6 `VERIFIED`, exit 0). Plus two
+controls-on-the-controls (disabling membership admits the relabelling and nothing else;
+disabling 3-connectivity admits the sub-3-connected certificate and nothing else). §3.3 now
+describes exactly this.
 Builder `mkcontrols.py`, artifacts `out_ref/ctl_certs_2026-08-11_*`.
 
 **S-10. Table 1 caption.** The 3-connected column matches A204198 at every order but
@@ -304,3 +312,36 @@ holds for the staged copies.
 **Not touched:** `CITATION.cff` still reads `version: 0.4.0` and lists Part D as the last
 DOI. It has been stale since v0.5.0 and updating it is a release-process decision, not a
 fix-pass one; flagged here rather than changed.
+
+## Documentation-correction round, 2026-08-13
+
+**I-1. The note mischaracterized the shipped control log as containing an arithmetic slip.**
+The 2026-08-12 pass added, to both twins, the clause: "the captured control log's own header
+line prints 15692 for this total, an arithmetic slip in the log, not in the count — its
+`RSUMMARY` two lines below reads `sfail=15691`". Three things in it were false, and the Engine 2
+gate of 2026-08-13 caught them.
+
+Re-derived from `kelmans-certificates/controls/ctl_base_strong_2026-08-11.txt` by parsing the
+file, not by reading the sentence:
+
+- **The log commits no slip.** Its "total strong-form failures" line is the exact sum of every
+  failure line in its block, and that rule holds in all five blocks (n = 8, 10, 12, 14, 16).
+  At n = 16 the block carries `BASEFAIL 1`, `F1FAIL 317`, `F2FAIL 15374`, and 1 + 317 + 15,374
+  = 15,692. The `RSUMMARY`'s `sfail=15691` excludes the base-claim failure. The two numbers
+  count different things and both are correct; neither is a miscalculation.
+- **It is not a header line.** The line printing 15692 is the block's closing total, printed
+  after the three failure lines (line 32). The block header is `-- n=16` at line 28 and carries
+  no number.
+- **It is not two lines below.** The `RSUMMARY` is line 33, immediately after.
+
+Corrected in both twins to state that the closing total includes the base-claim failure and the
+strong-form total excludes it, and that the `RSUMMARY` on the next line records the latter.
+`note.pdf` rebuilt with tectonic (10 pp., unchanged) and verified by text extraction: the
+superseded phrasings "arithmetic slip", "own header line" and "two lines below" return 0 hits in
+the extracted text, and the corrected phrasings return 1 each.
+
+No count changed anywhere: 317 + 15,374 = 15,691 stands, as does every per-type figure in §3.3
+and in `kelmans-certificates/verdict-n04-20.md`. The control log is untouched and byte-identical
+to its released form; only the note's description of it was wrong.
+Propagation grep (`arithmetic slip`): 1 site, this log's own quotation of the superseded clause
+above. 0 elsewhere in tracked text, 0 in extracted text across all thirteen shipped PDFs.

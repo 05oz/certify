@@ -11,7 +11,9 @@ Independent researcher (`05oz`); no institutional affiliation — daniel@halfoun
 > it is the point of the note: the object is checked by an exhaustive, exact
 > standard-library verifier, so the provenance of the *search* is irrelevant
 > to the validity of the *result* (see §4). For the record, the object was
-> located by a C program (`cfr_search.c`) as a maximum clique, among the
+> located by a C program (`cfr_search.c`) in the normal form φ₀ = id,
+> φᵢ(0) = 0: the identity first row is fixed by that normal form, and the
+> remaining four rows are a clique in the compatibility graph on the
 > K-equivariant orthomorphisms of ℤ₂₅ for the prescribed multiplier group
 > K = ⟨7⟩ = {1, 7, 18, 24} ≤ ℤ₂₅\*; none of that enters the verification.
 
@@ -135,8 +137,10 @@ rectangle exists is at least 5. ∎
 The two linear rows *t* ↦ *t* and *t* ↦ 7*t* are multiplier rows of the form
 *t* ↦ *ct* that underlies the multiplier construction [HCD, 62.22(1)]; the
 remaining three rows are non-linear
-(this is confirmed by the verifier, which finds no multiplier *c* with
-R[*t*] ≡ *ct* for rows 2, 3, 4). The recorded lower bound 4 = *p*−1 is exactly
+(this is confirmed by the second verifier `verify_cfr.py` of §3, which finds
+no multiplier *c* with R[*t*] ≡ *ct* for rows 2, 3, 4; the shipped
+`verify_cfr525.py` performs no linearity test). The recorded lower bound
+4 = *p*−1 is exactly
 what the multiplier construction alone delivers; Figure 1 exceeds it by
 adjoining a fifth, non-linear row that remains event-disjoint from the other
 four.

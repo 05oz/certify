@@ -1331,12 +1331,18 @@ The pipeline provably contains the counterexample at degree $7$ and
 provably contains nothing at degree $\le6$.
 
 All eight emptiness certificates were computed over $\QQ$ (msolve
-multi-modular F4); the mod-$32003$ reproductions were run independently
-in both msolve and SymPy's Gr\"obner engine (\texttt{min\_verify.py}
-parts \texttt{I} and \texttt{II}). SymPy additionally verifies the
-structural layer identities (Lemma~\ref{lem:anchor} and the layer
-factorizations) used to \emph{organize}, but not to prove, the case
-split.
+multi-modular F4) and again mod $32003$. The cross-system reproduction
+reaches the six Branch-I leaves: SymPy's Gr\"obner engine returns the
+unit ideal for all six in about a second (\texttt{min\_verify.py}
+part \texttt{I}). It does not reach the two Branch-II leaves: part
+\texttt{II} exhausts its $150$-second per-leaf alarm on both on the machines
+we have run it on, as does
+the longer $240$-second attempt over $\QQ$, so SymPy returns no verdict
+there and Branch-II emptiness rests on the stored msolve certificates
+\texttt{out\_II-*\_q.txt} and \texttt{out\_II-*\_p.txt}, each the
+reduced basis $[1]$. SymPy additionally verifies the structural layer
+identities (Lemma~\ref{lem:anchor} and the layer factorizations) used to
+\emph{organize}, but not to prove, the case split.
 \end{proof}
 
 \begin{remark}[Anatomy of the exit at degree $7$]
@@ -1383,7 +1389,8 @@ certificates rest on msolve's multi-modular F4 over $\QQ$; the mod-$p$
 runs concur. An independent certificate checker that replays the
 unit-ideal cofactor identities has not yet been built, so a reader who
 does not trust msolve over $\QQ$ has at present only the mod-$32003$
-cross-reproduction. (iii) Moh's theorem and Campbell's theorem are quoted
+cross-reproduction, and that in a second system for the six Branch-I
+leaves alone. (iii) Moh's theorem and Campbell's theorem are quoted
 from the literature. (iv) Certificates for the weights $k=1$ and $k=3$ are
 in preparation and are not claimed here. (v) Emptiness \emph{inside} a
 class is not emptiness outside it: ulam.ai \cite[Thm.~5.1,
@@ -1433,11 +1440,12 @@ note is an exact symbolic check asserted in SymPy 1.14
 (arbitrary-precision rational arithmetic). The characteristic-zero
 emptiness certificates of Theorem~E rest on msolve 0.10.1's certified
 multi-modular F4 over $\QQ$; SymPy independently reproduces the
-mod-$32003$ runs, so the cross-system reproduction concerns the mod-$p$
-computations, while the characteristic-zero certificates rest on msolve
-alone. No numerical approximation occurs anywhere. A self-contained
-independent certificate checker (replaying the unit-ideal cofactor
-identities) is desirable and has not yet been built.
+mod-$32003$ runs for the six Branch-I leaves, so the cross-system
+reproduction concerns those mod-$p$ computations, while the two
+Branch-II leaves and all eight characteristic-zero certificates rest on
+msolve alone. No numerical approximation occurs anywhere. A
+self-contained independent certificate checker (replaying the unit-ideal
+cofactor identities) is desirable and has not yet been built.
 
 \begin{itemize}
 \item \texttt{core\_verify.py} --- the map \eqref{eq:themap}, $\det JF=-2$,
@@ -1464,12 +1472,13 @@ scaled substitution (part \texttt{d7control}); the upstairs identity
 $\det JF=-\brk_{k}$ for $k=1,2,3$ with free symbolic coefficients (part
 \texttt{kdet}); and the axis-target uniqueness certificate (part
 \texttt{axis}).
-\item \texttt{gen\_ms.py}, \texttt{ms\_*\_c0.ms},
-\texttt{ms\_*\_c32003.ms}, \texttt{out\_*.txt} --- msolve input files for
-the eight leaf systems in characteristic $0$ and mod $32003$, and the
-sixteen outputs (\texttt{out\_*\_q.txt} = characteristic $0$,
+\item \texttt{ms\_*\_c0.ms}, \texttt{ms\_*\_c32003.ms},
+\texttt{out\_*.txt} --- msolve input files for the eight leaf systems in
+characteristic $0$ and mod $32003$, and the sixteen outputs
+(\texttt{out\_*\_q.txt} = characteristic $0$,
 \texttt{out\_*\_p.txt} = mod $32003$); every output is the reduced
-Gr\"obner basis $[1]$.
+Gr\"obner basis $[1]$. The scripts that generated these inputs are not
+part of the deposit.
 \end{itemize}
 
 \begin{verbatim}
@@ -1491,7 +1500,11 @@ for f in ms_I-*_c32003.ms ms_II-*_c32003.ms; do b=${f#ms_}; \
   msolve -g 2 -f "$f" -o "out_${b%_c32003.ms}_p.txt"; done      # mod 32003
 \end{verbatim}
 Expected: every \texttt{out\_*\_q.txt} and \texttt{out\_*\_p.txt} contains
-the reduced Gr\"obner basis $[1]$, matching the stored outputs.
+the reduced Gr\"obner basis $[1]$, matching the stored outputs. The msolve
+runs above are not expected to time out; \texttt{min\_verify.py} part
+\texttt{II} is expected to print \texttt{TIMEOUT} on both leaves; a
+timeout is inconclusive, not a failure, and the Branch-II proof is the
+stored msolve output.
 
 \section*{Acknowledgments}
 We are grateful to W.~G.~P.~Mayner, whose note and report \cite{Mayner26}

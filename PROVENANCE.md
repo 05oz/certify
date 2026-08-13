@@ -2,7 +2,7 @@
 
 This file states exactly who did what, when, what this repository claims as new, how each claim is verified, and what is not claimed. It is written to be checkable: every date below is either a public timestamp controlled by someone else, or a claim of ours whose external timestamp begins only when this repository is first pushed publicly or deposited with a DOI.
 
-The repository now carries **four independent bodies of work**. Part A (v0.1.0) is the Alpöge–Keller / Dixmier–Poisson material: §§1–4 below. Part B (v0.2.0) is the quantum error-correction certificate corpus: §5 below. Part C (v0.3.0, tournament packing numbers) and Part D (v0.4.0, the [[14,3,5]] automorphism exclusion) were added on 2026-08-05: see §6 below for their release-boundary facts, and each paper directory's note and FIXLOG for their own provenance statements. They share nothing but an author, a method, and a discipline about credit.
+The repository now carries **thirteen independent bodies of work**, Parts A through M (v0.1.0 through v0.13.0). This file documents the provenance of the first four in detail; each later part's provenance is stated in its own paper directory's note and FIXLOG, and its dated novelty sweep ships as `SWEEP-RECORD-*.md`. Part A (v0.1.0) is the Alpöge–Keller / Dixmier–Poisson material: §§1–4 below. Part B (v0.2.0) is the quantum error-correction certificate corpus: §5 below. Part C (v0.3.0, tournament packing numbers) and Part D (v0.4.0, the [[14,3,5]] automorphism exclusion) were added on 2026-08-05: see §6 below for their release-boundary facts. They share nothing but an author, a method, and a discipline about credit.
 
 ## 1. Timeline
 
@@ -79,7 +79,7 @@ Two things stated plainly:
 
 ---
 
-## 5. Part B — the QEC certificate corpus (v0.2.0, 2026-08-04)
+## 5. Part B — the QEC certificate corpus (v0.2.0, 2026-08-04; brought to v0.2.1 in §5d)
 
 Everything in this section concerns `qec-certificates/`, `qec-scripts/`, and
 `paper/preprint-qec-distances.*`. It is a **verification contribution, not a
@@ -91,7 +91,14 @@ The claim strengths below are the ones the adversarial sweep of 2026-08-04 left
 standing. Two claims of an earlier draft did not survive it and were withdrawn;
 `SWEEP-RECORD-QEC-2026-08-04.md` records both, with the sources that broke them.
 
-### 5a. What is claimed, at its corrected strength
+**Read §§5a–5c as the dated v0.2.0 snapshot they are.** The v0.2.1 update of
+2026-08-06 strengthened the [[288,12,18]] entry and added a code that §5a does
+not list at all; **§5d below carries the current Part B strengths and supersedes
+row 20 and the corresponding bullet of §5b.** Nothing in §§5a–5c was retracted
+by that update — the v0.2.0 claims are all still true, and all still weaker than
+what the repository now certifies.
+
+### 5a. What is claimed, at its corrected strength (as of v0.2.0)
 
 | # | Claim | Origin | Certificate / artifact | Re-run |
 |---|-------|--------|------------------------|--------|
@@ -99,7 +106,7 @@ standing. Two claims of an earlier draft did not survive it and were withdrawn;
 | 17 | Certified `d = 3` (Steane, five-qubit, rotated surface d=3), `d = 5`, `d = 7` (rotated surface d=7, Golay) | values are textbook | witnesses + LRAT proofs, all shipped | as above |
 | 18 | Certified `d = 6` for BB [[72,12,6]]; `d = 10` for [[90,8,10]] and [[108,8,10]] | **values are Bravyi et al.**, arXiv:2308.07915 Table 3, by the MIP method of arXiv:1108.5738; also computed exactly by SAT in arXiv:2606.12445. Replayable Lean artifacts exist for several of these in the LEAN-QEC repository | witnesses, LRAT proofs, duality certificates | as above |
 | 19 | Certified `d = 12` for the IBM gross code [[144,12,12]], including a **symmetry-free** proof in each sector, so that no symmetry lemma enters the trusted base | **value is Bravyi et al.**; confirmed exactly at MIP gap 0 by Cruz-Benito, Cross, Kremer, Faro (IBM), arXiv:2606.02418; reproduced by SAT in arXiv:2606.12445. A **machine-checked** proof is **also not ours** — LEAN-QEC's repository reports a completed `bv_decide` verification incl. kernel replay at commit `c73827d`, 2026-07-10. **No priority claimed.** What is ours: the certificate format, the symmetry-free variant, and the trusted base | `bb144/witness_{X,Z}.json`, `lower_X_K11_sym.json` (shipped), `lower_{X,Z}_K11.json` (proofs regenerable, see `qec-certificates/REGENERATE.md`), `duality.json` | as above |
-| 20 | Certified `d_X >= 14` for BB [[288,12,18]] by a 2.94 GB LRAT proof — **the only machine-checkable lower bound on record for this code at any strength**, improving on the strongest quantity previously published *as a lower bound* (`d >= 11`, Chen–Jafari–Lai, arXiv:2606.12445, solver-asserted, no proof files in their repository) | the **value `d = 18` is Bravyi et al.'s**, asserted exactly by ILP without a checkable artifact. Our `[14,18]` is **not** new information about the value | `bb288/lower_X_K13_sym.json` (proof regenerable), `witness_X.json`, `duality.json` | as above |
+| 20 | *(v0.2.0 strength; superseded by §5d.)* Certified `d_X >= 14` for BB [[288,12,18]] by a 2.94 GB LRAT proof — as of 2026-08-04, **the only machine-checkable lower bound on record for this code at any strength**, improving on the strongest quantity previously published *as a lower bound* (`d >= 11`, Chen–Jafari–Lai, arXiv:2606.12445, solver-asserted, no proof files in their repository) | the **value `d = 18` is Bravyi et al.'s**, asserted exactly by ILP without a checkable artifact. That `[14,18]` was **not** new information about the value | `bb288/lower_X_K13_sym.json` (proof regenerable), `witness_X.json`, `duality.json` | as above |
 | 21 | An explicit ZX-duality permutation for each BB code, packaged as a ~15 ms checkable certificate | **the fact `d_X = d_Z` for BB codes is Bravyi et al.'s supplemental lemma.** Only the explicit permutation certificate is ours | `<code>/duality.json` + `duality_perm.txt` | `python3 qec-scripts/check_duality.py qec-certificates/<code>/duality.json` |
 | 22 | Independent audit: 47/47 certificate checks passed, 0 failed; 5,459,315,046 bytes (5.08 GiB) of LRAT replayed **in pure Python**, 79 MB peak RSS; all five BB parity-check matrices rebuilt **byte-identically** from the published construction; 182/182 manifest SHA-256 entries matching; 11/11 negative controls rejected; six codes cross-checked by brute force | **ours** (a separate agent instance with no access to the pipeline and no shared code) | `INDEPENDENT-VERIFICATION.md` | re-run the checkers; the report lists every command |
 
@@ -107,7 +114,7 @@ standing. Two claims of an earlier draft did not survive it and were withdrawn;
 
 - **Any distance value.** Every value certified here was already published. The BB codes and their distances are Bravyi, Cross, Gambetta, Maslov, Rall and Yoder's (Nature **627** (2024) 778 / arXiv:2308.07915), computed there by the MIP method of Landahl, Anderson and Rice (arXiv:1108.5738).
 - **Priority for machine-checked quantum distance proofs.** That is LEAN-QEC's (arXiv:2605.16523), and their repository reports the gross code completed at commit `c73827d`, 2026-07-10 — before this write-up was finished.
-- **That `d < 18` for [[288,12,18]].** Our `d_X >= 14` is a lower bound four short of the standing literature value, and the shortfall is a limitation of our encoding, not evidence against `d = 18`.
+- **That `d < 18` for [[288,12,18]].** At v0.2.0 our `d_X >= 14` was a lower bound four short of the standing literature value, and the shortfall was a limitation of our encoding, not evidence against `d = 18`. (v0.2.1 closed the gap; see §5d.)
 - **The `d_X = d_Z` duality fact for BB codes.** Bravyi et al.'s lemma.
 - **`k`.** The code dimensions are recomputed, not certified (though side condition (c) pins the logical dimension implicitly, and the audit recomputed every `k` independently).
 - **A defect-free corpus.** Four defects are reported verbatim in §8 of the paper — one of them, D2, fixed in this release; the other three, including a latent soundness hole in an unexercised checker branch, are not.
@@ -119,12 +126,50 @@ standing. Two claims of an earlier draft did not survive it and were withdrawn;
 3. The shipped `check_lower.py` is 481 lines; the auditor read a 419-line version. The difference is an optional totalizer cardinality encoding that **no certificate in this release selects**. See Remark 4.1 of the paper.
 4. `run_all.sh` still expects a `tools-drat-trim/lrat-check` binary that is not vendored (defect D3). The pure-Python path needs nothing but CPython and is the one every number in the paper reports.
 
+### 5d. The v0.2.1 update (2026-08-06): current Part B strengths
+
+v0.2.1 added a fourth checker, `qec-scripts/check_prof.py`, and the
+profile-normalisation (`prof`) certificates it checks. The rows below supersede
+row 20 of §5a and the `d < 18` bullet of §5b; every other §5a row stands.
+
+| # | Claim | Origin | Certificate / artifact | Re-run |
+|---|-------|--------|------------------------|--------|
+| 20a | Certified `d([[288,12,18]]) = 18` **exactly** — the first machine-checkable determination of this distance on record. Lower: the `prof` ladder (`K = 14` excludes weight `<= 14`; `K = 16` excludes weight exactly 16) with Lemma P and Lemma S. Upper: the weight-18 witness. `d = d_X`: the shipped duality certificate | the **value `d = 18` is Bravyi et al.'s**, asserted exactly by ILP without a checkable artifact. This **confirms** their value and does not correct it; **no distance value is claimed**, only its first replayable determination. Lemma P is **Okada–Kasai's** (arXiv:2607.14091 §V-A); the `prof` symmetry break is an instance of lex-leader breaking (Crawford–Ginsberg–Luks–Roy, KR 1996) | `bb288/bb288_prof_K14.json` (48 MB proof ships), `bb288_prof_K16_exact.json` (310 MB proof regenerable, `REGENERATE.md` item 5), `witness_X.json`, `duality.json` | `python3 qec-scripts/check_prof.py qec-certificates/bb288/bb288_prof_K14.json` |
+| 20b | Certified `d_X >= 16` for BB [[360,12,≤24]] — with the ZX-duality lemma for this code, `16 <= d <= 24`. **The only new distance information in the update**: no lower bound of any kind had been reported for this code | the upper bound `d <= 24` is **Bravyi et al.'s** Table 3 value, cited and not certified here; the lower bound is ours, by the same method as 20a | `bb360/bb360_prof_K14.json` (`d_X >= 16`), `bb360_prof_K12.json` (corroborates `d_X >= 14`) | `python3 qec-scripts/check_prof.py qec-certificates/bb360/bb360_prof_K14.json` |
+
+**What the shipped artifacts alone replay**, on a fresh clone with nothing but
+CPython: `16 <= d <= 18` at n = 288 (the `K = 16` proof is the one regenerable
+step to `d = 18`), and `d_X >= 16` at n = 360.
+
+**Not claimed, and specific to this update:**
+
+- **That the shipped tree replays `d >= 16` at n = 360.** What a shipped `prof`
+  certificate replays for that code is `d_X >= 16`. The passage to `d >= 16`
+  rests on the ZX-duality lemma, verified for [[360,12,≤24]] in exact F₂
+  arithmetic (both rowspace identities hold) but — unlike n = 288 — **not**
+  shipped as a standalone `check_duality` certificate: `bb360/` carries no
+  `duality.json`, no `duality_perm.txt` and no `HX.txt`/`HZ.txt`, and
+  `check_prof.py` does not verify ZX-duality.
+- **Independent-encoding corroboration at the decisive rung.** The weight-16
+  exclusion that reaches 18 rather than 16 is proved only in the `prof`
+  encoding; an independently structured encoding corroborates the ladder to
+  `d_X >= 12`, and the retained symmetry-broken Sinz ladder reaches `d_X >= 14`.
+- **Novelty of the `prof` encoding against automated symmetry-breaking tools.**
+  It is characterised only against a lex-leader baseline over the same
+  translation group; BreakID and satsuma were not installable here and no
+  benchmark against them was run.
+- **Audit coverage of these certificates.** The `prof` certificates and
+  `bb288/duality.json` postdate the 2026-08-04 audit and `manifest.json`; they
+  are not among the 47 audited checks or the 182 manifest entries. Each was
+  replayed independently before release, and `check_prof.py` regenerates every
+  CNF from the code's polynomial spec, so nothing rests on the shipped `.cnf`.
+
 ---
 
 ## 6. Parts C and D — release-boundary facts (added 2026-08-06)
 
 Stated plainly, because an auditor of timestamps will notice it and the record should say it first:
 
-- **Both Part C and Part D were committed together** in commit `89e164c` (2026-08-05), the commit tagged **v0.3.0**, whose commit message names only Part C. The entire Part D corpus (`qec1435-paper/`, the 43 pinned certificates, `qec1435-scripts/`, `SWEEP-RECORD-1435-2026-08-05.md`) is therefore already present in the v0.3.0 tag tree.
-- Commit `fc8b4fc`, tagged **v0.4.0**, changed exactly one file: `.zenodo.json` (the deposit metadata for the Part D Zenodo record). The v0.3.0 and v0.4.0 tag trees are snapshots of the same night's tree and differ only in that file; the v0.4.0 commit message ("Part D … paper, 43 certificates, scripts") describes content that entered the history one commit earlier.
+- **Both Part C and Part D were committed together** in commit `7992c21` (2026-08-05), the commit tagged **v0.3.0**, whose commit message names only Part C. The entire Part D corpus (`qec1435-paper/`, the 43 pinned certificates, `qec1435-scripts/`, `SWEEP-RECORD-1435-2026-08-05.md`) is therefore already present in the v0.3.0 tag tree.
+- Commit `229bf5e`, tagged **v0.4.0**, changed exactly one file: `.zenodo.json` (the deposit metadata for the Part D Zenodo record). The v0.3.0 and v0.4.0 tag trees are snapshots of the same night's tree and differ only in that file; the v0.4.0 commit message ("Part D … paper, 43 certificates, scripts") describes content that entered the history one commit earlier.
 - Consequently the Zenodo archive of v0.3.0 (doi:10.5281/zenodo.21816010, the Part C record) also contains the Part D files, and **the external timestamp for Part D's claims begins at the v0.3.0 push/deposit of 2026-08-05**, not at v0.4.0. Nothing about either result changes; this section exists so that the mislabeled commit messages (which cannot be rewritten without rewriting public history) cannot be read as an attempt to blur dating.

@@ -65,10 +65,12 @@ methods statement, and it is the point of the note: the object is checked by
 an exhaustive, exact standard-library verifier, so the provenance of the
 \emph{search} is irrelevant to the validity of the \emph{result} (see
 \S\ref{sec:tcb}). For the record, the object was located by a C program
-(\texttt{cfr\_search.c}) as a maximum clique, among the $K$-equivariant
-orthomorphisms of $\Zn_{25}$ for the prescribed multiplier group
-$K=\langle 7\rangle=\{1,7,18,24\}\le\Zn_{25}^{\ast}$; none of that enters the
-verification.}
+(\texttt{cfr\_search.c}) in the normal form $\phi_0=\mathrm{id}$,
+$\phi_i(0)=0$: the identity first row is fixed by that normal form, and the
+remaining four rows are a clique in the compatibility graph on the
+$K$-equivariant orthomorphisms of $\Zn_{25}$ for the prescribed multiplier
+group $K=\langle 7\rangle=\{1,7,18,24\}\le\Zn_{25}^{\ast}$; none of that
+enters the verification.}
 
 \thanks{\emph{Prior-art record.} The primary source, chapter VI.62 (``Tuscan
 Squares,'' by W.~Chu, S.~W.~Golomb and H.-Y.~Song) of the \emph{Handbook of
@@ -217,8 +219,11 @@ rectangle exists is at least $5$.
 
 The two linear rows $t\mapsto t$ and $t\mapsto 7t$ are multiplier rows of the
 form $t\mapsto ct$ that underlies the multiplier construction
-\cite[62.22(1)]{HCD}; the remaining three rows are non-linear (this is confirmed by the verifier, which finds no
-multiplier $c$ with $R[t]\equiv ct$ for rows $2$, $3$, $4$). The recorded
+\cite[62.22(1)]{HCD}; the remaining three rows are non-linear (this is
+confirmed by the second verifier \texttt{verify\_cfr.py} of
+\S\ref{sec:verif}, which finds no multiplier $c$ with $R[t]\equiv ct$ for
+rows $2$, $3$, $4$; the shipped \texttt{verify\_cfr525.py} performs no
+linearity test). The recorded
 lower bound $4=p-1$ is exactly what the multiplier construction alone
 delivers; Figure~\ref{fig:cfr} exceeds it by adjoining a fifth, non-linear
 row that remains event-disjoint from the other four.

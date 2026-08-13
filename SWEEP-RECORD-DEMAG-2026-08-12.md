@@ -17,8 +17,7 @@ artifacts (`demag-paper/`, `demag-certificates/`, `demag-scripts/`), v0.12.0.
   a table of Maple-computed 50-digit check values for Nxx and Nxy (31 rows, 24 of
   them nonzero); sixteen of them form our independent numerical anchor, and all
   sixteen agree with the midpoints of our certified enclosures to >= 49.6 digits. [Corrected 2026-08-12: an earlier phrasing said "lie inside";
-  the enclosures are ~77 digits tight, so a 50-digit value cannot lie inside one —
-  agreement at the gold values' own precision is the right test, per FIXLOG S4.]
+  the enclosures are far tighter than the 50-digit gold values, so 15 of the 16 lie outside them (the exact zero is the sole exception) and agreement at the gold values' own precision is the right test, per FIXLOG S4.]
 * **Chernyshenko & Fangohr**, JMMM 381 (2015) 440-445; arXiv:1403.1978. The
   pathology, quoted verbatim in the note (S II.B): relative error "is of the
   order 10^-15 r^6," so "for cell separations greater than 10^(15/6) ~ 300 the
@@ -67,10 +66,17 @@ certification and the certified pathology map.
 
 * All 4 quick-grid + full-grid demag certificates: `CHECK PASS` under the shipped
   stdlib checker (`check_demag.py`), Python 3, standard library only.
-* Independent numerical anchor: 16 OOMMF/Maple 50-digit values all inside the
-  enclosures (>= 49.6-digit agreement); an independent 220-digit mpmath
-  evaluation of the same Newell formulas inside every enclosure of the table
-  (0 containment failures); trace `Nxx+Nyy+Nzz` encloses 0 at mutual points.
+* Independent numerical anchor: the 16 anchor rows taken from the 31-row (24
+  nonzero) OOMMF/Maple 50-digit check table in `demagcoef.cc` agree with the
+  enclosure midpoints to >= 49.6 digits. Containment is the wrong test at the
+  gold values' own precision -- the enclosures are ~77 digits tight, and a
+  direct test puts 15 of the 16 outside them, the exact zero being the only
+  one inside (FIXLOG S4; note erratum v0.12.1). [Corrected 2026-08-12: this
+  bullet previously read "all inside the enclosures," the phrasing the v0.12.1
+  erratum retracted elsewhere.] An independent 220-digit mpmath evaluation of
+  the same Newell formulas does lie inside every enclosure of the table
+  (0 containment failures); trace `Nxx+Nyy+Nzz` encloses 0 at all 136 mutual
+  points.
 * Tamper battery (6 controls): enclosure narrowed to exclude truth, enclosure
   shifted off truth, enclosure grossly widened, corrupted naive double, altered
   digit-loss claim, falsified hash -- each rejected nonzero, at the hash layer

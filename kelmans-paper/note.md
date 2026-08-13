@@ -18,7 +18,7 @@ Independent researcher (`05oz`); no institutional affiliation — daniel@halfoun
 > clang 17, and Python 3.
 
 > **Prior-art record.** The primary source [Kel11] was read in full (arXiv
-> v2; a copy is archived with the artifacts, and all statement numbers
+> v2; a copy is archived in the author's working tree, not redistributed here, and all statement numbers
 > below follow its numbering). A novelty sweep was run on August 5 and
 > again on August 11, 2026, the latter immediately before this draft was
 > written: the arXiv API (abstracts mentioning P₃-factors or 3-vertex
@@ -419,21 +419,29 @@ failure in that range. With the filter disabled the strong-form paths
 fire as well: no failure at order 8, where none exists; 54 at order 10
 (2 of type (f1), 52 of (f2)); 253 at order 12, spread over all four (z·)
 paths (4 of (z2), 8 of (z3), 106 of (z7), 135 of (z8)); 145 of (t2) type
-at order 14; and 15,691 at order 16 (317 of (f1), 15,374 of (f2)). Each
+at order 14; and 15,691 at order 16 (317 of (f1), 15,374 of (f2); the captured
+control log's closing total for order 16 prints 15692, which is the sum of all
+three failure lines in that block including the single base-claim failure
+`BASEFAIL 1`. The strong-form total, excluding the base failure, is 15,691, as
+the `RSUMMARY` on the next line records with `sfail=15691`). Each
 checker was likewise run on deliberately doctored certificates, one
 corruption per line: a non-path triple, a cover gap, an overlapping
 triple, a valid partition of sub-maximum shape, a `graph6` string with a
 trailing character, a `graph6` string with a flipped character, a valid
 certificate for a non-canonical relabelling of the graph (a string the
 generator never emits), and a genuine Λ-factor certificate for a
-connected cubic graph that is not 3-connected. Every one is rejected,
-each by the gate it targets and with a nonzero exit code, while the
-intact certificate in the same file is accepted; and two controls on the
-controls confirm the diagnosis, since disabling the membership test
-admits the relabelling and nothing else, and disabling the
-3-connectivity test admits the sub-3-connected certificate and nothing
-else. All controls in this subsection were re-run on the drafting date
-against the current binaries and checkers.
+connected cubic graph that is not 3-connected. Each corruption is
+rejected by the gate that targets it, with a nonzero exit code, while
+the intact certificate in the same file is accepted. The membership gate
+is `refcert.py`'s alone: run with `--g6set` and `--check3c` it rejects
+all eight, whereas `verify_cert.py`, which tests no membership in a
+generator stream, rejects seven and accepts the relabelling with exit
+code 0 (it exits on the first violation, so the control is run one line
+at a time). Two controls on the controls confirm the diagnosis, since
+disabling the membership test admits the relabelling and nothing else,
+and disabling the 3-connectivity test admits the sub-3-connected
+certificate and nothing else. All controls in this subsection were
+re-run on the drafting date against the current binaries and checkers.
 
 ### 3.4. The adversarial referee
 
@@ -464,10 +472,11 @@ without us: the two certificate checkers in source form, the recorded
 command line for every sweep and every generator slice at every order,
 the per-slice summary outputs, the full certificate corpus, the
 negative-control inputs and outputs, and the referee's verdict records.
-It ships with this note and will be deposited on publication in the
-program's public certificate repository *Certify*
-(<https://github.com/05oz/certify>; concept DOI
-[10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111)). The
+It ships with this note in the program's public certificate repository
+*Certify* (<https://github.com/05oz/certify>; concept DOI
+[10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111)), as
+Part I, version DOI
+[10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011). The
 two searchers are specified in §2.2 but are not part of that deposit, and
 we say so rather than imply otherwise: what is deposited is what
 re-checks their output without them, which is every positive answer they
@@ -500,8 +509,9 @@ the negative controls, which both pipelines' failure paths pass.
    least one representative of every isomorphism class of connected cubic
    graph on n vertices is assumed, not proved here. It is the only
    assumption a counterexample could hide behind, and the mitigation is
-   count agreement at every order with the independent published
-   enumerations of [BGM11] and [McKR86] — values obtained by different
+   count agreement with the independent published
+   enumerations — [BGM11] at every order and [McKR86] at orders 10 through 20,
+   its tables stopping there — values obtained by different
    generators (`minibaum`, `snarkhunter`, and McKay and Royle's
    constructions) — and, for the filtered counts, with OEIS A204198. A
    generator that missed a class would have to miss it while still

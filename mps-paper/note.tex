@@ -112,10 +112,11 @@ new and is credited as such. The state is genuinely bond dimension two
 ($\{I,A^0,A^1,A^0A^1\}$ spans $\Mtwo$): its exact odd/even sublattice Schmidt
 rank over $\mathbb{Q}$ is $2,4,8$ at $L=4,6,8$, so the minimal number of
 product states in a decomposition across that cut grows over the computed
-range. Every quantitative claim is re-established from raw data by a
-standard-library exact-arithmetic verifier, and the eigenvalue property is
-independently re-established by a dense \texttt{numpy} build; both are
-shipped with SHA-256 digests. We make no claim about the thermal or
+range. The certificate, the eigenvalue property, the Schmidt ranks and the
+spanning property are re-established from raw data by a standard-library
+exact-arithmetic verifier; the eigenvalue property and the norms
+$\lVert\psiL\rVert^2=4^L$ are recomputed for $L=3,\dots,9$ by an independent dense
+\texttt{numpy} build; both codes are shipped with SHA-256 digests. We make no claim about the thermal or
 non-thermal character of the remainder of the spectrum of $H$, and object-level
 novelty rests on a finite sweep and cannot be absolute
 (\S\ref{ssec:notclaimed}).
@@ -412,9 +413,14 @@ observation and draw no dynamical conclusion from it.
 
 \section{Verification and reproduction}\label{sec:verif}
 
-Every quantitative claim is re-established from the raw data
-\eqref{eq:A}--\eqref{eq:C} by two independent codes, shipped with the note
-and pinned by SHA-256 in Table~\ref{tab:sha}.
+The quantitative claims of Theorem~\ref{thm:main} and \S\ref{sec:ent} are
+re-established from the raw data \eqref{eq:A}--\eqref{eq:C} by two
+independent codes, shipped with the note and pinned by SHA-256 in
+Table~\ref{tab:sha}; the coverage of each is itemized below. The one
+exception is the determinant $-4$ of Proposition~\ref{prop:irr}, which
+neither code computes. The verifier establishes rank four, which is
+equivalent to the determinant being nonzero --- what the proposition's
+argument requires --- but not to its value. The certificate's \texttt{genuine\_bond\_dimension\_2} field attributes the value $-4$ to \texttt{reverify.py} P5; P5 verifies the equivalent rank-4 condition. The certificate is left byte-identical to its hash-pinned shipped form; the attribution is corrected here.
 
 \emph{Exact-arithmetic verifier} (\texttt{reverify.py}, Python standard
 library only; no third-party imports; no POSIX-only calls). It (i) forms
@@ -434,9 +440,13 @@ integer conjugation. It reports \texttt{ALL CHECKS PASS} ($20/20$).
 \texttt{numpy} build sharing no code with \texttt{reverify.py}: the dense
 Hamiltonian is assembled directly from Pauli matrices by Kronecker products,
 the amplitudes from explicit $\Tr(A^{s_1}\cdots A^{s_L})$, all in
-\texttt{object}-dtype (arbitrary-precision integer) arithmetic. It confirms
-$H\psiL=0$ exactly, $\lVert\psiL\rVert^2=4^L$ (hence $\psiL\neq0$), and $H$
-real symmetric, for $L=3,\dots,9$. Two disjoint code paths agree.
+\texttt{object}-dtype (arbitrary-precision integer) arithmetic. For
+$L=3,\dots,9$ it prints $H\psiL=0$ exactly, $\psiL\neq0$, $H$ real
+symmetric, and the exact squared norm, which is $4^L$ at each of those
+lengths. The script reports these values without asserting them --- it
+contains no failure path and exits $0$ unconditionally --- so the comparison
+with $4^L$ is made against its printed output. Two disjoint code paths
+agree.
 
 \emph{The trusted base.} The all-length statement (Theorem~\ref{thm:main},
 eigenvalue part) rests on the finite identity \eqref{eq:certid} --- sixteen
@@ -475,7 +485,7 @@ object.json}.
 file & SHA-256 \\
 \midrule
 \texttt{reverify.py} &
-\texttt{eac86c337770fc6512937f17e83fb066b01a9ee529ed12ed68f1d2faf7177ec4} \\
+\texttt{e57a0aea13d348311fcd2e260474fb40b68a80c60ed12840a5c03718ff9179d9} \\
 \texttt{xcheck.py} &
 \texttt{f43eb90b738f74fef71650fd1b7c78f9a7ff706f31e367fefa3843a6bbef4fc2} \\
 \texttt{object.json} &

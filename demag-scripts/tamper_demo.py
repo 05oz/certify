@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tamper battery for Part K (certified demag tensor).  Standard library only.
+"""Tamper battery for Part L (certified demag tensor).  Standard library only.
 
 Runs the shipped checker (demag-certificates/check_demag.py) against six
 corrupted copies of the certificate and confirms each is rejected nonzero, at

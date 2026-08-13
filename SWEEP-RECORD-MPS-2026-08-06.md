@@ -3,7 +3,8 @@
 Gate and adversarial review both ran on 2026-08-06, primary sources read directly with decisive
 passages quoted in the review log (mps-paper/FIXLOG.md):
 * Object re-verified in exact integer arithmetic by two independent scripts (reverify.py: 20/20
-  checks; xcheck.py: H|psi> = 0 and ||psi||^2 = 4^L for L = 3..9); the sixteen-equation
+  checks; xcheck.py: printed output records H|psi> = 0 and ||psi||^2 = 4^L for L = 3..9, the
+  script itself asserting nothing and exiting 0 unconditionally); the sixteen-equation
   telescoping certificate re-derived by hand including the periodic wraparound bond.
 * Method precedent credited: DEHP 1993 (DOI 10.1088/0305-4470/26/7/011); Gehrmann–Essler
   arXiv:2605.03020 Eq. (10); Garre Rubio–Molnár–Schuch–Verstraete arXiv:2603.28349 (necessity

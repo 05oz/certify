@@ -4,9 +4,12 @@ Independent re-verification for the Part A erratum GATE.  Written from scratch
 from the RAW map F : C^3 -> C^3 (preprint sec. 1.2, displayed map eq. (2));
 reuses no existing script.
 
-Test: preprint Theorem-D statement says the fibre "drops (generically) to two
-over the pullback of {Delta_2 = 0}".  Erratum claims fibre size 2 is
-UNREACHABLE and the true set-theoretic fibre sizes are {3, 1, 0}.
+Test: the Theorem-D statement of v0.1.0 and v0.1.1 said the fibre "drops
+(generically) to two over the pullback of {Delta_2 = 0}".  The erratum claims
+fibre size 2 is UNREACHABLE and the true set-theoretic fibre sizes are
+{3, 1, 0}.  This script is the gate on that claim; since v0.1.2 (2026-08-06)
+the preprint carries the corrected statement, and the quoted phrase survives
+only inside the erratum notice.
 
 Key structural fact used (exact): F1, F2, F3 are all LINEAR in z, with
   coeff_z(F1) = (1+xy)^3,  coeff_z(F2) = 3x(1+xy)^2,  coeff_z(F3) = -x^3.
