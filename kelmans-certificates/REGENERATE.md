@@ -171,8 +171,8 @@ e143308a80e0433298700a4639b3b712a84d6e4b0c5aadb3bd2500481ba94613  controls/ctl_c
 5e4b99caaddd6ebba67d24b21dc05292cd49ebd9a8a3d56436d52b86ddbf876c  summaries/search-pipeline.txt
 a1f1b22434d88b2192b11da05510484f5bf6054ae02940701c2637f6b524bfbb  ../kelmans-scripts/count3conn.py
 7f56caf08449a3f7c4a797a557a22deaf58b00b12699f6dd12145b794559ded8  ../kelmans-scripts/mkcontrols.py
-d4c159172d0302b48cecaf58198e9efcbac122be6945ead314b264813d9d1320  ../kelmans-scripts/refcert.py
-81d37968db7eb47f4cfc44a01932dc29992842a712b713aa8063911e57df05c6  ../kelmans-scripts/verify_cert.py
+13ed86c293d4d3c4f4e147ce0bb19600e73db91928346f5addd212021b4a71b6  ../kelmans-scripts/refcert.py
+767b2d22302d7331d9ed50ec7faa7bb6f3217118e0ce8f536810e4124d5a0443  ../kelmans-scripts/verify_cert.py
 ```
 
 Re-hash with `shasum -a 256 certs_n*.txt controls/*.txt summaries/*.txt`.

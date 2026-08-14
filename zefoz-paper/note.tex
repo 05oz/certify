@@ -448,9 +448,40 @@ is by proximity of the published rounded coordinates; the published rounding
 ($0.001$~T, $0.01^\circ$) is far coarser than our boxes.  \emph{Trusted:} the
 Python \texttt{fractions}/\texttt{json}/\texttt{math} standard library; the
 classical theorems cited (Sylvester, Davis--Kahan, Ostrowski, Krawczyk, and
-the resolvent/Cauchy lemma proved in the appendix); and nothing else --- in
-particular no floating point, no eigensolver, and no code shared with the
-generator enters the verification.  The kill-condition statistics of
+the resolvent/Cauchy lemma proved in the appendix); and nothing else.  No
+floating point and no eigensolver enter the verification.  The checker does,
+however, share code with the private certification engine: 247 of the 541
+executable lines of \texttt{zefoz\_checker2.py} appear
+verbatim in it, including a 28-line byte-identical run, and the exact
+symbolic layer over the quadratic extension --- the squarefree reduction,
+the symbol arithmetic, the symbolic Kronecker and matrix products, and the
+construction of the symbolic Hamiltonian --- is shared almost in full (57
+of 73 lines in the largest of those routines). The pilot checker stands in
+the same relation to its own engine, sharing 53 of 166 lines. A passing
+check may therefore not be read, on its own, as an independent
+re-derivation of the symbolic Hamiltonian assembly or of the
+eigenvalue-bracket machinery built on it.
+
+What is original to the checker is the part the proofs turn on: the
+rational rectangle-interval classes and their outward rounding, the
+containment predicate, the site-matrix construction, and the $LDL^{\mathsf T}$ sign
+count that supplies the Sylvester inertia --- none of which appears in the
+engine.
+
+The eigenvalue brackets also have a genuine external check.
+\texttt{zefoz-scripts/anchor\_check.py} shares 14 of its 100 executable
+lines with the engine and no routine with the shipped checker: it rebuilds
+$H(B^{*})$ from the certificate's own rational matrices in 60-digit
+floating arithmetic and diagonalizes with a general Hermitian eigensolver,
+a code path with nothing in common with the interval $LDL^{\mathsf T}$ machinery.
+Every one of the 352 certified eigenvalue brackets at all 22 field points
+of the main certificate, and all 352 of the pilot, contains the
+independently recomputed eigenvalue; there are no containment failures.
+That anchor tests the eigenvalue brackets and nothing else. The
+eigenvector enclosures, the residual and sin-theta bounds, the per-pair
+gradient and curvature quantities, and the exact time-reversal identity
+carried as the certificate's twenty-third object rest on the checker
+alone.  The kill-condition statistics of
 Section~\ref{sec:kill} are measurements of a private search engine and are
 \emph{not} part of the certified surface; they are reported as run logs.
 

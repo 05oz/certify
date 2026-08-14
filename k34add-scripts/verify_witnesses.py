@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Independent checker for the k(3,4) non-uniqueness certificates (Certify, Part J).
+Checker for the k(3,4) non-uniqueness certificates (Certify, Part J).
 
 Reads the 13 witness files w01_W.json, w02.json, ..., w13.json (each a JSON
 object {"N":20,"a":3,"b":4,"arcs":[[u,v],...]}, arc u->v) and certifies:
@@ -20,6 +20,20 @@ Prints PASS and exits 0 iff all four hold for all 13 files (so there are at leas
 13 pairwise non-isomorphic rigid {I_3,TT_4}-free oriented graphs on 20 vertices,
 and W = w01 is not the unique such graph). Standard library only; no threads, no
 subprocess, no OS-specific calls; deterministic; runs on any CPython 3.x.
+
+Stdlib-only; shares only boilerplate with the SAT search (32 of 174 executable
+lines).  NOT independent of the private structure-mining scripts in
+hunt-structure/: the backtracker inside aut_count, the backtracker inside iso,
+and adj are the same routines as there; rel, load, i3_free and tt4_free differ
+only in parameter lists, in what they return, or in the order of the two
+operands of one != comparison.  So |Aut| = 1 as reported by aut_count must not
+be read as an independent re-derivation.  Written here: wl_colours (none of its
+17 executable lines appears in that tree, and it is alpha-equivalent to nothing
+there), canonical_form, and the invariant fingerprint, of which only the nbar
+term matches a private expression and that only up to the loop bound.  A
+refinement discrete at 20 colours forces |Aut| = 1 on its own, and iso is
+reached only on a canonical-form collision, which does not occur on the 13
+shipped witnesses.  (Disclosed 2026-08-14.)
 """
 import json, itertools, os, sys, glob
 from collections import Counter

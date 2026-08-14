@@ -18,7 +18,7 @@ and the tournament-blow-up bound.
   v(4) = 8 (tournament Ramsey; Erdős–Moser 1964) and the uniqueness of the
   7-vertex TT_4-free tournament as the Paley tournament QR_7 (A. Sánchez-Flores,
   "On tournaments free of large transitive subtournaments", Graphs Combin. 14
-  (1998), 181–200). Both were re-established here from scratch and match Part G,
+  (1998), 181–200). Both were re-established here by exhaustive enumeration and match Part G,
   Prop. 3.3. The lemma is presented as an explanation of the observed structure,
   not a standalone result.
 * The blow-up bound r(I_3,L_m) ≥ 2·v(m) − 1 (giving 15 at m = 4) is a standard
@@ -28,8 +28,17 @@ and the tournament-blow-up bound.
 
 ## Independent verification (2026-08-11)
 
-All checks re-derived by code written from scratch, sharing nothing with the
-structure-mining dig that produced the witnesses (`hunt-structure/`, private).
+All checks re-derived by code that shares only boilerplate with the SAT search
+(25, 32 and 11 lines of 115, 174 and 51, all of them returns, loop headers or
+main-guards). It is NOT code-independent of the structure-mining dig
+(`hunt-structure/`, private): 24, 30 and 9 executable lines are verbatim from it,
+and `tour_iso`, `qr7`, `adj` and the backtrackers inside `aut_count` and `iso`
+are the same routines, PEP8-expanded from a compressed original with their local
+names preserved. What the dig did not supply — the tournament enumerator, the
+automorphism counter, the TT_4 detector, the Weisfeiler-Leman refinement, the
+canonical form — is what the two load-bearing conclusions actually rest on; see
+the methods note for the orbit-stabilizer argument that makes the shared
+isomorphism test redundant.
 
 * 13 witnesses (w01_W = the Part G graph W; w02–w13): each a valid oriented
   graph, exhaustively {I_3,TT_4}-free over all C(20,3)=1140 triples and

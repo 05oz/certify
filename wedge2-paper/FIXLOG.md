@@ -102,3 +102,16 @@ checker establishes. Corrected to state what the checker does.
 
 **K-4. Supersession pointer.** Part H's README section presented its bracket as current with no
 pointer to this part. Noted for the README owner; not a wedge2-paper edit.
+
+
+## 2026-08-14 — independence-claim round (Part K, v0.15.0)
+
+The front-matter "shares no code with the engine" was replaced by a measured
+disclosure: 52 of `check_wedge2.py`'s 238 executable lines appear in the private
+engine, including the 11-line byte-identical run `116-126` that rebuilds the
+coset-leader decoder. The transform, the integrality guards, the invariants, the
+hash recomputation and the comparisons are original. The d=3 containment check
+against Part H's independently re-derived bracket is stated, together with the
+limit that no part of the d=5 spectrum is independently re-derived. The audit had
+cleared this claim as TRUE at whole-function granularity; it is false at fragment
+level. `FIXLOG.md:26-27` was re-measured and stands. No certified value changed.

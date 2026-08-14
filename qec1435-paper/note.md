@@ -15,11 +15,12 @@ GF(4), automorphism groups, linear programming bound, certificates.
 > designs and searches in this work were produced by **Claude Fable 5**
 > (Anthropic), directed by the author, on a single Apple M4 laptop (10
 > cores, 16 GB). The enumeration corpus was then re-verified adversarially
-> by a separate agent instance using independently written checker code
-> that shares nothing with the generating pipeline: every enumerated
+> by a separate agent instance: every enumerated
 > candidate of every nonzero symmetry class was re-checked, and the
 > linear-programming certificate of Lemma C was replayed in exact rational
-> arithmetic. This is a factual methods statement, and it is part of the
+> arithmetic. That checker code is *not* code-independent of the generating
+> pipeline; §5 measures what it shares and names what the verdict does and
+> does not turn on. This is a factual methods statement, and it is part of the
 > point: the artifacts are designed so that the provenance of the *search*
 > is irrelevant to the validity of the *result*. External tools used by the
 > pipeline only: a C compiler for the distance checker, SymPy for one
@@ -339,16 +340,19 @@ The corpus is guarded at four levels.
 any enumeration is trusted; batch mode carries the positive control
 described in Section 3.
 
-*Independent verifier.* A standard-library-only Python verifier, written
-separately, sharing no code with the search tools and using a different
-algorithm (explicit construction of the full 2^11-element group and
-2^17-element normalizer), agrees with the C checker on the codetables
+*Independent verifier.* A standard-library-only Python verifier, using a
+different algorithm from the search tools — explicit construction of the
+full 2^11-element group and 2^17-element normalizer and an exhaustive
+minimum-weight scan, in place of their Gray-code walk with early abort —
+agrees with the C checker on the codetables
 [[14,3,4]] reference code (both find d = 4; the verifier reports FAIL by
 design, since 4 < 5) and on a random sample of 8 enumerated cyclic
 candidates, with exact distance agreement in all cases. (The verifier
 accepts only 11-generator [[14,3]] inputs, so the 12-generator
 [[14,2,5]] reference is outside its scope; the sample's console output
 was not archived.)
+
+One block of it is not independent: its GF(2) Gaussian elimination on the 11 × 28 constraint system and the nullspace-basis extraction that follows, lines 101 to 114 and 120 to 124, are byte-identical to `gen_generic.py:243-256` and `260-264`, and 28 of the verifier's 123 executable lines appear verbatim in that search tool, 40 in the seven search tools taken together. The normalizer basis is therefore computed by the search tool's own code and a fault in it would be reproduced on both sides. The parser is not original either: of its 20 executable lines, 12 appear in the search tools and 11 of those in `gen_hyper.py`'s own `parse`, whose bit-extraction loop it reproduces line for line, up to a uniform indentation shift, at `verify_1435.py:49-53` against `gen_hyper.py:13-17`. What the verdict turns on is original to the verifier: the symplectic form, the weight function, the independence echelon, the isotropy test, the explicit enumeration of the 2,048-element group and the 131,072-element normalizer, and the minimum-weight scan over their difference. The symplectic form and the weight function share no line with any search tool; the enumeration and scan share four, and all four are `for g in gens:` twice, a bare `continue` and a bare `else:`. Agreement with the C checker `check1435.c`, written in a different language, is what makes the distance figure a two-implementation result.
 
 *Structural cross-checks.* The cyclic class was enumerated by two
 structurally different programs (CRT-idempotent construction; generic
@@ -542,7 +546,7 @@ and of the tools and reference data they replay against, in
 
 ```
 95599be7a1ea8f22b13328fef3c9c9e8fb489ef78e1c7d535007db6b736119d5  check1435.c
-2527266d13b604029120ed11174730ef1ed3fe6d5405d8fe3f82c21668ae0d3c  verify_1435.py
+6e23299bf878165ecef94044efa3e2cf180c5ece4ca60665c7af6d04f237a1b2  verify_1435.py
 77ee81af746879b8b56c3e1e259b26fd07c0ccb9be187871a61b08ee3e0762d8  gen_cyclic.py
 9e9b4ecd954c848acf841fc1a227f911a2497ee81c7988853545105f9c5c87b7  gen_qc7.py
 6713b83cdc18d5fc47e000530953180044658a402728d235cf566d26def50dd7  gen_c11.py

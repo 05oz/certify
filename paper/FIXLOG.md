@@ -19,10 +19,23 @@ the artifacts/scripts are ground truth.
    - `python3 scripts/erratum-check/structural.py` — `det J_G = 2(s+3u−5)²`;
      `G|_{C=0} = (1,0)`; u²-coefficient = 0; contraction-point fiber size 1;
      113-point sweep on `{Δ₂=0}` all distinct = 3. Matches quoted output.
-2. **Independent re-derivation of the map/discriminant.** The raw map in all three
-   scripts equals `eq:themap` (the displayed map, PDF eq. (2)) character-for-character;
-   `Δ₁, Δ₂` are re-derived by resultant inside `fibre_check.py` (ratio to the paper
-   cubic = 1) rather than copied. Confirms genuine independence.
+2. **Transcription of the map, and the status of Δ₁, Δ₂.** The raw map in all
+   three scripts equals `eq:themap` (the displayed map, PDF eq. (2))
+   character-for-character — and equals the *other two scripts*
+   character-for-character, `fibre_check.py:81-83 == exhibit.py:12-14 ==
+   exhibit2.py:8-10 == structural.py:65-67`, and also
+   `scripts/dixmier_symplectic_verify.py:15-17`, carried since v0.1.0. That is
+   one transcription, not three, so it confirms fidelity to the paper and is
+   **not** evidence of independence; it is the opposite. `Δ₁, Δ₂` are likewise
+   written as literals at `fibre_check.py:164-165`, byte-identical to
+   `structural.py:75-76`; what the resultant at `:161` derives is the
+   elimination cubic, which `:167` then compares against `paper_cubic` built
+   out of the literal `Δ₁` at `:166`, and that derivation runs on `A, B, C` at
+   `:156-158` — byte-identical to `structural.py:28-30`. So the literals are
+   cross-checked against a derivation from copied downstairs data, not
+   re-derived from scratch. The check is real (ratio 1;
+   `disc + 4·Δ₁·Δ₂² = 0`) and it is what constrains the transcription; it is
+   not an independence result.
 3. **Correction is mathematically correct.** Fiber over `{Δ₂=0}` (Δ₁≠0) is three
    distinct reduced points; `{Δ₂=0}` is an apparent branch (u fails to separate two
    unramified sheets; Δ₂ enters squared). Achievable sizes `{3,1,0}`, never 2.
@@ -112,3 +125,17 @@ Gamma. The erratum text is therefore left unchanged, having been made accurate b
 than by an edit.
 Propagation grep (`Rational(1,3)`, `4/27, 1/3`): 1 site each, this log's own quotation of the
 superseded call above. 0 elsewhere in tracked text, 0 in extracted PDF text.
+
+
+## 2026-08-14 — independence-claim round (Part A (erratum gate), v0.15.0)
+
+The Part A erratum gate's independence claim was replaced by a measured
+disclosure. `scripts/erratum-check/fibre_check.py` is not code-independent of
+`exhibit.py`, `exhibit2.py`, `structural.py` or `scripts/dixmier_symplectic_verify.py`:
+21 of its 115 executable lines appear in the first three and 4 in the fourth, all
+four scripts hold one byte-identical transcription of eq. (2), and the distinct-root
+count is shared. The upper bracket (`length_with_mult`) is unshared and is what the
+gate rests on. Item 2 of this log, which read "Confirms genuine independence", was
+false in both halves and is replaced. `construct/erratum-check/` was brought into
+line with the shipped scripts and its Gamma-point typo (`exhibit.py:77`) fixed.
+No computed value changed.

@@ -2,8 +2,15 @@
 
 Verdict opened 2026-08-11 (incremental; sections are dated as they are closed).
 Extends REFEREE-VERDICT.md (n <= 20, signed 2026-08-06). Same referee pipeline:
-`refcheck.c` + `refcert.py` — no code shared with attack side `p3span.c`/`verify_cert.py`;
-negative-controlled again TODAY (section 4). Machine rules: all heavy runs via
+`refcheck.c` + `refcert.py`. `refcheck.c` shares no code with the attack side `p3span.c` —
+their function inventories are disjoint apart from `main` — and the independent recount at
+n = 22 rests on that C binary's own union-find re-derivation of 3-connectivity over all
+7,319,447 generated graphs. The two Python certificate checkers `refcert.py` and
+`verify_cert.py` do NOT satisfy that condition: they share a 3-connectivity routine
+(`connected_after_removing` and its caller, the same code under local renaming), so the
+certificate-side 3-connectivity gate is **not** independent of the attack side and must not
+be read as such. See section 6.
+Negative-controlled again TODAY (section 4). Machine rules: all heavy runs via
 jobrunner on NEW queues `q_ref22.jsonl` / `q_ref24.jsonl`, --workers 1, mem_mb 2500.
 
 ## 1. Attack-side completeness at n = 22 and n = 24 — VERIFIED 2026-08-11
@@ -64,9 +71,11 @@ graphs on 2n nodes", terms quoted verbatim from oeis.org (fetched 2026-08-11):
 
 i.e. a(11) = 5909292 (22 vertices), a(12) = 98101019 (24 vertices); extension credit
 line on the entry: "a(11)-a(14) from Ed Wynn, Jul 22 2023". Our conn3 sums:
-5909292 and 98101019 — EXACT match. (A204198 cites McKay-Royle and snarkhunter;
-the n<=20 prefix 1,2,4,14,57,341,2828,30468,396150 is the same table the n<=20
-verdict checked against McKay's published counts.)
+5909292 and 98101019 — EXACT match. (A204198 cites McKay-Royle and snarkhunter.
+Of the n<=20 prefix 1,2,4,14,57,341,2828,30468,396150, the six orders n = 10 through
+20 — 14, 57, 341, 2828, 30468, 396150 — are the ones the n<=20 verdict checked against
+McKay's published counts; n = 4, 6 and 8 have no McKay value in that ledger and rest on
+A204198 and the two pipelines only.)
 
 Attack-side completeness: CONFIRMED. Every connected cubic graph on 22 and 24
 vertices was generated (counts match the published enumeration exactly), the
@@ -89,24 +98,29 @@ all 9 jobs — `refn22r0` … `refn22r7` and `refn22certs` — have final `statu
 
 Per-slice RSUMMARY lines, verbatim from `out_ref/ref_n22_r{0..7}.txt`:
 
-    RSUMMARY n=22 read=518580  noncubic=0 conn3=424804  basefail=0 sfail=0 rcerts=42
-    RSUMMARY n=22 read=670736  noncubic=0 conn3=458412  basefail=0 sfail=0 rcerts=45
-    RSUMMARY n=22 read=982556  noncubic=0 conn3=765759  basefail=0 sfail=0 rcerts=76
-    RSUMMARY n=22 read=1068280 noncubic=0 conn3=886684  basefail=0 sfail=0 rcerts=88
+    RSUMMARY n=22 read=518580 noncubic=0 conn3=424804 basefail=0 sfail=0 rcerts=42
+    RSUMMARY n=22 read=670736 noncubic=0 conn3=458412 basefail=0 sfail=0 rcerts=45
+    RSUMMARY n=22 read=982556 noncubic=0 conn3=765759 basefail=0 sfail=0 rcerts=76
+    RSUMMARY n=22 read=1068280 noncubic=0 conn3=886684 basefail=0 sfail=0 rcerts=88
     RSUMMARY n=22 read=1569040 noncubic=0 conn3=1408573 basefail=0 sfail=0 rcerts=140
-    RSUMMARY n=22 read=879959  noncubic=0 conn3=693971  basefail=0 sfail=0 rcerts=69
-    RSUMMARY n=22 read=978267  noncubic=0 conn3=699819  basefail=0 sfail=0 rcerts=69
-    RSUMMARY n=22 read=652029  noncubic=0 conn3=571270  basefail=0 sfail=0 rcerts=57
+    RSUMMARY n=22 read=879959 noncubic=0 conn3=693971 basefail=0 sfail=0 rcerts=69
+    RSUMMARY n=22 read=978267 noncubic=0 conn3=699819 basefail=0 sfail=0 rcerts=69
+    RSUMMARY n=22 read=652029 noncubic=0 conn3=571270 basefail=0 sfail=0 rcerts=57
 
 Totals recomputed: read = 7,319,447 = A002851(11) and BGM11 Table 1; conn3 = 5,909,292 =
 A204198(11); basefail = 0; sfail = 0 (the strong form at n ≡ 4 mod 6 with `-strong` and
 without `-f2` is (f1), i.e. "G − x has a Λ-factor for every vertex x", decided for all
-5,909,292 graphs); rcerts = 586 referee-side certificates emitted. The eight slice figures
-equal the eight attack-side SUMMARY lines of section 1 slice for slice.
+5,909,292 graphs); rcerts = 586 referee-side certificates emitted. The eight slice read,
+conn3, basefail and sfail figures equal those of the eight attack-side SUMMARY lines of
+section 1, slice for slice. The certificate counts differ by design: the referee slices ran
+`./refcheck -strong -rcert 10000` against the attack side's `./p3span -strong -cert 1000`,
+a tenfold coarser sampling cadence, so rcerts = 586 against certs = 5,904. (The referee line
+also reports `noncubic=0` where the attack line reports `cubic=<read>`; these are the same
+fact stated as a defect count and as a pass count.)
 
 Certificate cross-check (`refn22certs`), verbatim from `out_ref/ref_n22_certcheck.txt`:
 
-    7319447 out_ref/geng22.g6
+     7319447 out_ref/geng22.g6
     REFCERT-SUMMARY file=out_ref/n22_certs_all.txt ok=5904 rejected=0 [membership checked] [3-connectivity checked]
 
 i.e. all 5,904 attack-side n = 22 certificates were re-derived from the graph6 string alone
@@ -122,7 +136,8 @@ certificates cross-checked. (f2) was NOT tested at this order.
 
 ## 3. Referee recount, n = 24 (refcheck base claim, 60 geng slices) — NOT RUN
 
-`q_ref24.jsonl` was written (60 jobs) but never executed: there is no `q_ref24.jsonl.logs`
+`q_ref24.jsonl` was written (61 jobs: 60 recount slices plus `refn24certs`) but never
+executed: there is no `q_ref24.jsonl.logs`
 directory and no `q_ref24.jsonl.state.jsonl`. n = 24 therefore has NO independent recount.
 What section 1 establishes for it is attack-side completeness only.
 
@@ -184,3 +199,57 @@ recorded in `out_ref/ctl_certs_2026-08-11_refcert.txt` and
 
 — closed by the pre-release fix pass, 2026-08-11; recount and artifacts the referee's,
 arithmetic re-done independently here.
+
+## 6. Provenance disclosures added 2026-08-13 (documentation only; no count changed)
+
+**6.1 The two Python certificate checkers are not independent of each other.** The header of
+this document previously claimed that the referee pipeline shared no code with the attack
+side `p3span.c`/`verify_cert.py`. That is true of the C pair and false of the Python pair.
+`refcert.py:is_3connected` and `verify_cert.py:is_3_connected` are the same 85-token routine
+under identifier renaming; their callee carries the identical name `connected_after_removing`
+in both files and the same body up to local variable names. Both files also mis-describe the
+routine — `refcert.py` said "BFS", `verify_cert.py` said "fresh BFS each time" — while both
+implementations are a stack DFS (`stack.pop()`); that shared misdescription is itself evidence
+of copying rather than convergence. About 24 of `refcert.py`'s 122 executable lines are
+involved. The docstrings have been corrected; the code has not been touched.
+
+This matters because the gate is load-bearing: `q_ref22.jsonl` job `refn22certs` runs
+`python3 refcert.py … --g6set out_ref/geng22.g6 --check3c`, so the `[3-connectivity checked]`
+token in section 2 comes through the shared code. **The n = 22 boundary stands anyway**, on a
+separate footing: `refcheck.c` and `p3span.c` have disjoint function inventories apart from
+`main` (`refcheck.c`: `uf_find`, `conn_minus`, `three_connected`, …; `p3span.c`: `dfs`,
+`connected_without`, `is_3connected`, …), and the referee's C binary re-derives 3-connectivity
+by union-find over all 7,319,447 generated graphs, arriving at conn3 = 5,909,292 =
+A204198(11). The classification is independently corroborated by that binary. What is not
+independent is the certificate-side 3-connectivity re-check, and it must not be read as such.
+
+**6.2 `verify_cert.py` was replaced on release day and the change is UNVERIFIABLE.**
+Filesystem birthtimes (not merely mtimes):
+
+    p3span.c                  birth 2026-08-05T13:43:08
+    refcheck.c                birth 2026-08-05T15:11:40
+    refcert.py                birth 2026-08-05T15:13:07
+    mkcontrols.py             birth 2026-08-11T21:13:11
+    verify_cert.py            birth 2026-08-11T21:13:36
+    REFEREE-VERDICT-n2224.md  birth 2026-08-11T21:22:52
+
+`verify_cert.py`'s inode was created on release day, 25 s after `mkcontrols.py` and 9 minutes
+before this verdict. An earlier `verify_cert.py` demonstrably existed on 2026-08-05:
+`count3conn.py` (birth 2026-08-05T13:49:54) imports `g6_decode`, `neighbors` and
+`is_3_connected` from it. No earlier revision survives to diff against — the two copies on
+disk (`solve/problem-4/` and `certify-repo/kelmans-scripts/`) are byte-identical, and
+`certify-repo` has a single commit touching the file (`bb58dc0`). **The content of that
+replacement is therefore unverifiable, and it cannot be excluded that it is what introduced
+the shared 3-connectivity routine recorded in 6.1.** No claim is made about what changed;
+only what the filesystem supports is stated here.
+
+The referee side by contrast did not move between 2026-08-05 and this pass:
+`__pycache__/refcert.cpython-314.pyc` embeds source mtime 2026-08-05T15:13:07 and source
+size 5435, which as of 2026-08-13 immediately before this documentation pass were exactly the
+mtime and size of the live `refcert.py`; CPython invalidates that cache on any mismatch, so
+`refcert.py` was byte-frozen across the release. (This pass edits `refcert.py`'s module
+docstring per 6.1, so the `.pyc` no longer matches the live file. Its executable code is
+unchanged — the diff is comment text only.)
+
+**6.3 What did not change.** No count, no job status, no certificate, and no artifact was
+touched by this pass. The confirmed boundary remains **n ≤ 22, and nothing more**.

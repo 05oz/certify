@@ -14,7 +14,9 @@ the certificate's claims:
     with S=1/2, I=7/2 (dim 16), and A, Q, g exactly the rational matrices in
     the certificate (arXiv:2412.10126v3 Appendix B).
 
-Method (independent recomputation, no trust in the generator):
+Method (recomputation from the certificate alone, no trust in the generator's
+values; NOT code-independent of it -- 53 of 166 executable lines are verbatim
+from the private pilot engine):
   - sqrt(7), sqrt(12), sqrt(15) enclosures are validated by squaring;
   - H(B) is built in rectangle complex-interval arithmetic over exact
     rationals with outward rounding (every interval op encloses the exact op);

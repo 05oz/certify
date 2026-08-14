@@ -182,3 +182,55 @@ One MUST-FIX (a replay block that did not replay) and two SHOULD-FIX
 (bb360-duality-not-shipped; totalizer absent from the trusted base) were applied
 without strengthening any claim; one release-hygiene item (an absolute-path
 symlink) is flagged for the author to remove before commit.
+
+
+## 2026-08-14 — independence-claim round (Part B, v0.15.0)
+
+§4.1's "shares no code with the other three" and the front-matter "The three
+independent checkers share no code with the generating pipeline" were replaced by
+measured statements. `check_prof.py` shares 88 of 387 executable lines with
+`check_lower.py`, including the 8-line LRAT propagation run `386-393 == 295-302`,
+and their Tseitin encoders are alpha-equivalent. `check_lower.py` shares 36 of 358
+with `qec_lib.py`, the CSS-CNF construction among them, down to the custom assertion
+`assert sup, "zero pairing row"`. The third LRAT acceptance established in the
+independence-backstop round is stated. `qec_lib.py`'s own "share NO code" docstring
+was corrected. No certificate, proof or count changed.
+
+**Engine 2 / V5 correction, same day.** The sentence introducing that third
+acceptance was itself written as an independence claim — "a third acceptance that
+shares nothing with either" — and is false on the same measurement that condemned
+the others: 34 of `indep_lrat.py`'s 239 executable lines appear in `check_lower.py`
+or `check_prof.py`. It now states the measurement. The 18 distinct shared lines are
+bare `continue`/`break`/`else:`, flag initialisations, the main guard and the
+three-line gzip-open idiom, which is the longest identical run; the claim's
+substance survives, its wording did not. Propagation grep for "shares nothing with
+either": 2 hits, `.tex` and `.md`, both replaced, 0 remaining. The four replayed
+certificates were re-checked against the recorded backstop output: 447,281 /
+2,335,793 / 184,403 / 428,498 additions, all four UNSAT, all four reproduced.
+
+**Engine 2 / V6 corrections, same day.** The adversarial referee found three more,
+all in this paper, none of which any earlier pass had caught:
+
+1. **Stale line counts, caused by this round.** §"Software" says "Four files, 1,128
+   lines of Python in total: `check_witness.py` (95), `check_duality.py` (73),
+   `check_lower.py` (481), and `check_prof.py` (479)… the first three, 649 lines".
+   The disclosure docstrings added in this round took `check_lower.py` from 481 to
+   488 lines and `check_prof.py` from 479 to 488 (`wc -l`, and `git show HEAD:` for
+   the before-state). Corrected to 1,144 / 488 / 488 / 656 here, in the `.md` twin,
+   and at the six other sites that quote 481: `:633`, `:899`, `:909`, `:1042`,
+   `:1322`, plus `README.md:15`, `README.md:207`, `PROVENANCE.md:105`,
+   `PROVENANCE.md:126`. Propagation grep for `1,128`/`(481)`/`(479)`/`649 lines`
+   across all `.tex`/`.md`/`.json`: 0 remaining.
+2. **A surviving independence claim.** §7 read "with no access to the pipeline and
+   no shared code". The same paper's front matter now measures `check_lower.py`
+   sharing 36 of 358 executable lines with `qec_lib.py`, and the audit exercised
+   `check_lower.py`. The clause is removed here, in the `.md` twin, `README.md:106`
+   and `PROVENANCE.md:111`. Propagation grep for "no shared code": 3 hits remain,
+   all in Parts F and I, which this round does not cover.
+3. **The V5 replacement was itself overstated.** It claimed every shared line fell
+   in an enumerated list and that a "three-line gzip-open idiom" was the longest
+   identical run. Seven of the eighteen distinct shared lines fall outside the list
+   (`args = sys.argv[1:]`, `for h in hints:`, `if not conflict:`, `if not lits:`,
+   `return ok`, `return p`, `try:`), and the gzip lines are not consecutive in
+   `indep_lrat.py` (`import gzip` at :50, the two-line body at :60-61). The longest
+   run of consecutive identical lines is two, `indep_lrat.py:218-219`. Restated.

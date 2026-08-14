@@ -1,8 +1,16 @@
 """qec_lib.py -- GF(2) linear algebra, code constructors, canonical CNF encoding
 for certified minimum-distance computation of stabilizer codes.
 
-Pipeline side (numpy allowed). The independent checkers are separate,
-stdlib-only scripts that share NO code with this module.
+Pipeline side (numpy allowed). The checkers are separate stdlib-only scripts
+and none of them imports this module. They are not all code-disjoint from it:
+check_witness.py and check_duality.py share 1 and 3 executable lines, both
+boilerplate, but check_lower.py shares 36 of 358 and check_prof.py 40 of 387,
+and in both the CSS-CNF construction is a transliteration of build_css_cnf
+below -- same accumulators, same order of emission, and the same custom
+assertion `assert sup, "zero pairing row"`. A CSS-encoding fault here would be
+common-mode with those two checkers. The GF(2) layer (rref, rank, in_rowspace)
+is a genuinely separate implementation: bitmask ints here, numpy arrays there,
+zero substantive shared lines.
 """
 import numpy as np
 

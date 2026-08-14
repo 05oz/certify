@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
-"""check_lower.py -- INDEPENDENT lower-bound certificate checker.
+"""check_lower.py -- lower-bound certificate checker.
 
-Pure Python stdlib. Shares NO code with the pipeline. Trusted base:
+Pure Python stdlib; imports nothing from the pipeline. Trusted base:
 this file (plus, optionally, the external lrat-check binary for speed).
+It is NOT code-independent of the pipeline: 36 of its 358 executable lines
+also appear in `qec_lib.py`, and `regen_css` (176-198) is a transliteration
+of `qec_lib.build_css_cnf` (270-291) -- same accumulators `sup` and `bs`,
+same order of emission, same custom assertion `assert sup, "zero pairing
+row"` -- so a CSS-encoding fault would be common-mode with the pipeline. NOT
+independent of `check_prof.py` either: see that file's header. The Tseitin
+encoder here emits the same four clauses in the same order as `qec_lib.py`'s.
 
 What it does, given a lower-bound certificate JSON:
   1. Loads the RAW parity-check matrices (text files of 0/1 rows).

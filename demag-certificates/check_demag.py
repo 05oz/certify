@@ -2,10 +2,12 @@
 """Checker for the certified Newell demagnetization-tensor reference table.
 
 PUBLISHABLE ARTIFACT.  Python 3 standard library only; OS-independent; no
-signals, no subprocesses, no network, no wall-clock.  It re-derives every
-certified enclosure from scratch -- an independent reimplementation of the
-interval arithmetic and the Newell formulas -- and fails loudly on any
-mismatch.
+signals, no subprocesses, no network, no wall-clock.  It recomputes every
+certified enclosure from the certificate alone.  NOT independent of the private
+generator: 212 of 558 executable lines are verbatim from it, the naive-double
+Newell block almost entirely, so a passing check is not an independent
+re-derivation of the formulas.  What is original: the consistency identities at
+642-670, the comparisons, and the failure paths.  Fails loudly on any mismatch.
 
 Usage:  python3 check_demag.py demag_certificate.json [--sample K]
 
@@ -217,7 +219,7 @@ class CIV:
 
 
 # ===========================================================================
-# Newell f, g, self-demag in intervals + stencils   (independent re-derivation)
+# Newell f, g, self-demag in intervals + stencils   (43 of 143 lines shared with the private newell.py)
 # ===========================================================================
 _STENCIL = [
     (+1, +1, +1, -1), (+1, -1, +1, -1), (+1, -1, -1, -1), (+1, +1, -1, -1),
@@ -385,7 +387,7 @@ class Newell:
 
 
 # ===========================================================================
-# Naive IEEE-754 double Newell (independent re-derivation of the pathology)
+# Naive IEEE-754 double Newell (76 of 103 lines verbatim from the private newell.py -- NOT an independent re-derivation)
 # ===========================================================================
 def f_float(x, y, z):
     x = abs(x); y = abs(y); z = abs(z)

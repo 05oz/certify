@@ -143,3 +143,17 @@ named, in both twins.
 the enclosure — both endpoints, width preserved — so the recomputed one escapes. Corrected in
 the note's battery description and in `zefoz-scripts/tamper_demo.py`'s docstring. The script's
 executable logic is unchanged; only the docstring was wrong.
+
+
+## 2026-08-14 — independence-claim round (Part M, v0.15.0)
+
+§6's "no code shared with the generator" was replaced by a measured disclosure:
+247 of `zefoz_checker2.py`'s 541 executable lines appear in the private engine,
+including a 28-line byte-identical run and the symbolic layer almost in full; the
+pilot shares 53 of 166. The interval classes, the containment predicate, the
+site-matrix construction and the LDL^T inertia count are original. The eigenvalue
+brackets have a genuine external check: `zefoz-scripts/anchor_check.py` imports only
+`json`, `os`, `sys`, `fractions.Fraction` and `mpmath`, shares 14 of its 100 lines
+with the engine and no function body with either, and all 352 brackets contain the
+recomputed eigenvalue. The superlative "the one genuinely independent anchor in the
+whole audit" was never established and is not used. No certified bracket changed.

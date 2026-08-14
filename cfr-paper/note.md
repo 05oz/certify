@@ -40,7 +40,8 @@ F_c(*n*) denotes the largest *r* for which one exists. We exhibit an explicit
 5 × 25 circular Florentine rectangle and verify it exhaustively and exactly:
 its 5·25·24 = 3000 ordered distance events are pairwise distinct, checked two
 independent ways by a standard-library program that shares no code with the
-search, and again by a second, independently written verifier. The object
+search, and again by a second verifier that is not code-disjoint from it
+(§3). The object
 establishes **F_c(25) ≥ 5** — one more than the value 4 recorded for *n* = 25
 in the *Handbook of Combinatorial Designs*, 2nd ed. (2006), Table 62.27
 (p. 677), where the entry reads "4 ⋯ 24" and the lower bound 4 is exactly the
@@ -194,15 +195,24 @@ As a negative control, swapping any two symbols within a row (which breaks the
 digest and the property) is rejected: the event count falls below 3000 and the
 run exits non-zero.
 
-### A second, independent verifier
+### A second verifier, and what it shares
 
 A second verifier, `verify_cfr.py` (in the program's `construct/florentine`
 directory), was written separately from the first and from the search. It
-re-checks the same object through unrelated code — the SHA-256, the
-permutation property, both event-counting methods, and, additionally, the
+re-checks the same object through separate code — the SHA-256, the
+permutation property, both event-counting methods, and additionally the
 K = ⟨7⟩ multiplier equivariance and the per-row linearity classification — and
 returns the same verdict (`OVERALL: OBJECT IS A VALID CFR(5,25): True`). The
-two verifiers share no code and agree.
+two verifiers are not code-disjoint: 26 of the shipped checker's 104
+executable lines also appear in the second, comprising the argument and
+file-loading scaffolding, the loop headers, the two-line `is_permutation`
+predicate and the circular-distance expression, each of which admits one
+obvious formulation; the longest identical run is five lines, the header of the
+distinctness double loop, and the longest purely input/output run is three. The
+equivariance test, the linearity classification and the
+second event-counting method are its own. The agreement is therefore agreement
+between two different check batteries over shared plumbing, not between two
+independent programs.
 
 ## 4. The trusted base
 
@@ -214,7 +224,8 @@ the completeness of an external enumerator).
 *Machine-checked, from raw data:* that the object file has the recorded
 SHA-256; that each row is a permutation of {0, …, 24}; and that all 3000
 ordered distance events are pairwise distinct, established two independent ways
-and reproduced by a second, independently written verifier.
+and reproduced by a second verifier that shares 26 of the shipped checker's
+104 executable lines (§3).
 
 *Assumed:* only that CPython and the operating system execute the 173-line
 `verify_cfr525.py` as written, and that its transcription of Definition 1.1

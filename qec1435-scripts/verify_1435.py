@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
-"""INDEPENDENT verifier for a claimed [[14,3,5]] qubit stabilizer code.
+"""Verifier for a claimed [[14,3,5]] qubit stabilizer code.
 
-Stdlib-only. Shares no code with the search tools (written separately,
-different algorithms: no Gray-code walk, no early abort; verifies by direct
-exhaustive enumeration of the full normalizer).
+Stdlib-only. NOT independent of the search tools. Against gen_generic.py:
+the Gaussian elimination and nullspace-basis extraction at lines 101-124
+are byte-identical to that file's lines 243-264, so the normalizer basis
+here must not be read as an independent re-derivation of the search
+tool's. The parser is not independent either: 11 of its 20 executable
+lines are in gen_hyper.py's parse, verify_1435.py:49-53 ==
+gen_hyper.py:13-17. The rest -- group and normalizer enumeration,
+minimum-weight scan, isotropy and independence tests -- is written
+separately and uses a different algorithm (no Gray-code walk, no early
+abort); it shares four lines with the search tools, all of them a loop
+header, a bare continue or a bare else:.
 
 Input: a file with 11 generators, one per line, either
   "[a0 a1 ... a13|b0 ... b13]" bit rows, or a single 28-bit hex word per line
@@ -15,7 +23,8 @@ Checks, from scratch:
   3. Builds the FULL group S (2^11 elements) and the FULL normalizer
      S_perp = {v : sp(v, g) = 0 for all g in S} by testing all 2^28 vectors
      -- too slow; instead solves the linear system by enumerating the
-     nullspace basis via Gaussian elimination WITHOUT reusing search code,
+     nullspace basis via Gaussian elimination copied verbatim from
+     gen_generic.py:243-264 (disclosed above),
      then enumerates all 2^17 normalizer elements explicitly.
   4. Confirms |S_perp| = 2^17, S subset of S_perp.
   5. Computes min symplectic weight over the set difference S_perp - S by

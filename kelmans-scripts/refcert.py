@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """refcert.py — REFEREE-side certificate checker (problem-4 audit, 2026-08-05).
 
-Fresh stdlib-only code; shares nothing with p3span.c / verify_cert.py.
+Stdlib-only; shares no code with the searcher p3span.c.  NOT independent of
+verify_cert.py: the 3-connectivity routine below (is_3connected /
+connected_after_removing) is common to both files, so the --check3c gate here
+must not be read as an independent re-derivation of the searcher's own
+3-connectivity filter.  (Disclosed 2026-08-13; see REFEREE-VERDICT-n2224.md
+section 6.1.)
 Reads CERT/RCERT lines:  CERT <g6> | a-b-c a-b-c ... | avoided...
 For each certificate it re-derives everything from the g6 string alone:
   - graph6 decode (own decoder), simple graph, every degree = 3;
   - optional: g6 string must be a member of a reference generator stream (--g6set);
-  - optional: 3-connectivity (connected after every deletion of <= 2 vertices, BFS);
+  - optional: 3-connectivity (connected after every deletion of <= 2 vertices,
+    stack DFS);
   - each listed triple a-b-c is a path: 3 distinct vertices, edges ab and bc present;
   - triples + avoided vertices partition {0..n-1} exactly (no overlap, no gap);
   - |avoided| == n mod 3.

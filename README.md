@@ -12,7 +12,7 @@ Two independent bodies of work live here, sharing a method rather than a subject
 |---|---|---|
 | Subject | Degree minimality in the equivariant class of the Alpöge Keller map; moment-map structure of its cotangent lift | Certified minimum distances of eleven stabilizer codes, including the exact **d = 18** of IBM's [[288,12,18]] and a first lower bound for [[360,12,≤24]] |
 | Artifact | 8 msolve Gröbner unit-ideal certificates + SymPy verification scripts | witness pairs + LRAT unsatisfiability proofs + ZX-duality permutations |
-| Checker | `scripts/` (SymPy) | `qec-scripts/` — four checkers, 1,128 lines of Python, standard library only |
+| Checker | `scripts/` (SymPy) | `qec-scripts/` — four checkers, 1,144 lines of Python, standard library only |
 | Paper | `paper/preprint-dixmier-poisson.*` | `paper/preprint-qec-distances.*` |
 | Certificates | `certificates/` | `qec-certificates/` |
 | Provenance | [PROVENANCE.md](PROVENANCE.md) §§1–4 | [PROVENANCE.md](PROVENANCE.md) §5, [SWEEP-RECORD-QEC-2026-08-04.md](SWEEP-RECORD-QEC-2026-08-04.md) |
@@ -103,7 +103,7 @@ This is a **verification contribution.** The exact distance values are, with one
 
 ## Lead with the audit
 
-The corpus was re-checked by a separate agent instance with no access to the generating pipeline and no shared code. Its report is [INDEPENDENT-VERIFICATION.md](INDEPENDENT-VERIFICATION.md).
+The corpus was re-checked by a separate agent instance with no access to the generating pipeline. Its report is [INDEPENDENT-VERIFICATION.md](INDEPENDENT-VERIFICATION.md).
 
 | | |
 |---|---|
@@ -204,7 +204,7 @@ It is included because it is part of the pipeline, and the pipeline is explicitl
 1. `bb288/duality.json` was generated **after** the audit closed — it passes `check_duality.py` and its permutation was independently re-verified, but it is outside the 47 audited checks and absent from `manifest.json`.
 2. `manifest.json` covers the audited corpus including the large proofs this repository does not carry. The `prof` certificates (the `d = 18` ladder at n = 288 and the n = 360 bound) **postdate the audit and the manifest** — they are checked directly by `check_prof.py`, which regenerates every CNF from the polynomial spec, and each was replayed independently before release, but they are not among the 47 audited checks.
 3. **The `d ≥ 18` rung at n = 288 is single-encoding.** The weight-16 exclusion (the step that reaches 18 rather than 16) is proved only in the `prof` encoding; an independent, differently structured encoding corroborates the ladder to `d_X ≥ 12`, and the retained symmetry-broken Sinz ladder audited earlier reaches `d_X ≥ 14`. The completeness of `prof` is the on-paper Lemma S (machine-checked hypotheses; conclusion tested against brute force on 31 small codes and against the known weight-18 logical at n = 288, but not by a second encoding at the decisive rung). The `prof` encoding is **not** benchmarked against automated symmetry-breaking tools, so no novelty-versus-tools claim is made.
-4. The shipped `check_lower.py` is 481 lines; the auditor read 419. The difference is an optional totalizer cardinality encoding that no `check_lower` certificate in this release selects. The whole audited corpus was re-run against the shipped 481-line checker before release — 20 witnesses, 5 duality certificates, 23 lower-bound certificates, **48 in all, every one accepted**, including a second pure-Python replay of the 2.94 GB proof.
+4. The shipped `check_lower.py` is 488 lines; the auditor read 419. The difference is an optional totalizer cardinality encoding that no `check_lower` certificate in this release selects. The whole audited corpus was re-run against the shipped 488-line checker before release — 20 witnesses, 5 duality certificates, 23 lower-bound certificates, **48 in all, every one accepted**, including a second pure-Python replay of the 2.94 GB proof.
 5. `run_all.sh` expects a `tools-drat-trim/lrat-check` binary that is not vendored. The pure-Python path needs nothing but CPython and is what every number in the paper reports.
 
 Three further defects the audit found are reported verbatim in §8 of the paper, including a latent soundness hole in a checker branch that no shipped certificate exercises. A paper about trusted bases that suppresses its own audit findings is not one.
@@ -378,9 +378,11 @@ no Λ-factor. None was found. Paper: [`kelmans-paper/note.pdf`](kelmans-paper/no
 Part G left open (its Question 8.1) whether the 20-vertex extremal graph for k(3,4) = 21 is
 unique up to isomorphism. **It is not.** At least **thirteen** pairwise non-isomorphic
 {I₃,TT₄}-free oriented graphs on 20 vertices exist, and every one of them is *rigid* — trivial
-automorphism group. Each is independently verified free of both patterns by an exhaustive test
+automorphism group. Each is verified free of both patterns by an exhaustive test
 (`k34add-scripts/verify_witnesses.py`) over all C(20,3) = 1140 triples, none independent, and all
-C(20,4) = 4845 quadruples, none transitive.
+C(20,4) = 4845 quadruples, none transitive. That tester is not code-independent of the private
+structure-mining dig; the rigidity and non-isomorphism verdicts around it rest on a
+Weisfeiler–Leman refinement and canonical form that are.
 
 The note also proves that the Paley tournament QR₇ inside these graphs is **forced, not designed**:
 a vertex's non-neighbourhood induces a tournament with no transitive quadruple, such tournaments
@@ -475,7 +477,8 @@ series), and measure the floating-point failure against it. Paper:
   enclosures cannot beat double precision anywhere in the regime): **not triggered — LIVE.**
 - **Reproducible without trusting us.** The public unit is *certificate JSON + standard-library
   checker only.* [`demag-certificates/check_demag.py`](demag-certificates/check_demag.py)
-  re-derives every enclosure by its own independent interval arithmetic and Newell evaluation,
+  recomputes every enclosure by interval arithmetic and Newell evaluation that is not
+  independent of the private engine (see note §5),
   verifies containment (`N_lo ≤ N_true ≤ N_hi`) with a width-sanity bound, recomputes each naive
   double bit-for-bit, recomputes every rigorous digit-loss bracket, and re-tests the tensor's own
   identities (trace encloses 0 at all 136 mutual points; each self-term's three diagonals sum to
@@ -492,7 +495,9 @@ series), and measure the floating-point failure against it. Paper:
   entry* the simulators compute; whether that entry is the right physical kernel for a given
   discretization is Newell's modelling choice, cited not claimed. The generator and the
   interval/Newell engine that built the certificate are **not** in this repository; the checker
-  shares no code with them and re-derives everything from the certificate alone. Build/verification
+  recomputes everything from the certificate alone but shares 212 of its 558 executable lines
+  with them; the external anchor is 16 rows of OOMMF's Maple table, and the consistency
+  identities cover all 862 entries. Build/verification
   log: [`demag-paper/FIXLOG.md`](demag-paper/FIXLOG.md); dated sweep:
   [SWEEP-RECORD-DEMAG-2026-08-12.md](SWEEP-RECORD-DEMAG-2026-08-12.md).
 
@@ -540,7 +545,10 @@ on the initial grid. We certify the points; we do not certify the list. Paper:
   checker only.* [`zefoz-certificates/zefoz_checker2.py`](zefoz-certificates/zefoz_checker2.py)
   re-derives every claim from the certificate alone as inequalities among exact rationals. It imports
   only `sys, json, math, fractions`; no floating point, no eigensolver, no signals, subprocesses,
-  network, or wall-clock, and no code shared with the generator. **23-object certificate: exit 0.**
+  network, or wall-clock. 247 of its 541 executable lines are shared with the private
+  certification engine; the interval arithmetic and the inertia count are not. Containment of
+  all 352 eigenvalue brackets is separately confirmed by `zefoz-scripts/anchor_check.py`, which
+  shares 14 of 100 lines with that engine. **23-object certificate: exit 0.**
 - **Replay now:** `python3 zefoz-certificates/zefoz_checker2.py zefoz-certificates/certificate2.json`
   (1.9 MB certificate, ≈40 s → `CERTIFICATE VERIFIED`, exit 0; also passes on CPython 3.9.6); the re-verified pilot is
   `python3 zefoz-certificates/zefoz_checker_pilot.py zefoz-certificates/certificate_pilot.json`

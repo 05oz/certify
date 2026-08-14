@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
-"""check_prof.py -- INDEPENDENT checker for a profile-normalised distance
+"""check_prof.py -- checker for a profile-normalised distance
 certificate.  Python standard library only; imports nothing from the pipeline
 (`qec_lib`, `enc.py`, numpy are all absent from the trusted base).
+
+NOT independent of `check_lower.py`: 88 of 387 executable lines are verbatim
+there, `386-393 == check_lower.py:295-302` is the LRAT propagation loop, and the
+Tseitin encoders are alpha-equivalent.  Independent of `check_witness.py` and
+`check_duality.py` (10 and 18 shared lines, all boilerplate).  The CSS-CNF
+construction at the head of `regen` (236-248) is a transliteration of
+`qec_lib.build_css_cnf` (270-291), the custom assertion `assert sup, "zero
+pairing row"` included, so a CSS-encoding fault would be common-mode with the
+pipeline even though `qec_lib` is not imported.
 
 What it verifies, in order:
 

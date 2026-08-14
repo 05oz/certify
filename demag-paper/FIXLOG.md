@@ -94,10 +94,10 @@ cited to their primary sources at point of use.
 Public (staged): `demag_certificate.json`, `check_demag.py`, `anchor_check.py`,
 `tamper_demo.py`, the note. PRIVATE (method repo, not staged): the generator
 `gen_demag.py`, and the interval/Newell engine it imports (`civ.py`,
-`newell.py`). F2 is infrastructure, so the shipped checker is by design close to
-a full independent reimplementation of the math -- there is little hidden engine,
-and maximal reproducibility is the point. The checker shares no code with the
-generator.
+`newell.py`). F2 is infrastructure, so the shipped checker carries the
+mathematics rather than deferring to a hidden engine. It is NOT code-independent
+of the generator: 212 of its 558 executable lines are verbatim from
+`gen_demag.py`/`civ.py`/`newell.py`/`validate.py`.
 
 ## KILL/LIVE
 
@@ -153,3 +153,16 @@ away from the origin across exactly 50 distinct (cell, direction, component) com
 850 + 12 = 862. Corrected in both twins to state that split.
 Propagation grep (`fifty geometry-and-component pairs`): 0 remaining in tracked text.
 (`a gold value cannot lie inside`, the absolute retired earlier in the round): 0 remaining.
+
+
+## 2026-08-14 — independence-claim round (Part L, v0.15.0)
+
+§5 clause (ii) and the trust paragraph were replaced by measured statements: 212 of
+`check_demag.py`'s 558 executable lines appear in `gen_demag.py`, `civ.py`,
+`newell.py` or `validate.py`, with 31- and 26-line byte-identical runs against
+`newell.py`. The 16-row OOMMF/Maple anchor and the 862-entry consistency identities
+are stated as what the result rests on, with their coverage named. `anchor_check.py`
+imports `CIV` and `Newell` from the shipped checker, so it is the shipped arithmetic
+checked against external values at 16 rows, never an independent re-derivation.
+The README, the sweep record, this log and three comments in `check_demag.py` carry
+the same correction. No enclosure, digit-loss figure or hash changed.

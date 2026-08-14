@@ -60,4 +60,61 @@ The verification is unchanged by this round: `verify_witnesses.py` re-derives, f
 witness's arc list alone, validity as an oriented graph, freeness over all C(20,3) triples and
 C(20,4) quadruples, rigidity by Weisfeiler–Leman refinement to twenty singleton colours
 cross-checked by an explicit automorphism count, and pairwise non-isomorphism by canonical form.
-It imports only the Python standard library and shares no code with the search.
+It imports only the Python standard library and shares only boilerplate with the SAT
+search. It is NOT code-independent of the private structure-mining dig: 30 of its 174
+executable lines are verbatim from it, including the backtrackers inside `aut_count` and
+`iso` and the predicate `adj`; `i3_free` and `tt4_free` are the private predicates modulo
+a parameter list and the order of two operands. The Weisfeiler–Leman refinement, the
+canonical form and the invariant fingerprint are written here — `wl_colours` shares none
+of its 17 executable lines with the dig — and rigidity follows from the refinement being
+discrete alone.
+
+
+## 2026-08-14 — independence-claim round (Part J, v0.15.0)
+
+The four "share no code with the search / written from scratch" sentences were
+replaced by measured statements. Against the SAT search the three checkers share
+only boilerplate (25, 32 and 11 lines of 115, 174 and 51). They are not
+code-independent of the private structure-mining dig in `hunt-structure/`: 24, 30
+and 9 lines are verbatim from it, and `tour_iso` (with all eighteen identifiers
+preserved), `qr7`, `adj` and the backtrackers inside `aut_count` and `iso` are the
+same routines. The uniqueness conclusion is shown not to need the shared
+isomorphism test, by orbit-stabilizer. The drafted correction also claimed two
+from-scratch re-implementations reproducing the tournament and witness facts; no
+such script is in the deposit or anywhere on disk, so that claim was dropped rather
+than published. No count, witness or certificate changed.
+
+**Engine 2 / §11 relocation, same day.** The disclosure above had been written into
+the front-matter `\thanks` and had grown to 1,010 words in a five-page paper, breaking
+across a page and a half. PROTOCOL §11 rule 1 puts file-by-file inventories, script
+names and per-file counts in the repository, not the paper. The footnote is now one
+187-word paragraph and the measurement text moved verbatim to
+`k34add-certificates/README.md`. Every load-bearing statement survives — stdlib-only;
+NOT code-independent of `hunt-structure/`, naming `tour_iso` and its backtracker,
+`qr7`, `adj` and the backtrackers inside `aut_count` and `iso`; what a passing check
+may therefore not be read as; and the orbit-stabilizer argument. Nothing was softened.
+The paper is still 5 pages and both `\thanks` blocks now close on page 1.
+
+Re-derived rather than transcribed, before and after the move: the checkers are 115,
+174 and 51 executable lines and share 25, 32 and 11 with the 24 Python files of the
+SAT search and 24, 30 and 9 with the six of the dig; `wl_colours` is 17 lines and
+shares none; `tour_iso` and `adj` are AST-identical to their private counterparts
+after alpha-renaming, `qr7` is the private `qr7_canon` under two renamings, and the
+backtrackers inside `aut_count` and `iso` are identical to `aut_and_nesting.py:bt` and
+`validate_alts.py:bt`. `verify_qr7_lemma.py` was re-executed (`PYTHONDONTWRITEBYTECODE=1`,
+no bytecode written): PASS, exit 0, |Aut(QR_7)| = 21, 240 labelled TT_4-free tournaments
+on 7 vertices, 7!/21 = 240, 0 on 8 vertices.
+
+One nuance surfaced by that re-derivation and recorded in `CORRECTIONS.md` rather than
+changed here: the two run figures in the moved passage are spans of consecutive
+*executable* lines matched contiguously in both files (three against the SAT search, two
+against the dig — on physical lines both are two), whereas the other seven parts measure
+runs on physical lines. The `blowup_bound.py` "one further run" sub-clause is contiguous
+in the checker but not in the search corpus, so it is one-sided; the three lines are
+boilerplate and the passage's conclusion is unaffected.
+
+`drafts/note-k34-addendum/` was found carrying a **pre-v0.14.0 claim that v0.14.0 had
+already corrected** — that the coarse invariant fingerprint "separates all thirteen",
+which it does not, `w1`/`w5` and `w2`/`w4` agreeing in all three columns. It also still
+had `\par` where the deposit has `\endgraf` and so would not have compiled. Both working
+copies were reconciled to the deposit and their PDF rebuilt. All four copies now match.

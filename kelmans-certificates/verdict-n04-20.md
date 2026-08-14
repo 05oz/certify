@@ -34,7 +34,10 @@ Job `refsmall` re-ran the full generator stream for n = 4..16 through
     RSUMMARY n=16 read=4060 noncubic=0 conn3=2828 basefail=0 sfail=0 rcerts=5
 
 Connected-cubic counts 1,2,5,19,85,509,4060 = OEIS A002851; 3-connected counts
-1,2,4,14,57,341,2828 match the attack side and McKay's published tables exactly.
+1,2,4,14,57,341,2828 match the attack side exactly. Of these, 14, 57, 341 and 2828
+(n = 10, 12, 14, 16) also match McKay's published tables; n = 4, 6 and 8 have no
+McKay value — see the em-dashes in the section 3 ledger below — and rest on A204198
+and the two pipelines only.
 
 ### n = 18 — CONFIRMED (strong forms z2, z3, z7, z8)
 

@@ -98,9 +98,12 @@ exact distance of $[[288,12,18]]$}
 \thanks{\emph{Computation and authorship.} All searches, encodings,
 symmetry-breaking constructions, and certificate designs in this work were
 produced by \textbf{Claude Fable~5} (Anthropic), directed by the author, on a
-single Apple~M4 laptop (10 cores, 16\,GB). The three independent checkers
-share no code with the generating pipeline, import only the Python standard
-library, and were exercised against the corpus by a separate agent instance
+single Apple~M4 laptop (10 cores, 16\,GB). The three checkers named in
+\S\ref{sec:tcb} import only the Python standard library and import nothing from
+the generating pipeline; \texttt{check\_witness.py} and \texttt{check\_duality.py}
+share no substantive code with it, while \texttt{check\_lower.py} shares 36 of
+its 358 executable lines, the CSS-CNF construction among them. They were
+exercised against the corpus by a separate agent instance
 that was given no access to the pipeline. This is a factual methods statement,
 and it is part of the point of the paper: the artifacts are designed so that
 the provenance of the \emph{search} is irrelevant to the validity of the
@@ -181,7 +184,7 @@ whose public repository reports a completed gross-code verification as of
 2026-07-10; and we claim no novelty for the profile-normalisation encoding
 against automated symmetry-breaking tools, which we did not benchmark. What is
 offered here is a certificate format and a trusted base --- four
-standard-library readers, $1{,}128$ lines in total, with no solver and no proof
+standard-library readers, $1{,}144$ lines in total, with no solver and no proof
 assistant in them --- the first independently-replayable determination that
 $d([[288,12,18]])=18$, the first lower bound of any kind for
 $[[360,12,\le24]]$, and artifacts that outlive the tools that produced them.
@@ -522,7 +525,7 @@ $[[360,12,\le24]]$ --- both via the profile-normalisation ladder of
 \S\ref{sec:288}, whose two supporting lemmas (the even-weight Lemma~P and a
 standard symmetry break) are not ours; the ZX-duality permutation --- Bravyi et
 al.'s lemma, not ours --- packaged as a $\sim$$15$\,ms checkable certificate;
-and a trusted base of four standard-library Python readers, $1{,}128$ lines,
+and a trusted base of four standard-library Python readers, $1{,}144$ lines,
 with no solver and no proof assistant in it.}\\
 \bottomrule
 \end{tabular}
@@ -627,7 +630,7 @@ $x_{1},\dots,x_{n}$;
 \end{enumerate}
 A lower-bound certificate is a JSON file naming $\HX,\HZ,P$, the value $K$,
 the sector, and for each instance a list of forced literals and an LRAT file.
-The checker \texttt{check\_lower.py} ($481$ lines) does four things: verifies
+The checker \texttt{check\_lower.py} ($488$ lines) does four things: verifies
 the side conditions of Theorem~\ref{thm:exact}; \emph{regenerates}
 $\Phi_{K}(\HZ,P)$ from the raw matrices in a fixed variable order; replays the
 LRAT against its own clause list; and, for symmetry-broken certificates,
@@ -828,13 +831,23 @@ code one can read (\textsc{checked}) and what is argued in prose and verified
 nowhere (\textsc{assumed}).
 
 \subsection{Software}
-Four files, $1{,}128$ lines of Python in total:
+Four files, $1{,}144$ lines of Python in total:
 \texttt{check\_witness.py} ($95$), \texttt{check\_duality.py} ($73$),
-\texttt{check\_lower.py} ($481$), and \texttt{check\_prof.py} ($479$). The
-first three, $649$ lines, are the checkers the independent audit of
-\S\ref{sec:audit} read and exercised; the fourth was added with the August~6
-extension to verify the profile-normalisation certificates behind $d=18$ at
-$n=288$ and the $n=360$ lower bound, and shares no code with the other three.
+\texttt{check\_lower.py} ($488$), and \texttt{check\_prof.py} ($488$). The
+first three, $656$ lines, are the checkers the independent audit of
+\S\ref{sec:audit} read and exercised; the fourth was added with the August~6 extension to verify the
+profile-normalisation certificates behind \emph{d} = 18 at \emph{n} = 288
+and the \emph{n} = 360 lower bound. It is not code-independent of
+\texttt{check\_lower.py}: 88 of its 387 executable lines appear verbatim
+there, including an eight-line byte-identical run,
+\texttt{check\_prof.py:386-393 == check\_lower.py:295-302}, which is the
+LRAT unit-propagation inner loop, and the two files' Tseitin XOR encoders
+are alpha-equivalent --- identical after renaming, emitting the same four
+clauses in the same order. It is independent of \texttt{check\_witness.py}
+and \texttt{check\_duality.py}, sharing 10 and 18 lines with them, all
+boilerplate. So an acceptance by \texttt{check\_prof.py} and an acceptance
+by \texttt{check\_lower.py} are not two independent acceptances: a fault in
+the propagation loop, or in the encoder, would be accepted twice.
 Their only imports are \texttt{gzip}, \texttt{json}, \texttt{os},
 \texttt{subprocess}, \texttt{sys}, \texttt{tempfile} and \texttt{time}. No
 \texttt{numpy}, no compiled helper, no network. CPython and the operating
@@ -848,6 +861,36 @@ reading \texttt{HX.txt}/\texttt{HZ.txt}, and it requires the shipped CNF to
 match its own regeneration clause-for-clause before replaying the proof against
 the regenerated clauses.
 
+The propagation step now has a third acceptance that is very nearly disjoint
+from either: of the $239$ executable lines of that replay, $34$ also appear in
+\texttt{check\_lower.py} or \texttt{check\_prof.py}, and those $34$ are only
+$18$ distinct lines --- four of them bare (\texttt{continue}, \texttt{break},
+\texttt{else:}, \texttt{try:}), four boolean flag assignments, three loop or
+guard headers, two one-line \texttt{return}s, the argument-vector idiom, the
+main guard, and the three lines that open a possibly-gzipped file, which are
+not consecutive here. The longest run of consecutive identical lines is two.
+A minimal LRAT replay written from the format specification, passing
+seven negative controls that must be rejected and are --- corrupted hint,
+chain that never conflicts, dangling hint, use after delete, missing empty
+clause, RAT hint, duplicate identifier --- and confirming a satisfiable
+instance to be non-refutable, replays all four \texttt{check\_prof.py}
+certificates to UNSAT: \texttt{bb288\_prof\_K14\_atmost} (447,281 lemmas),
+\texttt{bb288\_prof\_K16\_exact} (2,335,793), \texttt{bb360\_prof\_K12}
+(184,403) and \texttt{bb360\_prof\_K14} (428,498). Every variable, clause
+and lemma count this paper records for those instances is reproduced
+exactly; the \emph{n} = 360 \emph{K} = 12 rung is the one instance for which
+this paper records no such counts.
+
+That establishes that each shipped LRAT proof is a valid
+reverse-unit-propagation refutation of its shipped CNF. It does not
+establish that the CNF encodes the coding-theory claim. The Tseitin encoder
+is not merely shared between the two checkers: the same four clauses in the
+same order are emitted by \texttt{qec\_lib.py} in the generating pipeline as
+well, so all three implementations of the encoding descend from one design
+and an encoding fault would be common-mode across the pipeline, both
+checkers and the CNF-regeneration comparison. Independent regeneration of
+the CNF from the polynomial code specification has not been done.
+
 \emph{Not} trusted, and demonstrably so: CaDiCaL; the generating pipeline
 (\texttt{certify.py}, \texttt{qec\_lib.py}, \texttt{gen\_duality.py},
 \texttt{manifest.py}); the shipped \texttt{.cnf} files; \texttt{meta.json};
@@ -856,7 +899,7 @@ deleted and every certificate still verifies.
 
 \begin{remark}[The checker moved after the audit]\label{rem:checkerdrift}
 The auditor of \S\ref{sec:audit} read a $419$-line
-\texttt{check\_lower.py}; the file shipped with this release is $481$ lines.
+\texttt{check\_lower.py}; the file shipped with this release is $488$ lines.
 The difference is one addition: an optional truncated Bailleux--Boufkhad
 totalizer as an alternative to the Sinz cardinality encoding, added during
 exploratory work on this family. It is selected only by a certificate that
@@ -866,7 +909,7 @@ the code path the audit read and exercised. A reader minimising trusted-base
 surface can delete the totalizer branch and re-run everything. We flag the
 drift rather than quietly re-using the audit's line count, because the size of
 that number is one of the claims. To close the loop, the entire audited corpus
-was re-run against the shipped $481$-line checker before release --- $20$
+was re-run against the shipped $488$-line checker before release --- $20$
 witnesses, $5$ duality certificates and $23$ lower-bound certificates, $48$ in
 all, every one accepted, including a second pure-Python replay of the
 $2.94$\,GB proof. Those re-runs were made on a machine under heavy load and
@@ -999,7 +1042,7 @@ zero by \cite{CruzBenito}, and reproduced by SAT in
 \cite{ChenJafariLai}. A machine-checked proof of it is not new either: the
 LEAN-QEC repository reports one as of 2026-07-10 (\S\ref{ssec:credit}). What is
 offered here is the shape of the artifact --- an $868$\,MB file plus a
-$481$-line reader, with no symmetry hypothesis, no solver and no proof
+$488$-line reader, with no symmetry hypothesis, no solver and no proof
 assistant --- and the fact that it replays inside $51$\,MB of memory.
 
 \begin{remark}[Timing variability]
@@ -1168,7 +1211,7 @@ cross-check. It is offered at exactly that strength.
 \section{Independent verification}\label{sec:audit}
 
 The corpus was re-checked by a separate agent instance with no access to the
-pipeline and no shared code, on the same machine, using
+pipeline, on the same machine, using
 \texttt{/usr/bin/python3} (CPython 3.9.6). Its report is
 \texttt{INDEPENDENT-VERIFICATION.md}. Summary: $47$ checks run, $47$ passed,
 $0$ failed; $5{,}459{,}315{,}046$ bytes ($5.08$\,GiB) of LRAT replayed in
@@ -1279,7 +1322,7 @@ negative control 9 shows).
 
 \smallskip
 \noindent D4 is the interesting one. It is exactly the class of defect that the
-certificate discipline is supposed to make findable: a hole in $481$ lines of
+certificate discipline is supposed to make findable: a hole in $488$ lines of
 readable Python, found by reading them, rather than a hole in a solver.
 
 \section{Relation to other work}\label{sec:related}

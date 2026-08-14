@@ -18,6 +18,14 @@ This script verifies:
   QR_7[I_2] is {I_3,TT_4}-free on 14 vertices;
   QR_7[I_3] is NOT I_3-free (contains an independent triple).
 Standard library only; deterministic; no OS-specific calls.
+
+Stdlib-only; shares only boilerplate with the SAT search (11 of 51 executable
+lines).  NOT independent of the private structure-mining scripts in
+hunt-structure/: qr7 and adj are the same routines as there, and tt4_free and
+i3_free differ from theirs only in the parameter list and, for tt4_free, in the
+order of the two operands of one != comparison (9 of the 51 executable lines
+are verbatim from that tree).  Only the blow-up construction itself and the
+driver are written here.  (Disclosed 2026-08-14.)
 """
 import itertools, sys
 

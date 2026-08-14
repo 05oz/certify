@@ -58,10 +58,22 @@ affiliation. ORCID:
 \thanks{\emph{Computation and authorship.} All witnesses, checkers, and
 enumerations in this note were produced by \textbf{Claude} (Anthropic),
 directed by the author, on a single Apple~M4 laptop. The three shipped
-checkers import only the Python standard library and share no code with
-the search that produced the witnesses; the tournament and rigidity facts
-were re-established here by code written from scratch. This addendum uses
-no propositional solver: every claim is a finite check a reader can rerun.}
+checkers import only the Python standard library and share only
+boilerplate with the SAT search. They are \emph{not} code-independent of
+the private structure-mining scripts in \texttt{hunt-structure/} that
+produced the twelve alternative witnesses: \texttt{tour\_iso} and its
+backtracker, the $\QR$ construction \texttt{qr7}, the adjacency predicate
+\texttt{adj}, and the backtrackers inside \texttt{aut\_count} and
+\texttt{iso} are the private routines up to renaming and reformatting. A
+passing check may therefore not be read, on its own, as an independent
+re-derivation of the isomorphism tests, of the $\QR$ construction, or of
+the pattern-freeness predicates. The uniqueness of $\QR$ does not rest on
+them: by orbit-stabilizer its $7!/|\Aut(\QR)|=240$ labelled copies are all
+$\TT{4}$-free, so they exhaust the $240$ enumerated and the sweep only
+reconfirms what the counts force; the count of none on $8$ vertices uses
+no isomorphism test at all. The measurements are in
+\texttt{k34add-certificates/README.md}. This addendum uses no
+propositional solver: every claim is a finite check a reader can rerun.}
 
 \thanks{\emph{Prior-art record.} This note answers Question~8.1 of the
 companion determination \cite{PartG} of $k(3,4)=21$. The value was
@@ -230,11 +242,15 @@ subtournament on $4$ vertices is the quadratic-residue tournament $\QR$
 $|I(w)|\le 7$, with equality forcing $I(w)\cong\QR$.
 \end{proof}
 
-Both tournament inputs were re-established here from scratch, by
-exhaustive enumeration: there are exactly $240$ labelled $\TT{4}$-free
+Both tournament inputs were re-established here by exhaustive
+enumeration: there are exactly $240$ labelled $\TT{4}$-free
 tournaments on $7$ vertices, and every one is isomorphic to $\QR$ (so the
 class is unique; and $240=7!/|\Aut(\QR)|$ with $|\Aut(\QR)|=21$), while
-there are none on $8$ vertices. This matches the certified block
+there are none on $8$ vertices. The enumeration, the automorphism count
+and the isomorphism sweep were not written independently of the private
+structure-mining scripts (see the methods note); the isomorphism sweep is
+not needed, since the three counts force uniqueness by orbit-stabilizer on
+their own. This matches the certified block
 inventory of \cite[Prop.~3.3]{PartG} and the classical characterisation
 \cite{SanchezFlores98}.
 
@@ -310,8 +326,10 @@ richer invariant the checker computes); \texttt{verify\_qr7\_lemma.py}
 enumerates the labelled $\TT{4}$-free tournaments on $7$ and $8$ vertices
 ($240$, all isomorphic to $\QR$; and $0$) and reports $|\Aut(\QR)|=21$;
 and \texttt{blowup\_bound.py} checks $\QR[\I{2}]$ and $\QR[\I{3}]$. All
-three checkers import only the Python standard library, share no code
-with the search that produced the witnesses, and return \textsc{pass}.
+three checkers import only the Python standard library, share only
+boilerplate with the search that produced the witnesses, are NOT
+code-independent of the private structure-mining dig (see the methods
+note), and return \textsc{pass}.
 
 \section{The sharpened question}\label{sec:open}
 

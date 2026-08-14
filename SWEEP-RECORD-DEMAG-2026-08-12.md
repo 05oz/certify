@@ -93,7 +93,7 @@ certification and the certified pathology map.
 Public unit = certificate JSON + stdlib checker (`check_demag.py`) only.
 The generator (`gen_demag.py`), the shared interval library used to build the
 certificate (`civ.py`, `newell.py`), and the grid-selection search remain
-PRIVATE (method repo). Note: F2 is infrastructure, so the shipped checker is by
-design close to a full independent reimplementation -- there is little hidden
-engine here, and that is the point (maximal reproducibility for a substrate
-object). The checker shares NO code with the generator.
+PRIVATE (method repo). Note: F2 is infrastructure, so the shipped checker
+carries the mathematics rather than deferring to a hidden engine. It is NOT
+code-independent of the generator: 212 of its 558 executable lines are verbatim
+from `gen_demag.py`/`civ.py`/`newell.py`/`validate.py`.

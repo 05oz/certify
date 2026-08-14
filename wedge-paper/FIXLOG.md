@@ -97,3 +97,15 @@ describe `check_wedge_d5.py`; `check_wedge.py` at d = 3 runs a full untruncated 
 syndromes and compares against an embedded decoder table. Corrected in both twins.
 Propagation grep (`depth-truncated`, `WMAX`): checked across note twins and README; no further
 site asserts uniformity.
+
+
+## 2026-08-14 — independence-claim round (Part H, v0.15.0)
+
+The front-matter "shares no code with the enumeration engine" was replaced by a
+measured disclosure: 58 of `check_wedge.py`'s 141 executable lines appear in the
+private engine and `151-166 == 124-139` is byte-identical, the tail dynamic program
+among them; the d=5 checker shares 77 of 143. The tail backstop at all five
+certificates and the whole-bracket backstop at d=3, established 2026-08-14, are
+stated, as is the limit that L at d=5 is not backstopped. The tamper-control layer
+is shown by enumeration to share no text with either engine. No certified value
+changed.

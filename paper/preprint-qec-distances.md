@@ -8,8 +8,11 @@ Independent researcher, Half Ounce Research — daniel@halfounce.io
 > **Computation and authorship.** All searches, encodings, symmetry-breaking
 > constructions, and certificate designs in this work were produced by
 > **Claude Fable 5** (Anthropic), directed by the author, on a single Apple M4
-> laptop (10 cores, 16 GB). The three independent checkers share no code with
-> the generating pipeline, import only the Python standard library, and were
+> laptop (10 cores, 16 GB). The three checkers named in §4.1 import only the
+> Python standard library and import nothing from the generating pipeline;
+> `check_witness.py` and `check_duality.py` share no substantive code with it,
+> while `check_lower.py` shares 36 of its 358 executable lines, the CSS-CNF
+> construction among them. They were
 > exercised against the corpus by a separate agent instance that was given no
 > access to the pipeline. This is a factual methods statement, and it is part
 > of the point of the paper: the artifacts are designed so that the provenance
@@ -84,7 +87,7 @@ nor for machine-checked quantum distance proofs, which are LEAN-QEC's and whose
 public repository reports a completed gross-code verification as of 2026-07-10;
 and we claim no novelty for the profile-normalisation encoding against automated
 symmetry-breaking tools, which we did not benchmark. What is offered here is a
-certificate format and a trusted base — four standard-library readers, 1,128
+certificate format and a trusted base — four standard-library readers, 1,144
 lines in total, with no solver and no proof assistant in them — the first
 independently-replayable determination that *d*([[288,12,18]]) = 18, the first
 lower bound of any kind for [[360,12,≤24]], and artifacts that outlive the tools
@@ -368,7 +371,7 @@ first lower bound of any kind for [[360,12,≤24]] — both via the
 profile-normalisation ladder of §6, whose two supporting lemmas (the even-weight
 Lemma P and a standard symmetry break) are not ours; the ZX-duality permutation
 — Bravyi et al.'s lemma, not ours — packaged as a ~15 ms checkable certificate;
-and a trusted base of four standard-library Python readers, 1,128 lines, with no
+and a trusted base of four standard-library Python readers, 1,144 lines, with no
 solver and no proof assistant in it.
 
 ### 1.5 What is not claimed
@@ -464,7 +467,7 @@ variables *x*₁,…,*x*_n (plus auxiliaries) asserts
 
 A lower-bound certificate is a JSON file naming H_X, H_Z, P, the value *K*, the
 sector, and for each instance a list of forced literals and an LRAT file. The
-checker `check_lower.py` (481 lines) does four things: verifies the side
+checker `check_lower.py` (488 lines) does four things: verifies the side
 conditions of Theorem 3.1; *regenerates* Φ_K(H_Z, P) from the raw matrices in a
 fixed variable order; replays the LRAT against its own clause list; and, for
 symmetry-broken certificates, verifies the hypotheses of Lemma 3.2.
@@ -622,12 +625,10 @@ believe.
 
 ### 4.1 Software
 
-Four files, 1,128 lines of Python in total: `check_witness.py` (95),
-`check_duality.py` (73), `check_lower.py` (481), and `check_prof.py` (479). The
-first three, 649 lines, are the checkers the independent audit of §7 read and
-exercised; the fourth was added with the August 6 extension to verify the
-profile-normalisation certificates behind *d* = 18 at *n* = 288 and the
-*n* = 360 lower bound, and shares no code with the other three. Their only
+Four files, 1,144 lines of Python in total: `check_witness.py` (95),
+`check_duality.py` (73), `check_lower.py` (488), and `check_prof.py` (488). The
+first three, 656 lines, are the checkers the independent audit of §7 read and
+exercised; the fourth was added with the August 6 extension to verify the profile-normalisation certificates behind *d* = 18 at *n* = 288 and the *n* = 360 lower bound. It is not code-independent of `check_lower.py`: 88 of its 387 executable lines appear verbatim there, including an eight-line byte-identical run, `check_prof.py:386-393 == check_lower.py:295-302`, which is the LRAT unit-propagation inner loop, and the two files' Tseitin XOR encoders are alpha-equivalent — identical after renaming, emitting the same four clauses in the same order. It is independent of `check_witness.py` and `check_duality.py`, sharing 10 and 18 lines with them, all boilerplate. So an acceptance by `check_prof.py` and an acceptance by `check_lower.py` are not two independent acceptances: a fault in the propagation loop, or in the encoder, would be accepted twice. Their only
 imports are `gzip`, `json`, `os`, `subprocess`, `sys`, `tempfile` and `time`. No
 numpy, no compiled helper, no network. CPython and the operating system must be
 trusted. If the optional `--external` path is used to delegate LRAT replay to a
@@ -639,13 +640,17 @@ specification rather than reading `HX.txt`/`HZ.txt`, and it requires the shipped
 CNF to match its own regeneration clause-for-clause before replaying the proof
 against the regenerated clauses.
 
+The propagation step now has a third acceptance that is very nearly disjoint from either: of the 239 executable lines of that replay, 34 also appear in `check_lower.py` or `check_prof.py`, and those 34 are only 18 distinct lines — four of them bare (`continue`, `break`, `else:`, `try:`), four boolean flag assignments, three loop or guard headers, two one-line `return`s, the argument-vector idiom, the main guard, and the three lines that open a possibly-gzipped file, which are not consecutive here. The longest run of consecutive identical lines is two. A minimal LRAT replay written from the format specification, passing seven negative controls that must be rejected and are — corrupted hint, chain that never conflicts, dangling hint, use after delete, missing empty clause, RAT hint, duplicate identifier — and confirming a satisfiable instance to be non-refutable, replays all four `check_prof.py` certificates to UNSAT: `bb288_prof_K14_atmost` (447,281 lemmas), `bb288_prof_K16_exact` (2,335,793), `bb360_prof_K12` (184,403) and `bb360_prof_K14` (428,498). Every variable, clause and lemma count this paper records for those instances is reproduced exactly; the *n* = 360 *K* = 12 rung is the one instance for which this paper records no such counts.
+
+That establishes that each shipped LRAT proof is a valid reverse-unit-propagation refutation of its shipped CNF. It does not establish that the CNF encodes the coding-theory claim. The Tseitin encoder is not merely shared between the two checkers: the same four clauses in the same order are emitted by `qec_lib.py` in the generating pipeline as well, so all three implementations of the encoding descend from one design and an encoding fault would be common-mode across the pipeline, both checkers and the CNF-regeneration comparison. Independent regeneration of the CNF from the polynomial code specification has not been done.
+
 **Not** trusted, and demonstrably so: CaDiCaL; the generating pipeline
 (`certify.py`, `qec_lib.py`, `gen_duality.py`, `manifest.py`); the shipped
 `.cnf` files; `meta.json`; `manifest.json`; and the prose of this paper. All of
 them can be deleted and every certificate still verifies.
 
 **Remark 4.1 (The checker moved after the audit).** The auditor of §7 read a
-419-line `check_lower.py`; the file shipped with this release is 481 lines. The
+419-line `check_lower.py`; the file shipped with this release is 488 lines. The
 difference is one addition: an optional truncated Bailleux–Boufkhad totalizer
 as an alternative to the Sinz cardinality encoding, added during exploratory
 work on this family. It is selected only by a certificate that declares
@@ -655,7 +660,7 @@ and exercised. A reader minimising trusted-base surface can delete the totalizer
 branch and re-run everything. We flag the drift rather than quietly re-using the
 audit's line count, because the size of that number is one of the claims. To
 close the loop, the entire audited corpus was re-run against the shipped
-481-line checker before release — 20 witnesses, 5 duality certificates and 23
+488-line checker before release — 20 witnesses, 5 duality certificates and 23
 lower-bound certificates, 48 in all, every one accepted, including a second
 pure-Python replay of the 2.94 GB proof. Those re-runs were made on a machine
 under heavy load and their wall-clock times are correspondingly three to five
@@ -771,7 +776,7 @@ The value *d* = 12 is not new; it is [BCGMRY, Table 3], obtained by mixed
 integer programming [LAR11], confirmed exactly at MIP gap zero by [CCKF26], and
 reproduced by SAT in [CJL26]. A machine-checked proof of it is not new either:
 the LEAN-QEC repository reports one as of 2026-07-10 (§1.4). What is offered
-here is the shape of the artifact — an 868 MB file plus a 481-line reader, with
+here is the shape of the artifact — an 868 MB file plus a 488-line reader, with
 no symmetry hypothesis, no solver and no proof assistant — and the fact that it
 replays inside 51 MB of memory.
 
@@ -938,7 +943,7 @@ strength.
 ## 7. Independent verification
 
 The corpus was re-checked by a separate agent instance with no access to the
-pipeline and no shared code, on the same machine, using `/usr/bin/python3`
+pipeline, on the same machine, using `/usr/bin/python3`
 (CPython 3.9.6). Its report is `INDEPENDENT-VERIFICATION.md`. Summary: 47
 checks run, 47 passed, 0 failed; 5,459,315,046 bytes (5.08 GiB) of LRAT
 replayed in approximately 746 s of wall clock; peak resident set 79 MB; all 182
@@ -1042,7 +1047,7 @@ sector label (a typo silently selects the other branch, whose side conditions
 then fail, as negative control 9 shows).
 
 D4 is the interesting one. It is exactly the class of defect that the
-certificate discipline is supposed to make findable: a hole in 481 lines of
+certificate discipline is supposed to make findable: a hole in 488 lines of
 readable Python, found by reading them, rather than a hole in a solver.
 
 ---

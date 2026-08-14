@@ -8,9 +8,19 @@ Independent researcher (`05oz`); no institutional affiliation — daniel@halfoun
 > **Computation and authorship.** All witnesses, checkers, and enumerations
 > in this note were produced by **Claude** (Anthropic), directed by the
 > author, on a single Apple M4 laptop. The three shipped checkers import only
-> the Python standard library and share no code with the search that produced
-> the witnesses; the tournament and rigidity facts were re-established here by
-> code written from scratch. This addendum uses no propositional solver:
+> the Python standard library and share only boilerplate with the SAT search.
+> They are **not** code-independent of the private structure-mining scripts in
+> `hunt-structure/` that produced the twelve alternative witnesses: `tour_iso`
+> and its backtracker, the QR₇ construction `qr7`, the adjacency predicate
+> `adj`, and the backtrackers inside `aut_count` and `iso` are the private
+> routines up to renaming and reformatting. A passing check may therefore not
+> be read, on its own, as an independent re-derivation of the isomorphism
+> tests, of the QR₇ construction, or of the pattern-freeness predicates. The
+> uniqueness of QR₇ does not rest on them: by orbit-stabilizer its
+> 7!/|Aut(QR₇)| = 240 labelled copies are all TT₄-free, so they exhaust the 240
+> enumerated and the sweep only reconfirms what the counts force; the count of
+> none on 8 vertices uses no isomorphism test at all. The measurements are in
+> `k34add-certificates/README.md`. This addendum uses no propositional solver:
 > every claim is a finite check a reader can rerun.
 
 > **Prior-art record.** This note answers Question 8.1 of the companion
@@ -148,10 +158,14 @@ vertices with no transitive subtournament on 4 vertices is the quadratic-residue
 tournament QR₇ [SanchezFlores98, ErdosMoser64]. Applying this to T = I(w) gives
 |I(w)| ≤ 7, with equality forcing I(w) ≅ QR₇. ∎
 
-Both tournament inputs were re-established here from scratch, by exhaustive
-enumeration: there are exactly 240 labelled TT₄-free tournaments on 7 vertices,
-and every one is isomorphic to QR₇ (so the class is unique; and
-240 = 7!/|Aut(QR₇)| with |Aut(QR₇)| = 21), while there are none on 8 vertices.
+Both tournament inputs were re-established here by exhaustive enumeration:
+there are exactly 240 labelled TT₄-free tournaments on 7 vertices, and every one
+is isomorphic to QR₇ (so the class is unique; and 240 = 7!/|Aut(QR₇)| with
+|Aut(QR₇)| = 21), while there are none on 8 vertices. The enumeration, the
+automorphism count and the isomorphism sweep were not written independently of
+the private structure-mining scripts (see the methods note); the isomorphism
+sweep is not needed, since the three counts force uniqueness by orbit-stabilizer
+on their own.
 This matches the certified block inventory of [PartG, Prop. 3.3] and the
 classical characterisation [SanchezFlores98].
 
@@ -213,8 +227,9 @@ cross-checked by an explicit automorphism count), and pairwise non-isomorphism
 invariant the checker computes); `verify_qr7_lemma.py` enumerates the labelled TT₄-free
 tournaments on 7 and 8 vertices (240, all isomorphic to QR₇; and 0) and reports
 |Aut(QR₇)| = 21; and `blowup_bound.py` checks QR₇[I₂] and QR₇[I₃]. All three
-checkers import only the Python standard library, share no code with the search
-that produced the witnesses, and return PASS.
+checkers import only the Python standard library, share only boilerplate with the
+search that produced the witnesses, are NOT code-independent of the private
+structure-mining dig (see the methods note), and return PASS.
 
 ## 6. The sharpened question
 

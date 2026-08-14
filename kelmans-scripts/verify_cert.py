@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 """Independent verifier for p3span CERT lines (Kelmans OPG-46613 sweep).
 
-Stdlib only. Shares NO code with the searcher: its own graph6 decoder, its own
-adjacency representation (set of frozenset edges), its own connectivity check.
+Stdlib only. Shares NO code with the searcher p3span.c: its own graph6 decoder,
+its own adjacency representation (set of frozenset edges), its own connectivity
+check.  It is NOT independent of the referee checker refcert.py, however: the
+3-connectivity routine below (is_3_connected / connected_after_removing) is the
+same code as refcert.py's up to renaming.  (Disclosed 2026-08-13; see
+REFEREE-VERDICT-n2224.md section 6.1.)
 
 For each line "CERT <g6> | a-b-c a-b-c ... | v v ..." it checks:
   1. g6 decodes to a simple graph on n vertices, every vertex degree exactly 3;
   2. the graph is 3-connected: it is connected, stays connected after deleting
-     any single vertex and any pair of vertices (checked by fresh BFS each time);
+     any single vertex and any pair of vertices (checked by a fresh stack DFS
+     each time);
   3. the listed triples are vertex-disjoint, each triple (a,b,c) satisfies
      {a,b} and {b,c} being edges of the graph (a path on 3 vertices);
   4. the avoided list is exactly V minus the union of the triples;

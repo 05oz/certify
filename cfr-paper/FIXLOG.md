@@ -93,3 +93,41 @@ Theorem 2.1 remains stated at exactly its defensible strength: an explicit,
 independently verified 5 x 25 circular Florentine rectangle establishes
 F_c(25) >= 5, one more than the *recorded* lower bound of 4 (Table 62.27,
 p.677); no priority over Song 2000 (unread) is claimed.
+
+
+## 2026-08-14 — independence-claim round (Part E, v0.15.0)
+
+§3's "The two verifiers share no code and agree" was replaced by a measured
+statement: `verify_cfr525.py` and `construct/florentine/verify_cfr.py` share 26 of
+the shipped checker's 104 executable lines, the longest identical run being five
+lines (`verify_cfr525.py:94-98 == verify_cfr.py:75-79`, the header of the
+distinctness double loop) and the longest purely input/output run three
+(`:118-120 == :126-128`), and `is_permutation` is AST-identical. Severity is cosmetic: the
+shared lines are scaffolding, loop headers and two canonical one-liners, every one
+correct, with no shared-error fingerprint; the equivariance test, the linearity
+classification and the second event-counting method are not shared. The separate
+claim at §1 (the shipped verifier shares no code with the search) is untouched: it
+was not refuted, and no private CFR generator is on this filesystem to test it
+against. No certified property of the CFR(5,25) object changed.
+
+**Engine 2 / V5 correction, same day.** The replacement text above shipped a
+false measurement of its own: it said the longest identical run "is seven lines
+and is pure input/output". Re-measured, the longest identical run is five lines,
+`verify_cfr525.py:94-98 == verify_cfr.py:75-79`, and it is not input/output at
+all — it is `distinct = 0` followed by the header of the distinctness double
+loop. The longest purely input/output run is three lines,
+`:118-120 == :126-128`. `note.tex`, `note.md` and this entry now carry the
+measured figures. The 26-of-104 count, the AST-identity of `is_permutation` and
+the round's conclusion are unaffected; all three were re-derived, not re-read.
+
+**Engine 2 / V6 correction, same day.** The adversarial referee found that the §3
+replacement had been applied while two other sentences in the same paper still
+called the second verifier "independently written" — the abstract (`note.tex:104`)
+and the trusted-base section (`:305`) — with the section heading reading "A second,
+independent verifier" above the very paragraph that measures 26 shared lines. The
+round's own scope note recorded Part E as "1 sentence replaced (§3); L13 is true and
+untouched", which is correct about the *search* clause and silent about the
+*independently written* clause sitting in the same sentence. Both sentences, the
+heading and the source-header comment now state the dependence and point at §3. The
+§1 claim about the search is still retained: no private CFR generator exists on this
+filesystem, so it is untested rather than refuted, and the note says so.

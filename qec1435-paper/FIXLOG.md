@@ -109,3 +109,32 @@ output was not archived are itemized in Sections 3, 5 and 7. This sentence lives
 and a LaTeX comment does not reach the compiled PDF, so this correction is neither a both-twins
 edit nor verifiable by text extraction. D-1 above is the both-twins correction of the two.
 Propagation grep (`all run outputs`): 0 remaining in tracked text, 0 in extracted PDF text.
+
+
+## 2026-08-14 — independence-claim round (Part D, v0.15.0)
+
+§5's "sharing no code with the search tools" was replaced by a measured
+disclosure: `verify_1435.py:101-114` and `:120-124` are byte-identical to
+`gen_generic.py:243-256` and `:260-264`, 28 of its 123 executable lines appear in
+that tool and 40 in the seven search tools together, and its parser shares 11 of 20
+lines with `gen_hyper.py:parse`. The verdict-bearing enumeration and scan remain
+unshared but for four trivial lines. `verify_1435.py`'s own docstring was corrected
+in step, so the SHA-256 manifest line for that file in this note was updated to
+match: `2527266d...` -> `6e23299b...`. No distance, certificate or count changed.
+
+**Engine 2 / V5 corrections, same day.** Three defects in the entry above and in
+the round's own edit, all caught before the tag:
+
+1. This entry recorded the new digest as `3471eacf...`. The file's actual SHA-256
+   is `6e23299bf878165ecef94044efa3e2cf180c5ece4ca60665c7af6d04f237a1b2`, which is
+   what `note.tex:712`, `note.md:548` and `CORRECTIONS.md` carry. The FIXLOG line
+   was the only wrong copy; it now matches `shasum -a 256`.
+2. The §5 correction left the front-matter `\thanks` asserting "independently
+   written checker code that shares nothing with the generating pipeline" — the
+   §14 failure mode exactly, a paper whose own §5 refutes its own front matter.
+   The front matter now records that the checker is not code-independent of the
+   pipeline and points at §5. Propagation grep: 2 hits, `.tex` and `.md`, both
+   replaced, 0 remaining.
+3. The parser span was written `verify_1435.py:49-53 == gen_hyper.py:13-17`, the
+   notation this round uses for byte-identical runs. The five lines are identical
+   only up to a uniform four-space indentation shift. The claim now says so.

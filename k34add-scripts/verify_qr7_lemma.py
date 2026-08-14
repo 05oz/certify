@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Independent verification of the inputs to the QR_7 forcing lemma (Certify, Part J).
+Verification of the inputs to the QR_7 forcing lemma (Certify, Part J).
 
 The lemma: in any {I_3, TT_4}-free oriented graph, a vertex's non-neighbourhood
 induces a TT_4-free tournament; such a tournament has at most 7 vertices, and the
@@ -18,6 +18,22 @@ It also reports |Aut(QR_7)| = 21 and that QR_7 is TT_4-free and doubly regular.
 Classical primary source for both facts: A. Sanchez-Flores, "On tournaments free
 of large transitive subtournaments", Graphs Combin. 14 (1998), 181-200.
 Standard library only; deterministic; no OS-specific calls.
+
+Stdlib-only; shares only boilerplate with the SAT search (25 of 115 executable
+lines: returns, loop headers, the main guard).  NOT independent of the private
+structure-mining scripts in hunt-structure/.  tour_iso, its inner backtracker,
+and qr7 are the same routines as there, PEP8-expanded from a compressed
+original with every local name preserved (oa, ob, perm, used, i, j, k, bt).
+The TT_4-detection kernel inside has_tt4 and inside new_vertex_ok is the
+private kernel with the two operands of one != transposed, and the backtracking
+loop of aut_count_tour follows the private aut_count's statement for statement,
+differing only in the pruning key.  Original here: the vertex-by-vertex mask
+recursion of enumerate_tt4free (one of its nineteen lines is shared) and the
+3-regularity test.  So neither the "all isomorphic to QR_7" sweep nor the counts
+240, 21 and 0 may be read as independent re-derivations.  The uniqueness
+conclusion does not need the isomorphism test: by orbit-stabilizer the labelled
+tournaments isomorphic to QR_7 number 7!/21 = 240, all TT_4-free since QR_7 is,
+so they exhaust the enumerated 240.  (Disclosed 2026-08-14.)
 """
 import itertools, math, sys
 

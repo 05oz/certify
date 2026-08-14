@@ -1,8 +1,57 @@
 #!/usr/bin/env python3
 """
-Independent re-verification for the Part A erratum GATE.  Written from scratch
-from the RAW map F : C^3 -> C^3 (preprint sec. 1.2, displayed map eq. (2));
-reuses no existing script.
+Re-verification for the Part A erratum GATE, from the RAW map
+F : C^3 -> C^3 (preprint sec. 1.2, displayed map eq. (2)).  SymPy over QQ,
+exact arithmetic throughout.
+
+NOT written from scratch, and NOT code-independent of the other scripts in
+this repository.  Of the 115 executable lines of this file, 21 appear
+verbatim in exhibit.py, exhibit2.py or structural.py and 4 in
+scripts/dixmier_symplectic_verify.py:
+  - the transcription of eq. (2), lines 81-83, is a 3-line byte-identical
+    run with dixmier_symplectic_verify.py:15-17 -- a file the repository has
+    carried since the v0.1.0 commit of 2026-08-04, two days before the
+    erratum commit that added this one -- and with structural.py:65-67;
+    lines 81-84 are a 4-line byte-identical run with exhibit.py:12-15 and
+    with exhibit2.py:8-11;
+  - the z-elimination make_h (99-103) is the same routine as
+    exhibit.py:h1h2 (17-21): identical abstract syntax after consistent
+    renaming, and 100-102 == exhibit.py:18-20 == exhibit2.py:14-16 byte for
+    byte.  structural.py:80-81 carries the same two formulas spelled
+    differently;
+  - the downstairs data of eq. (ABC) at 155-158 is a 4-line byte-identical
+    run with structural.py:27-30, and the Delta_1, Delta_2 literals at
+    164-165 a 2-line run with structural.py:75-76 -- both sitting directly
+    under the comment at line 154 that reads "independent derivation".
+A pass here may therefore not be read, on its own, as an independent
+re-derivation of eq. (2), of the z-elimination, or of the downstairs map.
+
+Consequence for the gate.  The four erratum scripts hold ONE transcription
+of eq. (2), not four.  A mistranscribed eq. (2) would be common-mode across
+this gate and all three exhibits; they would agree on a wrong fibre count,
+and exhibit.py and exhibit2.py contain no assertions at all.  What
+constrains the transcription is local to this file: det JF == -2 (line 90)
+and the three coeff_z(F_i) identities (95-97), the latter also fixing the
+two multipliers make_h uses.
+
+What is NOT shared, and what still is.  The upper bracket is this file's
+alone: length_with_mult (105-118) reads the scheme length off a Groebner
+staircase, and no other script under scripts/ computes a length at all.  So
+are the seven separating linear forms and the empty-fibre vote (123-144), the
+Delta_1 = 0 rational-point scan (188-204), and the four assertions.  The
+LOWER bracket is shared.  Line 140, `sqf = pw.gcd(pw.diff(w))`, is
+exhibit.py:35, exhibit2.py:38 and structural.py:88 with x for w -- byte
+identical among those three -- and the degree difference at 141 is their 36,
+39 and 89 with a different assignment target.  All four therefore count
+distinct fibre points as deg P - deg gcd(P, P'); the three exhibits count in
+x, assuming x separates, while this file counts in a generic w = a x + b y
+and takes the max over seven forms, which is a strengthening but not a
+different method.  Byte-identity alone hides this: inside 105-144 the only
+lines occurring verbatim anywhere else under scripts/ are two `return None`,
+two `continue` and one `return 0`, and the sharing is one character wide.  It
+is recorded because it is what structural.py's 113-point sweep and this
+file's fibre counts have in common.  The bracket is thus genuine on the
+length side and common-mode on the distinct side.  (Disclosed 2026-08-14.)
 
 Test: the Theorem-D statement of v0.1.0 and v0.1.1 said the fibre "drops
 (generically) to two over the pullback of {Delta_2 = 0}".  The erratum claims
