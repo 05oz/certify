@@ -173,3 +173,29 @@ Stated plainly, because an auditor of timestamps will notice it and the record s
 - **Both Part C and Part D were committed together** in commit `7992c21` (2026-08-05), the commit tagged **v0.3.0**, whose commit message names only Part C. The entire Part D corpus (`qec1435-paper/`, the 43 pinned certificates, `qec1435-scripts/`, `SWEEP-RECORD-1435-2026-08-05.md`) is therefore already present in the v0.3.0 tag tree.
 - Commit `229bf5e`, tagged **v0.4.0**, changed exactly one file: `.zenodo.json` (the deposit metadata for the Part D Zenodo record). The v0.3.0 and v0.4.0 tag trees are snapshots of the same night's tree and differ only in that file; the v0.4.0 commit message ("Part D … paper, 43 certificates, scripts") describes content that entered the history one commit earlier.
 - Consequently the Zenodo archive of v0.3.0 (doi:10.5281/zenodo.21816010, the Part C record) also contains the Part D files, and **the external timestamp for Part D's claims begins at the v0.3.0 push/deposit of 2026-08-05**, not at v0.4.0. Nothing about either result changes; this section exists so that the mislabeled commit messages (which cannot be rewritten without rewriting public history) cannot be read as an attempt to blur dating.
+
+---
+
+## 7. Longevity of the record (added 2026-08-19)
+
+A note on what this record's integrity does and does not depend on, for readers
+auditing it years from now:
+
+- **No signature dependence.** Nothing in any deposit relies on RSA, ECDSA, or any
+  public-key construction for its integrity. Priority is carried by third-party
+  timestamps (Zenodo/DataCite DOI metadata, public git history); content integrity is
+  carried by SHA-256 digests recorded inside the certificates themselves. A future
+  machine that breaks public-key cryptography breaks none of this: hash preimage
+  resistance degrades only quadratically under known quantum attacks, leaving SHA-256
+  far beyond reach.
+- **Replayability is the deeper guarantee.** Every claim ships with a checker that
+  recomputes it from the certificate alone, in exact integer or rational arithmetic,
+  standard library only. Even if every hash algorithm were retired, the mathematical
+  content re-verifies from scratch on any machine that can run the checker — the
+  certificates are not attestations to be trusted but computations to be repeated.
+- **Cross-platform replay is tested, not assumed.** As of 2026-08-19 the suite has
+  been replayed on an operating system and CPU architecture never used by the
+  authors (native Windows 11, x86-64), 7 of 10 parts on first contact and the
+  remainder after two checker-portability fixes (commit fb02971) — the failures were
+  in byte-level gates and a deliberately non-rigorous float comparison, never in the
+  mathematics. The record of that replay, including verbatim failures, is preserved.
