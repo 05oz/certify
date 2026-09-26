@@ -9,13 +9,19 @@ contains an independent set of size n or a transitive tournament on m vertices.
 Each file here is an oriented graph on N vertices containing neither, so it
 proves k(n,m) >= N + 1.
 
-| file | N | proves | previously recorded lower bound | upper bound |
-|---|---|---|---|---|
-| `k63_N29.json` | 29 | k(6,3) >= 30 | 29 (Certify Part G, 2026-08-11) | 33 (IRW 2021, m²−m+3) |
-| `k73_N38.json` | 38 | k(7,3) >= 39 | none explicit; 23 from R(3,7) | 45 (IRW 2021) |
-| `k83_N46.json` | 46 | k(8,3) >= 47 | none explicit; 28 from R(3,8) | 59 (IRW 2021) |
-| `k44_N39.json` | 39 | k(4,4) >= 40 | 21 (Certify Part G §8.3) | 50 (Part G §8.3) |
-| `k35_N42.json` | 42 | k(3,5) >= 43 | none explicit; 27 derivable (blow-up of a 13-vertex TT₅-free tournament) | 55 (Part G §8.3) |
+| file | N | proves | previously recorded lower bound | best bound buildable from published graphs | upper bound |
+|---|---|---|---|---|---|
+| `k63_N29.json` | 29 | k(6,3) >= 30 | 29 (Certify Part G, 2026-08-11) | 29 (Part G); 26 from the literature alone (IRW's W₂₂ + a disjoint directed 3-cycle) | 33 (IRW 2021, m²−m+3) |
+| `k73_N38.json` | 38 | k(7,3) >= 39 | none explicit | 32 (Part G's ℤ₂₈ circulant + a directed 3-cycle); 31 from the literature alone | 45 (IRW 2021) |
+| `k83_N46.json` | 46 | k(8,3) >= 47 | none explicit | 37 (IRW's W₂₂ + W₁₄, disjoint) | 59 (IRW 2021) |
+| `k44_N39.json` | 39 | k(4,4) >= 40 | 21 (Certify Part G §8.3) | 28 (Part G's W + a disjoint QR₇); 22 from the literature alone (QR₇ blown up by I₃) | 50 (Part G §8.3) |
+| `k35_N42.json` | 42 | k(3,5) >= 43 | none explicit | 27 (a 13-vertex TT₅-free tournament blown up by I₂; Part J's 2v(m)−1) | 55 (Part G §8.3) |
+
+"Buildable" baselines are disjoint unions, blow-ups and substitutions of published
+extremal graphs; they come from the 2026-09-26 adversarial priority audit, which
+rebuilt and checked each one. (That audit also notes that Part G §5.2's "no lower
+bound beyond 24" for k(6,3) is off by one: W₂₂ plus a directed 3-cycle has 25
+vertices and independence number 5.)
 
 Format: JSON `{"N": int, "a": n, "b": m, "arcs": [[u, v], ...]}`, arc u → v on
 vertices 0..N−1. This is the format of Part G's `k34-scripts/verify_witness.py`.
