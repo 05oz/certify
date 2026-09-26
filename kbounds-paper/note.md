@@ -198,7 +198,7 @@ The checker was tested before use in two ways:
 every m-subset for a transitive score sequence. It passes the five witnesses
 k63, k73, k83, k44 and k35 in about two minutes in total. On k93 it must scan
 all C(60,9) ≈ 1.5×10¹⁰ nine-subsets, and on k36 all C(72,6) ≈ 1.6×10⁸
-six-subsets. [RUNS IN PROGRESS — record verdict and time here.]
+six-subsets. It passes k54 (3 s), k45 (8 s) and k36 (89 s). [k93 RUN IN PROGRESS — record verdict and time here.]
 
 SHA-256 digests of the nine files are listed in
 `kbounds-certificates/README.md`.
@@ -264,10 +264,22 @@ recorded so that others need not repeat it.
 
 **k(7,3), N = 39.**
 * **Near-miss.** Annealing restricted to ℤ₁₃ × 3 polycirculants reached cost 1
-  (a single violated orbit of 13 TT₃) in five runs out of five. Full SAT on
-  that class timed out after 644 s.
-* **Cayley.** No Cayley digraph of order 37–45 is (7,3)-free.
-* **Solver-UNSAT.** 2-orbit graphs at N = 40, 42 and 44.
+  (a single violated orbit of 13 TT₃) in five runs out of five.
+* **That class is empty.** The ℤ₁₃ × 3 class is solver-UNSAT, in 17–61 s, in
+  four runs. Those runs used two independently written eager encoders, with
+  every I₇ condition enumerated as a clause over edge orbits (884,211 minimal
+  clauses). Their lex-leader symmetry breaking was unit-tested against all 4056
+  group elements. The same pipeline returns verified SAT on the I₈ variant, and
+  it recovers the 38-vertex witness.
+* **Order-5 classes are empty.** Every class with an automorphism of order 5
+  (4, 9, …, 34 fixed points) is solver-UNSAT.
+* **Consequence.** A counting argument uses k(j,3) for j ≤ 5 and k(6,3) ≤ 33.
+  It excludes automorphisms of prime order p ≥ 7 other than 13, and order 13
+  forces the ℤ₁₃ × 3 class. So any 39-vertex (7,3)-free graph has an
+  automorphism group of order 2ᵃ3ᵇ. This rests on the solver answers above.
+* **Other classes.** No Cayley digraph of order 37–45 is (7,3)-free. 2-orbit
+  graphs at N = 40, 42 and 44 are solver-UNSAT, and the ℤ₃ × 13 class timed out
+  at 900 s.
 
 **k(4,4), k(3,5).**
 * **Cayley.** Complete Cayley SAT sweeps found no witness at orders 34–36, 38
@@ -276,9 +288,21 @@ recorded so that others need not repeat it.
 * **Polycirculant annealing floors.** 13 or more for (4,4) at N = 40–44; 6 for
   (3,5) in ℤ₂₂ × 2 and ℤ₂₃ × 2.
 
-**k(9,3), k(5,4), k(4,5), k(3,6).** The Cayley sweeps stopped at solver
-timeouts just above the recorded orders; the details are in the search READMEs.
-[UPDATE WITH WAVE 3.]
+**k(9,3), k(5,4), k(4,5), k(3,6)** (Cayley and circulant searches above the records).
+* **k(9,3).** No circulant on 61–71 vertices has an admissible connection set;
+  this is an exhaustive DFS. No group of order 61, 62 or 63 has one either.
+* **k(5,4).** Every circulant on 61–72 vertices is solver-UNSAT, with
+  multiplier symmetry breaking. Of the 256 non-abelian groups of order 64:
+  * 204 are excluded by hand, because an elementary abelian subgroup of order 8
+    has only involutions, which can never lie in S, so it is an independent
+    8-set;
+  * 40 are solver-UNSAT;
+  * 12 timed out.
+* **k(4,5).** The circulant on ℤ₇₂ timed out after 603 s. All 142 circulants on
+  72–90 vertices invariant under a multiplier subgroup H ≠ 1 are solver-UNSAT.
+* **k(3,6).** The circulant on ℤ₇₃ timed out after 627 s. All 198 circulants
+  on 73–96 vertices invariant under a multiplier subgroup H ≠ 1 are
+  solver-UNSAT.
 
 ## 6. Questions
 
