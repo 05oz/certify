@@ -53,7 +53,7 @@ for f in kbounds-certificates/*.json; do python3 k34-scripts/verify_witness.py "
 Both checkers are standard-library Python.
 * `verify_bounds.py` passes all nine files.
 * Part G's brute-force `verify_witness.py` passes the first five in about 2 minutes (k83 dominates).
-* On k93 (all C(60,9) ≈ 1.5×10¹⁰ 9-subsets, early exit) and k36 (all C(72,6) ≈ 1.6×10⁸ 6-subsets), it runs for hours; those runs are in progress.
+* It also passes the other four: k54 in 3 s, k45 in 8 s, k36 in 89 s and k93 in 8,198 s (all C(60,9) nine-subsets).
 
 * **`verify_bounds.py`** computes two exact invariants by bitmask branch-and-bound:
   the independence number α and the order τ of the largest transitive subtournament.
