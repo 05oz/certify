@@ -1,0 +1,73 @@
+# Lower-bound witnesses for small oriented Ramsey numbers (Erdős Problem #112) — staging
+
+**Status: staged, not released.** The witnesses are verified. They carry no note,
+no dated sweep record and no DOI yet, and the search campaign that produced them
+is still running; the bounds below may be raised before release.
+
+k(n,m) = r(I_n, L_m) is the least N such that every oriented graph on N vertices
+contains an independent set of size n or a transitive tournament on m vertices.
+Each file here is an oriented graph on N vertices containing neither, so it
+proves k(n,m) >= N + 1.
+
+| file | N | proves | previously recorded lower bound | upper bound |
+|---|---|---|---|---|
+| `k63_N29.json` | 29 | k(6,3) >= 30 | 29 (Certify Part G, 2026-08-11) | 33 (IRW 2021, m²−m+3) |
+| `k73_N38.json` | 38 | k(7,3) >= 39 | none explicit; 23 from R(3,7) | 45 (IRW 2021) |
+| `k83_N46.json` | 46 | k(8,3) >= 47 | none explicit; 28 from R(3,8) | 59 (IRW 2021) |
+| `k44_N39.json` | 39 | k(4,4) >= 40 | 21 (Certify Part G §8.3) | 50 (Part G §8.3) |
+| `k35_N42.json` | 42 | k(3,5) >= 43 | none explicit; 27 derivable (blow-up of a 13-vertex TT₅-free tournament) | 55 (Part G §8.3) |
+
+Format: JSON `{"N": int, "a": n, "b": m, "arcs": [[u, v], ...]}`, arc u → v on
+vertices 0..N−1. This is the format of Part G's `k34-scripts/verify_witness.py`.
+
+## Replay
+
+```sh
+python3 kbounds-scripts/verify_bounds.py kbounds-certificates/*.json   # < 0.1 s
+for f in kbounds-certificates/*.json; do python3 k34-scripts/verify_witness.py "$f"; done   # ~2 min, k83 dominates
+```
+
+Both checkers are standard-library Python and pass all five files.
+
+* **`verify_bounds.py`** computes two exact invariants by bitmask branch-and-bound:
+  the independence number α and the order τ of the largest transitive subtournament.
+  It passes a file iff α ≤ n − 1 and τ ≤ m − 1. Measured values: α = n − 1 and
+  τ = m − 1 for every witness, so each bound is tight for its object.
+  * It was cross-checked against brute-force subset enumeration on 600 random
+    oriented graphs on 3–11 vertices, with 0 disagreements.
+  * A first draft pruned the chain search against the wrong candidate set and
+    under-reported τ. The cross-check caught this before any use.
+  * Three tamper controls per witness are rejected: an injected independent
+    n-set, an injected transitive m-tournament, and a 2-cycle.
+* **Part G's `verify_witness.py`** tests every n-subset and every m-subset
+  directly. Its criterion is the score sequence.
+
+`verify_bounds.py` was written without reading the searchers' code or the
+referees' checkers. Part G's `verify_witness.py` predates this campaign.
+
+## SHA-256
+
+```
+c57037ac2a45fa70502beee6a472c16495ee855f7beec90c2d5ca51abe97bbbc  k63_N29.json
+42f6b3f624907602821e42c57601e311d9f3941bd6af1046e7903b11455801f4  k73_N38.json
+73b58fcce089c13a090c21727106175d1424cfdbe5ff386b725481664920d840  k83_N46.json
+e8980dd058834bc087b5f008a490e9de84ab921da2d70fb5301ed9b591d11c6c  k44_N39.json
+ee7a4b9e0bbf387768df7aa4e81b0b205ace96c8a7f38ec28485c868dcbb623b  k35_N42.json
+```
+
+## How they were found (untrusted; irrelevant to validity)
+
+* **k63_N29:** unstructured simulated annealing on all oriented graphs on 29
+  labelled vertices. Cost = #TT₃ + #I₆, maintained incrementally; seed 201;
+  zero cost reached after 2.4×10⁹ moves. The graph is irregular, with total
+  degrees 8–10, so it is not vertex-transitive.
+* **k73_N38, k83_N46:** CaDiCaL with lazily added independent-set clauses,
+  over graphs invariant under a semiregular Z₁₉ or Z₂₃ with two orbits.
+* **k44_N39, k35_N42:** Cayley-digraph SAT sweeps over every SmallGroups group
+  of the relevant orders.
+  * k44_N39 is the circulant Cay(ℤ₃₉, {11,15,17,19,25,27,29,30,33,34,38}).
+  * k35_N42 is the circulant Cay(ℤ₄₂, {2,3,4,9,10,22,23,25,26,28,29,30,35,36}).
+
+Negative search evidence (for example, no {I₆,TT₃}-free Cayley digraph on any
+of the 51 groups of order 32) is solver output without proof logs. It is
+recorded for the note, not claimed.
