@@ -1,0 +1,16 @@
+== lower_d5_r5_K3.json start 2026-10-20 16:02:26
+OK lower bound: d_circ(d=5, rounds=5) >= 4   [323,329 lemmas replayed, 54,872 clauses regenerated, 44.0 s]
+       44.04 real        41.17 user         0.71 sys
+            56213504  maximum resident set size
+== lower_d5_r5_K3.json end 2026-10-20 16:03:10
+== lower_pxd7_r7_K5.json start 2026-10-20 16:03:10
+OK lower bound: d_circ(d=7, rounds=7) >= 6   [726,490 lemmas replayed, 23,276 clauses regenerated, 139.0 s]
+      139.09 real       129.11 user         1.17 sys
+            72482816  maximum resident set size
+== lower_pxd7_r7_K5.json end 2026-10-20 16:05:29
+== lower_Xext_d13_K10.json start 2026-10-20 16:05:29
+OK lower bound: d_circ(d=13, rounds=0) >= 11   [8,991,405 lemmas replayed, 9,669 clauses regenerated, 706.7 s]
+      706.78 real       646.15 user         7.03 sys
+           135495680  maximum resident set size
+== lower_Xext_d13_K10.json end 2026-10-20 16:17:16
+done

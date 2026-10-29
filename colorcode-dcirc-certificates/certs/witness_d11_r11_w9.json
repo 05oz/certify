@@ -1,0 +1,106 @@
+{
+ "kind": "dcirc_upper",
+ "d": 11,
+ "rounds": 11,
+ "noise_model": "depolarize2_after_cnot",
+ "mechanism_file": "m_d11_r11.json",
+ "mechanism_list_sha256": "60e071d922e66399415547ef93e34db1a24f866f9e3d9bf9c058dce1f7a24ffd",
+ "weight": 9,
+ "mechanism_indices": [
+  581,
+  582,
+  1340,
+  1536,
+  1710,
+  2040,
+  2363,
+  2428,
+  2564
+ ],
+ "mechanisms": [
+  {
+   "dets": [
+    49,
+    59
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    49,
+    59,
+    63
+   ],
+   "obs": [
+    0
+   ]
+  },
+  {
+   "dets": [
+    63,
+    67,
+    74
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    67,
+    70,
+    73
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    70,
+    73,
+    74,
+    77,
+    79,
+    80,
+    82
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    77,
+    79,
+    80,
+    82,
+    84,
+    86
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    84,
+    85,
+    86,
+    87,
+    88,
+    89
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    85,
+    87,
+    88
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    89
+   ],
+   "obs": []
+  }
+ ],
+ "lifted_from": "witness_Xext_d11_w9.json",
+ "lift_round": 1,
+ "statement": "d_circ <= 9: the listed fault mechanisms flip no detector and flip observable 0"
+}

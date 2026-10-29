@@ -1,0 +1,13 @@
+PASS | pristine lower | OK lower bound: d_circ(d=9, rounds=0) >= 7   [32,702 lemmas replayed, 3,275 clauses regenerated, 2.7 s]
+PASS | object: mechanism removed (hash mismatch) | AssertionError: mechanism list hash mismatch
+PASS | object: mechanism removed, hash recomputed (re-derivation mismatch) | AssertionError: re-derived extended code differs from the object
+PASS | object: circuit noise strength edited (circuit hash mismatch) | AssertionError: circuit text hash mismatch
+PASS | object: one CX reversed, hash left (would change DEM) | AssertionError: circuit text hash mismatch
+PASS | witness: one mechanism dropped | AssertionError: witness flips detectors [28, 29]
+PASS | witness: declared weight wrong | AssertionError: declared weight wrong
+PASS | witness: bound to wrong object hash | AssertionError: witness bound to a different object
+PASS | lower: K overstated by one | AssertionError: regenerated CNF differs from the certificate's recorded hash
+PASS | lower: bound to wrong object hash | AssertionError: certificate bound to a different object
+PASS | lower: LRAT truncated to half | __main__.Bad: proof ended without the empty clause
+PASS | lower: object mechanism removed, rehashed (CNF changes) | AssertionError: certificate bound to a different object
+TAMPER BATTERY PASS (11 corruptions, all rejected)

@@ -1,0 +1,10 @@
+=== rounds=1 extension ladder 2026-09-01 17:02:16 ===
+/Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/cnf/d11_r1_K9.cnf: vars=6169 clauses=14674 sha256=dbb86406bbd0ba71
+d11_r1 K=9 rc=10 s SATISFIABLE  wall=49s  2026-09-01 17:03:06
+witness weight 9 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d11_r1_w9.json (XOR-verified against mechanism list)
+/Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/cnf/d11_r1_K8.cnf: vars=5689 clauses=13715 sha256=481bd609894e7d5b
+d11_r1 K=8 rc=143   wall=1801s  2026-09-01 17:33:07
+/Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/cnf/d13_r1_K11.cnf: vars=10189 clauses=23768 sha256=d076046307732e68
+d13_r1 K=11 rc=10 s SATISFIABLE  wall=1s  2026-09-01 17:33:08
+witness weight 11 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d13_r1_w11.json (XOR-verified against mechanism list)
+/Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/cnf/d13_r1_K10.cnf: vars=9505 clauses=22401 sha256=0eebee3e82d01e7a

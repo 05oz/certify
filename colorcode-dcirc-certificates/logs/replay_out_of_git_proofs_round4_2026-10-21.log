@@ -1,0 +1,25 @@
+== replay_out_of_git_proofs_round4_2026-10-21.log: round-4 build session, start 2026-10-21 03:34:49 EDT (07:34:49 UTC)
+== checker: certs/check_dcirc.py of this directory, sha256 306c293a74353c8a0500325f0efbc08a0f8bb368c01dd9882fca6f1c2ea760f1; Python 3.14.7; python3 -I -B, nice -n 10, ulimit -t 1200
+== certificate records and objects copied from certs/; proofs read from the author's copies after a hash check
+   d5_r5_K3.lrat.gz: sha256 ca61f84722d5e935db12945d95233870d025221a7433f636b31e0f0a87a6a5bf = PROOFS-NOT-IN-GIT.sha256
+   pxd7_r7_K5.lrat.gz: sha256 d078a0c2e4caa151d1a01aa39776c2aa3b14cf6108f1ee8062138aed4fc667f5 = PROOFS-NOT-IN-GIT.sha256
+   Xext_d13_K10.lrat.gz: sha256 42df3115d67ff3eeb4610292bdd3b6802a39b9b277872bce48a33f358eec5e65 = PROOFS-NOT-IN-GIT.sha256
+== lower_d5_r5_K3.json start 2026-10-21 03:35:15 EDT; load 168.05 165.11 131.01
+OK lower bound: d_circ(d=5, rounds=5) >= 4   [323,329 lemmas replayed, 54,872 clauses regenerated, 190.8 s]
+      190.96 real        46.91 user         0.45 sys
+            60964864  maximum resident set size
+exit=0
+== lower_d5_r5_K3.json end 2026-10-21 03:38:26 EDT; load 133.99 156.57 134.76
+== lower_pxd7_r7_K5.json start 2026-10-21 03:38:26 EDT; load 133.99 156.57 134.76
+OK lower bound: d_circ(d=7, rounds=7) >= 6   [726,490 lemmas replayed, 23,276 clauses regenerated, 308.4 s]
+      308.49 real       145.42 user         1.21 sys
+            74137600  maximum resident set size
+exit=0
+== lower_pxd7_r7_K5.json end 2026-10-21 03:43:34 EDT; load 69.47 106.67 118.90
+== lower_Xext_d13_K10.json start 2026-10-21 03:43:34 EDT; load 69.47 106.67 118.90
+OK lower bound: d_circ(d=13, rounds=0) >= 11   [8,991,405 lemmas replayed, 9,669 clauses regenerated, 1465.3 s]
+     1465.35 real       708.40 user         6.54 sys
+           139018240  maximum resident set size
+exit=0
+== lower_Xext_d13_K10.json end 2026-10-21 04:08:00 EDT; load 127.29 85.73 82.03
+done

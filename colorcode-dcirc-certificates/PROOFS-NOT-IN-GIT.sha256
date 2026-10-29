@@ -1,0 +1,9 @@
+# Proofs referenced by certs/lower_*.json that are not stored in git (each > 50 MB).
+# Format: sha256  bytes  published-path   (originals kept by the author; recreate with REGENERATE.md)
+ca61f84722d5e935db12945d95233870d025221a7433f636b31e0f0a87a6a5bf  70625863  certs/d5_r5_K3.lrat.gz
+d078a0c2e4caa151d1a01aa39776c2aa3b14cf6108f1ee8062138aed4fc667f5  181187589  certs/pxd7_r7_K5.lrat.gz
+b1bcaee2eaf2432d7315c11934684ef8beeb3fba6d930f00b9fe3c46679aa31f  4057166967  certs/pxd9_r9_K6.lrat.gz
+42df3115d67ff3eeb4610292bdd3b6802a39b9b277872bce48a33f358eec5e65  1165006138  certs/Xext_d13_K10.lrat.gz
+8ca35d6c8147feacb5c65a000e256b6890d544cf4d9aa8cf0257190375939daf  8945210112  certs/Xext_d15_K11.lrat.gz
+# The d = 15 proof as written by CaDiCaL 3.0.1 --lrat (binary LRAT); the gzip text file above was converted from it.
+117a39f81e185a1b9302c6ae781891bb3d194caab6f61c5ed84853f5ddf53e92  14062531915  Xext_d15_K11.blrat

@@ -1,0 +1,4 @@
+OK upper bound: d_circ(d=11, rounds=11) <= 9   [164.9 ms]
+OK upper bound: d_circ(d=13, rounds=13) <= 11   [267.9 ms]
+OK upper bound: d_circ(d=15, rounds=15) <= 12   [443.2 ms]
+OK upper bound: d_circ(d=15, rounds=1) <= 12   [2.8 ms]

@@ -1,0 +1,89 @@
+{
+ "kind": "dcirc_upper",
+ "d": 7,
+ "rounds": 0,
+ "noise_model": "extended-code (code capacity + residuals), arXiv:2603.05481",
+ "mechanism_file": "m_Xext_d7.json",
+ "mechanism_list_sha256": "3721fb8b33446a2fdb9a6ccae9fd7ea458bfcaf324a9d8f8f1db7c3e1dff901d",
+ "weight": 6,
+ "mechanism_indices": [
+  36,
+  38,
+  49,
+  52,
+  66,
+  71
+ ],
+ "mechanisms": [
+  {
+   "dets": [
+    5,
+    8
+   ],
+   "obs": [
+    0
+   ],
+   "columns": [
+    "residual:anc2:l3:[12, 23]"
+   ]
+  },
+  {
+   "dets": [
+    5,
+    9,
+    10,
+    12
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc7:l3:[41, 19, 20, 29]"
+   ]
+  },
+  {
+   "dets": [
+    8,
+    10
+   ],
+   "obs": [],
+   "columns": [
+    "data:44",
+    "residual:anc8:l2:[23, 24, 33]"
+   ]
+  },
+  {
+   "dets": [
+    9,
+    12,
+    13
+   ],
+   "obs": [],
+   "columns": [
+    "data:48",
+    "residual:anc9:l2:[37, 29, 40, 47, 28]"
+   ]
+  },
+  {
+   "dets": [
+    13,
+    16,
+    17
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc15:l3:[57, 64, 67, 56]"
+   ]
+  },
+  {
+   "dets": [
+    16,
+    17
+   ],
+   "obs": [],
+   "columns": [
+    "data:69",
+    "residual:anc17:l4:[69]"
+   ]
+  }
+ ],
+ "statement": "d_circ <= 6: the listed fault mechanisms flip no detector and flip observable 0"
+}

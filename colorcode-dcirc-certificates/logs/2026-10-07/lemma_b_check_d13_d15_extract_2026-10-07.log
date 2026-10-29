@@ -1,0 +1,4 @@
+# Extract, copied verbatim on 2026-10-20: lines 1, 2 and 5 (of 8) of the build session's log of 2026-10-07, written by its Stim-based lemma_b_check.py. Line 1 is the d = 13 control; lines 2 and 5 are the two d = 15 objects.
+d=13 r=13: ext columns=280 pure-Z-detector mechanisms=7381/55705 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] | PASS
+d=15 r=15: ext columns=379 pure-Z-detector mechanisms=11509/87901 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] | PASS
+d=15 r=1: ext columns=379 pure-Z-detector mechanisms=925/925 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS

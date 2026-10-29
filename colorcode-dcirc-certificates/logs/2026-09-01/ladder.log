@@ -1,0 +1,159 @@
+=== ladder start 2026-09-01 16:16:18 ===
+=== checker run 2026-09-01 16:16:18 ===
+OK object: d=3 rounds=3: 288 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 6ef618c637d2e8cc
+OK object: d=5 rounds=5: 2221 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 306fa9ab6004f0d2
+OK object: d=7 rounds=7: 7249 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 da23758dd95759c1
+LAUNCHED d9_r9 K=7 nolrat pid 32978
+LAUNCHED d9_r9 K=6 lrat pid 32979
+LAUNCHED d9_r9 K=6 verdict-only pid 32991
+=== small rungs (zsh word-splitting fixed) 2026-09-01 16:18:25 ===
+d3_r1 K=2 rc=10 s SATISFIABLE  wall=0s  2026-09-01 16:18:26
+witness weight 2 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d3_r1_w2.json (XOR-verified against mechanism list)
+d3_r1 K=1 rc=20 s UNSATISFIABLE  wall=0s  2026-09-01 16:18:26
+  proof: 883 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_d3_r1_K1.json
+d5_r1 K=4 rc=10 s SATISFIABLE  wall=0s  2026-09-01 16:18:26
+witness weight 4 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d5_r1_w4.json (XOR-verified against mechanism list)
+d5_r1 K=3 rc=20 s UNSATISFIABLE  wall=0s  2026-09-01 16:18:26
+  proof: 84131 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_d5_r1_K3.json
+d7_r1 K=6 rc=10 s SATISFIABLE  wall=0s  2026-09-01 16:18:26
+witness weight 6 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d7_r1_w6.json (XOR-verified against mechanism list)
+d7_r1 K=5 rc=20 s UNSATISFIABLE  wall=3s  2026-09-01 16:18:29
+  proof: 4189121 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_d7_r1_K5.json
+d9_r1 K=7 rc=10 s SATISFIABLE  wall=1s  2026-09-01 16:18:30
+witness weight 7 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d9_r1_w7.json (XOR-verified against mechanism list)
+d9_r1 K=6 rc=20 s UNSATISFIABLE  wall=31s  2026-09-01 16:19:01
+  proof: 42613424 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_d9_r1_K6.json
+d3_r3 K=2 rc=10 s SATISFIABLE  wall=0s  2026-09-01 16:19:01
+witness weight 2 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d3_r3_w2.json (XOR-verified against mechanism list)
+d3_r3 K=1 rc=20 s UNSATISFIABLE  wall=0s  2026-09-01 16:19:02
+  proof: 19567 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_d3_r3_K1.json
+d5_r5 K=4 rc=10 s SATISFIABLE  wall=6s  2026-09-01 16:19:08
+witness weight 4 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d5_r5_w4.json (XOR-verified against mechanism list)
+d5_r5 K=3 rc=20 s UNSATISFIABLE  wall=56s  2026-09-01 16:20:04
+  proof: 70625863 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_d5_r5_K3.json
+d7_r7 K=6 rc=10 s SATISFIABLE  wall=0s  2026-09-01 16:20:05
+witness weight 6 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d7_r7_w6.json (XOR-verified against mechanism list)
+=== checker on everything present 2026-09-01 16:20:05 ===
+d9_r9 stim heuristic upper bound: weight 7 XOR-ok=True (487.6s) idx=[192, 206, 500, 727, 1183, 1497, 1565]
+=== ladder_small done 2026-09-01 16:24:28 ===
+d9_r9 K=7 rc=10 s SATISFIABLE  wall=961s  2026-09-01 16:32:20
+witness weight 7 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d9_r9_w7.json (XOR-verified against mechanism list)
+Xext_d3 K=2 rc=10 s SATISFIABLE  wall=0s  2026-09-01 16:34:36
+witness weight 2 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d3_w2.json (XOR-verified against mechanism list)
+Xext_d3 K=1 rc=20 s UNSATISFIABLE  wall=0s  2026-09-01 16:34:36
+  proof: 331 bytes /Users/kirt/Documents/reserch
+Xext_d5 K=4 rc=10 s SATISFIABLE  wall=0s  2026-09-01 16:34:37
+witness weight 4 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d5_w4.json (XOR-verified against mechanism list)
+Xext_d5 K=3 rc=20 s UNSATISFIABLE  wall=0s  2026-09-01 16:34:37
+  proof: 13515 bytes /Users/kirt/Documents/reserch
+Xext_d7 K=6 rc=10 s SATISFIABLE  wall=0s  2026-09-01 16:34:37
+witness weight 6 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d7_w6.json (XOR-verified against mechanism list)
+Xext_d7 K=5 rc=20 s UNSATISFIABLE  wall=1s  2026-09-01 16:34:38
+  proof: 529462 bytes /Users/kirt/Documents/reserch
+Xext_d9 K=7 rc=10 s SATISFIABLE  wall=1s  2026-09-01 16:34:39
+witness weight 7 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d9_w7.json (XOR-verified against mechanism list)
+Xext_d9 K=6 rc=20 s UNSATISFIABLE  wall=2s  2026-09-01 16:34:41
+  proof: 2224482 bytes /Users/kirt/Documents/reserch
+Xext_d11 K=9 rc=10 s SATISFIABLE  wall=2s  2026-09-01 16:34:43
+witness weight 9 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d11_w9.json (XOR-verified against mechanism list)
+Xext_d11 K=8 rc=20 s UNSATISFIABLE  wall=34s  2026-09-01 16:35:17
+  proof: 40800880 bytes /Users/kirt/Documents/reserch
+Xext_d13 K=11 rc=10 s SATISFIABLE  wall=7s  2026-09-01 16:35:24
+witness weight 11 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d13_w11.json (XOR-verified against mechanism list)
+d9_r9 K=6 rc=143   wall=2707s  2026-09-01 17:01:26
+2026-09-01 17:01:30 STOPPED proof-carrying d9_r9 K=6 run (pid 32987) after 44 min / 2.5 GB gz for disk; verdict-only twin pid 32991
+32993 continues
+d11_r1 K=9 rc=10 s SATISFIABLE  wall=49s  2026-09-01 17:03:06
+witness weight 9 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d11_r1_w9.json (XOR-verified against mechanism list)
+Xext_d13 K=10 rc=20 s UNSATISFIABLE  wall=1396s  2026-09-01 17:08:18
+  proof: 1165006138 bytes /Users/kirt/Documents/reserch
+Xext_d15 K=12 rc=10 s SATISFIABLE  wall=150s  2026-09-01 17:10:48
+witness weight 12 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d15_w12.json (XOR-verified against mechanism list)
+d7_r7 K=5 rc=143   wall=4105s  2026-09-01 17:31:33
+d7_r7 K5 done rc=143 2026-09-01 17:31:33
+2026-09-01 17:33:06 d7_r7 K=5 proof-carrying run KILLED by disk watchdog at free=1G after 4105 s (5.2 GB gz partial proof deleted); NOT OBTAINED
+Xext_d15 K=11 rc=143   wall=1339s  2026-09-01 17:33:07
+d11_r1 K=8 rc=143   wall=1801s  2026-09-01 17:33:07
+d13_r1 K=11 rc=10 s SATISFIABLE  wall=1s  2026-09-01 17:33:08
+witness weight 11 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_d13_r1_w11.json (XOR-verified against mechanism list)
+[REDACTED: outside this release's scope]
+[REDACTED: outside this release's scope]
+pxd5_r5 K=4 rc=10 s SATISFIABLE  wall=0s  2026-09-01 17:34:06
+witness weight 4 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_pxd5_r5_w4.json (XOR-verified against mechanism list)
+pxd5_r5 K=3 rc=20 s UNSATISFIABLE  wall=1s  2026-09-01 17:34:07
+  proof: 917846 bytes /Users/kirt/Documents/reserch
+2026-09-01 17:35:07 STOPPED bonus proof runs d11_r1 K=8 (2.75 GB partial, 30 min) and Xext_d15 K=11 (1.3 GB partial, 25 min) and their ladder loops, for disk; partial proofs deleted
+pxd7_r7 K=6 rc=10 s SATISFIABLE  wall=0s  2026-09-01 17:35:07
+witness weight 6 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_pxd7_r7_w6.json (XOR-verified against mechanism list)
+pxd7_r7 K=5 rc=20 s UNSATISFIABLE  wall=87s  2026-09-01 17:36:34
+  proof: 181187589 bytes /Users/kirt/Documents/reserch
+OK upper bound: d_circ(d=7, rounds=7) <= 6   [4.3 ms]
+    ... 200,000 lemmas, 47,409 live clauses
+    ... 400,000 lemmas, 58,799 live clauses
+    ... 600,000 lemmas, 48,488 live clauses
+OK lower bound: d_circ(d=7, rounds=7) >= 6   [726,490 lemmas replayed, 23,276 clauses regenerated, 179.9 s]
+LAUNCHED pure-X d9 chain pid 46189
+pxd9_r9 K=7 rc=10 s SATISFIABLE  wall=43s  2026-09-01 17:40:17
+2026-09-01 17:40:17 STOPPED bonus loops (one-round d>=13, [REDACTED]) and deleted partial proofs d13_r1_K10, [REDACTED]
+witness weight 7 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_pxd9_r9_w7.json (XOR-verified against mechanism list)
+pxd9_r9 chain done rc=10 2026-09-01 17:40:17
+2026-09-01 17:41:28 pxd9_r9 K=6 LRAT run launched (chain bug: previous && short-circuited on SAT rc=10)
+2026-09-01 17:59:18 session restart killed all solvers (pxd9_r9 K=6 at 357 s / 880 MB partial, deleted; d9_r9 K=6 verdict-only at 4,478 s, no verdict). Relaunching pxd9_r9 K=6 with 35 GB free, watchdog at 8 GB.
+pxd9_r9 K=6 rc=20 s UNSATISFIABLE  wall=686s  2026-09-01 18:10:45
+  proof: 4057166967 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_pxd9_r9_K6.json
+    ... 200,000 lemmas, 78,122 live clauses
+    ... 400,000 lemmas, 94,811 live clauses
+    ... 600,000 lemmas, 110,207 live clauses
+    ... 800,000 lemmas, 120,486 live clauses
+    ... 1,000,000 lemmas, 124,579 live clauses
+    ... 1,200,000 lemmas, 136,681 live clauses
+    ... 1,400,000 lemmas, 139,910 live clauses
+    ... 1,600,000 lemmas, 164,789 live clauses
+    ... 1,800,000 lemmas, 129,126 live clauses
+    ... 2,000,000 lemmas, 139,913 live clauses
+    ... 2,200,000 lemmas, 151,792 live clauses
+    ... 2,400,000 lemmas, 173,957 live clauses
+    ... 2,600,000 lemmas, 176,115 live clauses
+    ... 2,800,000 lemmas, 185,963 live clauses
+    ... 3,000,000 lemmas, 190,224 live clauses
+    ... 3,200,000 lemmas, 205,501 live clauses
+    ... 3,400,000 lemmas, 194,221 live clauses
+    ... 3,600,000 lemmas, 212,404 live clauses
+    ... 3,800,000 lemmas, 215,796 live clauses
+    ... 4,000,000 lemmas, 210,281 live clauses
+    ... 4,200,000 lemmas, 194,853 live clauses
+    ... 4,400,000 lemmas, 199,849 live clauses
+    ... 4,600,000 lemmas, 213,811 live clauses
+    ... 4,800,000 lemmas, 210,583 live clauses
+    ... 5,000,000 lemmas, 231,129 live clauses
+    ... 5,200,000 lemmas, 220,390 live clauses
+    ... 5,400,000 lemmas, 226,589 live clauses
+    ... 5,600,000 lemmas, 246,448 live clauses
+    ... 5,800,000 lemmas, 209,112 live clauses
+    ... 6,000,000 lemmas, 198,112 live clauses
+    ... 6,200,000 lemmas, 221,950 live clauses
+    ... 6,400,000 lemmas, 222,987 live clauses
+    ... 6,600,000 lemmas, 211,283 live clauses
+    ... 6,800,000 lemmas, 234,815 live clauses
+    ... 7,000,000 lemmas, 212,388 live clauses
+    ... 7,200,000 lemmas, 191,681 live clauses
+    ... 7,400,000 lemmas, 255,067 live clauses
+    ... 7,600,000 lemmas, 235,701 live clauses
+Traceback (most recent call last):
+  File "/Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/check_dcirc.py", line 328, in <module>
+    main()
+  File "/Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/check_dcirc.py", line 300, in main
+    check_lower(sys.argv[2])
+  File "/Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/check_dcirc.py", line 243, in check_lower
+    n = replay_lrat(g.cl, os.path.join(base, c["lrat_file"]), progress)
+  File "/Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/check_dcirc.py", line 209, in replay_lrat
+    raise Bad(f"line {ln}: hint {h} already satisfied")
+__main__.Bad: line 8759413: hint 7694507 already satisfied
+pxd9_r9 K=6 finished rc=20 2026-09-01 18:30:25

@@ -1,0 +1,153 @@
+{
+ "kind": "dcirc_upper",
+ "d": 13,
+ "rounds": 0,
+ "noise_model": "extended-code (code capacity + residuals), arXiv:2603.05481",
+ "mechanism_file": "m_Xext_d13.json",
+ "mechanism_list_sha256": "036d68fa1e770e9fd5426db72ccecba8c9c6e0a22c59bca1cf48a7681af1390c",
+ "weight": 11,
+ "mechanism_indices": [
+  47,
+  48,
+  54,
+  90,
+  154,
+  210,
+  228,
+  229,
+  233,
+  244,
+  256
+ ],
+ "mechanisms": [
+  {
+   "dets": [
+    6,
+    7,
+    12
+   ],
+   "obs": [
+    0
+   ],
+   "columns": [
+    "residual:anc0:l3:[4, 27]"
+   ]
+  },
+  {
+   "dets": [
+    6,
+    12
+   ],
+   "obs": [],
+   "columns": [
+    "data:49",
+    "residual:anc12:l6:[49]"
+   ]
+  },
+  {
+   "dets": [
+    7,
+    13,
+    18
+   ],
+   "obs": [],
+   "columns": [
+    "data:53",
+    "residual:anc13:l6:[53]"
+   ]
+  },
+  {
+   "dets": [
+    13,
+    18,
+    28,
+    33
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc24:l3:[99, 96, 117, 77]"
+   ]
+  },
+  {
+   "dets": [
+    28,
+    33,
+    41
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc37:l3:[165, 133]"
+   ]
+  },
+  {
+   "dets": [
+    41,
+    48,
+    49,
+    51
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc45:l3:[169, 184, 195, 168]"
+   ]
+  },
+  {
+   "dets": [
+    46,
+    49,
+    52
+   ],
+   "obs": [],
+   "columns": [
+    "data:199"
+   ]
+  },
+  {
+   "dets": [
+    46,
+    50,
+    52
+   ],
+   "obs": [],
+   "columns": [
+    "data:200",
+    "residual:anc46:l2:[185, 173, 188, 199, 172]"
+   ]
+  },
+  {
+   "dets": [
+    48,
+    51
+   ],
+   "obs": [],
+   "columns": [
+    "data:205",
+    "residual:anc51:l6:[205]"
+   ]
+  },
+  {
+   "dets": [
+    50,
+    53,
+    55
+   ],
+   "obs": [],
+   "columns": [
+    "data:213",
+    "residual:anc53:l4:[213]"
+   ]
+  },
+  {
+   "dets": [
+    53,
+    55
+   ],
+   "obs": [],
+   "columns": [
+    "data:224",
+    "residual:anc53:l2:[203, 204, 213]"
+   ]
+  }
+ ],
+ "statement": "d_circ <= 11: the listed fault mechanisms flip no detector and flip observable 0"
+}

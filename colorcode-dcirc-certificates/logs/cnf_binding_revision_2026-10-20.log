@@ -1,0 +1,11 @@
+== E. CNF binding of the five out-of-git certificates (revision session, 2026-10-20; emitted into a scratch directory, compared with the solver's input files)
+d5_r5_K3.cnf: p cnf 18692 54872  sha256 43c8bcc936da469700c5bc8b2e8aee6f5ac77f86e55c09b4ef33f7a2e44f1333  matches the certificate
+  d5_r5_K3: emit_cnf exit=0; solver input file sha256 43c8bcc936da469700c5bc8b2e8aee6f5ac77f86e55c09b4ef33f7a2e44f1333; cmp with emitted file: BYTE-IDENTICAL
+pxd7_r7_K5.cnf: p cnf 9178 23276  sha256 115842c85044c5c8a878f11ae53c30190f6c38533924c5577aefd7cc7d57b80c  matches the certificate
+  pxd7_r7_K5: emit_cnf exit=0; solver input file sha256 115842c85044c5c8a878f11ae53c30190f6c38533924c5577aefd7cc7d57b80c; cmp with emitted file: BYTE-IDENTICAL
+pxd9_r9_K6.cnf: p cnf 23046 57555  sha256 21441045f677a5be4b42a2efd1c281ad9a17eb5d8d4ec92c03b4eab825c07d2d  matches the certificate
+  pxd9_r9_K6: emit_cnf exit=0; solver input file sha256 21441045f677a5be4b42a2efd1c281ad9a17eb5d8d4ec92c03b4eab825c07d2d; cmp with emitted file: BYTE-IDENTICAL
+Xext_d13_K10.cnf: p cnf 4009 9669  sha256 b5640d984147c5f88fbcc908ea7d92c9992dae23020f83575c68fe85802059e3  matches the certificate
+  Xext_d13_K10: emit_cnf exit=0; solver input file sha256 b5640d984147c5f88fbcc908ea7d92c9992dae23020f83575c68fe85802059e3; cmp with emitted file: BYTE-IDENTICAL
+Xext_d15_K11.cnf: p cnf 5828 13932  sha256 2b471a0ffcd57312c8fbb3ffbc362f4b8588578c5e5fcb72fb4d07f62ca83fde  matches the certificate
+  Xext_d15_K11: emit_cnf exit=0; solver input file sha256 2b471a0ffcd57312c8fbb3ffbc362f4b8588578c5e5fcb72fb4d07f62ca83fde; cmp with emitted file: BYTE-IDENTICAL

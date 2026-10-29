@@ -1,0 +1,13 @@
+d=3 r=3: ext columns=10 pure-Z-detector mechanisms=61/288 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3] | PASS
+d=5 r=5: ext columns=34 pure-Z-detector mechanisms=349/2221 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5] | PASS
+d=7 r=7: ext columns=73 pure-Z-detector mechanisms=1045/7249 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7] | PASS
+d=9 r=9: ext columns=127 pure-Z-detector mechanisms=2329/16855 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9] | PASS
+d=11 r=11: ext columns=196 pure-Z-detector mechanisms=4381/32515 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] | PASS
+d=13 r=13: ext columns=280 pure-Z-detector mechanisms=7381/55705 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] | PASS
+d=3 r=1: ext columns=10 pure-Z-detector mechanisms=25/25 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=5 r=1: ext columns=34 pure-Z-detector mechanisms=85/85 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=7 r=1: ext columns=73 pure-Z-detector mechanisms=181/181 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=9 r=1: ext columns=127 pure-Z-detector mechanisms=313/313 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=11 r=1: ext columns=196 pure-Z-detector mechanisms=481/481 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=13 r=1: ext columns=280 pure-Z-detector mechanisms=685/685 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+LEMMA-B HYPOTHESES PASS

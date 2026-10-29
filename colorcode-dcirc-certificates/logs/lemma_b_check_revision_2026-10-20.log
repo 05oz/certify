@@ -1,0 +1,31 @@
+== C. lemma_b_check.py on all 14 objects start 2026-10-20 18:25:15
+d=3 r=3: ext columns=10 pure-Z-detector mechanisms=61/288 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3] | PASS
+d=3 r=3: X-part closure: 288 mechanisms, 61 in M_Z, restrictions outside M_Z: 0 | PASS
+d=5 r=5: ext columns=34 pure-Z-detector mechanisms=349/2221 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5] | PASS
+d=5 r=5: X-part closure: 2221 mechanisms, 349 in M_Z, restrictions outside M_Z: 0 | PASS
+d=7 r=7: ext columns=73 pure-Z-detector mechanisms=1045/7249 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7] | PASS
+d=7 r=7: X-part closure: 7249 mechanisms, 1045 in M_Z, restrictions outside M_Z: 0 | PASS
+d=9 r=9: ext columns=127 pure-Z-detector mechanisms=2329/16855 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9] | PASS
+d=9 r=9: X-part closure: 16855 mechanisms, 2329 in M_Z, restrictions outside M_Z: 0 | PASS
+d=11 r=11: ext columns=196 pure-Z-detector mechanisms=4381/32515 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] | PASS
+d=11 r=11: X-part closure: 32515 mechanisms, 4381 in M_Z, restrictions outside M_Z: 0 | PASS
+d=13 r=13: ext columns=280 pure-Z-detector mechanisms=7381/55705 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] | PASS
+d=13 r=13: X-part closure: 55705 mechanisms, 7381 in M_Z, restrictions outside M_Z: 0 | PASS
+d=15 r=15: ext columns=379 pure-Z-detector mechanisms=11509/87901 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] | PASS
+d=15 r=15: X-part closure: 87901 mechanisms, 11509 in M_Z, restrictions outside M_Z: 0 | PASS
+d=3 r=1: ext columns=10 pure-Z-detector mechanisms=25/25 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=3 r=1: X-part closure: 25 mechanisms, 25 in M_Z, restrictions outside M_Z: 0 | PASS
+d=5 r=1: ext columns=34 pure-Z-detector mechanisms=85/85 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=5 r=1: X-part closure: 85 mechanisms, 85 in M_Z, restrictions outside M_Z: 0 | PASS
+d=7 r=1: ext columns=73 pure-Z-detector mechanisms=181/181 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=7 r=1: X-part closure: 181 mechanisms, 181 in M_Z, restrictions outside M_Z: 0 | PASS
+d=9 r=1: ext columns=127 pure-Z-detector mechanisms=313/313 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=9 r=1: X-part closure: 313 mechanisms, 313 in M_Z, restrictions outside M_Z: 0 | PASS
+d=11 r=1: ext columns=196 pure-Z-detector mechanisms=481/481 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=11 r=1: X-part closure: 481 mechanisms, 481 in M_Z, restrictions outside M_Z: 0 | PASS
+d=13 r=1: ext columns=280 pure-Z-detector mechanisms=685/685 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=13 r=1: X-part closure: 685 mechanisms, 685 in M_Z, restrictions outside M_Z: 0 | PASS
+d=15 r=1: ext columns=379 pure-Z-detector mechanisms=925/925 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=15 r=1: X-part closure: 925 mechanisms, 925 in M_Z, restrictions outside M_Z: 0 | PASS
+LEMMA-B HYPOTHESES PASS (14 objects; hypotheses A and B)
+exit=0

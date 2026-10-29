@@ -1,0 +1,170 @@
+{
+ "kind": "dcirc_upper",
+ "d": 15,
+ "rounds": 0,
+ "noise_model": "extended-code (code capacity + residuals), arXiv:2603.05481",
+ "mechanism_file": "m_Xext_d15.json",
+ "mechanism_list_sha256": "899b9a2bdba03c4ea66b2d40b1c0ae9fc0ff1a23aecdd28adc5d0534d52bdf21",
+ "weight": 12,
+ "mechanism_indices": [
+  0,
+  6,
+  9,
+  105,
+  184,
+  253,
+  277,
+  292,
+  312,
+  346,
+  372,
+  377
+ ],
+ "mechanisms": [
+  {
+   "dets": [
+    0,
+    1,
+    8,
+    14,
+    15,
+    21
+   ],
+   "obs": [
+    0
+   ],
+   "columns": [
+    "residual:anc8:l4:[32, 61, 5]"
+   ]
+  },
+  {
+   "dets": [
+    0,
+    14
+   ],
+   "obs": [
+    0
+   ],
+   "columns": [
+    "residual:anc7:l3:[57, 1]"
+   ]
+  },
+  {
+   "dets": [
+    1,
+    8
+   ],
+   "obs": [
+    0
+   ],
+   "columns": [
+    "data:5",
+    "residual:anc8:l6:[5]"
+   ]
+  },
+  {
+   "dets": [
+    15,
+    21,
+    33,
+    39
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc28:l3:[115, 112, 137, 89]"
+   ]
+  },
+  {
+   "dets": [
+    33,
+    39,
+    49
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc44:l3:[197, 157]"
+   ]
+  },
+  {
+   "dets": [
+    49,
+    54,
+    62
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc58:l3:[249, 217]"
+   ]
+  },
+  {
+   "dets": [
+    54,
+    59,
+    62
+   ],
+   "obs": [],
+   "columns": [
+    "data:236",
+    "residual:anc54:l2:[217, 201, 220, 235, 200]"
+   ]
+  },
+  {
+   "dets": [
+    59,
+    63,
+    66
+   ],
+   "obs": [],
+   "columns": [
+    "data:253",
+    "residual:anc63:l6:[253]"
+   ]
+  },
+  {
+   "dets": [
+    63,
+    66,
+    72,
+    75
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc70:l3:[283, 280, 293, 269]"
+   ]
+  },
+  {
+   "dets": [
+    72,
+    75,
+    79
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc77:l3:[317, 301]"
+   ]
+  },
+  {
+   "dets": [
+    79,
+    82,
+    83
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc81:l3:[321, 328, 331, 320]"
+   ]
+  },
+  {
+   "dets": [
+    82,
+    83
+   ],
+   "obs": [],
+   "columns": [
+    "data:333",
+    "residual:anc83:l4:[333]"
+   ]
+  }
+ ],
+ "statement": "d_circ <= 12: the listed fault mechanisms flip no detector and flip observable 0"
+}

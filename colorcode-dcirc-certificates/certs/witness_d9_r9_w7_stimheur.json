@@ -1,0 +1,82 @@
+{
+ "kind": "dcirc_upper",
+ "d": 9,
+ "rounds": 9,
+ "noise_model": "depolarize2_after_cnot",
+ "mechanism_file": "m_d9_r9.json",
+ "mechanism_list_sha256": "13562bf222eeaa706a394546673e7cf328e0e9b6897477f62741257dab371b43",
+ "weight": 7,
+ "mechanism_indices": [
+  192,
+  206,
+  500,
+  727,
+  1183,
+  1497,
+  1565
+ ],
+ "mechanisms": [
+  {
+   "dets": [
+    30,
+    34,
+    35,
+    60,
+    65
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    30,
+    34,
+    60
+   ],
+   "obs": [
+    0
+   ]
+  },
+  {
+   "dets": [
+    35,
+    39,
+    42,
+    65
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    39,
+    42,
+    48,
+    51
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    48,
+    51,
+    55
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    55,
+    57,
+    58
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    57,
+    58
+   ],
+   "obs": []
+  }
+ ],
+ "statement": "d_circ <= 7 (stim heuristic search, XOR-verified)"
+}

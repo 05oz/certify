@@ -1,0 +1,4 @@
+lifted witness_Xext_d11_w9.json -> witness_d11_r11_w9.json: weight 9, round 1 (rounds realising all columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+lifted witness_Xext_d13_w11.json -> witness_d13_r13_w11.json: weight 11, round 1 (rounds realising all columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
+lifted witness_Xext_d15_w12.json -> witness_d15_r15_w12.json: weight 12, round 1 (rounds realising all columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
+lifted witness_Xext_d15_w12.json -> witness_d15_r1_w12.json: weight 12, round 1 (rounds realising all columns: [1])

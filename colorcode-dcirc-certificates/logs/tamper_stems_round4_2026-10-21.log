@@ -1,0 +1,50 @@
+== tamper_demo.py on nine certificates, Python 3.14.7, round-4 build session, start 2026-10-21 03:38:15 EDT
+== load before: 139.18 158.31 135.11
+  d3_r3: TAMPER BATTERY PASS (15 corruptions, each rejected by the check its label names)
+  d3_r3: optimisation case: PASS | witness: one mechanism dropped, checker run under python -O (refused by the optimisation guard) | check_dcirc.py: refusing to run with Python o
+  d3_r3: exit=0
+  Xext_d9: TAMPER BATTERY PASS (15 corruptions, each rejected by the check its label names)
+  Xext_d9: optimisation case: PASS | witness: one mechanism dropped, checker run under python -O (refused by the optimisation guard) | check_dcirc.py: refusing to run with Python o
+  Xext_d9: exit=0
+  d3_r1: TAMPER BATTERY PASS (15 corruptions, each rejected by the check its label names)
+  d3_r1: optimisation case: PASS | witness: one mechanism dropped, checker run under python -O (refused by the optimisation guard) | check_dcirc.py: refusing to run with Python o
+  d3_r1: exit=0
+  d5_r1: TAMPER BATTERY PASS (15 corruptions, each rejected by the check its label names)
+  d5_r1: optimisation case: PASS | witness: one mechanism dropped, checker run under python -O (refused by the optimisation guard) | check_dcirc.py: refusing to run with Python o
+  d5_r1: exit=0
+  d7_r1: TAMPER BATTERY PASS (15 corruptions, each rejected by the check its label names)
+  d7_r1: optimisation case: PASS | witness: one mechanism dropped, checker run under python -O (refused by the optimisation guard) | check_dcirc.py: refusing to run with Python o
+  d7_r1: exit=0
+  Xext_d3: TAMPER BATTERY PASS (15 corruptions, each rejected by the check its label names)
+  Xext_d3: optimisation case: PASS | witness: one mechanism dropped, checker run under python -O (refused by the optimisation guard) | check_dcirc.py: refusing to run with Python o
+  Xext_d3: exit=0
+  Xext_d5: TAMPER BATTERY PASS (15 corruptions, each rejected by the check its label names)
+  Xext_d5: optimisation case: PASS | witness: one mechanism dropped, checker run under python -O (refused by the optimisation guard) | check_dcirc.py: refusing to run with Python o
+  Xext_d5: exit=0
+  Xext_d7: TAMPER BATTERY PASS (15 corruptions, each rejected by the check its label names)
+  Xext_d7: optimisation case: PASS | witness: one mechanism dropped, checker run under python -O (refused by the optimisation guard) | check_dcirc.py: refusing to run with Python o
+  Xext_d7: exit=0
+  pxd5_r5: TAMPER BATTERY PASS (15 corruptions, each rejected by the check its label names)
+  pxd5_r5: optimisation case: PASS | witness: one mechanism dropped, checker run under python -O (refused by the optimisation guard) | check_dcirc.py: refusing to run with Python o
+  pxd5_r5: exit=0
+  -- Xext_d9 in full --
+PASS | pristine object | OK object (extended code, X sector): d=9: 127 distinct columns re-derived from the circuit text (no Stim) and 
+PASS | pristine witness | OK upper bound: d_circ(d=9, rounds=0) <= 7   [0.8 ms]
+PASS | pristine lower | OK lower bound: d_circ(d=9, rounds=0) >= 7   [32,702 lemmas replayed, 3,275 clauses regenerated, 3.3 s]
+PASS | object: mechanism removed (hash mismatch) | AssertionError: mechanism list hash mismatch
+PASS | object: mechanism removed, hash recomputed (rejected by the re-derivation) | AssertionError: re-derived extended code differs from the object
+PASS | object: circuit noise strength edited (circuit hash mismatch) | AssertionError: circuit text hash mismatch
+PASS | object: CX pair in 3rd CX layer reversed, hash left (circuit hash mismatch) | AssertionError: circuit text hash mismatch
+PASS | object: CX pair in 3rd CX layer reversed, circuit hash recomputed (rejected by the re-derivation) | AssertionError (raised at extcode_from_circuit.py:54)
+PASS | witness: one mechanism dropped (XOR check) | AssertionError: witness flips detectors [28, 29]
+PASS | witness: declared weight wrong | AssertionError: declared weight wrong
+PASS | witness: bound to wrong object hash | AssertionError: witness bound to a different object
+PASS | lower: K overstated by one (regenerated CNF hash mismatch) | AssertionError: regenerated CNF differs from the certificate's recorded hash
+PASS | lower: bound to wrong object hash | AssertionError: certificate bound to a different object
+PASS | lower: LRAT truncated to half (replay: no empty clause) | Bad: proof ended without the empty clause
+PASS | lower: mechanism removed, object rehashed, certificate not rebound (certificate-to-object binding) | AssertionError: certificate bound to a different object
+PASS | lower: same, certificate rebound to the new object (regenerated CNF hash mismatch) | AssertionError: regenerated CNF differs from the certificate's recorded hash
+PASS | lower: same, certificate and CNF hash rebound (LRAT replay fails) | Bad: line 2: hint 1559 is not unit
+PASS | witness: one mechanism dropped, checker run under python -O (refused by the optimisation guard) | check_dcirc.py: refusing to run with Python optimisation on (-O, -OO or PYTHONOPTIMIZE): its checks rely on as
+TAMPER BATTERY PASS (15 corruptions, each rejected by the check its label names)
+== load after: 130.39 151.61 134.53; end 2026-10-21 03:39:27 EDT

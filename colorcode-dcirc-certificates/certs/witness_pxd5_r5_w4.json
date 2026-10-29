@@ -1,0 +1,52 @@
+{
+ "kind": "dcirc_upper",
+ "d": 5,
+ "rounds": 5,
+ "noise_model": "depolarize2_after_cnot",
+ "mechanism_file": "m_pxd5_r5.json",
+ "mechanism_list_sha256": "a5ecc9f828b779c5f8d6b7590016840409cf76a8610c376cf8c73a2c01785cb3",
+ "weight": 4,
+ "mechanism_indices": [
+  271,
+  272,
+  278,
+  290
+ ],
+ "mechanisms": [
+  {
+   "dets": [
+    65,
+    66,
+    67
+   ],
+   "obs": [
+    0
+   ]
+  },
+  {
+   "dets": [
+    65,
+    67
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    66,
+    67,
+    70,
+    71
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    67,
+    70,
+    71
+   ],
+   "obs": []
+  }
+ ],
+ "statement": "d_circ <= 4: the listed fault mechanisms flip no detector and flip observable 0"
+}

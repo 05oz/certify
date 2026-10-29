@@ -1,0 +1,44 @@
+    ... 200,000 lemmas, 78,122 live clauses
+    ... 400,000 lemmas, 94,811 live clauses
+    ... 600,000 lemmas, 110,207 live clauses
+    ... 800,000 lemmas, 120,486 live clauses
+    ... 1,000,000 lemmas, 124,579 live clauses
+    ... 1,200,000 lemmas, 136,681 live clauses
+    ... 1,400,000 lemmas, 139,910 live clauses
+    ... 1,600,000 lemmas, 164,789 live clauses
+    ... 1,800,000 lemmas, 129,126 live clauses
+    ... 2,000,000 lemmas, 139,913 live clauses
+    ... 2,200,000 lemmas, 151,792 live clauses
+    ... 2,400,000 lemmas, 173,957 live clauses
+    ... 2,600,000 lemmas, 176,115 live clauses
+    ... 2,800,000 lemmas, 185,963 live clauses
+    ... 3,000,000 lemmas, 190,224 live clauses
+    ... 3,200,000 lemmas, 205,501 live clauses
+    ... 3,400,000 lemmas, 194,221 live clauses
+    ... 3,600,000 lemmas, 212,404 live clauses
+    ... 3,800,000 lemmas, 215,796 live clauses
+    ... 4,000,000 lemmas, 210,281 live clauses
+    ... 4,200,000 lemmas, 194,853 live clauses
+    ... 4,400,000 lemmas, 199,849 live clauses
+    ... 4,600,000 lemmas, 213,811 live clauses
+    ... 4,800,000 lemmas, 210,583 live clauses
+    ... 5,000,000 lemmas, 231,129 live clauses
+    ... 5,200,000 lemmas, 220,390 live clauses
+    ... 5,400,000 lemmas, 226,589 live clauses
+    ... 5,600,000 lemmas, 246,448 live clauses
+    ... 5,800,000 lemmas, 209,112 live clauses
+    ... 6,000,000 lemmas, 198,112 live clauses
+    ... 6,200,000 lemmas, 221,950 live clauses
+    ... 6,400,000 lemmas, 222,987 live clauses
+    ... 6,600,000 lemmas, 211,283 live clauses
+    ... 6,800,000 lemmas, 234,815 live clauses
+    ... 7,000,000 lemmas, 212,388 live clauses
+    ... 7,200,000 lemmas, 191,681 live clauses
+    ... 7,400,000 lemmas, 255,067 live clauses
+    ... 7,600,000 lemmas, 235,701 live clauses
+    ... 7,800,000 lemmas, 199,642 live clauses
+    ... 8,000,000 lemmas, 190,284 live clauses
+    ... 8,200,000 lemmas, 206,716 live clauses
+    (skipped 1 hint clause(s) already satisfied under the running assignment; sound, contributes nothing)
+OK lower bound: d_circ(d=9, rounds=9) >= 7   [8,262,355 lemmas replayed, 57,555 clauses regenerated, 1363.7 s]
+replay exit 0 2026-09-01 19:29:23

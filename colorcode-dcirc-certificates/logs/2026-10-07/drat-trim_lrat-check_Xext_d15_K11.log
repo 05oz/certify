@@ -1,0 +1,21 @@
+lrat-check start 2026-10-07 10:06:45 proof_bytes=14062531915 cnf_sha256=2b471a0ffcd57312c8fbb3ffbc362f4b8588578c5e5fcb72fb4d07f62ca83fde
+blrat2lrat: 53140862 additions, 8596481 deletion steps
+c expecting proof in stdin
+c parsed a formula with 5828 variables and 13932 clauses
+c topTable reallocation from 1024 to 1536
+c increasing the number of buckets from 1024 to 1536
+c topTable reallocation from 1536 to 2304
+c increasing the number of buckets from 1536 to 2304
+c topTable reallocation from 2304 to 3456
+c increasing the number of buckets from 2304 to 3456
+c topTable reallocation from 3456 to 5184
+c increasing the number of buckets from 3456 to 5184
+c topTable reallocation from 5184 to 7776
+c increasing the number of buckets from 5184 to 7776
+c WARNING hint already satisfied in lemma with index 52631311
+c WARNING hint already satisfied in lemma with index 53094409
+c VERIFIED
+c allocated 7776 12201367 196695
+c Added clauses = 53154794.  Deleted clauses = 52985261.  Max live clauses = 491436
+c verification time = 1168.40 secs
+pipeline rc=0 end 2026-10-07 10:26:13

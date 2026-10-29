@@ -1,0 +1,10 @@
+d3_r3_K1: clauses=4971 cadical rc binary=20 text=20 | text    85794 bytes sha256 1c69b1bcc0067a9b | converted    85794 bytes sha256 1c69b1bcc0067a9b | IDENTICAL | blrat2lrat: 1294 additions, 0 deletion steps
+d5_r1_K3: clauses=1444 cadical rc binary=20 text=20 | text   267271 bytes sha256 cdd1778d4e7bf931 | converted   267271 bytes sha256 cdd1778d4e7bf931 | IDENTICAL | blrat2lrat: 1460 additions, 268 deletion steps
+d7_r1_K5: clauses=3944 cadical rc binary=20 text=20 | text  14799542 bytes sha256 de9fb0c85eacf149 | converted  14799542 bytes sha256 de9fb0c85eacf149 | IDENTICAL | blrat2lrat: 39746 additions, 10049 deletion steps
+Xext_d7_K5: clauses=1682 cadical rc binary=20 text=20 | text  1593108 bytes sha256 cee540d9fa5ba473 | converted  1593108 bytes sha256 cee540d9fa5ba473 | IDENTICAL | blrat2lrat: 10013 additions, 3127 deletion steps
+Xext_d9_K6: clauses=3275 cadical rc binary=20 text=20 | text  6698574 bytes sha256 6320f1509d901315 | converted  6698574 bytes sha256 6320f1509d901315 | IDENTICAL | blrat2lrat: 32702 additions, 7382 deletion steps
+d3_r3_K1 shipped-proof-text 1c69b1bcc0067a9b regenerated-2026-10-20 1c69b1bcc0067a9b SAME
+d5_r1_K3 shipped-proof-text cdd1778d4e7bf931 regenerated-2026-10-20 cdd1778d4e7bf931 SAME
+d7_r1_K5 shipped-proof-text de9fb0c85eacf149 regenerated-2026-10-20 de9fb0c85eacf149 SAME
+Xext_d7_K5 shipped-proof-text cee540d9fa5ba473 regenerated-2026-10-20 cee540d9fa5ba473 SAME
+Xext_d9_K6 shipped-proof-text 6320f1509d901315 regenerated-2026-10-20 6320f1509d901315 SAME

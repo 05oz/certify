@@ -1,0 +1,7 @@
+executable (non-blank, non-comment, non-docstring) line counts: {'check_dcirc.py': 220, 'encode_cnf.py': 72, 'dem_from_circuit.py': 121, 'gen_objects.py': 107, 'qec/check_lower.py': 358, 'qec/qec_lib.py': 233, 'indep_lrat.py': 239}
+check_dcirc.py vs encode_cnf.py: 29/220 identical stripped lines (16 substantive), longest identical run 7 lines
+check_dcirc.py vs dem_from_circuit.py: 8/220 identical stripped lines (3 substantive), longest identical run 1 lines
+check_dcirc.py vs gen_objects.py: 6/220 identical stripped lines (3 substantive), longest identical run 1 lines
+check_dcirc.py vs qec/check_lower.py: 41/220 identical stripped lines (20 substantive), longest identical run 3 lines
+check_dcirc.py vs qec/qec_lib.py: 15/220 identical stripped lines (5 substantive), longest identical run 2 lines
+check_dcirc.py vs indep_lrat.py: 25/220 identical stripped lines (11 substantive), longest identical run 3 lines

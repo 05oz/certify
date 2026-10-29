@@ -2,7 +2,7 @@
 
 **Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112), erratum (v0.1.2) [doi:10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780), update (v0.2.1) [doi:10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018) · Part E (v0.5.0) [doi:10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896) · Part F (v0.6.0) [doi:10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028) · Part G (v0.7.0) [doi:10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619) · Part H (v0.8.0) [doi:10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825) · Part I (v0.9.0) [doi:10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011) · Part J (v0.10.0) [doi:10.5281/zenodo.21898266](https://doi.org/10.5281/zenodo.21898266) · Part K (v0.11.0) [doi:10.5281/zenodo.21898343](https://doi.org/10.5281/zenodo.21898343) · Part L (v0.12.0) [doi:10.5281/zenodo.21898722](https://doi.org/10.5281/zenodo.21898722) · [erratum v0.12.1: doi:10.5281/zenodo.21910159](https://doi.org/10.5281/zenodo.21910159) · Part M (v0.13.0) [doi:10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996)
 
-Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-08-13.
+Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-10-29.
 
 > **Part A erratum — v0.1.2 (2026-08-06).** The Theorem D fiber count of the note over the pullback of `{Δ₂ = 0}` was wrong (stated as 2). The correct set-theoretic fiber sizes are **{3, 1, 0}**; over `{Δ₂ = 0}` the fiber has **three distinct** points (an *apparent* branch locus). No other claim depended on it. v0.1.2 supersedes v0.1.0/v0.1.1 on this point only. Details and independent re-verification: [`paper/ERRATUM-v0.1.2.md`](paper/ERRATUM-v0.1.2.md), scripts in [`scripts/erratum-check/`](scripts/erratum-check/).
 
@@ -564,6 +564,40 @@ on the initial grid. We certify the points; we do not certify the list. Paper:
   [`zefoz-paper/FIXLOG.md`](zefoz-paper/FIXLOG.md); dated sweep:
   [SWEEP-RECORD-ZEFOZ-2026-08-12.md](SWEEP-RECORD-ZEFOZ-2026-08-12.md).
 
+## Part N — circuit-level distances of the Kishony–Fowler colour-code circuit, d = 3 to 15 (v0.16.0)
+
+**d_circ = 2, 4, 6, 7, 9, 11, 12 at d = 3, 5, 7, 9, 11, 13, 15, for d rounds and for one round,
+which equals d − ⌊(d+3)/6⌋ at every point.** The circuit is the single-auxiliary colour-code
+syndrome-extraction circuit of Kishony and Fowler (arXiv:2603.28852), built by their own companion
+code (Classiq/classiq-library at commit a43d3bd4) with their default schedule and two-qubit
+depolarising noise after every CNOT, as a Z-basis memory experiment. Every value is two-sided: an
+explicit fault set, and an LRAT proof that no smaller set exists. A standard-library checker
+re-derives the fault mechanisms from the hash-pinned circuit text without Stim, regenerates each
+formula and replays each proof; at d = 15 drat-trim's `lrat-check` also accepted the refutation.
+Paper: [`colorcode-dcirc-paper/note.pdf`](colorcode-dcirc-paper/note.pdf).
+
+- **Credit.** The circuit, its schedule and the formula are Kishony and Fowler's; they state that
+  the formula holds numerically up to d = 13. The extended code through which the lower bounds at
+  d ≥ 11 go is Strikis, Browne and Beverland's (arXiv:2603.05481), and the projection check is the
+  one Kornstein makes for bivariate-bicycle cycles (doi:10.5281/zenodo.23394575). The values at
+  rounds = d for d = 3–9 and at one round for d = 5–11 reproduce qsim-lab's
+  (github.com/dylanneve1/qsim-lab). Later results on the same CNOT schedule are Crocker's
+  (doi:10.5281/zenodo.23633600) and Issa and Martonosi's (arXiv:2610.33347). What was and was not
+  found elsewhere, with its as-of date and the sources read, is stated in
+  [`colorcode-dcirc-certificates/README.md`](colorcode-dcirc-certificates/README.md) and
+  [SWEEP-RECORD-COLORCODE-DCIRC-2026-10-20.md](SWEEP-RECORD-COLORCODE-DCIRC-2026-10-20.md).
+- **Replay now:** from `colorcode-dcirc-certificates/`, `python3 run_all.py --fast` (about 10–15 s)
+  or `python3 run_all.py` (everything shipped plus the tamper battery, about 1.5–2.5 minutes).
+  Standard-library Python 3.9 or later.
+- **Not in git:** five proofs larger than 50 MB, among them the refutations at d = 13 and d = 15.
+  They are attached to the GitHub release v0.16.0, the two larger than 2 GiB in parts.
+  [`colorcode-dcirc-certificates/REGENERATE.md`](colorcode-dcirc-certificates/REGENERATE.md) gives
+  the joining commands, the SHA-256 of each file and the route to regenerate them. Without them,
+  the shipped proofs cover every value up to d = 11.
+- Build and verification log: [`colorcode-dcirc-paper/FIXLOG.md`](colorcode-dcirc-paper/FIXLOG.md)
+  and `colorcode-dcirc-certificates/VERIFY.log`. Dated record:
+  [`colorcode-dcirc-paper/PROVENANCE.md`](colorcode-dcirc-paper/PROVENANCE.md).
+
 ## Layout
 
 ```
@@ -674,6 +708,17 @@ zefoz-scripts/       anchor_check.py (independent 60-digit containment, mpmath) 
                      tamper_demo.py (6 tampers + control) + kill-logs/ (the measured
                      branch-and-bound statistics that fired kill condition K2)
 SWEEP-RECORD-ZEFOZ-2026-08-12.md  dated novelty + verification sweep
+
+  -- Part N: Kishony–Fowler colour-code circuit distances, d = 3 to 15 (v0.16.0) --
+colorcode-dcirc-paper/        note (Markdown + PDF) + FIXLOG.md + PROVENANCE.md
+colorcode-dcirc-certificates/ 24 objects, 25 witnesses, 16 lower-bound records, 11 shipped LRAT
+                              proofs (5 more attached to the v0.16.0 release and regenerable,
+                              REGENERATE.md) + stdlib checkers (run_all.py, certs/check_dcirc.py,
+                              certs/lemma_b_check.py) + certs/tamper_demo.py (15 controls) +
+                              tools/ (CNF emitter, binary-LRAT converter, untrusted witness
+                              lifter); the build's own CNF encoder and the solver drivers
+                              are not included
+SWEEP-RECORD-COLORCODE-DCIRC-2026-10-20.md  dated novelty sweep
 ```
 
 For Part A, the reduction library and the system generators are intentionally not part of this repository; the published claims are the certificates themselves plus the verification scripts, which are self-contained. For Part B, the generating pipeline **is** included (`qec-scripts/certify.py`, `qec_lib.py`, `run_all.sh`) precisely because it is *not* trusted: it can be deleted and every certificate still verifies.
@@ -682,7 +727,7 @@ For Part A, the reduction library and the system generators are intentionally no
 
 Dual license by content type:
 
-- **Code and machine-readable certificate files** — everything under `scripts/`, `certificates/`, `qec-scripts/`, `qec-certificates/`, and the corresponding `*-scripts/` and `*-certificates/` directories of the later parts (`tt3-`, `qec1435-`, `cfr-`, `mps-`, `k34-`, `wedge-`, `kelmans-`, `k34add-`, `wedge2-`, `demag-`, `zefoz-`) — are licensed under the **Apache License 2.0** ([LICENSE-CODE](LICENSE-CODE)).
+- **Code and machine-readable certificate files** — everything under `scripts/`, `certificates/`, `qec-scripts/`, `qec-certificates/`, and the corresponding `*-scripts/` and `*-certificates/` directories of the later parts (`tt3-`, `qec1435-`, `cfr-`, `mps-`, `k34-`, `wedge-`, `kelmans-`, `k34add-`, `wedge2-`, `demag-`, `zefoz-`, `colorcode-dcirc-`) — are licensed under the **Apache License 2.0** ([LICENSE-CODE](LICENSE-CODE)).
 - **Documentation and the paper** — `paper/`, `README.md`, `PROVENANCE.md`, and all other prose — are licensed under **CC BY 4.0** ([LICENSE-DOCS](LICENSE-DOCS)).
 
 ## Platforms
@@ -691,7 +736,7 @@ The **trusted base is operating-system-independent**: every checker in this repo
 with no OS-specific calls on any default verification path — the one opt-in exception is noted
 below — and verification requires nothing else. **Part A** (`scripts/`) is the one part whose
 checkers need a third-party package — standard library plus SymPy. **The checkers of every other
-part, B through M, are standard library only.** Checked import-by-import: Part B
+part, B through N, are standard library only.** Checked import-by-import: Part B
 `qec-scripts/check_witness.py`, `check_lower.py`, `check_duality.py`, `check_prof.py`,
 `verify_manifest.py`; Part C `tt3-scripts/verify_minimizer.py`, `verify_sweep.py`; Part D
 `qec1435-scripts/verify_1435.py`; Part E `cfr-certificates/verify_cfr525.py`; Part F
@@ -699,8 +744,11 @@ part, B through M, are standard library only.** Checked import-by-import: Part B
 `wedge-certificates/check_wedge.py`, `check_wedge_d5.py`; Part I `kelmans-scripts/verify_cert.py`,
 `refcert.py`; Part J `k34add-scripts/verify_witnesses.py`, `verify_qr7_lemma.py`, `blowup_bound.py`;
 Part K `wedge2-certificates/check_wedge2.py`; Part L `demag-certificates/check_demag.py`; Part M
-`zefoz-certificates/zefoz_checker2.py`, `zefoz_checker_pilot.py`. Between them they import nothing
-outside the Python standard library (re-confirmed by AST scan over all 23 files, 2026-08-12).
+`zefoz-certificates/zefoz_checker2.py`, `zefoz_checker_pilot.py`; Part N
+`colorcode-dcirc-certificates/run_all.py`, `certs/check_dcirc.py`, `certs/dem_from_circuit.py`,
+`certs/extcode_from_circuit.py`, `certs/purex_from_object.py`, `certs/lemma_b_check.py`. Between
+them they import nothing outside the Python standard library (re-confirmed by AST scan over all
+23 files, 2026-08-12; Part N's six on 2026-10-29).
 
 Outside Part A, five scripts use third-party packages, and none is in any trusted base. Two are
 auxiliary cross-checks: `mps-certificates/xcheck.py` (numpy), an independent cross-check of Part F's
@@ -731,7 +779,9 @@ design), and the Part A SymPy suite including `min_verify.py I` after the SIGALR
 fix — all nine at their documented exit codes. Not yet covered on Windows: the large bb288/bb360
 LRAT replays and the full n = 10 tournament sweep. That replay predates Parts G–M and did not include Parts E and F,
 which were released the day before it; those checkers are standard-library-only and
-OS-independent by inspection but have not been independently replayed on Windows. Reports from other platforms are welcome and will be credited.
+OS-independent by inspection but have not been independently replayed on Windows. Part N was run on
+2026-10-28 on GitHub-hosted Linux and Windows runners under Python 3.9 and 3.14; see
+`colorcode-dcirc-certificates/README.md`, Platforms. Reports from other platforms are welcome and will be credited.
 
 ## Citing
 

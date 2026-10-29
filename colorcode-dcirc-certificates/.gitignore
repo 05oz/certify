@@ -1,0 +1,10 @@
+# proofs over the 50 MB limit (see REGENERATE.md and PROOFS-NOT-IN-GIT.sha256)
+certs/d5_r5_K3.lrat.gz
+certs/pxd7_r7_K5.lrat.gz
+certs/pxd9_r9_K6.lrat.gz
+certs/Xext_d13_K10.lrat.gz
+certs/Xext_d15_K11.lrat.gz
+*.lrat
+*.blrat
+*.cnf
+__pycache__/

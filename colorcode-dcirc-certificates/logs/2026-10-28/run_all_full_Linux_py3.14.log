@@ -1,0 +1,124 @@
+== 1. objects re-derived from circuit text ==
+OK object (extended code, X sector): d=11: 196 distinct columns re-derived from the circuit text (no Stim) and identical to the object; sha256 ac6fc6682e6fcb37
+OK object (extended code, X sector): d=13: 280 distinct columns re-derived from the circuit text (no Stim) and identical to the object; sha256 036d68fa1e770e9f
+OK object (extended code, X sector): d=15: 379 distinct columns re-derived from the circuit text (no Stim) and identical to the object; sha256 899b9a2bdba03c4e
+OK object (extended code, X sector): d=3: 10 distinct columns re-derived from the circuit text (no Stim) and identical to the object; sha256 5da89ca1a308ff5a
+OK object (extended code, X sector): d=5: 34 distinct columns re-derived from the circuit text (no Stim) and identical to the object; sha256 d8799ee36868c2bf
+OK object (extended code, X sector): d=7: 73 distinct columns re-derived from the circuit text (no Stim) and identical to the object; sha256 3721fb8b33446a2f
+OK object (extended code, X sector): d=9: 127 distinct columns re-derived from the circuit text (no Stim) and identical to the object; sha256 e84c892d12e88e48
+OK object: d=11 rounds=1: 481 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 147eded7bdacaa74
+OK object: d=11 rounds=11: 32515 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 60e071d922e66399
+OK object: d=13 rounds=1: 685 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 d65ba0d23a2b6353
+OK object: d=13 rounds=13: 55705 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 1f31eb32cb0ce7ec
+OK object: d=15 rounds=1: 925 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 6f0b4e2ab8a39eea
+OK object: d=15 rounds=15: 87901 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 cd2e4e6c036fd364
+OK object: d=3 rounds=1: 25 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 42f25da409343a63
+OK object: d=3 rounds=3: 288 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 6ef618c637d2e8cc
+OK object: d=5 rounds=1: 85 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 04fdff86ce171f75
+OK object: d=5 rounds=5: 2221 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 306fa9ab6004f0d2
+OK object: d=7 rounds=1: 181 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 27aad203a27f1ff2
+OK object: d=7 rounds=7: 7249 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 da23758dd95759c1
+OK object: d=9 rounds=1: 313 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 56fc7c9b9c411b31
+OK object: d=9 rounds=9: 16855 mechanisms re-derived from the circuit text (no Stim) and identical to the object; sha256 13562bf222eeaa70
+OK object (pure-X sub-list): d=5 rounds=5: parent list (2221 mechanisms) re-derived from the circuit text (no Stim), sub-list 349 identical, lemma hypothesis holds; sha256 a5ecc9f828b779c5
+OK object (pure-X sub-list): d=7 rounds=7: parent list (7249 mechanisms) re-derived from the circuit text (no Stim), sub-list 1045 identical, lemma hypothesis holds; sha256 886260c57498c195
+OK object (pure-X sub-list): d=9 rounds=9: parent list (16855 mechanisms) re-derived from the circuit text (no Stim), sub-list 2329 identical, lemma hypothesis holds; sha256 0dc13e7d3aaf034c
+== 2. witnesses (upper bounds) ==
+OK upper bound: d_circ(d=11, rounds=0) <= 9   [0.8 ms]
+OK upper bound: d_circ(d=13, rounds=0) <= 11   [1.0 ms]
+OK upper bound: d_circ(d=15, rounds=0) <= 12   [1.4 ms]
+OK upper bound: d_circ(d=3, rounds=0) <= 2   [0.1 ms]
+OK upper bound: d_circ(d=5, rounds=0) <= 4   [0.2 ms]
+OK upper bound: d_circ(d=7, rounds=0) <= 6   [0.3 ms]
+OK upper bound: d_circ(d=9, rounds=0) <= 7   [0.5 ms]
+OK upper bound: d_circ(d=11, rounds=11) <= 9   [122.1 ms]
+OK upper bound: d_circ(d=11, rounds=1) <= 9   [2.2 ms]
+OK upper bound: d_circ(d=13, rounds=13) <= 11   [229.1 ms]
+OK upper bound: d_circ(d=13, rounds=1) <= 11   [2.2 ms]
+OK upper bound: d_circ(d=15, rounds=15) <= 12   [358.2 ms]
+OK upper bound: d_circ(d=15, rounds=1) <= 12   [3.0 ms]
+OK upper bound: d_circ(d=3, rounds=1) <= 2   [0.2 ms]
+OK upper bound: d_circ(d=3, rounds=3) <= 2   [1.0 ms]
+OK upper bound: d_circ(d=5, rounds=1) <= 4   [0.4 ms]
+OK upper bound: d_circ(d=5, rounds=5) <= 4   [11.2 ms]
+OK upper bound: d_circ(d=7, rounds=1) <= 6   [0.7 ms]
+OK upper bound: d_circ(d=7, rounds=7) <= 6   [25.5 ms]
+OK upper bound: d_circ(d=9, rounds=1) <= 7   [1.0 ms]
+OK upper bound: d_circ(d=9, rounds=9) <= 7   [61.6 ms]
+OK upper bound: d_circ(d=9, rounds=9) <= 7   [61.9 ms]
+OK upper bound: d_circ(d=5, rounds=5) <= 4   [1.1 ms]
+OK upper bound: d_circ(d=7, rounds=7) <= 6   [3.2 ms]
+OK upper bound: d_circ(d=9, rounds=9) <= 7   [7.1 ms]
+== 3. LRAT refutations (lower bounds) ==
+    ... 200,000 lemmas, 23,408 live clauses
+    ... 400,000 lemmas, 24,749 live clauses
+OK lower bound: d_circ(d=11, rounds=0) >= 9   [421,932 lemmas replayed, 5,925 clauses regenerated, 16.2 s]
+NOT PRESENT Xext_d13_K10.lrat.gz (lower bound of lower_Xext_d13_K10.json not checked here; see REGENERATE.md)
+NOT PRESENT Xext_d15_K11.lrat.gz (lower bound of lower_Xext_d15_K11.json not checked here; see REGENERATE.md)
+OK lower bound: d_circ(d=3, rounds=0) >= 2   [27 lemmas replayed, 106 clauses regenerated, 0.0 s]
+OK lower bound: d_circ(d=5, rounds=0) >= 4   [424 lemmas replayed, 602 clauses regenerated, 0.0 s]
+OK lower bound: d_circ(d=7, rounds=0) >= 6   [10,013 lemmas replayed, 1,682 clauses regenerated, 0.2 s]
+OK lower bound: d_circ(d=9, rounds=0) >= 7   [32,702 lemmas replayed, 3,275 clauses regenerated, 0.9 s]
+OK lower bound: d_circ(d=3, rounds=1) >= 2   [70 lemmas replayed, 278 clauses regenerated, 0.0 s]
+OK lower bound: d_circ(d=3, rounds=3) >= 2   [1,294 lemmas replayed, 4,971 clauses regenerated, 0.0 s]
+OK lower bound: d_circ(d=5, rounds=1) >= 4   [1,460 lemmas replayed, 1,444 clauses regenerated, 0.0 s]
+NOT PRESENT d5_r5_K3.lrat.gz (lower bound of lower_d5_r5_K3.json not checked here; see REGENERATE.md)
+OK lower bound: d_circ(d=7, rounds=1) >= 6   [39,746 lemmas replayed, 3,944 clauses regenerated, 1.9 s]
+    ... 200,000 lemmas, 25,234 live clauses
+OK lower bound: d_circ(d=9, rounds=1) >= 7   [229,796 lemmas replayed, 7,587 clauses regenerated, 19.8 s]
+OK lower bound: d_circ(d=5, rounds=5) >= 4   [14,731 lemmas replayed, 6,096 clauses regenerated, 0.4 s]
+NOT PRESENT pxd7_r7_K5.lrat.gz (lower bound of lower_pxd7_r7_K5.json not checked here; see REGENERATE.md)
+NOT PRESENT pxd9_r9_K6.lrat.gz (lower bound of lower_pxd9_r9_K6.json not checked here; see REGENERATE.md)
+== 4. list hypotheses of the extended-code reduction ==
+d=3 r=3: ext columns=10 pure-Z-detector mechanisms=61/288 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3] | PASS
+d=3 r=3: X-part closure: 288 mechanisms, 61 in M_Z, restrictions outside M_Z: 0 | PASS
+d=5 r=5: ext columns=34 pure-Z-detector mechanisms=349/2221 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5] | PASS
+d=5 r=5: X-part closure: 2221 mechanisms, 349 in M_Z, restrictions outside M_Z: 0 | PASS
+d=7 r=7: ext columns=73 pure-Z-detector mechanisms=1045/7249 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7] | PASS
+d=7 r=7: X-part closure: 7249 mechanisms, 1045 in M_Z, restrictions outside M_Z: 0 | PASS
+d=9 r=9: ext columns=127 pure-Z-detector mechanisms=2329/16855 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9] | PASS
+d=9 r=9: X-part closure: 16855 mechanisms, 2329 in M_Z, restrictions outside M_Z: 0 | PASS
+d=11 r=11: ext columns=196 pure-Z-detector mechanisms=4381/32515 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] | PASS
+d=11 r=11: X-part closure: 32515 mechanisms, 4381 in M_Z, restrictions outside M_Z: 0 | PASS
+d=13 r=13: ext columns=280 pure-Z-detector mechanisms=7381/55705 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] | PASS
+d=13 r=13: X-part closure: 55705 mechanisms, 7381 in M_Z, restrictions outside M_Z: 0 | PASS
+d=15 r=15: ext columns=379 pure-Z-detector mechanisms=11509/87901 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] | PASS
+d=15 r=15: X-part closure: 87901 mechanisms, 11509 in M_Z, restrictions outside M_Z: 0 | PASS
+d=3 r=1: ext columns=10 pure-Z-detector mechanisms=25/25 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=3 r=1: X-part closure: 25 mechanisms, 25 in M_Z, restrictions outside M_Z: 0 | PASS
+d=5 r=1: ext columns=34 pure-Z-detector mechanisms=85/85 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=5 r=1: X-part closure: 85 mechanisms, 85 in M_Z, restrictions outside M_Z: 0 | PASS
+d=7 r=1: ext columns=73 pure-Z-detector mechanisms=181/181 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=7 r=1: X-part closure: 181 mechanisms, 181 in M_Z, restrictions outside M_Z: 0 | PASS
+d=9 r=1: ext columns=127 pure-Z-detector mechanisms=313/313 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=9 r=1: X-part closure: 313 mechanisms, 313 in M_Z, restrictions outside M_Z: 0 | PASS
+d=11 r=1: ext columns=196 pure-Z-detector mechanisms=481/481 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=11 r=1: X-part closure: 481 mechanisms, 481 in M_Z, restrictions outside M_Z: 0 | PASS
+d=13 r=1: ext columns=280 pure-Z-detector mechanisms=685/685 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=13 r=1: X-part closure: 685 mechanisms, 685 in M_Z, restrictions outside M_Z: 0 | PASS
+d=15 r=1: ext columns=379 pure-Z-detector mechanisms=925/925 | projections not a column: 0 | columns outside projection image: 0 | layers realising every column as a single-layer fault: [1] | PASS
+d=15 r=1: X-part closure: 925 mechanisms, 925 in M_Z, restrictions outside M_Z: 0 | PASS
+== 5. tamper battery (negative controls, d3_r3) ==
+PASS | pristine object | OK object: d=3 rounds=3: 288 mechanisms re-derived from the circuit text (no Stim) and identical to the object
+PASS | pristine witness | OK upper bound: d_circ(d=3, rounds=3) <= 2   [1.1 ms]
+PASS | pristine lower | OK lower bound: d_circ(d=3, rounds=3) >= 2   [1,294 lemmas replayed, 4,971 clauses regenerated, 0.0 s]
+PASS | object: mechanism removed (hash mismatch) | AssertionError: mechanism list hash mismatch
+PASS | object: mechanism removed, hash recomputed (rejected by the re-derivation) | AssertionError: re-derived mechanism list differs from the object
+PASS | object: circuit noise strength edited (circuit hash mismatch) | AssertionError: circuit text hash mismatch
+PASS | object: CX pair in 3rd CX layer reversed, hash left (circuit hash mismatch) | AssertionError: circuit text hash mismatch
+PASS | object: CX pair in 3rd CX layer reversed, circuit hash recomputed (rejected by the re-derivation) | AssertionError: re-derived mechanism list differs from the object
+PASS | witness: one mechanism dropped (XOR check) | AssertionError: witness flips detectors [16, 17]
+PASS | witness: declared weight wrong | AssertionError: declared weight wrong
+PASS | witness: bound to wrong object hash | AssertionError: witness bound to a different object
+PASS | lower: K overstated by one (regenerated CNF hash mismatch) | AssertionError: regenerated CNF differs from the certificate's recorded hash
+PASS | lower: bound to wrong object hash | AssertionError: certificate bound to a different object
+PASS | lower: LRAT truncated to half (replay: no empty clause) | Bad: proof ended without the empty clause
+PASS | lower: mechanism removed, object rehashed, certificate not rebound (certificate-to-object binding) | AssertionError: certificate bound to a different object
+PASS | lower: same, certificate rebound to the new object (regenerated CNF hash mismatch) | AssertionError: regenerated CNF differs from the certificate's recorded hash
+PASS | lower: same, certificate and CNF hash rebound (LRAT replay fails) | Bad: line 1: hint 4112 is not unit
+PASS | witness: one mechanism dropped, checker run under python -O (refused by the optimisation guard) | check_dcirc.py: refusing to run with Python optimisation on (-O, -OO or PYTHONOPTIMIZE): its checks rely on as
+TAMPER BATTERY PASS (15 corruptions, each rejected by the check its label names)
+== summary ==
+objects re-derived: 24, witnesses checked: 25, proofs replayed: 11, hypothesis checks: 14
+lower bounds NOT checked by this run (proof not present; see REGENERATE.md): lower_Xext_d13_K10.json, lower_Xext_d15_K11.json, lower_d5_r5_K3.json, lower_pxd7_r7_K5.json, lower_pxd9_r9_K6.json
+ALL PRESENT CERTIFICATES PASSED in 73.4 s

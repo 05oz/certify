@@ -1,0 +1,116 @@
+{
+ "kind": "dcirc_upper",
+ "d": 13,
+ "rounds": 13,
+ "noise_model": "depolarize2_after_cnot",
+ "mechanism_file": "m_d13_r13.json",
+ "mechanism_list_sha256": "1f31eb32cb0ce7ec051f131126981ec87c97fb1b7590a14a5af2d00182b1ef82",
+ "weight": 11,
+ "mechanism_indices": [
+  801,
+  805,
+  856,
+  1222,
+  2050,
+  2751,
+  2994,
+  3002,
+  3092,
+  3208,
+  3356
+ ],
+ "mechanisms": [
+  {
+   "dets": [
+    69,
+    70,
+    75
+   ],
+   "obs": [
+    0
+   ]
+  },
+  {
+   "dets": [
+    69,
+    75
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    70,
+    76,
+    81
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    76,
+    81,
+    91,
+    96
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    91,
+    96,
+    104
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    104,
+    111,
+    112,
+    114
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    109,
+    112,
+    115
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    109,
+    113,
+    115
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    111,
+    114
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    113,
+    116,
+    118
+   ],
+   "obs": []
+  },
+  {
+   "dets": [
+    116,
+    118
+   ],
+   "obs": []
+  }
+ ],
+ "lifted_from": "witness_Xext_d13_w11.json",
+ "lift_round": 1,
+ "statement": "d_circ <= 11: the listed fault mechanisms flip no detector and flip observable 0"
+}

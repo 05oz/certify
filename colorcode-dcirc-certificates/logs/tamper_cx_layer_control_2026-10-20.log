@@ -1,0 +1,12 @@
+CX instruction #1 (first pair reversed, circuit hash recomputed): ACCEPTED | OK object: d=3 rounds=3: 288 mechanisms re-derived from the circuit text (no Stim) and identical to 
+CX instruction #2 (first pair reversed, circuit hash recomputed): REJECTED | AssertionError: re-derived mechanism list differs from the object
+CX instruction #3 (first pair reversed, circuit hash recomputed): REJECTED | AssertionError: re-derived mechanism list differs from the object
+CX instruction #4 (first pair reversed, circuit hash recomputed): REJECTED | AssertionError: re-derived mechanism list differs from the object
+CX instruction #5 (first pair reversed, circuit hash recomputed): REJECTED | AssertionError: re-derived mechanism list differs from the object
+CX instruction #6 (first pair reversed, circuit hash recomputed): REJECTED | AssertionError: re-derived mechanism list differs from the object
+CX instruction #7 (first pair reversed, circuit hash recomputed): REJECTED | AssertionError: re-derived mechanism list differs from the object
+CX instruction #8 (first pair reversed, circuit hash recomputed): REJECTED | AssertionError: re-derived mechanism list differs from the object
+CX instruction #9 (first pair reversed, circuit hash recomputed): REJECTED | AssertionError: re-derived mechanism list differs from the object
+CX instruction #10 (first pair reversed, circuit hash recomputed): REJECTED | AssertionError: re-derived mechanism list differs from the object
+CX instruction #11 (first pair reversed, circuit hash recomputed): REJECTED | AssertionError: re-derived mechanism list differs from the object
+CX instruction #12 (first pair reversed, circuit hash recomputed): REJECTED | AssertionError: re-derived mechanism list differs from the object

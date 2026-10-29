@@ -1,0 +1,88 @@
+=== ILP anchors (authors' OR-Tools/SCIP code, verbatim) 2026-09-01 16:16:17 ===
+--- ILP d3_r1 ---
+(eval):10: command not found: timeout
+--- ILP d3_r3 ---
+(eval):10: command not found: timeout
+--- ILP d5_r1 ---
+(eval):10: command not found: timeout
+--- ILP d7_r1 ---
+(eval):10: command not found: timeout
+--- ILP d5_r5 ---
+(eval):10: command not found: timeout
+--- ILP d7_r7 ---
+(eval):10: command not found: timeout
+=== ILP anchors done 2026-09-01 16:16:17 ===
+=== ILP anchors (authors' OR-Tools/SCIP code, verbatim) 2026-09-01 16:23:51 ===
+--- ILP d3_r1 ---
+    exec(compile(src, SRC, "exec"), ns)
+  File "/private/tmp/claude-501/-Applications/1a646f45-82e1-45b9-8765-ae19c3c5fa93/scratchpad/ccl/algorithms/error_correction/syndrome_extraction_optimization/ilp_circuit_distance.py", line 14, in <module>
+    time_limit: int | None = None,
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+--- ILP d3_r3 ---
+    exec(compile(src, SRC, "exec"), ns)
+  File "/private/tmp/claude-501/-Applications/1a646f45-82e1-45b9-8765-ae19c3c5fa93/scratchpad/ccl/algorithms/error_correction/syndrome_extraction_optimization/ilp_circuit_distance.py", line 14, in <module>
+    time_limit: int | None = None,
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+--- ILP d5_r1 ---
+    exec(compile(src, SRC, "exec"), ns)
+  File "/private/tmp/claude-501/-Applications/1a646f45-82e1-45b9-8765-ae19c3c5fa93/scratchpad/ccl/algorithms/error_correction/syndrome_extraction_optimization/ilp_circuit_distance.py", line 14, in <module>
+    time_limit: int | None = None,
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+--- ILP d7_r1 ---
+    exec(compile(src, SRC, "exec"), ns)
+  File "/private/tmp/claude-501/-Applications/1a646f45-82e1-45b9-8765-ae19c3c5fa93/scratchpad/ccl/algorithms/error_correction/syndrome_extraction_optimization/ilp_circuit_distance.py", line 14, in <module>
+    time_limit: int | None = None,
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+--- ILP d9_r1 ---
+    exec(compile(src, SRC, "exec"), ns)
+  File "/private/tmp/claude-501/-Applications/1a646f45-82e1-45b9-8765-ae19c3c5fa93/scratchpad/ccl/algorithms/error_correction/syndrome_extraction_optimization/ilp_circuit_distance.py", line 14, in <module>
+    time_limit: int | None = None,
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+--- ILP d5_r5 ---
+    exec(compile(src, SRC, "exec"), ns)
+  File "/private/tmp/claude-501/-Applications/1a646f45-82e1-45b9-8765-ae19c3c5fa93/scratchpad/ccl/algorithms/error_correction/syndrome_extraction_optimization/ilp_circuit_distance.py", line 14, in <module>
+    time_limit: int | None = None,
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+--- ILP d7_r7 (time limit 1500 s) ---
+    exec(compile(src, SRC, "exec"), ns)
+  File "/private/tmp/claude-501/-Applications/1a646f45-82e1-45b9-8765-ae19c3c5fa93/scratchpad/ccl/algorithms/error_correction/syndrome_extraction_optimization/ilp_circuit_distance.py", line 14, in <module>
+    time_limit: int | None = None,
+TypeError: unsupported operand type(s) for |: 'type' and 'NoneType'
+=== ILP anchors done 2026-09-01 16:23:53 ===
+=== ILP anchors, retry 2026-09-01 16:24:42 ===
+--- ILP d3_r1 ---
+ilp_circuit_distance.py sha256 b74e6ddfe5921dce
+status=OPTIMAL distance=2 best_bound=2.0 wall=0.1s
+XOR check: OK
+canonical mechanism indices: [16, 17]
+--- ILP d3_r3 ---
+ilp_circuit_distance.py sha256 b74e6ddfe5921dce
+status=OPTIMAL distance=2 best_bound=2.0 wall=0.1s
+XOR check: OK
+canonical mechanism indices: [61, 62]
+--- ILP d5_r1 ---
+ilp_circuit_distance.py sha256 b74e6ddfe5921dce
+status=OPTIMAL distance=4 best_bound=4.0 wall=0.2s
+XOR check: OK
+canonical mechanism indices: [60, 62, 68, 70]
+--- ILP d7_r1 ---
+ilp_circuit_distance.py sha256 b74e6ddfe5921dce
+status=OPTIMAL distance=6 best_bound=6.0 wall=5.5s
+XOR check: OK
+canonical mechanism indices: [125, 127, 131, 132, 133, 142]
+--- ILP d9_r1 ---
+ilp_circuit_distance.py sha256 b74e6ddfe5921dce
+status=OPTIMAL distance=7 best_bound=7.0 wall=97.1s
+XOR check: OK
+canonical mechanism indices: [211, 213, 264, 278, 292, 303, 308]
+--- ILP d5_r5 ---
+ilp_circuit_distance.py sha256 b74e6ddfe5921dce
+status=OPTIMAL distance=4 best_bound=4.0 wall=72.4s
+XOR check: OK
+canonical mechanism indices: [2135, 2136, 2174, 2176]
+--- ILP d7_r7 (time limit 1500 s) ---
+ilp_circuit_distance.py sha256 b74e6ddfe5921dce
+status=FEASIBLE distance=7 best_bound=3.0 wall=1519.7s
+XOR check: OK
+canonical mechanism indices: [0, 3, 9, 11, 18, 19, 24]
+=== ILP anchors done 2026-09-01 16:52:59 ===

@@ -1,0 +1,72 @@
+diff --git a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/__init__.py b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/__init__.py
+index d9e45c06..907b3471 100644
+--- a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/__init__.py
++++ b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/__init__.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from .color_code import *
+ from .cultivation import *
+ from .stim_symbolic import *
+diff --git a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/color_code.py b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/color_code.py
+index 17a774e4..f72a4061 100644
+--- a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/color_code.py
++++ b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/color_code.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import itertools
+ from pathlib import Path
+ import pickle
+diff --git a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/cultivation.py b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/cultivation.py
+index a8c12ca3..f0abf1e4 100644
+--- a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/cultivation.py
++++ b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/cultivation.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import math
+ from typing import Dict, FrozenSet, List, Literal, Optional, Sequence, Tuple, Union
+ 
+diff --git a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/dem_decomp.py b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/dem_decomp.py
+index 863dc81a..4a409e65 100644
+--- a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/dem_decomp.py
++++ b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/dem_decomp.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from typing import List, Literal, Optional, Sequence, Tuple
+ 
+ import numpy as np
+diff --git a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/stim_symbolic.py b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/stim_symbolic.py
+index a3235b7a..0827d045 100644
+--- a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/stim_symbolic.py
++++ b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/stim_symbolic.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import itertools
+ from collections import defaultdict
+ from typing import Dict, FrozenSet, List, Literal, Optional, Self, Sequence, Set, Tuple
+diff --git a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/stim_utils.py b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/stim_utils.py
+index 9f870f2e..5320572d 100644
+--- a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/stim_utils.py
++++ b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/stim_utils.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import io
+ import math
+ import re
+diff --git a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/utils.py b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/utils.py
+index f010f48e..38b4215d 100644
+--- a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/utils.py
++++ b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/utils.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ import functools
+ import time
+ from functools import wraps
+diff --git a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/visualization.py b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/visualization.py
+index add66370..eee17006 100644
+--- a/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/visualization.py
++++ b/algorithms/error_correction/syndrome_extraction_optimization/color_code_stim_local/visualization.py
+@@ -1,3 +1,4 @@
++from __future__ import annotations
+ from typing import TYPE_CHECKING, List, Optional, Tuple
+ 
+ import igraph as ig

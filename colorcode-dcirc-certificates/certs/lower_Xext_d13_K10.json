@@ -1,0 +1,16 @@
+{
+ "kind": "dcirc_lower",
+ "d": 13,
+ "rounds": 0,
+ "noise_model": "extended-code (code capacity + residuals), arXiv:2603.05481",
+ "K": 10,
+ "mechanism_file": "m_Xext_d13.json",
+ "mechanism_list_sha256": "036d68fa1e770e9fd5426db72ccecba8c9c6e0a22c59bca1cf48a7681af1390c",
+ "cnf_sha256": "b5640d984147c5f88fbcc908ea7d92c9992dae23020f83575c68fe85802059e3",
+ "nvars": 4009,
+ "nclauses": 9669,
+ "cardinality": "sinz",
+ "lrat_file": "Xext_d13_K10.lrat.gz",
+ "solver": "CaDiCaL 3.0.1 --lrat --no-binary",
+ "statement": "d_circ >= 11: no set of <= 10 mechanisms flips no detector and flips observable 0 (LRAT refutation of the canonical CNF)"
+}

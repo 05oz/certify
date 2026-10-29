@@ -1,0 +1,134 @@
+{
+ "kind": "dcirc_upper",
+ "d": 11,
+ "rounds": 0,
+ "noise_model": "extended-code (code capacity + residuals), arXiv:2603.05481",
+ "mechanism_file": "m_Xext_d11.json",
+ "mechanism_list_sha256": "ac6fc6682e6fcb37f622cadb92d279aaf408040a44f73c1903f9349c111ea146",
+ "weight": 9,
+ "mechanism_indices": [
+  36,
+  37,
+  102,
+  118,
+  133,
+  156,
+  181,
+  186,
+  195
+ ],
+ "mechanisms": [
+  {
+   "dets": [
+    4,
+    14
+   ],
+   "obs": [],
+   "columns": [
+    "data:40",
+    "residual:anc4:l2:[17, 20, 39]"
+   ]
+  },
+  {
+   "dets": [
+    4,
+    14,
+    18
+   ],
+   "obs": [
+    0
+   ],
+   "columns": [
+    "residual:anc9:l5:[57, 17]"
+   ]
+  },
+  {
+   "dets": [
+    18,
+    22,
+    29
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc26:l3:[92, 105]"
+   ]
+  },
+  {
+   "dets": [
+    22,
+    25,
+    28
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc25:l4:[87, 88, 101]"
+   ]
+  },
+  {
+   "dets": [
+    25,
+    28,
+    29,
+    32,
+    34,
+    35,
+    37
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc32:l4:[128, 141, 117]"
+   ]
+  },
+  {
+   "dets": [
+    32,
+    34,
+    35,
+    37,
+    39,
+    41
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc37:l4:[152, 159, 140]"
+   ]
+  },
+  {
+   "dets": [
+    39,
+    40,
+    41,
+    42,
+    43,
+    44
+   ],
+   "obs": [],
+   "columns": [
+    "residual:anc42:l4:[172, 175, 164]"
+   ]
+  },
+  {
+   "dets": [
+    40,
+    42,
+    43
+   ],
+   "obs": [],
+   "columns": [
+    "data:169",
+    "residual:anc43:l4:[169]"
+   ]
+  },
+  {
+   "dets": [
+    44
+   ],
+   "obs": [],
+   "columns": [
+    "data:180",
+    "residual:anc44:l2:[175, 176, 177]"
+   ]
+  }
+ ],
+ "statement": "d_circ <= 9: the listed fault mechanisms flip no detector and flip observable 0"
+}

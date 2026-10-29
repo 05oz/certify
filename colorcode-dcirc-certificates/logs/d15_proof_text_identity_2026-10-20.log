@@ -1,0 +1,45 @@
+start 2026-10-20 18:04:24
+A: gzip -dc certs/Xext_d15_K11.lrat.gz | sha256
+SHA2-256(stdin)= d1220b7e95c436b95ad450100f7719a98d1d7f086c3fe6efb3fe56f8ff77fb84
+      132.36 real        69.61 user        30.30 sys
+             4521984  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                1657  page reclaims
+                 103  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   3  signals received
+             1998725  voluntary context switches
+              405955  involuntary context switches
+            30194436  instructions retired
+            25015230  cycles elapsed
+             1442128  peak memory footprint
+A rc=0 2026-10-20 18:06:37 bytes= 30547997901
+B: blrat2lrat 13932 < proofs/Xext_d15_K11.blrat | sha256   (converter compiled from the shipped tools/blrat2lrat.c)
+blrat2lrat: 53140862 additions, 8596481 deletion steps
+SHA2-256(stdin)= d1220b7e95c436b95ad450100f7719a98d1d7f086c3fe6efb3fe56f8ff77fb84
+      392.27 real       150.91 user        46.06 sys
+             9650176  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                3398  page reclaims
+                 109  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   3  signals received
+             3235019  voluntary context switches
+              460281  involuntary context switches
+            30348334  instructions retired
+            29016444  cycles elapsed
+             1425744  peak memory footprint
+B rc=0 2026-10-20 18:13:09 bytes= 30547997901
+end 2026-10-20 18:13:09

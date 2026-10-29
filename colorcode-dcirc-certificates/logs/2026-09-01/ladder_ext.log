@@ -1,0 +1,37 @@
+=== extended-code ladder (X sector; Z sector identical by hash) 2026-09-01 16:34:36 ===
+Xext_d3 K=2 rc=10 s SATISFIABLE  wall=0s  2026-09-01 16:34:36
+witness weight 2 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d3_w2.json (XOR-verified against mechanism list)
+Xext_d3 K=1 rc=20 s UNSATISFIABLE  wall=0s  2026-09-01 16:34:36
+  proof: 331 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_Xext_d3_K1.json
+Xext_d5 K=4 rc=10 s SATISFIABLE  wall=0s  2026-09-01 16:34:37
+witness weight 4 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d5_w4.json (XOR-verified against mechanism list)
+Xext_d5 K=3 rc=20 s UNSATISFIABLE  wall=0s  2026-09-01 16:34:37
+  proof: 13515 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_Xext_d5_K3.json
+Xext_d7 K=6 rc=10 s SATISFIABLE  wall=0s  2026-09-01 16:34:37
+witness weight 6 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d7_w6.json (XOR-verified against mechanism list)
+Xext_d7 K=5 rc=20 s UNSATISFIABLE  wall=1s  2026-09-01 16:34:38
+  proof: 529462 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_Xext_d7_K5.json
+Xext_d9 K=7 rc=10 s SATISFIABLE  wall=1s  2026-09-01 16:34:39
+witness weight 7 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d9_w7.json (XOR-verified against mechanism list)
+Xext_d9 K=6 rc=20 s UNSATISFIABLE  wall=2s  2026-09-01 16:34:41
+  proof: 2224482 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_Xext_d9_K6.json
+Xext_d11 K=9 rc=10 s SATISFIABLE  wall=2s  2026-09-01 16:34:43
+witness weight 9 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d11_w9.json (XOR-verified against mechanism list)
+Xext_d11 K=8 rc=20 s UNSATISFIABLE  wall=34s  2026-09-01 16:35:17
+  proof: 40800880 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_Xext_d11_K8.json
+Xext_d13 K=11 rc=10 s SATISFIABLE  wall=7s  2026-09-01 16:35:24
+witness weight 11 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d13_w11.json (XOR-verified against mechanism list)
+=== extended-code ladder, remainder 2026-09-01 16:45:02 ===
+Xext_d13 K=10 rc=20 s UNSATISFIABLE  wall=1396s  2026-09-01 17:08:18
+  proof: 1165006138 bytes /Users/kirt/Documents/reserch
+wrote certs/lower_Xext_d13_K10.json
+Xext_d15 K=12 rc=10 s SATISFIABLE  wall=150s  2026-09-01 17:10:48
+witness weight 12 -> /Users/kirt/Documents/reserch math/solve/colorcode-dcirc-2026-09-01/certs/witness_Xext_d15_w12.json (XOR-verified against mechanism list)
+Xext_d15 K=11 rc=143   wall=1339s  2026-09-01 17:33:07
+[REDACTED: outside this release's scope]
+[REDACTED: outside this release's scope]

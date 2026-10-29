@@ -1,0 +1,3 @@
+PASS | lower: LRAT truncated to half | __main__.Bad: proof ended without the empty clause
+PASS | lower: object mechanism removed, rehashed (CNF changes) | AssertionError: certificate bound to a different object
+TAMPER BATTERY PASS (11 corruptions, all rejected)

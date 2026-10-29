@@ -1,0 +1,16 @@
+{
+ "kind": "dcirc_lower",
+ "d": 9,
+ "rounds": 1,
+ "noise_model": "depolarize2_after_cnot",
+ "K": 6,
+ "mechanism_file": "m_d9_r1.json",
+ "mechanism_list_sha256": "56fc7c9b9c411b314083c0be958a4cf6937ed55066abf9d2b68c97426db03ba8",
+ "cnf_sha256": "e05630cfc26dc6775fc8510b828202acaa7b2731e4af627b2dbd50a3498f2f8d",
+ "nvars": 3054,
+ "nclauses": 7587,
+ "cardinality": "sinz",
+ "lrat_file": "d9_r1_K6.lrat.gz",
+ "solver": "CaDiCaL 3.0.1 --lrat --no-binary",
+ "statement": "d_circ >= 7: no set of <= 6 mechanisms flips no detector and flips observable 0 (LRAT refutation of the canonical CNF)"
+}
