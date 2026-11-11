@@ -447,13 +447,14 @@ MC confidence intervals. Paper: [`wedge2-paper/note.pdf`](wedge2-paper/note.pdf)
   circuit's. Dated sweep:
   [SWEEP-RECORD-WEDGE2-2026-08-12.md](SWEEP-RECORD-WEDGE2-2026-08-12.md).
 
-## Part L — certified Newell demagnetization-tensor reference table (v0.12.0; erratum v0.12.1)
+## Part L — certified Newell demagnetization-tensor reference table (v0.12.0; erratum v0.12.1; correction and addendum v0.17.0)
 
 **Two-sided rational enclosures of the Newell demagnetization-tensor entries, and a rigorous
-map of where double-precision micromagnetics loses its digits.** Every finite-difference
-micromagnetic simulator — OOMMF, MuMax3, magnum.np, Fidimag, MagTense — builds its demagnetizing
-field from the same analytic object: Newell's demagnetization tensor of a pair of uniformly
-magnetized rectangular cells (Newell–Williams–Dunlop, *J. Geophys. Res.* 98 (1993) 9551). It is
+map of where double-precision micromagnetics loses its digits.** OOMMF and other finite-difference
+micromagnetic simulators build their demagnetizing field from Newell's demagnetization tensor of a
+pair of uniformly magnetized rectangular cells (Newell–Williams–Dunlop, *J. Geophys. Res.* 98
+(1993) 9551); some evaluate Newell's closed form, while MuMax3 computes the tensor by numerical
+integration. It is
 documented but uncertified that the closed-form evaluation loses all significant digits to
 catastrophic cancellation once the cells are more than a few hundred cell widths apart
 (Chernyshenko–Fangohr, arXiv:1403.1978: relative error `~10^-15 r^6`, no significant digits past
@@ -470,8 +471,22 @@ series), and measure the floating-point failure against it. Paper:
   (wrong sign, nine orders of magnitude too large). The breakdown radius is **not** a universal
   300: across common geometries it ranges from `~100` cells (elongated cells, off-diagonal) to
   `~2000` (a thin film's out-of-plane `Nzz`); the certificate maps it for each of 50
-  geometry/component pairs. OOMMF's asymptotic expansion is the mirror image — poor at short range,
-  good at long — and the crossover is bracketed rigorously.
+  geometry/component pairs. A truncated asymptotic expansion is the mirror image, poor at short
+  range and good at long, and the crossover is bracketed rigorously for each truncation. *(Through
+  v0.16.0 this entry called the three-term form "OOMMF's asymptotic expansion". It is a three-term
+  truncation taken from the demagderiv notebook; OOMMF's `demagcoef.cc` carries a fourth term and,
+  since 2.0a2, chooses its switching radii from assumed error and speed models. See note §4 and CORRECTIONS.md.)*
+- **Addendum (v0.17.0): a proven bound on the asymptotic truncation error.** For two identical
+  axis-parallel cells with diagonal `D` and centre offset `r > D`, every tensor component and every
+  odd truncation order `n ≥ 3`, the series truncated at order `n` has error at most
+  `V D^(n−3) / (2π r^(n−2) (r² − D²))`, with a sharper shape-dependent form. This is the form of
+  OOMMF's assumed error model with the cell diagonal in place of the longest edge and `1/(2π)` in
+  place of `1/5`; the constant is attained in the limit of a thin needle, and the bound is loose for compact
+  cells (about 105 times the true leading error for a cube at `n = 11`). Proof: note §8. Replay:
+  `python3 demag-scripts/check_remainder_bound.py demag-certificates/demag_certificate_six_cells.json`
+  tests both forms on all 1,162 certified entries with `r > D`. A second certificate,
+  `demag_certificate_six_cells.json` (1,310 entries), adds the thin-film cells `(1,1,1/10)` and
+  `(1,1.3,1/10)` and passes the unchanged checker; its other 862 entries are identical to the first.
 - **Tighter than double precision everywhere.** At the worst point (`n = 10^4`) the enclosure is
   ~54 digits tight where double precision has none. Pre-registered kill condition (DEAD if
   enclosures cannot beat double precision anywhere in the regime): **not triggered — LIVE.**
@@ -480,7 +495,8 @@ series), and measure the floating-point failure against it. Paper:
   recomputes every enclosure by interval arithmetic and Newell evaluation that is not
   independent of the private engine (see note §5),
   verifies containment (`N_lo ≤ N_true ≤ N_hi`) with a width-sanity bound, recomputes each naive
-  double bit-for-bit, recomputes every rigorous digit-loss bracket, and re-tests the tensor's own
+  double (to a relative 1e-4; bit for bit with `--strict-naive`), recomputes every rigorous
+  digit-loss bracket, and re-tests the tensor's own
   identities (trace encloses 0 at all 136 mutual points; each self-term's three diagonals sum to
   enclose 1). It imports only `sys, json, math, hashlib, fractions, collections`; no signals,
   subprocesses, network, or wall-clock. **All 862 entries: `CHECK PASS`.**
@@ -495,8 +511,10 @@ series), and measure the floating-point failure against it. Paper:
   entry* the simulators compute; whether that entry is the right physical kernel for a given
   discretization is Newell's modelling choice, cited not claimed. The generator and the
   interval/Newell engine that built the certificate are **not** in this repository; the checker
-  recomputes everything from the certificate alone but shares 212 of its 558 executable lines
-  with them; the external anchor is 16 rows of OOMMF's Maple table, and the consistency
+  recomputes every enclosure, naive value and digit-loss bracket from the certificate alone
+  (`demag-scripts/four_term_digits.py` recomputes the three-term truncation behind the stored
+  asymptotic value) but shares 212 of its 558
+  executable lines with them (counted on the v0.15.0 file; 568 since v0.16.0); the external anchor is 16 rows of OOMMF's Maple table, and the consistency
   identities cover all 862 entries. Build/verification
   log: [`demag-paper/FIXLOG.md`](demag-paper/FIXLOG.md); dated sweep:
   [SWEEP-RECORD-DEMAG-2026-08-12.md](SWEEP-RECORD-DEMAG-2026-08-12.md).
@@ -692,11 +710,15 @@ SWEEP-RECORD-WEDGE2-2026-08-12.md  dated novelty + verification sweep
 
   -- Part L: certified Newell demagnetization-tensor table (v0.12.0) --
 demag-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
-demag-certificates/  demag_certificate.json (862 certified enclosures) + stdlib checker
+demag-certificates/  demag_certificate.json (862 certified enclosures) +
+                     demag_certificate_six_cells.json (1,310; v0.17.0) + stdlib checker
                      (check_demag.py); NO generator, NO interval/Newell engine
 demag-scripts/       anchor_check.py (16-row anchor subset of the OOMMF/Maple table)
-                     + tamper_demo.py (6 controls)
+                     + tamper_demo.py (6 controls); v0.17.0: series_terms.py (the asymptotic
+                     series to any order), check_remainder_bound.py (tests the note's §8
+                     bound on every certified entry with r > D), four_term_digits.py (Table 1)
 SWEEP-RECORD-DEMAG-2026-08-12.md  dated novelty + verification sweep
+SWEEP-RECORD-DEMAG-BOUND-2026-11-10.md  dated sweep for the v0.17.0 addendum
 
   -- Part M: certified ZEFOZ brackets, 167Er3+:Y2SiO5 (v0.13.0) --
 zefoz-paper/         note (LaTeX + PDF + Markdown mirror) + FIXLOG.md build/verification log
@@ -743,12 +765,13 @@ part, B through N, are standard library only.** Checked import-by-import: Part B
 `mps-certificates/reverify.py`; Part G `k34-scripts/verify_witness.py`, `lrat_check.py`; Part H
 `wedge-certificates/check_wedge.py`, `check_wedge_d5.py`; Part I `kelmans-scripts/verify_cert.py`,
 `refcert.py`; Part J `k34add-scripts/verify_witnesses.py`, `verify_qr7_lemma.py`, `blowup_bound.py`;
-Part K `wedge2-certificates/check_wedge2.py`; Part L `demag-certificates/check_demag.py`; Part M
+Part K `wedge2-certificates/check_wedge2.py`; Part L `demag-certificates/check_demag.py`, `demag-scripts/check_remainder_bound.py`, `series_terms.py`; Part M
 `zefoz-certificates/zefoz_checker2.py`, `zefoz_checker_pilot.py`; Part N
 `colorcode-dcirc-certificates/run_all.py`, `certs/check_dcirc.py`, `certs/dem_from_circuit.py`,
 `certs/extcode_from_circuit.py`, `certs/purex_from_object.py`, `certs/lemma_b_check.py`. Between
 them they import nothing outside the Python standard library (re-confirmed by AST scan over all
-23 files, 2026-08-12; Part N's six on 2026-10-29).
+23 files, 2026-08-12; Part N's six on 2026-10-29; Part L's `check_remainder_bound.py` and
+`series_terms.py` on 2026-11-10).
 
 Outside Part A, five scripts use third-party packages, and none is in any trusted base. Two are
 auxiliary cross-checks: `mps-certificates/xcheck.py` (numpy), an independent cross-check of Part F's

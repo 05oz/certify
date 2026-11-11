@@ -1,3 +1,67 @@
+# CORRECTIONS: v0.17.0 Part L round
+
+Dated 2026-11-10. This round corrects Part L and adds a result to it.
+
+**No certified enclosure, digit-loss bracket or checker logic changed.**
+`demag-certificates/demag_certificate.json` is byte-identical to its released form, and
+`check_demag.py` changed only in its docstring. The statements below were wrong. In the
+note and the README each is corrected in place, and each correction in the note's text
+carries a dated note; the dated August records (the August line of `demag-paper/FIXLOG.md` and
+`SWEEP-RECORD-DEMAG-2026-08-12.md`) keep their text and gain dated notes, and the released
+certificate keeps its text (see below). The [Bjork2023] fix and the editorial changes
+(notation, wording) are recorded in the build log.
+
+1. The note, its README entry and its certificate called a three-term asymptotic form
+   (terms in 1/r^3, 1/r^5, 1/r^7) "OOMMF's asymptotic expansion". That form comes from
+   the demagderiv notebook (K. M. Lebecki, 2012, in the ovf2mfm repository of Boardman,
+   Lebecki and Fangohr), which follows a 2010 pre-release of OOMMF. OOMMF's `demagcoef.cc`
+   carries a fourth term in every version on the public mirror of its releases, from
+   1.2a5bis to 2.1a0, and since 2.0a2 chooses its switching radii from assumed error and
+   speed models. The three-term digit counts are correct for that truncation and are unchanged.
+2. Equation (1) of the note carried a leading minus sign copied from a cited source. With
+   one gradient in each integration variable that sign gives the opposite of the certified
+   values, which were always computed with the correct sign.
+3. Equation (4), the stencil, had no leading minus sign and did not define its second
+   difference. Read with the standard second difference, it gave the opposite of the
+   stencil weights printed with it. The weights, which are OOMMF's and which the certified
+   values use, are unchanged.
+4. Smaller statements. §1 did not date OOMMF's double-double evaluation (since 2.0a2;
+   earlier releases take the differences in double or long double, depending on the
+   release and the platform). §2 printed Machin's formula for pi/4 as pi. §3 called the
+   checker's re-verification independent. §4 placed the asymptotic double-precision floor
+   "beyond a few tens of cells"; for the cube of Table 1 it is about 100 cells for four
+   terms and 300 for three, and later for some other cells. §5 said the naive double is
+   recomputed bit for bit (since v0.16.0 that is the `--strict-naive` mode; the default is
+   a relative 1e-4) and gave line numbers of the v0.15.0 checker. §6 said the checker
+   re-derives all of the record; it does not recompute the stored asymptotic value. The
+   abstract counted MuMax3, which integrates numerically, among codes using Newell's
+   closed form. The reference [Bjork2023] gave article number 171235 (it is 171245). The
+   build log, the August sweep record and the certificate's `formulas.source` credited the
+   demagderiv notebook to Fangohr; it is K. M. Lebecki's (2012), in the ovf2mfm repository
+   of Boardman, Lebecki and Fangohr.
+
+What is left as released. The released certificate keeps its metadata text so that the
+record stays byte-identical: the field name `asymp_oommf` and the `formulas.source` text
+(items 1 and 4), the minus sign in `formulas.tensor_def` (item 2), the form in `formulas.stencil`
+(item 3) and the Machin expression in `method.transcendentals` (item 4). The note
+supersedes each of these texts; no value they describe changed. The new six-cell
+certificate carries the corrected texts, outside its hashed entry list.
+
+The added result is §8 of the note: a proven bound on the truncation error of the
+asymptotic series, with its checker `demag-scripts/check_remainder_bound.py`, the series
+generator `demag-scripts/series_terms.py`, and a second certificate,
+`demag_certificate_six_cells.json`, which adds two thin-film cells.
+
+| Part | Version | Note | Places corrected | Build log |
+|---|---|---|---|---|
+| L | v0.12.x | [`demag-paper/note.pdf`](demag-paper/note.pdf) | abstract, prior-art record (dated note), §1, equations (1) and (4), §2 (Machin), §3, Table 1 caption, §4 crossover paragraph, §5, §6, Questions 7.1 and 7.2, reference [Bjork2023]; the PDF now also carries the authorship statement and prior-art record of the Markdown twin | [`demag-paper/FIXLOG.md`](demag-paper/FIXLOG.md), decisions L-4 to L-11 |
+
+The rebuilt PDF was checked by text extraction. The deposit is
+versioned: the v0.12.x to v0.16.0 records keep resolving to the text with the old
+wording, and the concept DOI resolves forward to this version.
+
+---
+
 # CORRECTIONS — v0.15.0 independence-claim round
 
 Dated 2026-08-14. This round changed documentation only.

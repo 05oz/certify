@@ -21,6 +21,7 @@
 \emergencystretch=3em
 \tolerance=1200
 \hbadness=4000
+\addtolength{\skip\footins}{0pt minus 3pt}
 
 \newcommand{\Nxx}{N_{xx}}
 \newcommand{\Nxy}{N_{xy}}
@@ -50,13 +51,13 @@ loses its digits}
 institutional affiliation. ORCID 0009-0009-5213-4098.
 \texttt{daniel@halfounce.io} $\cdot$ \texttt{https://halfounce.io}}
 
-\date{Draft of August 12, 2026.}
+\date{Draft of August 12, 2026; revised November 10, 2026 (v0.17.0).}
 
 \begin{abstract}
-Every finite-difference micromagnetic simulator --- OOMMF, MuMax3, magnum.np,
-Fidimag, MagTense, and the newer GPU codes --- builds its demagnetizing field
-from the same analytic object: the Newell demagnetization tensor of a pair of
-uniformly magnetized rectangular cells. It is a textbook fact, documented but
+OOMMF and other finite-difference micromagnetic simulators build their
+demagnetizing field from the Newell demagnetization tensor of a pair of uniformly
+magnetized rectangular cells; some evaluate Newell's closed form, while MuMax3
+computes the tensor by numerical integration. It is a textbook fact, documented but
 uncertified, that the closed-form evaluation of this tensor loses all
 significant digits by catastrophic cancellation once the two cells are more
 than a few hundred cell widths apart. We ask whether the tensor entries can be
@@ -71,7 +72,7 @@ operation; the transcendental pieces (\texttt{sqrt}, \texttt{atan},
 \texttt{log}) are enclosed by rigorously-truncated series, and everything else
 is exact rational arithmetic. Against these enclosures we measure, rigorously,
 the two floating-point routes a simulator can take: the naive double-precision
-analytic evaluation and OOMMF's asymptotic expansion. The naive analytic route
+analytic evaluation and a truncated asymptotic expansion. The naive analytic route
 degrades by about six correct decimal digits per decade of separation --- from
 $\sim\!15$ digits at one cell to \emph{zero} correct digits near $300$ cells and
 a value with the wrong sign and wrong order of magnitude beyond --- exactly the
@@ -79,15 +80,44 @@ $r^{6}$ law and the $\sim\!300$-cell breakdown that the accuracy literature
 predicts but never certified; the asymptotic route is complementary, poor at
 short range and good at long range, and the crossover is located rigorously.
 The enclosures remain tight to tens of digits everywhere, including where double
-precision has none. A certificate JSON and a standard-library checker that
-re-derives every enclosure, the naive value, and every digit-loss figure from
-scratch --- and rejects tampering at both the hash layer and the mathematical
-re-derivation layer --- are the public unit. We state what is certified, what
+precision has none. A certificate JSON and a standard-library checker are the
+public unit; the checker re-derives every enclosure, the naive value and every
+digit-loss figure from scratch, and rejects tampering both at the hash layer and
+at the mathematical re-derivation layer. We state what is certified, what
 is merely enclosed, and what is trusted, and close with the questions the table
-opens.
+opens. A November 2026 addendum (\S\ref{sec:bound}) proves an explicit bound on
+the truncation error of the asymptotic series, valid for every rectangular cell,
+every tensor component and every separation larger than the cell diagonal.
+\emph{(Correction, v0.17.0, 2026-11-10: through v0.16.0 the abstract called the
+second route ``OOMMF's asymptotic expansion''. The values measured are for a
+three-term truncation of the series; OOMMF carries a fourth term. See
+\S\ref{sec:results}. Its first sentence also counted MuMax3, which integrates
+numerically, among codes using Newell's closed form.)}
 \end{abstract}
 
 \maketitle
+
+{\small
+\noindent\textbf{Computation and authorship.} All formula transcription,
+interval-arithmetic implementation, verification, and drafting in this work were
+produced by Claude (Anthropic), directed by the author, on a single Apple laptop.
+The public artifact is a certificate together with a checker that imports only
+the Python standard library and, though not code-independent of the private
+generator (see \S\ref{sec:trusted}), recomputes every enclosure, the naive double
+value, and every digit-loss figure from the certificate alone.
+
+\smallskip
+\noindent\textbf{Prior-art record.} The primary sources (Newell, Williams and
+Dunlop 1993; OOMMF's \texttt{demagcoef.cc}; Chernyshenko and Fangohr 2015;
+Bj\o rk and d'Aquino 2023) were read at the relevant sections on August 11--12,
+2026; the passages quoted are verbatim. Novelty was swept the same day against
+arXiv and the web; the dated record ships with the artifacts.
+\emph{(Correction, v0.17.0, 2026-11-10: the asymptotic section of
+\texttt{demagcoef.cc} was not among the sections read. The asymptotic form used
+in this note was transcribed from the demagderiv notebook \cite{demagderiv},
+which follows a 2010 pre-release of OOMMF; see \S\ref{sec:results}. The November
+addendum has its own dated record,
+\texttt{SWEEP-RECORD-DEMAG-BOUND-2026-11-10.md}.)}\par}
 
 \section{The question}
 
@@ -114,11 +144,15 @@ Chernyshenko and Fangohr state the consequence precisely: the relative error of
 the double-precision analytic formula ``is of the order $10^{-15}r^{6}$,'' so
 ``for cell separations greater than $10^{15/6}\approx 300$ the analytical
 computation will contain no significant digits at all'' \cite[\S II.B]{CF2015}.
-The simulation packages know this and route around it --- OOMMF switches to an
-asymptotic $1/r$ expansion beyond a cutoff radius \cite{CF2015}, and evaluates
-the analytic formula in double-double ($106$-bit) arithmetic below it --- but the
-routing is itself uncertified, and the codes that do neither inherit the failure
-directly.
+The simulation packages know this and route around it: OOMMF switches to
+asymptotic expansions beyond a switching radius \cite{CF2015}. Since version
+2.0a2 it computes a schedule of such radii from the cell dimensions and evaluates
+the analytic formula in double-double ($106$-bit) arithmetic below the innermost
+one \cite{OOMMF}; earlier releases take the analytic differences in double or
+long double, depending on the release and the platform. That routing is itself
+uncertified, and the codes that do neither inherit the failure directly.
+\emph{(Correction, v0.17.0, 2026-11-10: through v0.16.0 this sentence did not
+date the double-double evaluation.)}
 
 This note asks a different question. Not ``what is the fastest accurate
 kernel?'' but: \emph{can each tensor entry be bracketed rigorously, by a rational
@@ -146,7 +180,7 @@ Following the convention of \cite{CF2015}, the demagnetization tensor of two
 cells of common volume $|\sigma|=\Delta x\,\Delta y\,\Delta z$ with centre
 offset $\mathbf r$ is
 \begin{equation}
-  \mathbf N(\mathbf r) \;=\; -\frac{1}{4\pi|\sigma|}
+  \mathbf N(\mathbf r) \;=\; \frac{1}{4\pi|\sigma|}
   \int_{\sigma_1}\!\!\int_{\sigma_2(\mathbf r)}
   \nabla_{\mathbf r_1}\nabla_{\mathbf r_2}\frac{1}{|\mathbf r_1-\mathbf r_2|}
   \,\mathrm d\mathbf r_2\,\mathrm d\mathbf r_1 ,
@@ -156,6 +190,14 @@ so that the demagnetizing field is $\mathbf H=-\mathbf N\cdot\mathbf M$; in
 Newell's own notation \cite{Newell1993} this is $H_x=-N_{xx}M_x$, his
 formula~(16). The tensor is symmetric and trace-free for $\mathbf r\neq 0$, and
 the diagonal self-term $\mathbf r=0$ obeys $N_{xx}+N_{yy}+N_{zz}=1$.
+\emph{(Correction, v0.17.0, 2026-11-10: through v0.16.0 equation~\eqref{eq:tensordef}
+carried a leading minus sign, copied from \cite[eq.~(2)]{CF2015}. With one
+gradient taken in each integration variable that sign gives the opposite of the
+values computed here and in OOMMF, for which two cells in line along $x$ have
+$N_{xx}<0$. The certified values were always computed from Newell's closed form
+with the correct sign. The \texttt{formulas.tensor\_def} text of the released
+\texttt{demag\_certificate.json} carries the same superseded sign and is left
+unchanged so that the record stays byte-identical.)}
 
 \paragraph{Newell's governing functions.}
 The double volume integral in \eqref{eq:tensordef} has a closed form. For the
@@ -189,40 +231,52 @@ when an argument coordinate vanishes.
 The tensor entry is a second difference of the governing function in each of the
 three axes, at step equal to the cell edge:
 \begin{equation}
-  \Nxx(\mathbf r) = \frac{1}{4\pi\,\Delta x\,\Delta y\,\Delta z}\,
-  \Delta^{2}_{x}\Delta^{2}_{y}\Delta^{2}_{z}\,[\,f\,](\mathbf r),
+  \Nxx(\mathbf r) = -\frac{1}{4\pi\,\Delta x\,\Delta y\,\Delta z}\,
+  \delta^{2}_{x}\delta^{2}_{y}\delta^{2}_{z}\,[\,f\,](\mathbf r),
   \qquad
-  \Nxy(\mathbf r) = \frac{1}{4\pi\,\Delta x\,\Delta y\,\Delta z}\,
-  \Delta^{2}_{x}\Delta^{2}_{y}\Delta^{2}_{z}\,[\,g\,](\mathbf r),
+  \Nxy(\mathbf r) = -\frac{1}{4\pi\,\Delta x\,\Delta y\,\Delta z}\,
+  \delta^{2}_{x}\delta^{2}_{y}\delta^{2}_{z}\,[\,g\,](\mathbf r),
   \label{eq:stencil}
 \end{equation}
-a $27$-point stencil with weights $-1$ at the eight corners, $+2$ at the twelve
-edges, $-4$ at the six faces and $+8$ at the centre. The remaining diagonal and
+where $\delta^{2}_{x}[f](x,y,z)=f(x+\Delta x,y,z)-2f(x,y,z)+f(x-\Delta x,y,z)$, and
+$\delta^{2}_{y}$, $\delta^{2}_{z}$ likewise. With its leading minus sign,
+\eqref{eq:stencil} is a $27$-point stencil with weights $-1$ at the eight
+corners, $+2$ at the twelve edges, $-4$ at the six faces and $+8$ at the centre,
+as in OOMMF's \texttt{Oxs\_CalculateNxx}. The remaining diagonal and
 off-diagonal entries are coordinate relabelings:
 $N_{yy}(\mathbf r;\Delta)=N_{xx}$ with $(x,\Delta x)\leftrightarrow(y,\Delta y)$,
 $N_{zz}$ with $x\leftrightarrow z$, and $N_{xz},N_{yz}$ from $N_{xy}$ likewise.
 The self-term $\mathbf r=0$ uses Newell's separate closed form for $N_{xx}(0)$
-(\texttt{Oxs\_SelfDemagNx}), which we also carry.
+(\texttt{Oxs\_SelfDemagNx}), which we also carry. \emph{(Correction, v0.17.0,
+2026-11-10: through v0.16.0 equation~\eqref{eq:stencil} had no leading minus sign
+and did not define the second difference. Read with the standard second
+difference above, it gave the opposite of the weights stated with it. The
+weights, which the certified values use, are unchanged; the
+\texttt{formulas.stencil} text of the released \texttt{demag\_certificate.json}
+carries the old form and is left byte-identical.)}
 
 \paragraph{The enclosure, and what is certified.}
 We evaluate \eqref{eq:newellf}--\eqref{eq:stencil} in interval arithmetic over
 dyadic-rational endpoints. Every interval $[a,b]$ rigorously encloses the true
 value; every operation --- addition, multiplication, division, and the three
 transcendentals --- rounds its result \emph{outward} to the grid of denominator
-$D=2^{P}$ (working precision $P=256$ bits, about $77$ decimal digits), which
+$Q=2^{P}$ (working precision $P=256$ bits, about $77$ decimal digits), which
 keeps the rationals bounded and makes the whole computation deterministic. The
 transcendentals are enclosed from below and above:
 \begin{itemize}
   \item $\sqrt q$ for a nonnegative rational $q$ by integer square root at the
-  grid scale: with $m=\lfloor\sqrt{\lfloor qD^2\rfloor}\rfloor$ one has
-  $(m/D)^2\le q<((m{+}1)/D)^2$, a two-sided rational bound;
+  grid scale: with $m=\lfloor\sqrt{\lfloor qQ^2\rfloor}\rfloor$ one has
+  $(m/Q)^2\le q<((m{+}1)/Q)^2$, a two-sided rational bound;
   \item $\atan t$ by half-angle reduction $\atan t = 2\atan\!\big(t/(1+\sqrt{1+t^2})\big)$
   until $|t|\le\tfrac12$, then the alternating Maclaurin series, whose truncation
   error is bounded by the first omitted term;
   \item $\ln p$ by pulling out powers of two until the mantissa lies in
   $[\tfrac23,\tfrac43]$, then $2\operatorname{atanh}\frac{m-1}{m+1}$ with a
-  geometric-series tail bound; $\ln 2$ and $\pi$ (Machin's $4\atan\tfrac15-\atan\tfrac1{239}$)
-  are certified once at the same precision.
+  geometric-series tail bound; $\ln 2$ and
+  $\pi=4\big(4\atan\tfrac15-\atan\tfrac1{239}\big)$ (Machin's formula) are
+  certified once at the same precision. \emph{(Correction, v0.17.0, 2026-11-10:
+  through v0.16.0 the expression printed here was $\pi/4$; the \texttt{method}
+  text of the released \texttt{demag\_certificate.json} carries it unchanged.)}
 \end{itemize}
 What is \emph{certified} is the two-sided inequality $N_{\mathrm{lo}}\le
 N_{\alpha\beta}\le N_{\mathrm{hi}}$ for the analytic Newell tensor entry. What is
@@ -270,8 +324,12 @@ across the table.
 
 The analytic formulas are Newell, Williams and Dunlop's \cite{Newell1993}; the
 reference implementation is Donahue and Porter's OOMMF \cite{OOMMF}, whose
-\texttt{demagcoef.cc} we follow line for line and whose double-double evaluation
-and asymptotic switch are the state of the practice. The large-separation
+analytic routines in \texttt{demagcoef.cc} we follow line for line, and whose
+double-double evaluation, four-term asymptotic form and model-based switching
+radii are the state of the practice. \emph{(Correction, v0.17.0, 2026-11-10:
+through v0.16.0 this sentence did not limit ``line for line'' to the analytic
+routines. The asymptotic form used in this note was not taken from
+\texttt{demagcoef.cc}; see \S\ref{sec:results}.)} The large-separation
 cancellation is analysed by Chernyshenko and Fangohr \cite{CF2015}, who give the
 $10^{-15}r^{6}$ error law and the $\approx 300$-cell breakdown, and propose
 numerical integration as an alternative; Bj\o rk and d'Aquino \cite{Bjork2023}
@@ -287,9 +345,11 @@ same-day novelty sweep (\S\ref{sec:cert}) found no certified or interval-arithme
 demagnetization-tensor table anywhere. What is new here is the intersection: a
 rigorous two-sided enclosure of the Newell entries across the simulation regime,
 a rigorous measurement of the double-precision and asymptotic failures against
-those enclosures, and independent re-verification from a standard-library
-checker. We claim that intersection, and no new tensor value or physical result
-within it.
+those enclosures, and re-verification of every entry by a standard-library
+checker that is not code-independent of the generator (\S\ref{sec:trusted}). We
+claim that intersection, and no new tensor value or physical result within it.
+\emph{(Correction, v0.17.0, 2026-11-10: through v0.16.0 this sentence called the
+re-verification independent; see \S\ref{sec:trusted}.)}
 
 \section{Results}\label{sec:results}
 
@@ -328,23 +388,32 @@ certified enclosure midpoint (all endpoints are exact dyadic rationals in the
 certificate); the naive IEEE-754 double analytic value; and rigorous brackets on
 the number of correct significant digits each floating-point route retains,
 derived from the enclosure. ``Naive'' is the double-precision analytic Newell
-stencil; ``asymptotic'' is OOMMF's $1/r$ expansion.}
+stencil; ``three terms'' and ``four terms'' are the asymptotic
+series~\eqref{eq:series} truncated after $1/r^{7}$ (the value stored in the
+certificate) and after $1/r^{9}$ (as in OOMMF's \texttt{demagcoef.cc}, without
+its cell subdivision; computed by \texttt{demag-scripts/four\_term\_digits.py}).
+From about $100$ cells (four terms) and $300$ cells (three terms) the truncations
+sit at the double-precision floor, where the last digit depends on the order of
+the floating-point operations. \emph{(Correction, v0.17.0, 2026-11-10: through
+v0.16.0 this caption called the three-term column OOMMF's asymptotic expansion;
+see \S\ref{sec:results}.)}}
 \label{tab:pathology}
-\begin{tabular}{r r r r}
+\begin{tabular}{r r r r r}
 \toprule
-$n$ (cells) & certified $N_{xx}$ (midpoint) & naive double: correct digits &
-asymptotic: correct digits \\
+$n$ (cells) & certified $N_{xx}$ (midpoint) & naive double & three terms &
+four terms \\
+ & & \multicolumn{3}{c}{correct digits} \\
 \midrule
-$1$      & $-1.35017180544\times10^{-1}$ & $15.2$ & $0.5$ \\
-$5$      & $-1.27235750359\times10^{-3}$ & $11.2$ & $5.1$ \\
-$13$     & $-7.24408320619\times10^{-5}$ & $8.6$  & $7.7$ \\
-$21$     & $-1.71854643363\times10^{-5}$ & $7.1$  & $9.0$ \\
-$55$     & $-9.56603669319\times10^{-7}$ & $5.4$  & $11.5$ \\
-$100$    & $-1.59154942396\times10^{-7}$ & $5.1$  & $13.1$ \\
-$300$    & $-5.89462752160\times10^{-9}$ & $\mathbf{0.4}$ & $17.2$ \\
-$500$    & $-1.27323954473\times10^{-9}$ & $-1.0$ & $16.0$ \\
-$1000$   & $-1.59154943092\times10^{-10}$ & $-2.9$ & $16.4$ \\
-$10000$  & $-1.59154943092\times10^{-13}$ & $-8.9$ & $16.3$ \\
+$1$      & $-1.35017180544\times10^{-1}$ & $15.2$ & $0.5$ & $0.6$ \\
+$5$      & $-1.27235750359\times10^{-3}$ & $11.2$ & $5.1$ & $5.7$ \\
+$13$     & $-7.24408320619\times10^{-5}$ & $8.6$  & $7.7$ & $9.0$ \\
+$21$     & $-1.71854643363\times10^{-5}$ & $7.1$  & $9.0$ & $10.7$ \\
+$55$     & $-9.56603669319\times10^{-7}$ & $5.4$  & $11.5$ & $14.0$ \\
+$100$    & $-1.59154942396\times10^{-7}$ & $5.1$  & $13.1$ & $16.7$ \\
+$300$    & $-5.89462752160\times10^{-9}$ & $\mathbf{0.4}$ & $17.2$ & $17.2$ \\
+$500$    & $-1.27323954473\times10^{-9}$ & $-1.0$ & $16.0$ & $16.0$ \\
+$1000$   & $-1.59154943092\times10^{-10}$ & $-2.9$ & $16.4$ & $16.4$ \\
+$10000$  & $-1.59154943092\times10^{-13}$ & $-8.9$ & $16.3$ & $16.3$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -400,19 +469,35 @@ rectangular $(2,1,1)$   & $N_{xy}$ (face diagonal $xy$)    & $200$ \\
 \end{table}
 
 \paragraph{The asymptotic route, and the crossover.}
-OOMMF's asymptotic expansion is the mirror image: it is \emph{poor} at short
-range --- $0.5$ correct digits at $n=1$, where the $1/r$ expansion has no right to
-converge --- and good at long range, saturating near $16$ digits (its own
-double-precision floor) beyond a few tens of cells. The two floating-point
-routes therefore cross: for the cube on-axis $N_{xx}$ the naive analytic value is
-the more accurate up to about thirteen cells and the asymptotic from about
-twenty-one on ($8.6$ versus $7.7$ digits at $n=13$; $7.1$ versus $9.0$ at
-$n=21$), and both are dominated everywhere by the certified enclosure. Because
-the enclosure brackets the truth, the crossover radius --- the separation at
-which a simulator should switch formulas --- is itself bracketed rigorously by
-the certificate, per aspect ratio and direction. This is the practical artifact:
-not ``the analytic formula is inaccurate far away,'' but a certified map of which
-formula is trustworthy where.
+A truncated asymptotic expansion is the mirror image of the analytic route. It
+is \emph{poor} at short range ($0.5$ correct digits at $n=1$, where the $1/r$
+expansion has no right to converge) and good at long range; in
+Table~\ref{tab:pathology} it reaches its double-precision floor, near $16$
+digits, from about $100$ cells for four terms and about $300$ for three, and for
+other cells and directions it can take longer (for the film $(1,1,\tfrac14)$
+along its normal, about $500$ cells for four terms and $2{,}000$ for three). The two
+floating-point routes therefore cross. For the cube on-axis $N_{xx}$ and the
+three-term form, the naive analytic value is the more accurate up to about
+thirteen cells and the asymptotic from about twenty-one on ($8.6$ versus $7.7$
+digits at $n=13$; $7.1$ versus $9.0$ at $n=21$). The four-term form crosses
+earlier: $9.6$ versus $7.3$ digits at $n=8$, $8.6$ versus $9.0$ at $n=13$. Both
+are dominated everywhere by the certified enclosure, and because the enclosure
+brackets the truth, the crossover radius of a given truncation is itself
+bracketed rigorously by the certificate, per aspect ratio and direction. These
+crossovers describe a code that evaluates both routes in double precision.
+Since version 2.0a2 OOMMF evaluates the analytic formula in double-double below
+its switching radii, chooses those radii from assumed error and speed models,
+and sums subdivided-cell asymptotics in a middle range; earlier releases take the
+differences in double or long double (\S1).
+\emph{(Correction, v0.17.0, 2026-11-10: through v0.16.0 this paragraph called the
+three-term form ``OOMMF's asymptotic expansion''. It is a three-term truncation
+transcribed from the demagderiv notebook \cite{demagderiv}, which follows a 2010
+pre-release of OOMMF. Every \texttt{demagcoef.cc} on the public mirror of OOMMF's
+releases, from 1.2a5bis to 2.1a0, carries a fourth term, $1/r^{9}$, for an error
+of order $1/r^{11}$. The three-term digit counts in Table~\ref{tab:pathology}
+and in the certificate are unchanged and correct for that truncation; the
+four-term column and the four-term crossover are new. Through v0.16.0 this
+paragraph also placed the floor ``beyond a few tens of cells''.)}
 
 \paragraph{The enclosures stay tight where double precision has nothing.}
 The point of carrying exact rationals is that the cancellation is defeated, not
@@ -437,7 +522,7 @@ pathology; we include them because a certified reference table of demag
 constants is exactly the kind of common, load-bearing, unowned object this
 program targets.
 
-\section{What is certified, what is enclosed, what is trusted}
+\section{What is certified, what is enclosed, what is trusted}\label{sec:trusted}
 
 \paragraph{Machine-checked, replayable with standard-library Python.}
 The checker reads only the certificate. It (i)~recomputes the SHA-256 of the
@@ -448,8 +533,13 @@ the recomputed rigorous interval lies inside the
 certified $[N_{\mathrm{lo}},N_{\mathrm{hi}}]$ --- which pins
 $N_{\mathrm{lo}}\le N_{\mathrm{true}}\le N_{\mathrm{hi}}$ --- while rejecting an
 enclosure that has been narrowed off the truth, shifted, or implausibly widened;
-(iii)~recomputes the naive double value bit-for-bit and each rigorous digit-loss
-bracket. Any mismatch prints \texttt{CHECK FAIL} and exits nonzero. The checker
+(iii)~recomputes the naive double value and requires agreement to a relative
+$10^{-4}$ (bit for bit with \texttt{--strict-naive}; the low bits of a naive value
+depend on the platform's \texttt{libm}), and recomputes each rigorous digit-loss
+bracket from the recorded value. \emph{(Correction, v0.17.0, 2026-11-10: through
+v0.16.0 clause (iii) said bit for bit; since v0.16.0 that is the
+\texttt{--strict-naive} mode.)} Any mismatch prints \texttt{CHECK FAIL} and exits
+nonzero. The checker
 imports only \texttt{sys}, \texttt{json}, \texttt{math}, \texttt{hashlib},
 \texttt{fractions} and \texttt{collections}; it uses no signals, subprocesses,
 network or wall-clock, and
@@ -479,17 +569,22 @@ the hash is recomputed to match, at the mathematical re-derivation layer.
 The generator that emitted the certificate is not trusted for any value: the
 checker recomputes every enclosure from the certificate's own parameters and
 rejects any entry it cannot reproduce. It is not, however, code-independent
-of the private files that built the certificate. Of the 558 executable lines
-of \texttt{check\_demag.py}, 212 appear verbatim in \texttt{gen\_demag.py},
-\texttt{civ.py}, \texttt{newell.py} and \texttt{validate.py}. The
-naive-double Newell block, lines 392 to 508, shares 80 of its 103 lines with
+of the private files that built the certificate. Counted on the v0.15.0 file,
+212 of the 558 executable lines of \texttt{check\_demag.py} appear verbatim in
+\texttt{gen\_demag.py}, \texttt{civ.py}, \texttt{newell.py} and
+\texttt{validate.py}. The naive-double Newell block, lines 393 to 509 of the
+shipped file, shares 80 of its 103 lines with
 those files, 76 of them with \texttt{newell.py}, and contains byte-identical
 runs of 31 and 26 lines against \texttt{newell.py}; the interval Newell
 evaluation shares 43 of 143 lines and the certified interval class 56 of 152
 with the same files; the digit-loss bracket shares 10 of 28 with
 \texttt{gen\_demag.py}. A passing check may therefore not be read, on its
 own, as an independent re-derivation of Newell's formulas, of the interval
-arithmetic, or of the double-precision pathology.
+arithmetic, or of the double-precision pathology. \emph{(Correction, v0.17.0,
+2026-11-10: the counts in this section were measured on the v0.15.0 file. The
+v0.16.0 portability change brought it to 568 executable lines, and the line
+numbers, which through v0.16.0 were those of v0.15.0, are now those of the
+shipped file.)}
 
 Two things stand outside that shared lineage, and they are what the result
 rests on. The first is external. \texttt{demag-scripts/anchor\_check.py}
@@ -499,7 +594,7 @@ software, for other purposes --- and requires the checker's own recomputed
 enclosure midpoint to agree with each to at least 48 digits. That anchors 16
 rows of 862. It is a spot check against an external standard, not coverage
 of the table, and the remaining 846 entries have no external anchor. The
-second is internal and covers every entry. At lines 642 to 670 the checker
+second is internal and covers every entry. At lines 663 to 691 the checker
 imposes two consistency identities on the certified endpoints themselves,
 with no re-derivation involved: the three diagonal components must sum to an
 interval enclosing 0 at each of the 136 mutual points, and enclosing 1 at
@@ -508,8 +603,8 @@ share no text with the private files, and neither do the comparisons against
 the certificate or the fail-and-exit reporting.
 
 One part of the bookkeeping is shared, necessarily. The canonical
-serialisation of an entry and the SHA-256 recomputation, lines 544 to 548
-and 576 to 577, are common with \texttt{gen\_demag.py}: both sides must
+serialisation of an entry and the SHA-256 recomputation, lines 545 to 549
+and 580 to 581, are common with \texttt{gen\_demag.py}: both sides must
 serialise the entry list identically or no hash could ever agree. The hash
 check therefore establishes that the shipped entry list is the one that was
 hashed, not that two independent implementations agree on how to hash it.
@@ -518,11 +613,18 @@ match, at the mathematical layer; both remain in force.
 
 \section{The reference table, and certification}\label{sec:cert}
 
-The permanent record is a single certificate JSON --- the method parameters (the
-working precision, the transcendental enclosure scheme, the stencil), and for
-each grid point the certified enclosure, the naive double value, the asymptotic
-value where defined, and the rigorous digit-loss brackets --- together with the
-standard-library checker that re-derives all of it. The two together are the
+The permanent record is a single certificate JSON, holding the method parameters
+(the working precision, the transcendental enclosure scheme, the stencil) and, for
+each grid point, the certified enclosure, the naive double value, the value of
+the three-term asymptotic truncation where defined (stored under the field name
+\texttt{asymp\_oommf}, which predates the correction in \S\ref{sec:results}; the
+certificate's \texttt{formulas} and \texttt{method} texts likewise predate the
+corrections in \S\ref{sec:object} and \S\ref{sec:results}), and the rigorous
+digit-loss brackets. With it goes the standard-library checker, which re-derives
+every enclosure, naive value and digit-loss bracket. The checker does not
+recompute the stored asymptotic value. \texttt{demag-scripts/four\_term\_digits.py}
+recomputes the three-term truncation from the series~\eqref{eq:series} and prints
+its correct digits; it does not read the stored value. The two together are the
 public unit; a reader with nothing but CPython replays any enclosure from the
 certificate alone. The novelty sweep (dated, shipped with the artifacts) found
 no certified or interval-arithmetic demagnetization-tensor table in the
@@ -530,26 +632,35 @@ literature: the accuracy studies \cite{CF2015,Bjork2023} use floating-point
 reference values inside error plots, and the newer codes inherit the same
 uncertified kernels. The generator and the search that chose the grid remain
 private, per this program's boundary; they are not needed to check anything.
+\emph{(Correction, v0.17.0, 2026-11-10: through v0.16.0 this paragraph said the
+checker re-derives all of the record, the asymptotic value included.)}
 
 \section{Questions}
 
 \begin{question}[The certified crossover, shipped to the codes]
 The certificate brackets, per aspect ratio and direction, the separation at
-which OOMMF's asymptotic expansion overtakes the naive analytic formula. Can this
+which a truncated asymptotic expansion overtakes the naive analytic formula. Can this
 crossover map be turned into a certified switching rule that a simulator adopts
 directly --- a table of ``use analytic below $n^\ast$, asymptotic above'' with
 $n^\ast$ rigorously bracketed --- and does the double-double arithmetic OOMMF uses
 below the cutoff move $n^\ast$ by exactly the amount the $10^{-15}\to10^{-32}$
-precision change predicts?
+precision change predicts? OOMMF already sets its switching radii from
+assumed error and speed models (\S\ref{sec:bound}); the question is whether radii
+with certified error bounds can be supplied to such a schedule. \emph{(Correction, v0.17.0, 2026-11-10: ``OOMMF's
+asymptotic expansion'' replaced; see \S\ref{sec:results}.)}
 \end{question}
 
 \begin{question}[Certifying the asymptotic tail]
 The asymptotic expansion is itself only enclosed here through its floating-point
-value. Can its truncation error be enclosed rigorously --- a certified remainder
-bound for OOMMF's order-$1/r^{6}$ expansion --- so that, together with the
-analytic enclosure, one obtains a single certified kernel that is tight at
-\emph{every} separation, short and long, with a proof-carrying handover in
-between?
+value. Can its truncation error be enclosed rigorously, by a certified remainder
+bound, so that, together with the analytic enclosure, one obtains a single
+certified kernel that is tight at \emph{every} separation, short and long, with a
+proof-carrying handover in between? \emph{(Partly answered in
+\S\ref{sec:bound}, v0.17.0, 2026-11-10: an explicit bound on the truncation error for every
+rectangular cell, tensor component and separation larger than the cell diagonal. The
+single certified kernel with a proof-carrying handover remains open. Through
+v0.16.0 this question spoke of ``OOMMF's order-$1/r^{6}$ expansion''; see
+\S\ref{sec:results}.)}
 \end{question}
 
 \begin{question}[Beyond the rectangular prism]
@@ -559,21 +670,194 @@ structure. Do their governing functions admit the same outward-rounded interval
 treatment, and is the breakdown radius a computable function of the tile geometry?
 \end{question}
 
-\begin{thebibliography}{9}
-\bibitem{Bjork2023} R. Bj\o rk and M. d'Aquino, \emph{Accuracy of the
-demagnetization tensor}, in ``Accuracy of the analytical demagnetization tensor
-for various geometries,'' J. Magn. Magn. Mater. \textbf{587} (2023) 171235
-(S0304885323008958).
+\section{Addendum (v0.17.0, November 2026): a bound on the asymptotic truncation error}\label{sec:bound}
+
+\paragraph{The series.}
+Take two identical cells with edges $(\Delta x,\Delta y,\Delta z)$ parallel to the
+axes, volume $V=\Delta x\,\Delta y\,\Delta z$ (written $|\sigma|$
+in~\eqref{eq:tensordef}) and centre offset $\mathbf r$, with length $r=|\mathbf r|$
+and direction $\hat{\mathbf r}$, and let $D=\sqrt{\Delta x^2+\Delta y^2+\Delta z^2}$ be the cell diagonal. In this
+section $n$ denotes a truncation order; in \S\ref{sec:results} it counts cells.
+Let $\mathbf u$ be the difference of two independent uniform points of
+the cell. Each coordinate of $\mathbf u$, for example $u_x$, has the triangular law on
+$[-\Delta x,\Delta x]$, so $\mathbb E[u_x^{2m}]=\mu_m\,\Delta x^{2m}$ with
+$\mu_m=2/\big((2m+1)(2m+2)\big)$, and likewise for $y$ and $z$. For cells that do
+not overlap, \eqref{eq:tensordef} is
+\begin{equation}
+  N_{ij}(\mathbf r) = -\frac{V}{4\pi}\,
+  \mathbb E\Big[\partial_i\partial_j\frac{1}{|\mathbf r+\mathbf u|}\Big],
+  \label{eq:repr}
+\end{equation}
+and for $r>D$, which already rules out overlap, expanding in $\mathbf u$ and
+averaging term by term gives
+\begin{equation}
+  N_{ij}(\mathbf r) = -\frac{V}{4\pi}\sum_{m\ge 0}
+  \frac{T_{2m+3}(\hat{\mathbf r})}{r^{2m+3}},
+  \label{eq:series}
+\end{equation}
+where $T_{2m+3}$ is a polynomial in the direction cosines whose coefficients are
+polynomials in the squared edges. \texttt{demag-scripts/series\_terms.py}
+computes these terms to any order in exact rational arithmetic. The series is not
+new. Donahue gives it to all orders in operator form \cite{Donahue2007}, and
+OOMMF's \texttt{demagcoef.cc} carries its first four terms, $T_3$ to $T_9$; our
+exact derivation reproduces OOMMF's integer coefficients for $N_{xx}$ and
+$N_{xy}$. Write $S_n$ for~\eqref{eq:series} truncated after the terms through
+$1/r^{n-2}$, so that the omitted terms start at $1/r^{n}$. OOMMF's asymptotic
+order is this $n$. $S_n$ is the exact truncated series;~\eqref{eq:boundfree}
+and~\eqref{eq:boundshape} below bound its truncation error only, and a
+floating-point evaluation adds rounding error.
+
+\begin{theorem}\label{thm:bound}
+For all edges $(\Delta x,\Delta y,\Delta z)$, every component $(i,j)$, every odd
+$n\ge 3$ and every $r>D$,
+\begin{equation}
+  \big|N_{ij}(\mathbf r)-S_n(\mathbf r)\big|
+  \le \frac{V\,D^{\,n-3}}{2\pi\, r^{\,n-2}\,(r^2-D^2)},
+  \label{eq:boundfree}
+\end{equation}
+and, using the cell shape,
+\begin{equation}
+  \big|N_{ij}(\mathbf r)-S_n(\mathbf r)\big|
+  \le \frac{V}{4\pi}\left[\frac{(n-2)(n-1)\,\mathbb E|\mathbf u|^{n-3}}{r^{n}}
+  + \frac{2\,D^{\,n-1}}{r^{n}\,(r^2-D^2)}\right],
+  \label{eq:boundshape}
+\end{equation}
+whose right-hand side never exceeds that of~\eqref{eq:boundfree}. The constant
+in~\eqref{eq:boundfree} is attained, for the diagonal component along the axis,
+in the limit of a thin needle with offset along its axis, so it cannot be lowered
+without using the cell shape.
+\end{theorem}
+
+\begin{proof}
+Fix $\mathbf u$; then $|\mathbf u|\le D<r$. Write
+$\varphi=\partial_i\partial_j(1/|\mathbf x|)$, and let $\mathbf e_i,\mathbf e_j$ be
+the coordinate unit vectors. The function $t\mapsto\varphi(\mathbf r+t\mathbf u)$
+extends holomorphically to the disc $|t|<r/|\mathbf u|$, whose radius exceeds $1$,
+because the zeros of the quadratic $|\mathbf r+t\mathbf u|^2$ in $t$ have modulus
+$r/|\mathbf u|$; so its Taylor series in $t$ converges at $t=1$. Its $t^k$
+coefficient is the $k$-th term of the Taylor series of $\varphi$ about
+$\mathbf r$, evaluated at $\mathbf r+\mathbf u$:
+$\tfrac1{k!}\,\nabla^{k+2}(1/|\mathbf x|)(\mathbf r)[\mathbf u,\dots,\mathbf u,
+\mathbf e_i,\mathbf e_j]$. The $(k+2)$-th derivative of $1/|\mathbf x|$ is a
+symmetric multilinear form on Euclidean space, and the norm of such a form equals
+its largest absolute value on the diagonal, over unit vectors
+(\cite[Satz~I]{Banach1938}; in finite dimensions it also follows, by induction on
+the degree, from the gradient bound of \cite[Theorem~IV]{Kellogg1928}). For a
+unit vector $\mathbf v$ at angle $\gamma$ to $\mathbf x$, the Legendre generating
+function gives
+$(\mathbf v\cdot\nabla)^{\ell}(1/|\mathbf x|)=(-1)^{\ell}\,\ell!\,P_{\ell}(\cos\gamma)/|\mathbf x|^{\ell+1}$,
+where $P_{\ell}$ is the Legendre polynomial of degree $\ell$, and
+$|P_{\ell}|\le 1$ with equality at $\gamma=0$. The norm of the $\ell$-th derivative
+at $\mathbf r$ is therefore exactly $\ell!/r^{\ell+1}$; with $\ell=k+2$, the
+$k$-th term is at most $(k+1)(k+2)\,|\mathbf u|^k/r^{k+3}$.
+These bounds form a convergent series, so the expansion may be averaged term by
+term. The odd terms average to zero because $\mathbf u$ and $-\mathbf u$ have the
+same law. For even $k=2s$, $\mathbb E|\mathbf u|^k$ is the multinomial sum of
+$\mathbb E[u_x^{2a}]\,\mathbb E[u_y^{2b}]\,\mathbb E[u_z^{2c}]$ over $a+b+c=s$.
+One has $\mu_a\mu_b\le\mu_{a+b}$: putting
+$A=2a+1$ and $B=2b+1$, the difference $A(A+1)B(B+1)-2(A+B-1)(A+B)$ is a
+quadratic in $A$ with nonnegative leading coefficient $B(B+1)-2$, it vanishes at
+$A=1$, and its derivative there is $(3B+2)(B-1)\ge 0$. Hence
+$\mathbb E|\mathbf u|^{2s}\le\mu_s D^{2s}$, that is
+$(k+1)(k+2)\,\mathbb E|\mathbf u|^k\le 2D^k$, with equality for a needle. The
+omitted terms of $S_n$ start at $k=n-3$, so
+$|N_{ij}-S_n|\le\frac{V}{4\pi}\sum 2D^k/r^{k+3}$ over even $k\ge n-3$, a
+geometric series in $D^2/r^2$ whose sum is~\eqref{eq:boundfree}. Keeping the
+exact moment for $k=n-3$ gives~\eqref{eq:boundshape}. In the limit of a needle
+of vanishing width, with offset and component along its axis, every inequality
+above becomes an equality; after division by $V$ both sides
+of~\eqref{eq:boundfree} depend continuously on the edges, so the ratio of error
+to bound tends to $1$, which gives the last statement.
+\end{proof}
+
+\paragraph{Tests.}
+\texttt{demag-scripts/check\_remainder\_bound.py} tests~\eqref{eq:boundfree}
+and~\eqref{eq:boundshape} at $n=5,7,9,11$ against every certified entry with
+$r>D$ in both certificates ($1{,}162$ entries of
+\texttt{demag\_certificate\_six\_cells.json}, which include the $776$ of
+\texttt{demag\_certificate.json}), in exact rational
+arithmetic, with $\pi$ and $r$ bracketed on the safe side and the true value
+anywhere in its certified enclosure. No comparison fails. The largest ratio of
+error to bound is $0.833$, for~\eqref{eq:boundfree} at $n=5$, the elongated cell
+along its axis at $10{,}000$ cells. The script also checks the moment inequality
+for every cell. These checks test Theorem~\ref{thm:bound}; the proof is above.
+Separately, a test with the private interval engine, which is not
+replayable from this repository, covered $2{,}759$ random cases (all six
+components, cell aspect ratios up to about $1{,}000$, $r/D$ from $1.0001$ to
+$3{,}150$) and found no violation of~\eqref{eq:boundfree}
+or~\eqref{eq:boundshape}; the largest ratio was $0.99997$, for a
+$1:1/300:1/300$ needle along its axis. The second certificate,
+\texttt{demag\_certificate\_six\_cells.json}, extends the first by two thin-film
+cells, $(1,1,1/10)$ and $(1,1.3,1/10)$; its $862$ entries for the original four
+cells are identical to those of the first, and it passes
+\texttt{check\_demag.py} unchanged.
+
+\paragraph{Relation to OOMMF's switching radii.}
+Since version 2.0a2, OOMMF's \texttt{FindKnotSchedule} chooses its switching
+radii from assumed error and speed models \cite{OOMMF,DP2019}. The one for the base,
+unsubdivided asymptotic method is stated in a source comment, in our notation, as
+$V\,h_{\max}^{\,n-3}/\big(5\,r^{n-2}(r^2-h_{\max}^2)\big)$, with $h_{\max}$ the
+longest edge. Bound~\eqref{eq:boundfree} has the same form, with $D$ in place of
+$h_{\max}$ and $1/(2\pi)$ in place of $1/5$. It is loose for compact cells. For a
+cube at $n=11$, in units of $(V/4\pi)\,h_{\max}^{8}/r^{11}$, the leading error
+coefficient is $99/64$ ($N_{xx}$ with offset along $x$, or any diagonal component
+along its own axis; the largest over directions and components); OOMMF's model gives $4\pi/5\approx2.5$, bound~\eqref{eq:boundfree}
+gives $162$ and bound~\eqref{eq:boundshape} gives $1122/35$, about $105$ and $21$
+times the true coefficient.
+
+\paragraph{Prior work.}
+The series is Donahue's \cite{Donahue2007}, and its first four terms are in
+OOMMF. The argument above is the three-dimensional form of the classical
+multipole truncation estimate, which \cite{GR1987} gives in two dimensions,
+applied to the second derivatives of the kernel averaged over the pair of cells. Buchheit, Busse, Ke\ss ler and Rybakov give a rigorous remainder estimate
+for the cuboid moment series by Cauchy estimates
+\cite[Corollary~2.5]{BBKR2026}; its constant is not explicit and it requires a
+separation larger than a multiple of the cell size. A search on 2026-11-10
+(record: \texttt{SWEEP-RECORD-DEMAG-BOUND-2026-11-10.md}) found no bound of the
+explicit form~\eqref{eq:boundfree}. The search does not rule out a bound of this
+form elsewhere.
+
+\begin{thebibliography}{99}
+\bibitem{Banach1938} S. Banach, \emph{\"Uber homogene Polynome in $(L^2)$},
+Studia Math. \textbf{7} (1938) 36--44.
+\bibitem{BBKR2026} A. A. Buchheit, J. K. Busse, T. Ke\ss ler and F. N. Rybakov,
+\emph{Zeta expansion for long-range interactions under periodic boundary
+conditions with applications to micromagnetics}, J. Comput. Phys. \textbf{559}
+(2026) 114885; arXiv:2509.26274.
+\bibitem{Bjork2023} R. Bj\o rk and M. d'Aquino, \emph{Accuracy of the analytical
+demagnetization tensor for various geometries}, J. Magn. Magn. Mater.
+\textbf{587} (2023) 171245; doi:10.1016/j.jmmm.2023.171245.
 \bibitem{CF2015} D. S. Chernyshenko and H. Fangohr, \emph{Computing the
 demagnetizing tensor for finite difference micromagnetic simulations via
 numerical integration}, J. Magn. Magn. Mater. \textbf{381} (2015) 440--445;
 arXiv:1403.1978.
+\bibitem{demagderiv} K. M. Lebecki, \emph{demagderiv}, Mathematica notebook
+(2012) that transcribes the asymptotic demagnetization tensor of a 2010 OOMMF
+pre-release (oommf12a4pre-20100909) from its code and differentiates it for the
+MFM signal; \texttt{doc/demagderiv.pdf} in R. Boardman, K. M. Lebecki and
+H. Fangohr, \emph{ovf2mfm}, \texttt{bitbucket.org/fangohr/ovf2mfm}, commit
+494b363f7edb.
+\bibitem{Donahue2007} M. J. Donahue, \emph{Accurate computation of the
+demagnetization tensor}, talk at HMM-2007, Naples, 4 June 2007; slides at
+\texttt{math.nist.gov/\~{}MDonahue}.
+\bibitem{DP2019} M. J. Donahue and D. G. Porter, \emph{Quantitative evaluation
+and reduction of error in computation of the demagnetization tensor}, poster
+ET-01, MMM 2019, Las Vegas, 7 November 2019;
+\texttt{math.nist.gov/\~{}MDonahue/talks/mmm2019-poster.pdf}.
+\bibitem{GR1987} L. Greengard and V. Rokhlin, \emph{A fast algorithm for particle
+simulations}, J. Comput. Phys. \textbf{73} (1987) 325--348;
+doi:10.1016/0021-9991(87)90140-9.
+\bibitem{Kellogg1928} O. D. Kellogg, \emph{On bounded polynomials in several
+variables}, Math. Z. \textbf{27} (1928) 55--64.
 \bibitem{Newell1993} A. J. Newell, W. Williams and D. J. Dunlop, \emph{A
 generalization of the demagnetizing tensor for nonuniform magnetization}, J.
 Geophys. Res. Solid Earth \textbf{98}(B6) (1993) 9551--9555.
 \bibitem{OOMMF} M. J. Donahue and D. G. Porter, \emph{OOMMF User's Guide,
-Version 1.0}, Interagency Report NISTIR 6376, NIST (1999); source file
-\texttt{app/oxs/ext/demagcoef.cc}.
+Version 1.0}, Interagency Report NISTIR 6376, NIST (1999); source files
+\texttt{demagcoef.cc}, \texttt{demagcoef.h}, \texttt{demag.cc} and
+\texttt{fft3v.h} in \texttt{app/oxs/ext/} and the platform files
+\texttt{config/platforms/*.tcl}, releases 1.2a5bis to 2.1a0 as mirrored at
+\texttt{github.com/fangohr/oommf}.
 \end{thebibliography}
 
 \end{document}

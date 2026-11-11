@@ -4,10 +4,10 @@
 PUBLISHABLE ARTIFACT.  Python 3 standard library only; OS-independent; no
 signals, no subprocesses, no network, no wall-clock.  It recomputes every
 certified enclosure from the certificate alone.  NOT independent of the private
-generator: 212 of 558 executable lines are verbatim from it, the naive-double
-Newell block almost entirely, so a passing check is not an independent
+generator: 212 of 558 executable lines (v0.15.0 count) are verbatim from it, the
+naive-double Newell block almost entirely, so a passing check is not an independent
 re-derivation of the formulas.  What is original: the consistency identities at
-642-670, the comparisons, and the failure paths.  Fails loudly on any mismatch.
+663-691, the comparisons, and the failure paths.  Fails loudly on any mismatch.
 
 Usage:  python3 check_demag.py demag_certificate.json [--sample K] [--strict-naive]
 
@@ -20,10 +20,11 @@ What is re-verified, from scratch, for every entry:
      rigorously encloses the true analytic value; agreement pins the claim
      N_lo <= N_true <= N_hi.
   3. The naive IEEE-754 double evaluation of the same closed form, recomputed
-     and compared bit-for-bit (via float.hex()).
+     and compared to 1e-4 relative (bit for bit with --strict-naive).
   4. The rigorous correct-significant-digit brackets for the naive double
-     value (and the OOMMF asymptotic value, where present), recomputed from
-     the enclosure.
+     value (and the stored asymptotic value, field asymp_oommf, where present),
+     recomputed from the enclosure.  Despite the field name, that value is the
+     three-term asymptotic truncation; OOMMF adds a fourth term (note, sec. 4).
 Exit code 0 and a final line "CHECK PASS" iff every re-derivation agrees.
 """
 import sys

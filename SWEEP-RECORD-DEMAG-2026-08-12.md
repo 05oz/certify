@@ -33,12 +33,22 @@ artifacts (`demag-paper/`, `demag-certificates/`, `demag-scripts/`), v0.12.0.
   tile radii (Fig. 1). Reference is "exact (to machine precision)" floating
   point; deliverable is plots, no certified table, no interval enclosures, no
   checker. Cites CF2015 [6] for the far-field inaccuracy.
+  [Correction, v0.17.0, 2026-11-10: the article number is 171245,
+  doi:10.1016/j.jmmm.2023.171245.]
 * **OOMMF asymptotic expansion**: the `DemagNxxAsymptotic` powers-of-1/r
   expansion (through 1/r^6), taken from Fangohr's `ovf2mfm/demagderiv.pdf`
   reverse-engineering of the OOMMF code (`nXXfunNoncubic`). Reproduced (with mu0
   dropped) for the crossover analysis; validated against our enclosure at large
   r (leading term matches to sign and magnitude: on-axis cube n=100 gives
   -1/(2 pi 10^6) = -1.5915e-7).
+  [Correction, v0.17.0, 2026-11-10: this entry is wrong about OOMMF and about the
+  notebook's author. The demagderiv notebook is K. M. Lebecki's (2012), in the ovf2mfm
+  repository of Boardman, Lebecki and Fangohr; it says it follows the 2010 pre-release
+  oommf12a4pre-20100909, and it has three terms, 1/r^3, 1/r^5 and 1/r^7, an error of order
+  1/r^9. Every demagcoef.cc on the public mirror of OOMMF releases, from 1.2a5bis to
+  2.1a0, carries a fourth term, 1/r^9, for an error of order 1/r^11. The asymptotic
+  section of demagcoef.cc was not read in August. See the note, sections 4 and 8, and
+  demag-paper/FIXLOG.md, decision L-4.]
 
 ## Novelty verdict
 
@@ -61,6 +71,8 @@ independent stdlib re-verification -- is unoccupied. **Verdict:
 PRIORITY-CLEAN / NOVEL as a certified object.** The Newell FORMULAS and the
 pathology are not ours and are cited to their sources; what is new is the
 certification and the certified pathology map.
+[Correction, v0.17.0, 2026-11-10: the stdlib re-verification is not code-independent of
+the generator; see the IP boundary section below and note §5.]
 
 ## Verification summary
 
@@ -97,3 +109,5 @@ PRIVATE (method repo). Note: F2 is infrastructure, so the shipped checker
 carries the mathematics rather than deferring to a hidden engine. It is NOT
 code-independent of the generator: 212 of its 558 executable lines are verbatim
 from `gen_demag.py`/`civ.py`/`newell.py`/`validate.py`.
+[Note, v0.17.0, 2026-11-10: counted on the v0.15.0 file; the v0.16.0 portability change
+brought the checker to 568 executable lines.]
