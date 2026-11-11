@@ -20,7 +20,7 @@ message: >-
   Kishony–Fowler colour-code circuit, d = 3 to 15) v0.16.0
   doi:10.5281/zenodo.23792064; Part L correction and addendum (a proven
   bound on the asymptotic truncation error of the demagnetization tensor)
-  v0.17.0.
+  v0.17.0 doi:10.5281/zenodo.24123940.
   The concept DOI below resolves to the latest version. For Part A,
   credit for the underlying counterexample map belongs to Levent Alpöge
   (announcement of 2026-07-19; problem posed by Akhil Mathew); the
@@ -110,6 +110,9 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.23792064"
     description: "Part N, v0.16.0: circuit-level distances of the Kishony–Fowler colour-code circuit"
+  - type: doi
+    value: "10.5281/zenodo.24123940"
+    description: "Part L, v0.17.0: correction and addendum, a proven bound on the asymptotic truncation error"
 repository-code: "https://github.com/05oz/certify"
 date-released: "2026-11-10"
 version: 0.17.0  # Part L correction and addendum: a proven bound on the asymptotic truncation error
