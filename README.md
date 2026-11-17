@@ -251,13 +251,13 @@ lower bound new, by a vertex-transitive 28-vertex witness; upper bound IRW's). P
   after verification; [`k34-certificates/CERTLOG.txt`](k34-certificates/CERTLOG.txt) records every
   certificate's verdict, checked-step count, and SHA-256.
 - **What regenerating the 346 case CNFs takes.** The case CNFs come from `make_structured.py`
-  applied to the 70 block-class representatives, and the solver command lines live in queue files;
-  neither the representatives nor the queue files are deposited — they are part of the private
-  regeneration kit, tested there end to end (it regenerates `s21_587_1.cnf` to its recorded
-  `cnf_sha256`). From this repository alone a reader replays the two witnesses and any certificate
-  whose CNF and proof they hold, but cannot reproduce a recorded `cnf_sha256`.
-  [`k34-certificates/REGENERATE.md`](k34-certificates/REGENERATE.md) states the split artifact by
-  artifact and gives the kit procedure.
+  applied to the 72 block-class representatives (70 block files and two witness files), and the
+  solver command lines are in four queue files. The representatives, the queue files and
+  `k34-scripts/verify_chain.py` were added to this repository after release v0.17.0. Releases up
+  to v0.17.0 and their Zenodo records do not contain them. From this repository a reader can
+  regenerate every case CNF to its recorded `cnf_sha256`, run its recorded solver command, and
+  check the proof. [`k34-certificates/REGENERATE.md`](k34-certificates/REGENERATE.md) gives the
+  procedure, the record of what was tested, and the list of files that remain with the author.
 - **Replay the witness now:** `python3 k34-scripts/verify_witness.py k34-certificates/witness_sat_3_4_20.json 3 4`.
 - Every component was confirmed by an adversarial referee writing fresh code throughout; the
   decision log ships as `k34-paper/FIXLOG.md`.
@@ -667,13 +667,15 @@ SWEEP-RECORD-MPS-2026-08-06.md   dated novelty sweep
 k34-paper/           note (LaTeX + PDF + Markdown mirror) + FIXLOG.md review log
                      + REFEREE-k63.md
 k34-certificates/    the two lower-bound witnesses + CERTLOG.txt (per-certificate
-                     verdict, checked-step count, SHA-256) + REGENERATE.md;
+                     verdict, checked-step count, SHA-256) + REGENERATE.md
+                     + the 72 block-class representatives and four queue
+                     files (added after v0.17.0);
                      the ~245 GB LRAT corpus is a regenerable cache, not shipped
 k34-scripts/         gen_cnf.py encoder, make_structured.py (structured-instance
                      builder), lrat_check.py and verify_witness.py (stdlib
-                     checkers), audit_cnf.py; audit_multiset.py requires the
-                     private regeneration kit and does not run from this
-                     repository alone — see k34-certificates/REGENERATE.md
+                     checkers), audit_cnf.py, audit_multiset.py and
+                     verify_chain.py (added after v0.17.0);
+                     see k34-certificates/REGENERATE.md
 SWEEP-RECORD-K34-2026-08-11.md   dated novelty sweep
 
   -- Part H: certified sub-threshold logical error brackets (v0.8.0) --

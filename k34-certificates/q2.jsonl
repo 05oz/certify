@@ -1,0 +1,8 @@
+{"id": "s23a0", "cmd": "cadical --lrat --no-binary -t 1500 's23_a0.cnf' 's23_a0.lrat' > 's23_a0.sol'; grep -m1 '^s ' 's23_a0.sol'", "timeout": 1700, "mem_mb": 2500, "meta": {}}
+{"id": "s23a1", "cmd": "cadical --lrat --no-binary -t 1500 's23_a1.cnf' 's23_a1.lrat' > 's23_a1.sol'; grep -m1 '^s ' 's23_a1.sol'", "timeout": 1700, "mem_mb": 2500, "meta": {}}
+{"id": "s23a2", "cmd": "cadical --lrat --no-binary -t 1500 's23_a2.cnf' 's23_a2.lrat' > 's23_a2.sol'; grep -m1 '^s ' 's23_a2.sol'", "timeout": 1700, "mem_mb": 2500, "meta": {}}
+{"id": "s23a3", "cmd": "cadical --lrat --no-binary -t 1500 's23_a3.cnf' 's23_a3.lrat' > 's23_a3.sol'; grep -m1 '^s ' 's23_a3.sol'", "timeout": 1700, "mem_mb": 2500, "meta": {}}
+{"id": "s23a4", "cmd": "cadical --lrat --no-binary -t 1500 's23_a4.cnf' 's23_a4.lrat' > 's23_a4.sol'; grep -m1 '^s ' 's23_a4.sol'", "timeout": 1700, "mem_mb": 2500, "meta": {}}
+{"id": "s23a5", "cmd": "cadical --lrat --no-binary -t 1500 's23_a5.cnf' 's23_a5.lrat' > 's23_a5.sol'; grep -m1 '^s ' 's23_a5.sol'", "timeout": 1700, "mem_mb": 2500, "meta": {}}
+{"id": "s23a6", "cmd": "cadical --lrat --no-binary -t 1500 's23_a6.cnf' 's23_a6.lrat' > 's23_a6.sol'; grep -m1 '^s ' 's23_a6.sol'", "timeout": 1700, "mem_mb": 2500, "meta": {}}
+{"id": "s23c", "cmd": "cadical --lrat --no-binary -t 1500 's23_c.cnf' 's23_c.lrat' > 's23_c.sol'; grep -m1 '^s ' 's23_c.sol'", "timeout": 1700, "mem_mb": 2500, "meta": {}}
