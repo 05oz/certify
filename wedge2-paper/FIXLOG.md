@@ -115,3 +115,26 @@ against Part H's independently re-derived bracket is stated, together with the
 limit that no part of the d=5 spectrum is independently re-derived. The audit had
 cleared this claim as TRUE at whole-function granularity; it is false at fragment
 level. `FIXLOG.md:26-27` was re-measured and stands. No certified value changed.
+
+## Correction round, 2026-11-17
+
+**K-5. §1 said, in our voice, that the deep sub-threshold regime "defeats" direct Monte Carlo
+sampling.** That is Mullan, Weippert and Brown's framing; at the operating points of Part H and
+of this note the pre-registered `10^7`-shot run resolves `P_L` (at d = 5, p = 10^-3 to about 12
+percent either side), so what the exact value adds there is exactness. §1 now attributes the
+description to them, and the credit paragraph states the operating-point fact with a dated note,
+in both twins. Nothing here suggests that exact circuit-level logical error rates come from this
+program alone. Found by our own reading of 2026-11-17; the matching Part H entry is W-3. No
+certified value changed.
+Propagation grep (`defeats`): Part K hits are the dated note in each twin; the attributed credit
+sentence says "defeat".
+[Amended after the referee of 2026-11-17: the credit sentence now says that Mullan, Weippert and
+Brown's statement concerns the low error rates needed for utility-scale computation and that the
+operating points of Parts H and K are not in that regime.]
+
+**K-6. The reference to the Lean-QEC paper gave wrong initials and a wrong title.** As in Part H
+(its FIXLOG, W-4): the paper is M. Ehatamm, Y. Lee, X. Wu and R. Tao, *End-to-End Formalization
+of Quantum Error Correction*, arXiv:2605.16523. Corrected with a dated note in both twins. Found by
+the referee of the 2026-11-17 round.
+Propagation grep (`K. Ehatamm`, `K.~Ehatamm`, `verified SAT reduction`): 0 in Part K's files
+outside this log.

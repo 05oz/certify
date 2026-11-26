@@ -1,7 +1,7 @@
 # Degree minimality in the equivariant class of the Alpöge Keller map, and the moment-map structure of its cotangent lift
 
-**Daniel Kirtchakov** (Independent researcher, daniel@halfounce.io) — *draft of August 4, 2026; erratum release v0.1.2 of August 6, 2026 — DRAFT ONLY, not for circulation.*
-Readable mirror of `preprint-dixmier-poisson.tex`. All computations carried out with Claude (Fable 5), SymPy 1.14, msolve 0.10.1. Every displayed identity is asserted by a script listed in §7; nothing is conjectural unless labeled so. Coordinate with W. G. P. Mayner before any public posting (see §1.4).
+**Daniel Kirtchakov** (Independent researcher, daniel@halfounce.io) — *draft of August 4, 2026; erratum release v0.1.2 of August 6, 2026.*
+Readable mirror of `preprint-dixmier-poisson.tex`. All computations carried out with Claude (Fable 5), SymPy 1.14, msolve 0.10.1. Every displayed identity is asserted by a script listed in §7; nothing is conjectural unless labeled so.
 
 > **Erratum v0.1.2 (2026-08-06).** Releases v0.1.0 and v0.1.1 stated in Theorem D that the fiber of F over the pullback of {Δ₂ = 0} "drops (generically) to two" ("two sheets merge" in the proof). That was incorrect: the fiber there has **three distinct points**; {Δ₂ = 0} is an *apparent* branch locus (the invariant u = 1+xy fails to separate two of the three unramified sheets, which is why Δ₂ occurs *squared* in disc = −4Δ₁Δ₂²). The achievable set-theoretic fiber sizes are exactly **{3, 1, 0}**; the value 2 never occurs. Re-verified independently in exact arithmetic from the raw map — `scripts/erratum-check/{fibre_check.py, exhibit2.py, structural.py}`; full write-up in [`ERRATUM-v0.1.2.md`](ERRATUM-v0.1.2.md). No other claim in this note depended on the erroneous value (generic degree 3, image im F = ℂ³ ∖ Γ, and the S₃ monodromy are unaffected). This release supersedes v0.1.0 and v0.1.1 on this point only.
 

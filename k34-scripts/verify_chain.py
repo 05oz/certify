@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""FINAL INDEPENDENT VERIFICATION ORCHESTRATOR for the r(I_3,L_4) result.
+"""Whole-chain check for the r(I_3,L_4) result.
+
+A driver of the same pipeline, not an independent check: it runs verify_witness.py,
+audit_cnf.py and lrat_check.py from its own folder by subprocess. (Until the correction
+of 2026-11-17 this line read "FINAL INDEPENDENT VERIFICATION ORCHESTRATOR".)
 
 Re-derives the entire proof obligation from first principles and checks that
 every required artifact exists, audits cleanly, and is certified:
@@ -10,7 +14,7 @@ present and fully UNSAT):
   T2. r(I_2,L_4)=8: pure (2,4,8) UNSAT [validation/t248] + witness_qr7.
   T3. In any {I_3,L_4}-free D, for each v: N+(v)/N-(v) induce {I_3,L_3}-free
       graphs, I(v) induces an {I_2,L_4}-free graph (tournament, TT_4-free).
-      With T1,T2: d+(v)<=8, d-(v)<=8, |I(v)|<=7.   [4-line argument, see NOTES]
+      With T1,T2: d+(v)<=8, d-(v)<=8, |I(v)|<=7.   [Lemma 3.1 of the note, k34-paper/]
   T4. Hence on N vertices, vertex 0 has a type (p,q,s), p+q+s=N-1, p,q<=8, s<=7.
       Arc reversal preserves the family and maps type (p,q,s) to (q,p,s), so
       types with p<=q suffice.
@@ -23,8 +27,8 @@ present and fully UNSAT):
 Lower bound: verified witness JSON on N0 vertices => r >= N0+1.
 
 This script: (1) verifies the witnesses via verify_witness.py; (2) audits every
-cube CNF via audit_cnf.py (independently rewritten encoding logic, includes
-re-checking each block's defining property); (3) confirms CERTLOG.txt has
+cube CNF via audit_cnf.py (which rebuilds the expected clause set itself, importing
+nothing from the generators, and re-checks each block's defining property); (3) confirms CERTLOG.txt has
 VERIFIED for every cube with matching SHA256 of the CNF, and that the gzipped
 proof's SHA256 matches the log; (4) re-derives the required cube list and fails
 if any expected cube is missing. Exit 0 = entire chain verified.

@@ -18,7 +18,7 @@ Part H of this program [PartH] published machine-checkable two-sided rational br
 
 ## 1. The question
 
-Part H [PartH] asked whether the logical error probability `P_L` of a quantum error-correcting code, in the deep sub-threshold regime that defeats direct Monte Carlo sampling [MWB], can be pinned by a certificate a skeptic replays with nothing but a standard-library Python interpreter. Its answer was a two-sided exact-rational bracket `L ≤ P_L ≤ U`, built from exhaustively enumerated uncorrectable-set counts `A_w` up to a truncation weight `WMAX`, with the width `U − L` a Poisson-binomial tail. Its §6 then located the method's own frontier, and its Question 7.1 asked:
+Part H [PartH] asked whether the logical error probability `P_L` of a quantum error-correcting code, in the deep sub-threshold regime that Mullan, Weippert and Brown [MWB] describe as beyond direct Monte Carlo sampling, can be pinned by a certificate a skeptic replays with nothing but a standard-library Python interpreter. Its answer was a two-sided exact-rational bracket `L ≤ P_L ≤ U`, built from exhaustively enumerated uncorrectable-set counts `A_w` up to a truncation weight `WMAX`, with the width `U − L` a Poisson-binomial tail. Its §6 then located the method's own frontier, and its Question 7.1 asked:
 
 > *Is there a proof-carrying counter for the exact weighted enumeration at `WMAX = 7` — a CPOG-style weighted model-counting certificate, or an exact locality-exploiting convolution / transfer-matrix — that a standard-library checker can re-verify in minutes rather than hours?*
 
@@ -101,7 +101,7 @@ Part H's frontier was the enumeration `C(m,w)`; this note's method replaces it w
 
 ## Acknowledgments
 
-This note upgrades Part H of this program and answers its Question 7.1; the question, the decoder convention, the DEMs, the operating points, and the kill-test record are all Part H's, and the supersession is of our own published bracket, not of any external result. The framing that sub-threshold logical error rates defeat direct sampling is Mullan, Weippert, and Brown's [MWB]. The lookup-table decoder is Tomita and Svore's [TS]. The coset-enumerator lineage of the character sum is classical [JP]. The detector error models were produced with Stim (Craig Gidney), used as an untrusted generator. The computation and drafting were AI-assisted as stated in the first footnote; the note's shape — open with the question, cite the computation once, close with the questions it opens — follows the program's standing constraint.
+This note upgrades Part H of this program and answers its Question 7.1; the question, the decoder convention, the DEMs, the operating points, and the kill-test record are all Part H's, and the supersession is of our own published bracket, not of any external result. The framing that sub-threshold logical error rates defeat direct sampling is Mullan, Weippert, and Brown's [MWB], whose statement concerns the low error rates needed for utility-scale computation; the operating points of Part H and of this note are not in that regime: there a `10^7`-shot Monte Carlo run resolves `P_L` (at `d = 5`, `p = 10^-3` to about 12 percent either side), and what the exact value adds is exactness. *(Correction, 2026-11-17: through v0.17.0 §1 said the regime "defeats" direct Monte Carlo sampling, in our voice; see Part H, §4.)* The lookup-table decoder is Tomita and Svore's [TS]. The coset-enumerator lineage of the character sum is classical [JP]. The detector error models were produced with Stim (Craig Gidney), used as an untrusted generator. The computation and drafting were AI-assisted as stated in the first footnote; the note's shape — open with the question, cite the computation once, close with the questions it opens — follows the program's standing constraint.
 
 ## References
 
@@ -115,6 +115,6 @@ This note upgrades Part H of this program and answers its Question 7.1; the ques
 - **[FVC]** D. Forlivesi, L. Valentini and M. Chiani, *Performance analysis of quantum error-correcting codes via MacWilliams identities*, Quantum **9** (2025), 1950; arXiv:2305.01301.
 - **[Willow]** *Estimating detector error models on Google's Willow*, arXiv:2512.10814 (2026).
 - **[CAHR]** *Reconstruction of detector error model for quantum error correction*, arXiv:2606.16288 (2026).
-- **[LeanQEC]** K. Ehatamm, S. Lee, Y. Wu and R. Tao, *Lean-QEC: machine-checked quantum error-correcting code distances via a verified SAT reduction*, arXiv:2605.16523 (2026).
+- **[LeanQEC]** M. Ehatamm, Y. Lee, X. Wu and R. Tao, *End-to-end formalization of quantum error correction*, arXiv:2605.16523 (2026). *(Correction, 2026-11-17: through v0.17.0 this entry gave the authors' initials as K., S. and Y. and a title that is not the paper's.)*
 - **[VeriQEC]** C. Huang et al., *Veri-QEC: verifying error correction and detection conditions for quantum error correcting codes*, Proc. ACM Program. Lang. (2025), DOI 10.1145/3729293.
 - **[TS]** Y. Tomita and K. M. Svore, *Low-distance surface codes under realistic quantum noise*, Phys. Rev. A **90** (2014), 062320.

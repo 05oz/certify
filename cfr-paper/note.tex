@@ -18,6 +18,9 @@
 %%   * H.-Y. Song, Comput. Math. Appl. 39 (2000), no. 11, 31-35 could not be
 %%     read in full (paywall/CAPTCHA on every open route); its Table 1 was not
 %%     consulted, so NO priority over Song 2000 is claimed. See Section 5.
+%%     [Correction 2026-11-17: Song 2000 has since been read in full (author's
+%%     copy); Table 1 gives n = 25 as 4..24, the basic lower bound. Table 62.27
+%%     is out of date at n = 33, 35, 39. See Section 5.]
 %%   * Novelty sweep clean 2026-08-06: no surveyed source states F_c(25) >= 5;
 %%     CPro1 lists (5,25) as an open instance.
 %% The primary source (Handbook chapter VI.62) was read directly; the decisive
@@ -84,7 +87,11 @@ read in full (its publisher page was inaccessible on every open route tried on
 that date); its Table 1 was not consulted, and no priority over \cite{Song00}
 is claimed (\S\ref{sec:novelty}). A full-text novelty sweep of the same date
 found no surveyed source asserting $\Fc(25)\ge 5$; the constructive benchmark
-CPro1 \cite{CPro1} lists $(5,25)$ as an open instance. \emph{Draft of
+CPro1 \cite{CPro1} lists $(5,25)$ as an open instance. \emph{(Update,
+2026-11-17: \cite{Song00} has since been read in full, from a copy hosted by
+its author. Its Table~1 gives $n=25$ as ``$4,\dots,24$'', marked as the basic
+lower bound, so Theorem~\ref{thm:main} exceeds \cite{Song00} as well. See
+\S\ref{sec:novelty}.)} \emph{Draft of
 August~6, 2026.}}
 
 \subjclass[2020]{Primary 05B30; Secondary 05B15, 68V15}
@@ -110,10 +117,16 @@ $\Fc(25)\ge 5$ --- one more than the value $4$ recorded for $n=25$ in the
 exactly the $p-1$ of the multiplier construction (Construction 62.22(1),
 $p=5$ the least prime factor of $25$). The trusted base contains nothing
 beyond the verifier and its interpreter: there is no solver to trust, no
-enumeration whose completeness is assumed, and no unproven step. We do not
-claim priority over H.-Y.~Song's 2000 paper, which we could not read; the
-claim is stated against the recorded Handbook value, and the array itself is
-new to the surveyed literature.
+enumeration whose completeness is assumed, and no unproven step.
+H.-Y.~Song's 2000 paper gives the same lower bound $4$ for $n=25$. The claim
+is stated against these recorded values, and the literature surveyed in August
+2026 did not contain the array; since the Handbook's table is out of date at other $n$
+(\S\ref{sec:novelty}), exceeding it is not by itself evidence of novelty.
+\emph{(Correction, 2026-11-17: through v0.17.0 this sentence said that we
+could not read Song's paper and claimed no priority over it. It has since
+been read in full: its Table~1 gives $n=25$ as ``$4,\dots,24$'', the basic
+lower bound. The clause on the table's other entries was added on
+2026-11-17; see \S\ref{sec:novelty}.)}
 \end{abstract}
 
 \maketitle
@@ -196,7 +209,10 @@ the $n=25$ entry, verbatim, as
 \]
 i.e.\ a best recorded lower bound of $4$ (the value $p-1$) and the trivial
 upper bound $24=n-1$; the value of $\Fc(25)$ within that range is left
-undetermined.
+undetermined. \emph{(Note, 2026-11-17: the same table is out of date at
+other $n$: at $n=33$, $35$ and $39$ it records the lower bounds $3$, $4$ and
+$3$, while $5\times n$ rectangles exist there by the Handbook's own Theorem
+62.23(5); see \S\ref{sec:novelty}.)}
 
 \subsection*{The result}
 
@@ -332,16 +348,35 @@ $\Fc(25)\ge 5$: the recent literature that uses circular Florentine rectangles
 quotes only the basic bounds $p-1\le\Fc(N)\le N-1$, and the constructive
 benchmark CPro1 \cite{CPro1} lists $(5,25)$ among its open instances, with a
 property definition matching Definition~\ref{def:cfr}. The array of
-Figure~\ref{fig:cfr} is new to the surveyed literature.
+Figure~\ref{fig:cfr} is new to the surveyed literature. \emph{(Correction,
+2026-11-17: exceeding Table 62.27 is not by itself evidence of novelty. The
+table is out of date at $n=33$, $35$ and $39$. By \cite[Theorem
+62.23(5)]{HCD} an $(n,6;1)$ difference matrix over the cyclic group of order
+$n$ gives a $5\times n$ circular Florentine rectangle, and the cyclic
+difference matrices that SageMath's design database attributes to the
+Handbook's \S III.3 (examples III.3.56, III.3.58 and III.3.61) give such
+rectangles at $n=33$, $35$ and $39$, where the table records $3$, $4$ and
+$3$; each rectangle was checked exhaustively, with a one-swap control that
+fails. That database has no entry of order $25$. The sources that decide
+order $25$ were not read: A.~B.~Evans, \emph{Orthomorphism Graphs of Groups}
+(1992) and \emph{Orthogonal Latin Squares Based on Groups} (2018), and the
+Handbook's \S VI.17 (Table 17.42) and \S III.3 themselves; they need library
+access. So Theorem~\ref{thm:main} is stated as exceeding the recorded
+values, and no more.)}
 
-\emph{No priority over Song 2000 is claimed.} The one paper that might already
-contain a determination of $\Fc(25)$ is H.-Y.~Song, \emph{The existence of
-circular Florentine arrays} \cite{Song00}. Its publisher page was inaccessible
-on every open route tried on August~6, 2026, so its Table 1 was not consulted.
-We therefore make \emph{no} claim of priority over \cite{Song00}. The claim of
-Theorem~\ref{thm:main} is deliberately anchored on the recorded Handbook value
-of $4$, not on the assertion that $4$ was the best value obtainable anywhere:
-we state that the object exceeds the recorded lower bound, and no more.
+\emph{Song 2000.} The one paper that might already have contained a
+determination of $\Fc(25)$ is H.-Y.~Song, \emph{The existence of circular
+Florentine arrays} \cite{Song00}. Its Table~1 gives $n=25$ as
+``$4,\dots,24$'', marked as the basic lower bound (one less than the
+smallest prime factor), so Theorem~\ref{thm:main} exceeds \cite{Song00} as
+well. The claim of Theorem~\ref{thm:main} is deliberately anchored on the
+recorded values of $4$, not on the assertion that $4$ was the best value
+obtainable anywhere: we state that the object exceeds the recorded lower
+bound, and no more. \emph{(Correction, 2026-11-17: through v0.17.0 this
+paragraph was headed ``No priority over Song 2000 is claimed'' and said that
+the paper's publisher page was inaccessible on every open route tried on
+August~6, 2026, so that its Table~1 was not consulted. The paper has since
+been read in full, from a copy hosted by its author.)}
 
 \section{Artifacts}\label{sec:artifacts}
 
@@ -399,9 +434,10 @@ Construction 62.22(1) ($p=5$).
 H.-Y.~Song,
 \emph{The existence of circular Florentine arrays},
 Comput.\ Math.\ Appl.\ \textbf{39} (2000), no.~11, 31--35.
-DOI 10.1016/S0898-1221(00)00104-8. Not read in full (publisher page
-inaccessible on every open route tried on August~6, 2026); its Table~1 was not
-consulted, and no priority over this paper is claimed.
+DOI 10.1016/S0898-1221(00)00104-8. Not read in August 2026 (publisher page
+inaccessible on every open route tried on August~6, 2026); read in full later,
+from a copy hosted by its author (correction, 2026-11-17). Its Table~1 gives
+$n=25$ as ``$4,\dots,24$''.
 
 \bibitem[CPro1]{CPro1}
 Constructive-Codes, \emph{CPro1} benchmark suite,

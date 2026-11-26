@@ -8,7 +8,7 @@ vertices 0..k-1, translated onto the block). Emits the PURE (3,4,N) encoding
 plus unit clauses for vertex 0's arcs and all intra-block pairs (pairs with no
 arc in the block file are fixed nonadjacent).
 
-Soundness of the cube system (documented in NOTES.md): in any {I_3,L_4}-free D,
+Soundness of the cube system (Lemmas 3.1 and 3.2 of the note in k34-paper/): in any {I_3,L_4}-free D,
 every vertex v has N+(v),N-(v) {I_3,L_3}-free and I(v) an {I_2,L_4}-free
 tournament; with r(I_3,L_3)=9, r(I_2,L_4)=8 (certified) this bounds p,q<=8,s<=7.
 An existence question at N is decided by trying all (p,q,s) with 1+p+q+s=N

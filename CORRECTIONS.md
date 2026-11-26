@@ -1,3 +1,195 @@
+# CORRECTIONS: v0.18.0 correction round
+
+Written 2026-11-17, with additions of 2026-11-25 (items 1, 5 and 7). This round corrects statements in
+Parts A, B, D, E, G, H, I, J and K, changes one checker in Part B, and removes local paths from the
+logs of Parts B, E, G and N.
+
+**No certified value changed.** One checker's logic changed: `qec-scripts/check_lower.py` gained the
+guard that its audit proposed (finding D4), and every Part B lower-bound certificate whose proof ships
+with the repository passes the changed checker. Every other script edited in this round changed in its docstring only:
+`k34-scripts/verify_chain.py`, `k34-scripts/make_structured.py`, `k34-scripts/audit_multiset.py` and
+`k34add-scripts/blowup_bound.py` (none of the five has a published digest anywhere in the repository; checked). In the notes, each
+corrected statement carries a dated note, most of the form "(Correction, 2026-11-17: ...)", with
+"Updated", "Addition", "Later work" or "Noted" for updates and additions; the removal of Part
+A's draft-only header, which made no claim, is recorded in its LaTeX header comment and in
+paper/FIXLOG.md (A-2); dated records
+(FIXLOGs, sweep records, referee and verdict records) keep their text and gain a bracketed dated note.
+Each part's FIXLOG has a section "Correction round, 2026-11-17" with one decision per corrected claim
+and its propagation grep. The PDFs of the nine changed notes were rebuilt and checked by text
+extraction.
+
+1. **Part G (k(3,4) = 21).** §5.2 said that no lower bound for k(6,3) beyond 24 appears in the
+   literature. The literature stated 18, and one-line assemblies of known graphs give 26 (IRW's W₂₂
+   with a disjoint directed 3-cycle); the bound 29 of the note exceeds that by 3. Found in our own
+   records (a record of 2026-10-20, a review of 2026-11-11). §8.3 gave k(4,4) ≥ 21 where W ⊔ QR₇
+   gives 28 (same records). The note did not credit the first arXiv version of Ihringer,
+   Rajendraprasad and Weinert (2017), which states r(I₃,L₄) ≤ 24 and remarks that the largest
+   {I₃,L₄}-free Cayley graph has 20 vertices, so k(3,4) ≥ 21; pointed out by the reviewers at
+   erdosproblemaday.com on 2026-11-16 (our own sweep of 2026-10-14 had recorded it, and the note
+   was not corrected then). Nor did it mention the working report of Erdős Problem a Day on
+   problem 112 (dated 2026-08-12, initial run 2026-07-26), which exhibits a 20-vertex circulant
+   witness and states 21 ≤ k(3,4) ≤ 25 (found by the referee of this round). Four overstatements
+   about the checking of the certificates, found by our own record check of 2026-11-17, made to
+   answer a question from the
+   reviewers at erdosproblemaday.com: the header said the referee had no access to the
+   pipeline's code; "twelve" certificates re-checked by a second checker were ten ledger certificates
+   and two small ones; that checker, called "unrelated", is ours, written in the same campaign; "11 of
+   11" regeneration attempts were nine on record. The note now states that no established LRAT checker
+   ran in August, a deviation from the program's own rule for certificates, and that drat-trim's
+   `lrat-check` accepted 30 ledger certificates on 2026-11-17; the weakness of `lrat-check` on an
+   unsupported empty clause is credited to X. Zeng. Addition of 2026-11-25: on 2026-11-18 the
+   reviewers at erdosproblemaday.com completed a rebuild and check of the whole certificate chain
+   from commit 4794560. By their record, all 445 formulas regenerate to the ledger's `cnf_sha256`,
+   and cake_lpr, which the record describes as an LRAT checker with a soundness proof in the HOL4
+   theorem prover, accepted a proof of each, made with their own build of CaDiCaL 3.0.1; 307 of
+   those proofs equal the ledger's in SHA-256 and size. The check is theirs and was not repeated by
+   us; the note states it in §7 (item 1) and cites their record.
+   The regeneration inputs, whose absence from the
+   public tree the reviewers at erdosproblemaday.com pointed out on 2026-11-16, were added by commit
+   4794560 and are described, and "70 representatives" is corrected to 72 (found by our own
+   regeneration work of 2026-11-17). Question 8.1 is answered
+   in part by the circulant Cay(ℤ₂₀,{2,4,5,7,11,14}), which appears in the working report of Erdős
+   Problem a Day on problem 112 and in Muhamadiev Faridun's repository of 22 September 2026, and
+   which the reviewers at erdosproblemaday.com pointed out to us. Later work is credited: T. S.
+   Orden's 30 ≤ k(6,3) ≤ 32, Muhamadiev Faridun's k(4,4) ≥ 34 and k(3,5) ≥ 31, and the
+   k(4,4) ≥ 40 and k(3,5) ≥ 43 of the repository rsvaultpudgy-create/erdos-112-lower-bounds. The
+   header of `verify_chain.py` no longer calls it independent (found by our own regeneration work
+   of 2026-11-17). Build log: `k34-paper/FIXLOG.md`, G-5 to G-18.
+2. **Part J (the extremal graph for k(3,4) is not unique).** §6 posed as open a question the circulant
+   answers; "the algebraic route falls short" and "the picture at (3,4) is the opposite" are corrected;
+   the conclusion that the extremal family is substantially non-algebraic is withdrawn; the prior-art
+   record called IRW the only paper on r(I_m,L_n) (Bermond 1974 and Larson and Mitchell 1997 are
+   others) and the count "a fortiori new". The description of the Zenodo record of v0.10.0 said that no
+   20-vertex extremal graph is vertex-transitive; it was corrected on 2026-11-17, and the note now
+   states the same facts. Found by the reviewers at erdosproblemaday.com (2026-11-16) and our own
+   records. Build log: `k34add-paper/FIXLOG.md`, J-3 to J-7.
+3. **Part E (CFR(5,25)).** H.-Y. Song's 2000 paper, described as unread, has been read in full; it
+   gives the same lower bound 4 for n = 25. The Handbook table the note compares with is out of date at
+   n = 33, 35 and 39, so exceeding it is not by itself evidence of novelty; the difference-matrix check
+   and its unread sources are stated. The sweep record's "F_c(25) = 4" and "independent
+   standard-library checkers" are corrected. Found by the release gate of 2026-08-14 and a review of
+   2026-11-11 (Song, the table), and by this round's propagation grep. Build log: `cfr-paper/FIXLOG.md`,
+   E-1 to E-5.
+4. **Part D ([[14,3,5]]).** An addition: the SDP bounds of G. Anglès Munné and F. Huber
+   (arXiv:2603.19901, March 2026) on the same family are cited; they do not exclude [[14,3,5]]. Found
+   by a review of 2026-11-11. Build log: `qec1435-paper/FIXLOG.md`, D-3.
+5. **Part B (code distances).** The Lean-QEC repository (Ehatamm, Lee, Wu and Tao) has held a formal
+   statement of 18 ≤ d for [[288,12,18]] since June 2026, with four unproved lemmas; the word "first"
+   is withdrawn wherever Part B used it, and the difference is stated. Addition of 2026-11-25:
+   PROVENANCE.md (row 20) and the August sweep record called Part B's bound of 2026-08-04 "the only
+   machine-checkable lower bound on record" for this code; each now carries a dated note that names
+   the Lean file (found by a release gate of this program). d = 24 for [[360,12]] has since
+   been reported by G. Lee's bicycle-race database, by Crocker, by Daugherty, Ryan and Ward, by
+   tropidist (B. Cheng, N. Guo and F. Pan) and by QEDist (J. Y. Lee); credited, and Part B's certified
+   d ≥ 16 stands. Addition of 2026-11-25, from our reading of the first four of these sources (what
+   was read is in `paper/FIXLOG-qec.md`, B-2): by their manuscript, the certificates that Daugherty,
+   Ryan and Ward ship prove 19 ≤ d ≤ 24 for this code, a lower bound above Part B's 16, and their
+   exact value 24 comes from an exhaustive enumeration and not from a shipped certificate (their
+   certificates were not replayed for this correction); Crocker's record defines the same
+   parity-check matrices as Part B's checker builds; and the reference [CCKF26] of the note gave
+   D. Kremer's initial as F. Correction of 2026-11-25: since its update of 2026-08-06 Part B said
+   that no lower bound of any kind had been reported for [[360,12]]. At least two were on record.
+   Chen, Jafari and Lai (arXiv:2606.12445, May 2026) ran their solvers on this code too: all 46
+   configurations time out, with d ≥ 11 the best lower bound reached, solver-asserted as for
+   [[288,12,18]]. And a theorem of Symons, Rajput and Browne (arXiv:2511.13560, November 2025)
+   gives d ≥ 6 for it as a 5-fold cover of [[72,12,6]]. The sentence is withdrawn wherever Part B
+   had it, and §6.4 of the note states both bounds; the certified d ≥ 16 is above both. The audit's finding D4
+   is fixed in `check_lower.py`, and its line counts are updated. "A separate agent instance that was
+   given no access to the pipeline" is narrowed to what the audit's report shows (found by this
+   round's propagation grep). Found by our own
+   reviews of 2026-11-17 and 2026-11-11, our own reading of 2026-11-25 and the
+   Part B audit (D4). Build log: `paper/FIXLOG-qec.md`, B-1 to B-8.
+6. **Parts H and K.** At the notes' own operating points a 10⁷-shot Monte Carlo run resolves the
+   logical error probability, to about 12 percent either side at d = 5, p = 10⁻³; what the
+   certificate adds there is exactness. The statement that the regime is inaccessible to direct Monte
+   Carlo is Mullan, Weippert and Brown's, concerns the low error rates needed for utility-scale
+   computation, and stays attributed to them. Found by our own reading of 2026-11-17. Both
+   notes also cited the Lean-QEC paper (arXiv:2605.16523) with wrong initials and a wrong title;
+   corrected (found by the referee of this round). Build logs: `wedge-paper/FIXLOG.md`, W-3 and W-4;
+   `wedge2-paper/FIXLOG.md`, K-5 and K-6.
+7. **Part I (Kelmans).** The two Python certificate checkers share their 3-connectivity routine, which
+   the n = 22 verdict had disclosed but the note and README had not carried; the claim that the two C
+   pipelines share no code was never measured and is now stated as untested. Found by the site
+   independence audit of 2026-11-10. Addition of 2026-11-25: §3.4 of the note still said that every
+   load-bearing check of the referee used code sharing nothing with the search pipeline; it now
+   carries a dated note (found by a release gate of this program). Build log:
+   `kelmans-paper/FIXLOG.md`, I-2 and I-3.
+8. **Part A.** The public preprint no longer says "DRAFT ONLY, not for circulation". Found by the
+   organization audit of 2026-11-11. Build log: `paper/FIXLOG.md`, A-2.
+9. **Front matter.** README: a parts index A to N with versions, DOIs and dates of record; the
+   v0.14.0 and v0.15.0 DOIs; one line on the byte-identical second Zenodo record of v0.2.1
+   (10.5281/zenodo.21832017; cite 10.5281/zenodo.21831995); the lead no longer counts two bodies of
+   work; Parts E and F have headings; the layout lists this file and `SWEEP-RECORD-2026-08-05.md`.
+   PROVENANCE.md counts fourteen parts. CITATION.cff names v0.2.1 for Part B and v0.17.0 for Part L.
+   Found by the organization audit of 2026-11-11.
+
+## Local paths and the login name
+
+Through v0.17.0, 82 lines in 11 files named folders of the author's computer or the author's login
+name: 66 lines with absolute paths in seven files (five logs of Part N, `cfr-paper/FIXLOG.md` and
+`paper/FIXLOG-qec.md`), 7 lines in `colorcode-dcirc-certificates/logs/2026-09-01/ilp_anchor.log` and 1
+line in `k34-paper/REFEREE-k63.md` with the path of a temporary session folder, and 8 lines (six of
+`colorcode-dcirc-certificates/VERIFY.log`, two of `colorcode-dcirc-paper/FIXLOG.md`) that used the
+login name as a word. Each was replaced in place by this rule, applied in order, to those 11 files
+only; no line was added or removed, and every other byte is as written:
+
+- R1. The path of the research folder in the author's home folder, up to and including its trailing
+  slash, becomes `[archive]/`.
+- R2. The same path where the log writer cut it at the space in the folder's name, at the end of a
+  line, becomes `[archive]`.
+- R3. The path of the research archive on the author's external drive, up to and including its
+  trailing slash, becomes `[archive]/`. (The folder of R1 holds links into this archive.)
+- R4. The path of a temporary session folder, up to and including `scratchpad/`, becomes `[scratch]/`.
+- R5. An elided form of such a path (`.../scratchpad/`) becomes `[scratch]/`.
+- R6. The login name used as a word becomes `[author]`.
+
+`colorcode-dcirc-certificates/SHA256SUMS` carries the new digests of the seven changed files of that
+directory and of its README, which records the same rule; lines 798 and 799 of `VERIFY.log` quote two
+digests from before the redaction and are kept as a dated record. Releases up to v0.17.0 keep the old
+text under their DOIs. The organization audit of 2026-11-11 recorded the home-folder path and the
+session path in these files and proposed no action; a release gate of this program found them as a
+defect on 2026-11-17 (the paths), and this round's propagation grep found the elided session path
+and the login name.
+
+## Statements this round did not check
+
+- Parts C and I say that their adversarial referee was "a separate agent instance" given "no
+  access" to the pipeline's code (`tt3-paper/note`, `kelmans-paper/note`), and Part D that its
+  re-verification was made by "a separate agent instance" (`qec1435-paper/note`). Parts G and B made
+  the same statement; the records read for them (for Part B, the audit's report only) did not
+  support it, so both were narrowed in this round; the records of Parts C, D and I were not checked.
+  Untested, not refuted.
+- Part J attributes the uniqueness of the 7-vertex TT₄-free tournament to Sánchez-Flores (1998); that
+  paper is not in our corpus. Unverified.
+- Part L's README calls `anchor_check.py` an independent anchor, Part M's README does the same for its
+  `anchor_check.py`, and Part N's README says one program "shares no code with either"; none was
+  re-measured in this round.
+
+## Text of earlier releases that this round cannot change
+
+The metadata deposited with earlier releases keeps wording that this round or an earlier one
+corrected in the repository. The descriptions or titles deposited with v0.2.1 (both records,
+10.5281/zenodo.21831995 and 10.5281/zenodo.21832017) call d([[288,12,18]]) = 18 "the first
+machine-checkable determination" and 16 ≤ d "a first lower bound" for [[360,12,≤24]]; v0.5.0 says
+that Song's 2000 paper could not be accessed and names its journal as Discrete Applied Mathematics
+(it is Comput. Math. Appl. 39 (2000)); v0.7.0 gives "11/11 attempts" and the prior bounds
+9 ≤ k(3,4) ≤ 25; v0.9.0's title says "two independent pipelines"; v0.10.0's title says
+"independently verified"; v0.15.0's title says that every "shares no code" sentence in the corpus
+was measured, and its description that the Part H bracket was re-derived by an independent route
+at all five certificates (the whole bracket was re-derived at d = 3 only). The body of the GitHub
+release v0.10.0 says that QR₇ appears in every extremal graph (the note proves it only for graphs
+with a vertex of seven non-neighbours; its Question 6.1 is open) and that blow-up constructions
+reach only 15 vertices (they reach 14, giving k(3,4) ≥ 15). Where these differ from the repository,
+the repository and this file are the record. The Zenodo description of v0.10.0 was corrected on
+2026-11-17 (Part J above).
+
+## Files changed
+
+Regenerate with `git diff --name-status v0.17.0`; that list also holds the 77 files of commit 4794560
+(the Part G regeneration inputs of 2026-11-17), which no earlier release carries.
+
+---
+
 # CORRECTIONS: v0.17.0 Part L round
 
 Dated 2026-11-10. This round corrects Part L and adds a result to it.

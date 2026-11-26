@@ -184,9 +184,9 @@ python3 gen_cnf.py 2 4 8 validation/t248.cnf
 cadical --lrat --no-binary validation/t248.cnf validation/t248.lrat > validation/t248.sol
 ```
 
-The header of `verify_chain.py` points to `NOTES` for the argument about the three
-neighbourhoods of a vertex. `NOTES.md` is not in this repository. The argument is Lemma 3.1 of
-the note in `k34-paper/`.
+The header of `verify_chain.py` points to Lemma 3.1 of the note in `k34-paper/` for the argument
+about the three neighbourhoods of a vertex. (Updated 2026-11-17: until then the header pointed to
+`NOTES`, a file that is not in this repository.)
 
 ## What was tested on 2026-11-17
 

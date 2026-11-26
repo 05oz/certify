@@ -11,13 +11,13 @@ c Sun Jul 19 15:40:55 UTC 2026 Darwin Tahoe-arm64.local 25.4.0 arm64
 c 
 c --- [ proof tracing ] ------------------------------------------------------
 c 
-c opening file to write '/Volumes/Extreme/Research/research-math/solve/colorcode-dcirc-2026-09-01/extend-2026-10-07/proofs/Xext_d15_K11.blrat'
-c writing binary proof trace to '/Volumes/Extreme/Research/research-math/solve/colorcode-dcirc-2026-09-01/extend-2026-10-07/proofs/Xext_d15_K11.blrat'
+c opening file to write '[archive]/solve/colorcode-dcirc-2026-09-01/extend-2026-10-07/proofs/Xext_d15_K11.blrat'
+c writing binary proof trace to '[archive]/solve/colorcode-dcirc-2026-09-01/extend-2026-10-07/proofs/Xext_d15_K11.blrat'
 c 
 c --- [ parsing input ] ------------------------------------------------------
 c 
-c reading DIMACS file from '/Volumes/Extreme/Research/research-math/solve/colorcode-dcirc-2026-09-01/cnf/Xext_d15_K11.cnf'
-c opening file to read '/Volumes/Extreme/Research/research-math/solve/colorcode-dcirc-2026-09-01/cnf/Xext_d15_K11.cnf'
+c reading DIMACS file from '[archive]/solve/colorcode-dcirc-2026-09-01/cnf/Xext_d15_K11.cnf'
+c opening file to read '[archive]/solve/colorcode-dcirc-2026-09-01/cnf/Xext_d15_K11.cnf'
 c found 'p cnf 5828 13932' header
 c parsed 13932 clauses in 0.00 seconds process time
 c 
@@ -4741,7 +4741,7 @@ c 0 13626.82  0 39 583 1614118  1 52639962 154474 1.7 30 18 1 2 43% 14255 1040 1
 c 
 c --- [ closing proof ] ------------------------------------------------------
 c 
-c LRAT proof file '/Volumes/Extreme/Research/research-math/solve/colorcode-dcirc-2026-09-01/extend-2026-10-07/proofs/Xext_d15_K11.blrat' closed
+c LRAT proof file '[archive]/solve/colorcode-dcirc-2026-09-01/extend-2026-10-07/proofs/Xext_d15_K11.blrat' closed
 c LRAT 53140862 added clauses 50.07%
 c LRAT 52985261 deleted clauses 49.93%
 c LRAT 14062531915 bytes (13411.08 MB)

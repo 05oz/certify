@@ -8,6 +8,10 @@ per-vertex triple tables, highest-vertex DFS branching, 4-way probed failure cac
 shares no code with attack-side `p3span.c`/`verify_cert.py`) and `refcert.py`
 (fresh stdlib-only certificate checker with its own graph6 decoder, membership and
 3-connectivity checks). Both were negative-controlled (see section 5).
+[Note, 2026-11-17: `refcert.py` is not code-independent of `verify_cert.py`; their
+3-connectivity routines are the same 85-token routine under renaming. See
+`verdict-n22-24.md` §6.1. That `refcheck.c` shares no code with `p3span.c` rests on their
+disjoint function inventories and was never measured with a tool.]
 
 ## 1. Claim audited
 
@@ -160,7 +164,8 @@ cubic graph on n vertices has a P3-packing covering all but (n mod 3) vertices �
 for ALL 3-connected cubic graphs on n ≤ 20 vertices, together with the applicable
 Theorem-3.1 strong forms at every order: (z2),(z3),(z7),(z8) at n = 6,12,18;
 (t2) at n = 8,14,20; (f1),(f2) at n = 4,10,16. Two independently written pipelines
-(attack: p3span.c + verify_cert.py; referee: refcheck.c + refcert.py, no shared code,
+(attack: p3span.c + verify_cert.py; referee: refcheck.c + refcert.py, no shared code [see the
+note of 2026-11-17 under the header: not true of the Python pair],
 different algorithms, both negative-controlled) agree on every count and report zero
 failures over all 429,865 3-connected cubic graphs with 4 ≤ n ≤ 20. Counts match
 OEIS A002851 and McKay's published 3-connected cubic enumeration exactly.

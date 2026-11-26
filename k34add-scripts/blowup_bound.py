@@ -12,7 +12,9 @@ tournament-blow-up is T[I_2] with T the largest TT_4-free tournament, namely QR_
 giving 2*7 = 14 vertices and the bound k(3,4) >= 15.
 
 The true value is k(3,4) = 21 (the extremal order is 20).  The blow-up construction
-falls 6 vertices short, so the extremal family is substantially non-algebraic.
+falls 6 vertices short, so no tournament blow-up is extremal.  (Until the correction
+of 2026-11-17 this sentence ended "so the extremal family is substantially
+non-algebraic"; a circulant on 20 vertices is extremal, see the note, section 6.)
 
 This script verifies:
   QR_7[I_2] is {I_3,TT_4}-free on 14 vertices;

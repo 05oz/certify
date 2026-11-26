@@ -139,3 +139,17 @@ gate rests on. Item 2 of this log, which read "Confirms genuine independence", w
 false in both halves and is replaced. `construct/erratum-check/` was brought into
 line with the shipped scripts and its Gamma-point typo (`exhibit.py:77`) fixed.
 No computed value changed.
+
+## Correction round, 2026-11-17
+
+**A-2. The public preprint still said "DRAFT ONLY, not for circulation".** The Markdown header,
+the LaTeX header comment and the rendered title footnote ("--- not for circulation.") carried a
+draft-only marking, and the Markdown and the LaTeX comment asked to coordinate with W. G. P.
+Mayner before any public posting. The preprint has been public since v0.1.0 (2026-08-04) and
+credits Mayner in §1.4 for the Weyl endomorphism and the symplectic lift. All three markings are
+removed; the dates of the draft and of the erratum release stay. This is front matter, not a
+claim, so no dated note is added in the text; the LaTeX header comment records the removal. The
+PDF is rebuilt (its page 1 carried the footnote; the v0.15.0 round had deliberately not rebuilt
+it). Found by the organization audit of 2026-11-11.
+Propagation grep (`not for circulation`, `DRAFT ONLY`, `Coordinate with W. G. P. Mayner`): no
+hit in the tree outside this entry.

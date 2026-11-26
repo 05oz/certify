@@ -157,7 +157,7 @@ weight-truncation tail is fat there --- not because a threshold has been
 crossed, since the logical rate still falls with distance. The frontier is
 sharp: exact re-verification at weight~$7$ exceeds a pure-Python checker. We
 state precisely what is certified, what is merely trusted, and close with the
-questions the computation opens.
+questions the computation opens. \emph{(Correction, 2026-11-17: at this note's own operating points direct Monte Carlo is not out of reach. A $10^7$-shot run resolves $\PL$ there: at $d=5$, $p=10^{-3}$ its $95\%$ interval is about $626$ times the bracket width $9.93\times10^{-9}$, so about $6.2\times10^{-6}$ wide on a value of $2.61\times10^{-5}$, about $12$ percent either side. What the certificate adds at these points is exactness, with an interval about $626$ times narrower. Mullan, Weippert and Brown's statement concerns the low error rates needed for utility-scale computation \cite[abstract]{MWB}; this note's operating points are not in that regime.)}
 \end{abstract}
 
 \maketitle
@@ -182,11 +182,15 @@ number with a statistical error bar. It does not return a proof.
 This note asks a different question. Not ``what is $\PL$?'' but: \emph{can
 $\PL$ be bracketed rigorously, by a rational interval a stranger can re-derive
 from a small certificate using nothing but a standard-library program?} The
-regime that defeats Monte Carlo --- rare failures, deep sub-threshold --- is
-the regime where exact counting is most favourable, because the objects to be
-counted, the low-weight fault configurations that the decoder mishandles, are
-few. We turn the rarity that blocks sampling into the finiteness that enables a
-certificate.
+regime of rare failures, deep sub-threshold, where direct Monte Carlo grows
+expensive, is the regime where exact counting is most favourable, because the
+objects to be counted, the low-weight fault configurations that the decoder
+mishandles, are few. We turn the rarity that makes sampling expensive into the
+finiteness that enables a certificate. \emph{(Correction, 2026-11-17: through
+v0.17.0 this paragraph said that the regime ``defeats'' Monte Carlo and that
+rarity ``blocks'' sampling. At the operating points of this note a
+$10^7$-shot run resolves $\PL$, at $d=5$, $p=10^{-3}$ to about $12$ percent
+either side; see \S\ref{sec:results}.)}
 
 The construction is elementary and is stated in full in \S\ref{sec:object}.
 Its output is, for each physical rate $p$, a pair of exact rationals $L\le U$
@@ -405,8 +409,13 @@ $10^7$-shot interval.}
 \subsection{Both verdicts, read honestly} Deep sub-threshold, at $p=10^{-3}$,
 the certificate dominates: about $18{,}500\times$ tighter than the $10^7$-shot
 interval at $d=3$, and about $626\times$ at $d=5$, where Monte Carlo would need
-on the order of $4\times10^{12}$ shots to match. This is the central message,
-and it is exactly the regime \cite{MWB} call inaccessible to sampling.
+on the order of $4\times10^{12}$ shots to match. This is the central message:
+at these points the certificate adds exactness, and an interval about $626$
+times narrower than the $10^7$-shot one, which already resolves $\PL$ to about
+$12$ percent either side at $d=5$ (about $3.4$ percent at $d=3$).
+\emph{(Correction, 2026-11-17: through v0.17.0 this sentence ended ``and it
+is exactly the regime \cite{MWB} call inaccessible to sampling''; a
+$10^7$-shot run reaches these points.)}
 
 At the larger rate $p=10^{-2}$ the picture splits, and the split is instructive.
 At $d=3$ the bracket is still \textsc{live}, about $2.33\times$ narrower than
@@ -573,10 +582,13 @@ sub-threshold sharpness?
 
 \section*{Acknowledgments}
 
-The question this note answers --- that sub-threshold logical error rates are
-beyond direct Monte Carlo --- is Mullan, Weippert, and Brown's, and their
+The framing this note starts from, that sub-threshold logical error rates are
+beyond direct Monte Carlo, is Mullan, Weippert, and Brown's statement about
+the low error rates needed for utility-scale computation, not a finding of this
+note; this note's operating points are not in that regime (there a
+$10^7$-shot run resolves $\PL$, \S\ref{sec:results}), and their
 subregion-MCMC estimator is the sampler this certificate is meant to complement,
-not replace; the Markov-chain lineage traces to Bravyi and Vargo. The
+not replace; the Markov-chain lineage traces to Bravyi and Vargo. \emph{(Correction, 2026-11-17: through v0.17.0 this sentence called that framing ``the question this note answers'' and did not say that this note's operating points lie outside the regime of their statement.)} The
 lookup-table decoder is Tomita and Svore's. The detector error models were
 produced with Stim (Craig Gidney), used here as an untrusted generator. The
 computation and drafting were AI-assisted as stated in the first footnote, and
@@ -599,10 +611,11 @@ identities},
 Quantum \textbf{9} (2025), 1950; arXiv:2305.01301.
 
 \bibitem[LeanQEC26]{LeanQEC}
-K.~Ehatamm, S.~Lee, Y.~Wu and R.~Tao,
-\emph{Lean-QEC: machine-checked quantum error-correcting code distances via a
-verified SAT reduction},
-arXiv:2605.16523 (2026).
+M.~Ehatamm, Y.~Lee, X.~Wu and R.~Tao,
+\emph{End-to-end formalization of quantum error correction},
+arXiv:2605.16523 (2026). \emph{(Correction, 2026-11-17: through v0.17.0
+this entry gave the authors' initials as K., S. and Y. and a title that is
+not the paper's.)}
 
 \bibitem[MWB26]{MWB}
 M.~Mullan, M.~Weippert and W.~Brown,

@@ -10,7 +10,10 @@
 %% Novelty swept clean on the drafting date (2026-08-11): the value
 %% k(3,4)=21 has no prior appearance beyond Part G (erdosproblems.com/112
 %% OPEN; IRW the only paper on r(I_m,L_n)), so a fortiori its extremal
-%% multiplicity is new.  Framing per PROTOCOL section 11: open with the
+%% multiplicity is new.  [Correction 2026-11-17: IRW is not the only paper
+%% on r(I_m,L_n) (Bermond 1974; Larson and Mitchell 1997); "a fortiori new"
+%% is withdrawn; see the prior-art record and Section 6.]
+%% Framing per PROTOCOL section 11: open with the
 %% question, cite computation in one paragraph, close with open questions.
 %% ==========================================================================
 \documentclass[11pt]{amsart}
@@ -78,10 +81,17 @@ propositional solver: every claim is a finite check a reader can rerun.}
 \thanks{\emph{Prior-art record.} This note answers Question~8.1 of the
 companion determination \cite{PartG} of $k(3,4)=21$. The value was
 absent from the literature before \cite{PartG}: the Erd\H{o}s problems
-entry \cite{Blo} (\#112) records no exact $k(n,m)$, and \cite{IRW21}
-remains the only paper on $r(I_m,L_n)$. A novelty sweep on the drafting
-date, August~11, 2026, found nothing on the number of extremal
-$\{I_3,\TT{4}\}$-free graphs on $20$ vertices, which is a fortiori new.
+entry \cite{Blo} (\#112) records no exact $k(n,m)$. A novelty sweep on the
+drafting date, August~11, 2026, found nothing on the number of extremal
+$\{I_3,\TT{4}\}$-free graphs on $20$ vertices. \emph{(Correction,
+2026-11-17: through v0.17.0 this record also said that \cite{IRW21}
+remains the only paper on $r(I_m,L_n)$, and called the count ``a fortiori
+new''. The first is false: Bermond's \cite{Ber74}, in this note's
+references, determined $r(I_3,L_3)=9$, and \cite{IRW21} cites a further
+paper on these numbers by Larson and Mitchell (1997). The second words are
+withdrawn. The first arXiv version of \cite{IRW21} (v1, 2017), which the
+sweep did not read, remarks that the largest $\{I_3,L_4\}$-free Cayley
+graph has $20$ vertices; see \S\ref{sec:open}.)}
 \emph{Draft of August~11, 2026.}}
 
 \subjclass[2020]{Primary 05C55; Secondary 05C20, 05D10, 68V15}
@@ -104,10 +114,13 @@ object. We record the local structure they share as a
 short forcing lemma: in any $\{I_3,\TT{4}\}$-free oriented graph a vertex
 has at most $7$ non-neighbours, and a vertex with exactly $7$ carries a
 copy of the Paley tournament $\QR=\Cay(\mathbb{Z}_7,\{1,2,4\})$ as its
-non-neighbourhood. Finally the algebraic route falls short: the largest
-$\{I_3,\TT{4}\}$-free tournament blow-up has only $14$ vertices, six short
-of the extremal order, and the thirteen exhibited witnesses are rigid
-rather than Cayley. We close with the sharpened question of whether a
+non-neighbourhood. Finally the tournament blow-up route falls short: the
+largest $\{I_3,\TT{4}\}$-free tournament blow-up has only $14$ vertices,
+six short of the extremal order, and the thirteen exhibited witnesses are
+rigid rather than Cayley. \emph{(Correction, 2026-11-17: through v0.17.0
+this sentence began ``Finally the algebraic route falls short''. A
+circulant reaches the extremal order (\S\ref{sec:open}), so what falls
+short is the blow-up route only.)} We close with the sharpened question of whether a
 $\QR$ block is unavoidable in every witness.
 \end{abstract}
 
@@ -149,8 +162,9 @@ vertex-transitive graph on $n\ge 2$ vertices has $|\Aut|\ge n$. We
 prove Theorem~\ref{thm:main} by direct verification
 (\S\ref{sec:witnesses}); the local structure that the thirteen share is
 explained by the forcing lemma of \S\ref{sec:qr7}; and the sense in which
-the algebraic construction falls short is made precise in
-\S\ref{sec:blowup}.
+the tournament blow-up construction falls short is made precise in
+\S\ref{sec:blowup}. \emph{(Correction, 2026-11-17: through v0.17.0 this
+read ``the algebraic construction''; see \S\ref{sec:open}.)}
 
 \section{The witnesses}\label{sec:witnesses}
 
@@ -268,10 +282,12 @@ independently. Every one of the thirteen has between $6$ and $14$ such
 vertices, so $\QR$ appears in each; whether it must appear in \emph{every}
 free graph on $20$ vertices is left open in \S\ref{sec:open}.
 
-\section{The algebraic route falls short}\label{sec:blowup}
+\section{The tournament blow-up route falls short}\label{sec:blowup}
 
 The natural algebraic construction from $\QR$ is a blow-up, and it falls
-well short of the extremal order.
+well short of the extremal order. \emph{(Correction, 2026-11-17: through
+v0.17.0 this section was titled ``The algebraic route falls short''.
+Blow-ups fall short; a circulant does not, see \S\ref{sec:open}.)}
 
 \begin{proposition}\label{prop:blowup}
 Let $T$ be a tournament and $m\ge 1$, and let $T[\I{m}]$ be the
@@ -305,9 +321,12 @@ hence not Cayley digraphs; and they are not blow-ups, since a proper
 blow-up has two vertices with identical neighbourhoods and every $w_i$
 has twenty distinct colour classes under refinement. In the language of
 \cite[\S8.1]{PartG}, where the extremal graph for $k(3,3)=9$ is a single
-circulant, the picture at $(3,4)$ is the opposite: the extremal graph is
-not unique, and the thirteen exhibited here are aperiodic and
-non-algebraic, with $\QR$ surviving only as a forced local block.
+circulant, the extremal graph at $(3,4)$ is not unique, and the thirteen
+exhibited here are aperiodic, with $\QR$ surviving in them only as a
+forced local block; a circulant is extremal at $(3,4)$ as at $(3,3)$
+(\S\ref{sec:open}). \emph{(Correction, 2026-11-17: through v0.17.0 this
+sentence said that the picture at $(3,4)$ is the opposite and called the
+thirteen non-algebraic.)}
 
 \section{Certification}\label{sec:cert}
 
@@ -335,9 +354,41 @@ note), and return \textsc{pass}.
 
 Question~8.1 of \cite{PartG} is answered: $W$ is not unique, and the
 extremal count is at least $13$. The thirteen exhibited here are rigid,
-hence none is vertex-transitive or Cayley; whether \emph{some other}
-extremal graph might still be algebraic is not decided here. Three
-questions remain.
+hence none is vertex-transitive or Cayley. A vertex-transitive extremal
+graph exists as well: the circulant
+$\Cay(\mathbb{Z}_{20},\{2,4,5,7,11,14\})$ is free on $20$ vertices. It
+appears, with a census of eight cyclic witnesses on $20$ vertices, in the
+working report of Erd\H{o}s Problem a Day on problem 112
+(\texttt{erdosproblemaday.com/report/112}, dated 2026-08-12, initial run
+2026-07-26), and in Muhamadiev Faridun's repository
+\texttt{gitlab.com/faridunislom/math.erdos112} (22 September 2026); the
+reviewers at erdosproblemaday.com pointed it out to us on 2026-11-16. The
+first arXiv version of \cite{IRW21} (arXiv:1707.09556v1, 2017) remarks that the
+largest free Cayley graph has $20$ vertices. Being vertex-transitive, the
+circulant is isomorphic to none of the thirteen, so at least fourteen
+extremal graphs exist. So the last part of Question~8.1, whether an
+extremal graph admits an algebraic description, has the answer yes. Three
+questions remain. \emph{(Correction, 2026-11-17: through v0.17.0 this
+paragraph said that whether some other extremal graph might still be
+algebraic was not decided here; the circulant decides it.)}
+
+\emph{(Correction, 2026-11-17, to the description of the Zenodo record of
+v0.10.0, doi:10.5281/zenodo.21898266. From 12 August 2026 that description
+said that no $20$-vertex extremal graph is vertex-transitive and that none
+is a Cayley digraph. That was wrong: the circulant above is one, as the
+reviewers at erdosproblemaday.com pointed out, and the first arXiv version
+of \cite{IRW21} (arXiv:1707.09556v1, 2017) remarks that the largest
+$\{I_3,L_4\}$-free Cayley graph has $20$ vertices. The description also
+concluded from the blow-up bound that the extremal family is substantially
+non-algebraic; that conclusion is withdrawn (\S\ref{sec:blowup}). This
+note itself claimed rigidity of the thirteen only. The copy of
+\texttt{SWEEP-RECORD-K34ADD-2026-08-11.md} inside the v0.10.0 archive
+makes the same wrong statement and cannot be changed there; the copy in
+the repository was changed in place in v0.14.0, without a dated note, and
+carries dated notes of 2026-11-17. The
+description was corrected on 2026-11-17, and on the same date three other
+statements in it were brought into line with the corrections published in
+versions 0.14.0 and 0.15.0.)}
 
 \begin{question}\label{q:forced}
 Is a $\QR$ block unavoidable? Equivalently, does every free oriented

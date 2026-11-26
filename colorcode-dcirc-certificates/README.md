@@ -469,6 +469,22 @@ Notes on the costs:
   2584 (round 8's §9b scan-group summary), putting the neutral label `sibling-internal` in place
   of a scan-group name outside this release's scope (`VERIFY.log` R9.2). These in-place
   replacements added or removed no line, and every other line is as written.
+- **Local paths and the login name, removed 2026-11-17.** Six log files here carried absolute
+  paths of the author's computer, and six lines of `VERIFY.log` carried the author's login name as
+  a word. In the correction round of 2026-11-17 these were replaced in place by fixed placeholders,
+  by the rule printed in the repository's `CORRECTIONS.md`: the path of the research folder in the
+  author's home folder, and the path of the research archive on the author's external drive, each
+  up to and including its trailing slash, became `[archive]/` (the first folder holds links into the
+  second); the same home-folder path where the log writer cut it at the space in the folder's name,
+  at the end of a line, became `[archive]`; the path of a temporary session folder became
+  `[scratch]/`; the login name became `[author]`. The files are `logs/2026-09-01/ladder.log` (39
+  lines), `logs/2026-09-01/ladder_ext.log` (13), `logs/2026-09-01/ladder_r1ext.log` (6),
+  `logs/2026-09-01/ilp_anchor.log` (7), `logs/2026-09-25/RERUN_d7_r7_K5_1790338452.log` (1),
+  `logs/2026-10-07/cadical_Xext_d15_K11_lrat.out` (5) and `VERIFY.log` (6). No line was added or
+  removed, and every other byte is as written; `SHA256SUMS` carries the new digests of these files
+  and of this README. Lines 798 and 799 of `VERIFY.log` quote the SHA-256 of `ladder.log` and
+  `ladder_ext.log` as round 3 recorded them, before this redaction; they are kept as a dated record.
+  Releases up to v0.17.0 keep the old text under their DOIs.
 
 ## Platforms
 

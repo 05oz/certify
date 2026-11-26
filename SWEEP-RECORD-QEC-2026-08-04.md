@@ -32,6 +32,11 @@ absence, and is not reported as one anywhere in the paper.
 | Stim documentation, `search_for_undetectable_logical_errors` | the verbatim warning "THIS IS A HEURISTIC METHOD" | 2026-08-04 |
 | PBLean, arXiv:2602.08692 | full text (adjacent certificate-import work) | 2026-08-04 |
 
+[Note, 2026-11-17: the LEAN-QEC tree at `c73827d` also held `LeanQEC/Stabilizer/Examples/BB/BB288.lean`
+(first committed 2026-06-04), which states 18 <= d for [[288,12,18]] as a Lean theorem resting on
+four rank lemmas left as `sorry`; this sweep did not name it. Found by our own review of
+2026-11-17. See the paper, §1.4, and paper/FIXLOG-qec.md, decision B-1.]
+
 ---
 
 ## What the sweep broke
@@ -63,6 +68,9 @@ after 7200 s timeouts, and ship no proof artifact — their repository
 proof that replays independently in pure Python. That improves on the strongest
 quantity previously published *as a lower bound*, and is the only
 machine-checkable lower bound on record for this code at any strength.
+[Note, 2026-11-25: see the note of 2026-11-17 under the table of sources. The tree this sweep
+inspected held `BB288.lean`, which states 18 <= d for this code as a Lean theorem resting on four
+rank lemmas left as `sorry`; the sweep did not name it.]
 
 ### 2. The LEAN-QEC contrast — stale, and would have been a false public statement
 

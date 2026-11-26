@@ -3,8 +3,8 @@
 
 Pure Python stdlib; imports nothing from the pipeline. Trusted base:
 this file (plus, optionally, the external lrat-check binary for speed).
-It is NOT code-independent of the pipeline: 36 of its 358 executable lines
-also appear in `qec_lib.py`, and `regen_css` (176-198) is a transliteration
+It is NOT code-independent of the pipeline: 36 of its 359 executable lines
+also appear in `qec_lib.py` (358 before the D4 guard of 2026-11-17), and `regen_css` (176-198) is a transliteration
 of `qec_lib.build_css_cnf` (270-291) -- same accumulators `sup` and `bs`,
 same order of emission, same custom assertion `assert sup, "zero pairing
 row"` -- so a CSS-encoding fault would be common-mode with the pipeline. NOT
@@ -472,6 +472,8 @@ def main():
         pairing = load_matrix(P(cert["pairing_file"]))
         n = len(S[0]) // 2
         verify_stab_side_conditions(S, pairing, n)
+        # D4 fix (2026-11-17): as in the CSS branch, exactly one instance with no forced literals.
+        assert len(cert["instances"]) == 1 and cert["instances"][0]["forced"] == []
         inst = cert["instances"][0]
         g = regen_stab(S, pairing, n, K, inst["forced"])
         lp = P(inst["lrat_file"])

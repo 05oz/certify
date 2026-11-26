@@ -26,7 +26,10 @@ Independent researcher (`05oz`); no institutional affiliation — daniel@halfoun
 > on every open route tried on that date); its Table 1 was not consulted, and
 > no priority over [Son00] is claimed (§5). A full-text novelty sweep of the
 > same date found no surveyed source asserting F_c(25) ≥ 5; the constructive
-> benchmark CPro1 [CPro1] lists (5, 25) as an open instance.
+> benchmark CPro1 [CPro1] lists (5, 25) as an open instance. *(Update,
+> 2026-11-17: [Son00] has since been read in full, from a copy hosted by its
+> author. Its Table 1 gives n = 25 as "4, …, 24", marked as the basic lower
+> bound, so Theorem 2.1 exceeds [Son00] as well. See §5.)*
 
 ---
 
@@ -48,10 +51,14 @@ in the *Handbook of Combinatorial Designs*, 2nd ed. (2006), Table 62.27
 *p*−1 of the multiplier construction (Construction 62.22(1), *p* = 5 the least
 prime factor of 25). The trusted base contains nothing beyond the verifier and
 its interpreter: there is no solver to trust, no enumeration whose
-completeness is assumed, and no unproven step. We do not claim priority over
-H.-Y. Song's 2000 paper, which we could not read; the claim is stated against
-the recorded Handbook value, and the array itself is new to the surveyed
-literature.
+completeness is assumed, and no unproven step. H.-Y. Song's 2000 paper gives the same lower bound 4 for
+*n* = 25. The claim is stated against these recorded values, and the
+literature surveyed in August 2026 did not contain the array; since the Handbook's table is out of
+date at other *n* (§5), exceeding it is not by itself evidence of novelty.
+*(Correction, 2026-11-17: through v0.17.0 this sentence said that we could not
+read Song's paper and claimed no priority over it. It has since been read in
+full: its Table 1 gives *n* = 25 as "4, …, 24", the basic lower bound. The
+clause on the table's other entries was added on 2026-11-17; see §5.)*
 
 ## 1. The object and the property
 
@@ -118,6 +125,9 @@ values of F_c(n) and F(n)" — records the *n* = 25 entry, verbatim, as
 
 i.e. a best recorded lower bound of 4 (the value *p*−1) and the trivial upper
 bound 24 = *n*−1; the value of F_c(25) within that range is left undetermined.
+*(Note, 2026-11-17: the same table is out of date at other n: at n = 33, 35
+and 39 it records the lower bounds 3, 4 and 3, while 5 × n rectangles exist
+there by the Handbook's own Theorem 62.23(5); see §5.)*
 
 ### The result
 
@@ -252,15 +262,32 @@ literature that uses circular Florentine rectangles quotes only the basic
 bounds *p*−1 ≤ F_c(*N*) ≤ *N*−1, and the constructive benchmark CPro1 [CPro1]
 lists (5, 25) among its open instances, with a property definition matching
 Definition 1.1. The array of Figure 1 is new to the surveyed literature.
+*(Correction, 2026-11-17: exceeding Table 62.27 is not by itself evidence of
+novelty. The table is out of date at n = 33, 35 and 39. By [HCD, Theorem
+62.23(5)] an (n, 6; 1) difference matrix over the cyclic group of order n
+gives a 5 × n circular Florentine rectangle, and the cyclic difference
+matrices that SageMath's design database attributes to the Handbook's §III.3
+(examples III.3.56, III.3.58 and III.3.61) give such rectangles at n = 33, 35
+and 39, where the table records 3, 4 and 3; each rectangle was checked
+exhaustively, with a one-swap control that fails. That database has no entry
+of order 25. The sources that decide order 25 were not read: A. B. Evans,
+*Orthomorphism Graphs of Groups* (1992) and *Orthogonal Latin Squares Based on
+Groups* (2018), and the Handbook's §VI.17 (Table 17.42) and §III.3 themselves;
+they need library access. So Theorem 2.1 is stated as exceeding the recorded
+values, and no more.)*
 
-*No priority over Song 2000 is claimed.* The one paper that might already
-contain a determination of F_c(25) is H.-Y. Song, *The existence of circular
-Florentine arrays* [Son00]. Its publisher page was inaccessible on every open
-route tried on August 6, 2026, so its Table 1 was not consulted. We therefore
-make *no* claim of priority over [Son00]. The claim of Theorem 2.1 is
-deliberately anchored on the recorded Handbook value of 4, not on the
-assertion that 4 was the best value obtainable anywhere: we state that the
-object exceeds the recorded lower bound, and no more.
+*Song 2000.* The one paper that might already have contained a
+determination of F_c(25) is H.-Y. Song, *The existence of circular Florentine
+arrays* [Son00]. Its Table 1 gives *n* = 25 as "4, …, 24", marked as the basic
+lower bound (one less than the smallest prime factor), so Theorem 2.1 exceeds
+[Son00] as well. The claim of Theorem 2.1 is deliberately anchored on the
+recorded values of 4, not on the assertion that 4 was the best value
+obtainable anywhere: we state that the object exceeds the recorded lower
+bound, and no more. *(Correction, 2026-11-17: through v0.17.0 this paragraph
+was headed "No priority over Song 2000 is claimed" and said that the paper's
+publisher page was inaccessible on every open route tried on August 6, 2026,
+so that its Table 1 was not consulted. The paper has since been read in full,
+from a copy hosted by its author.)*
 
 ## 6. Artifacts
 
@@ -310,9 +337,10 @@ it is valid.
   Construction 62.22(1) (*p* = 5).
 - **[Son00]** H.-Y. Song, *The existence of circular Florentine arrays*,
   Comput. Math. Appl. **39** (2000), no. 11, 31–35.
-  DOI 10.1016/S0898-1221(00)00104-8. Not read in full (publisher page
-  inaccessible on every open route tried on August 6, 2026); its Table 1 was
-  not consulted, and no priority over this paper is claimed.
+  DOI 10.1016/S0898-1221(00)00104-8. Not read in August 2026 (publisher page
+  inaccessible on every open route tried on August 6, 2026); read in full
+  later, from a copy hosted by its author (correction, 2026-11-17). Its Table 1
+  gives *n* = 25 as "4, …, 24".
 - **[CPro1]** Constructive-Codes, *CPro1* benchmark suite, constructive problem
   `circular-florentine-rectangle`, which lists the open instances (6, 21),
   (5, 25), (5, 27), (4, 33) with the property of Definition 1.1. On-disk copy

@@ -26,9 +26,16 @@ Independent researcher (`05oz`); no institutional affiliation — daniel@halfoun
 > **Prior-art record.** This note answers Question 8.1 of the companion
 > determination [PartG] of k(3,4) = 21. The value was absent from the
 > literature before [PartG]: the Erdős problems entry [Blo] (#112) records no
-> exact k(n,m), and [IRW21] remains the only paper on r(Iₘ,Lₙ). A novelty
-> sweep on the drafting date, August 11, 2026, found nothing on the number of
-> extremal {I₃,TT₄}-free graphs on 20 vertices, which is a fortiori new.
+> exact k(n,m). A novelty sweep on the drafting date, August 11, 2026, found
+> nothing on the number of extremal {I₃,TT₄}-free graphs on 20 vertices.
+> *(Correction, 2026-11-17: through v0.17.0 this record also said that
+> [IRW21] remains the only paper on r(Iₘ,Lₙ), and called the count "a
+> fortiori new". The first is false: Bermond's [Ber74], in this note's
+> references, determined r(I₃,L₃) = 9, and [IRW21] cites a further paper on
+> these numbers by Larson and Mitchell (1997). The second words are
+> withdrawn. The first arXiv version of [IRW21] (v1, 2017), which the sweep
+> did not read, remarks that the largest {I₃,L₄}-free Cayley graph has 20
+> vertices; see §6.)*
 
 *2020 MSC: Primary 05C55; Secondary 05C20, 05D10, 68V15. Keywords: oriented
 graph, Ramsey number, transitive tournament, independent set, extremal graph,
@@ -49,9 +56,12 @@ symmetric object. We record the local structure they share as a short
 forcing lemma: in any {I₃,TT₄}-free oriented graph a vertex has at most 7
 non-neighbours, and a vertex with exactly 7 carries a copy of the Paley
 tournament QR₇ = Cay(ℤ₇,{1,2,4}) as its non-neighbourhood. Finally the
-algebraic route falls short: the largest {I₃,TT₄}-free tournament blow-up has
-only 14 vertices, six short of the extremal order, and the thirteen exhibited
-witnesses are rigid rather than Cayley. We close with the sharpened question
+tournament blow-up route falls short: the largest {I₃,TT₄}-free tournament
+blow-up has only 14 vertices, six short of the extremal order, and the
+thirteen exhibited witnesses are rigid rather than Cayley. *(Correction,
+2026-11-17: through v0.17.0 this sentence began "Finally the algebraic route
+falls short". A circulant reaches the extremal order (§6), so what falls
+short is the blow-up route only.)* We close with the sharpened question
 of whether a QR₇ block is unavoidable in every witness.
 
 ## 1. The question
@@ -82,8 +92,9 @@ thirteen are printed as arc lists with the artifacts. Each of the thirteen is
 in particular not vertex-transitive, since a vertex-transitive graph on
 n ≥ 2 vertices has |Aut| ≥ n. We prove Theorem 1.1 by direct verification
 (§2); the local structure that the thirteen share is explained by the forcing
-lemma of §3; and the sense in which the algebraic construction falls short is
-made precise in §4.
+lemma of §3; and the sense in which the tournament blow-up construction falls
+short is made precise in §4. *(Correction, 2026-11-17: through v0.17.0 this
+read "the algebraic construction"; see §6.)*
 
 ## 2. The witnesses
 
@@ -180,10 +191,12 @@ confirmed independently. Every one of the thirteen has between 6 and 14 such
 vertices, so QR₇ appears in each; whether it must appear in *every* free graph
 on 20 vertices is left open in §6.
 
-## 4. The algebraic route falls short
+## 4. The tournament blow-up route falls short
 
 The natural algebraic construction from QR₇ is a blow-up, and it falls well
-short of the extremal order.
+short of the extremal order. *(Correction, 2026-11-17: through v0.17.0 this
+section was titled "The algebraic route falls short". Blow-ups fall short; a
+circulant does not, see §6.)*
 
 **Proposition 4.1.** *Let T be a tournament and m ≥ 1, and let T[Iₘ] be the
 lexicographic blow-up in which each vertex of T is replaced by an independent
@@ -209,9 +222,11 @@ vertex-transitive, hence not Cayley digraphs; and they are not blow-ups, since
 a proper blow-up has two vertices with identical neighbourhoods and every wᵢ
 has twenty distinct colour classes under refinement. In the language of
 [PartG, §8.1], where the extremal graph for k(3,3) = 9 is a single circulant,
-the picture at (3,4) is the opposite: the extremal graph is not unique, and the
-thirteen exhibited here are aperiodic and non-algebraic, with QR₇ surviving
-only as a forced local block.
+the extremal graph at (3,4) is not unique, and the thirteen exhibited here
+are aperiodic, with QR₇ surviving in them only as a forced local block; a
+circulant is extremal at (3,4) as at (3,3) (§6). *(Correction, 2026-11-17:
+through v0.17.0 this sentence said that the picture at (3,4) is the opposite
+and called the thirteen non-algebraic.)*
 
 ## 5. Certification
 
@@ -235,8 +250,38 @@ structure-mining dig (see the methods note), and return PASS.
 
 Question 8.1 of [PartG] is answered: W is not unique, and the extremal count is
 at least 13. The thirteen exhibited here are rigid, hence none is
-vertex-transitive or Cayley; whether *some other* extremal graph might still be
-algebraic is not decided here. Three questions remain.
+vertex-transitive or Cayley. A vertex-transitive extremal graph exists as
+well: the circulant Cay(ℤ₂₀,{2,4,5,7,11,14}) is free on 20 vertices. It
+appears, with a census of eight cyclic witnesses on 20 vertices, in the
+working report of Erdős Problem a Day on problem 112
+(erdosproblemaday.com/report/112, dated 2026-08-12, initial run 2026-07-26),
+and in Muhamadiev Faridun's repository gitlab.com/faridunislom/math.erdos112
+(22 September 2026); the reviewers at erdosproblemaday.com pointed it out to
+us on 2026-11-16. The first arXiv version of
+[IRW21] (arXiv:1707.09556v1, 2017) remarks that the largest free Cayley graph
+has 20 vertices. Being vertex-transitive, the circulant is isomorphic to none
+of the thirteen, so at least fourteen extremal graphs exist. So the last part
+of Question 8.1, whether an extremal graph admits an algebraic description,
+has the answer yes. Three questions remain. *(Correction, 2026-11-17: through
+v0.17.0 this paragraph said that whether some other extremal graph might
+still be algebraic was not decided here; the circulant decides it.)*
+
+*(Correction, 2026-11-17, to the description of the Zenodo record of v0.10.0,
+doi:10.5281/zenodo.21898266. From 12 August 2026 that description said that
+no 20-vertex extremal graph is vertex-transitive and that none is a Cayley
+digraph. That was wrong: the circulant above is one, as the reviewers at
+erdosproblemaday.com pointed out, and the first arXiv version of [IRW21]
+(arXiv:1707.09556v1, 2017) remarks that the largest {I₃,L₄}-free Cayley graph
+has 20 vertices. The description also concluded from the blow-up bound that
+the extremal family is substantially non-algebraic; that conclusion is
+withdrawn (§4). This note itself claimed rigidity of the thirteen only. The
+copy of `SWEEP-RECORD-K34ADD-2026-08-11.md` inside the v0.10.0 archive makes
+the same wrong statement and cannot be changed there; the copy in the
+repository was changed in place in v0.14.0, without a dated note, and
+carries dated notes of 2026-11-17. The
+description was corrected on 2026-11-17, and on the same date three other
+statements in it were brought into line with the corrections published in
+versions 0.14.0 and 0.15.0.)*
 
 **Question 6.1.** Is a QR₇ block unavoidable? Equivalently, does every free
 oriented graph on 20 vertices have a vertex of type s = 7?

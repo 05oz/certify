@@ -5,7 +5,9 @@
 %% Result referee-CONFIRMED 2026-08-11 (final adversarial pass, fresh code
 %% throughout; the referee's verdict record and code are retained by the
 %% author and are not deposited -- the deposit carries the review log and
-%% the separate k(6,3) verdict record). Novelty swept clean
+%% the separate k(6,3) verdict record). [Correction 2026-11-17: the pass's
+%% load-bearing checks used code written fresh for it, and it also re-ran
+%% one audit script of the pipeline; see Section 4.2.] Novelty swept clean
 %% 2026-08-05 and 2026-08-11 (erdosproblems.com/112 fetched live: OPEN,
 %% 0 comments, 0 claimed proofs, no values recorded; arXiv: nothing on
 %% r(I_m,L_n) beyond IRW; IRW citing literature: one off-target citation).
@@ -18,6 +20,9 @@
 %%     plus a 346-cube LRAT-certified exhaustion at N=21 with independently
 %%     audited completeness. Previous published bounds: 9 <= k(3,4) <= 25
 %%     (lower: monotonicity from Bermond's k(3,3)=9; upper: IRW 2021).
+%%     [Correction 2026-11-17: arXiv:1707.09556v1 (2017) states
+%%     r(I_3,L_4) <= 24 and remarks that the largest {I_3,L_4}-free Cayley
+%%     graph has 20 vertices, so k(3,4) >= 21; see Section 1.1.]
 %%   * Secondary results at their permitted strength only: the N=22 and
 %%     N=23 certified exhaustions are REDUNDANT confirmations; and
 %%     29 <= k(6,3) <= 33 (lower bound ours, upper bound IRW's).
@@ -73,10 +78,15 @@ affiliation. ORCID:
 searches, verifiers, and audits in this work were produced by
 \textbf{Claude} (Anthropic), directed by the author, on a single
 Apple~M4 laptop. The independent proof checker imports only the Python
-standard library and shares no code with the solving pipeline; the
-adversarial referee of \S\ref{ssec:referee} was a separate agent instance
-given no access to the pipeline's code and wrote its own code throughout,
-including its own LRAT checker. This is a factual methods statement, and
+standard library and shares no code with the solving pipeline; every
+load-bearing check of the adversarial referee pass of
+\S\ref{ssec:referee} used code written fresh for that pass, including its
+own LRAT checker. \emph{(Correction, 2026-11-17: through v0.17.0 this
+sentence said the referee was a separate agent instance given no access
+to the pipeline's code. The records of the pass document neither. The pass
+worked inside the run directory, used the pipeline's ledger, queue file,
+block files and failure log, and re-ran one audit script of the
+pipeline; see \S\ref{ssec:referee}.)} This is a factual methods statement, and
 it is part of the point of the note: the artifacts are designed so that
 the provenance of the \emph{search} is irrelevant to the validity of the
 \emph{result}. External tools used by the pipeline: CaDiCaL~3.0.1
@@ -92,7 +102,14 @@ before this draft was written): status \textsc{open}, zero comments, zero
 claimed proofs, no exact value of any $k(n,m)$ recorded. An arXiv sweep
 of the same dates found no paper on $r(I_m,L_n)$ other than \cite{IRW21},
 whose single recorded citation is off-target. The line has been dormant
-since 2020/2021. \emph{Draft of August~11, 2026.}}
+since 2020/2021. \emph{(Correction, 2026-11-17: only arXiv v3 was read in
+August. The first arXiv version, v1 of 29 July 2017, read in full on
+2026-11-17, states $r(I_3,L_4)\le 24$, with a proof by an integer
+program, and remarks in its Section~2 that the largest
+$\{\I3,L_4\}$-free Cayley graph has only $20$ vertices, which implies
+$k(3,4)\ge 21$; it gives no graph and no group. Neither statement is in
+v2 or v3. The reviewers at erdosproblemaday.com pointed out the remark on
+2026-11-16. See \S\ref{ssec:question}.)} \emph{Draft of August~11, 2026.}}
 
 \subjclass[2020]{Primary 05C55; Secondary 05C20, 05D10, 68V15}
 \keywords{Oriented graph, Ramsey number, transitive tournament,
@@ -111,7 +128,11 @@ by Bermond and by Ihringer, Rajendraprasad, and Weinert (IRW). Beyond the classi
 exact values were $k(3,3)=9$ (Bermond 1974) and $k(4,3)=15$, $k(5,3)=23$
 (IRW 2021); for $k(3,4)$, the case IRW single out as the next feasible
 one, the published bounds were $9\le k(3,4)\le 25$. We determine
-$k(3,4)=r(I_3,L_4)=21$.
+$k(3,4)=r(I_3,L_4)=21$. \emph{(Correction, 2026-11-17: the first arXiv
+version of \cite{IRW21} (v1, 2017), not read in August, states
+$r(I_3,L_4)\le 24$, with a proof by an integer program, and makes a
+remark on Cayley graphs that implies $k(3,4)\ge 21$; neither is in its
+later versions. See \S\ref{ssec:question}.)}
 
 The lower bound is an explicit oriented graph on $20$ vertices, printed
 in full in \S\ref{sec:witness} and checkable in milliseconds. The upper
@@ -127,8 +148,20 @@ instance files against the decomposition re-derived from the
 definitions. With logically redundant confirming exhaustions at
 $N=22,23,24$, the corpus is $445$ certificates and just over $10^9$
 checked proof steps; certificates regenerate bit-for-bit from the
-recorded solver commands ($11$ of $11$ attempts). Every component was then confirmed by an
-adversarial referee writing fresh code throughout. From the same
+recorded solver commands (nine recorded attempts in August, on eight
+distinct certificates, and $17$ certificates on 2026-11-17;
+\S\ref{sec:certification}). \emph{(Correction, 2026-11-17: through
+v0.17.0 this read ``$11$ of $11$ attempts''; two of those eleven have no
+record.)} \emph{(Addition, 2026-11-25: this is a statement about our
+environment. In the outside check of 2026-11-18, made with another build
+of CaDiCaL 3.0.1, $307$ of the $445$ proofs equal the ledger's in SHA-256
+and size and $138$ are different proofs of the same formulas;
+\S\ref{sec:tcb}, item~1.)} Every component was then confirmed by an
+adversarial referee whose load-bearing checks used code written fresh for
+that pass (\S\ref{ssec:referee}). \emph{(Correction, 2026-11-17: through
+v0.17.0 this read ``an adversarial referee writing fresh code
+throughout''; the pass also re-ran one audit script of the pipeline.)} From
+the same
 campaign: $29\le k(6,3)\le 33$, the lower bound new, by an explicit
 Cayley witness on $28$ vertices; the upper bound is IRW's. We close with
 the questions the computation opens: the structure and possible
@@ -190,7 +223,21 @@ the recursion of \cite[Lemma~2.3]{IRW21},
 $r(\I3,L_4)\le 2\,r(\I3,L_3)+r(\I2,L_4)-1=25$; the same value $25$ is
 what \cite[Proposition~6.1]{IRW21}, the small-parameter formula the
 authors describe as the state of the art for small $m$ and $n$, returns
-at $(m,n)=(3,4)$.
+at $(m,n)=(3,4)$. \emph{(Correction, 2026-11-17: this record was not
+complete. The first arXiv version of \cite{IRW21}, arXiv:1707.09556v1
+(29 July 2017), states $r(I_3,L_4)\le 24$, with a proof by an integer
+program, and in its Section~2 remarks that this bound might not be tight
+because the largest $\{\I3,L_4\}$-free Cayley graph has only $20$
+vertices. That remark implies $k(3,4)\ge 21$, although v1 gives no graph
+and no group. Both statements are absent from v2 and v3, and this note
+read only v3 in August. The reviewers at erdosproblemaday.com pointed out
+the remark on 2026-11-16. Also not in this record: the working report of
+Erd\H{o}s Problem a Day on problem 112
+(\texttt{erdosproblemaday.com/report/112}, dated 2026-08-12, initial run
+2026-07-26) exhibits the circulant
+$\mathrm{Cay}(\mathbb{Z}_{20},\{2,4,5,7,11,14\})$ of \S\ref{ssec:qstruct}
+and states $21\le k(3,4)\le 25$; when that report was first public is not
+established in our records.)}
 
 \subsection{Result}\label{ssec:result}
 
@@ -214,9 +261,14 @@ cube-and-conquer \cite{HKWB11} and of the certified exhaustions of
 cases cover everything, with no symmetry breaking hidden in the
 encoding --- was itself audited at content level
 (\S\ref{sec:verif}). Every certificate was verified by an independently
-written checker, and twelve of them by a second, unrelated one; the
-whole was confirmed by a final
-adversarial referee (\S\ref{ssec:referee}).
+written checker, and ten of them, together with the two certificates of
+Lemma~\ref{lem:endpoints}, by a second checker, also ours; the whole was
+confirmed by a final adversarial referee (\S\ref{ssec:referee}).
+\emph{(Correction, 2026-11-17: through v0.17.0 this read ``twelve of them
+by a second, unrelated one''. The second checker ran on ten of the $445$
+ledger certificates, all in the $N=21$ layer, and on the two certificates
+of Lemma~\ref{lem:endpoints}, which are not ledger entries. On
+``unrelated'', see \S\ref{sec:tcb}.)}
 
 Two secondary results from the same campaign are recorded at exact
 strength. The certified exhaustions at $N=22,23$ (and a structured
@@ -497,6 +549,16 @@ complete corpus of the campaign (including the redundant layers of
 checked steps. All $346$ solver logs report unsatisfiability; every
 base has exactly one ledger line, verdict \textsc{verified}, formula
 digest matching the audited file; no failures, no rejections.
+\emph{(Note, 2026-11-17: the checker here is our own
+\texttt{lrat\_check.py}. In August it checked each of the $346$ proofs of
+the $N=21$ layer, \texttt{s21\_587\_1} twice; $336$ of those proofs were
+then deleted as a regenerable cache, and ten are stored. No established
+LRAT checker was run on them in August; see \S\ref{sec:tcb}, item~1.)}
+\emph{(Addition, 2026-11-25: on 2026-11-18 the reviewers at
+erdosproblemaday.com completed an outside check in which cake\_lpr, an
+established LRAT checker, accepted a proof of each of the $445$
+formulas, solved again from the inputs in this repository
+\cite{EPD26}; see \S\ref{sec:tcb}, item~1.)}
 
 \section{Verification and audit}\label{sec:verif}
 
@@ -540,11 +602,16 @@ digests, two of them under the referee's independent checker and one
 regenerated byte-identically from its recorded solver command.
 
 \subsection{The adversarial referee}\label{ssec:referee}
-The confirmed result rests on a final adversarial referee pass, by a
-separate agent instance under an explicit independence rule: every
-load-bearing check used code written fresh in that session, sharing
-nothing with the pipeline or the earlier audits beyond the DIMACS
-variable-numbering convention. The referee re-derived the entire
+The confirmed result rests on a final adversarial referee pass under an
+explicit independence rule: every load-bearing check used code written
+fresh in that session, sharing nothing with the pipeline or the earlier
+audits beyond the DIMACS variable-numbering convention.
+\emph{(Correction, 2026-11-17: through v0.17.0 this sentence also said
+the pass was made by a separate agent instance; the records of the pass
+do not document that. The pass worked inside the run directory, used the
+pipeline's ledger, queue file, block files and failure log, and re-ran
+one audit script of the pipeline; its load-bearing checks used its own
+code.)} The referee re-derived the entire
 skeleton from the definitions --- the neighbourhood lemma, both
 endpoints of Lemma~\ref{lem:endpoints}, the inventories of
 Proposition~\ref{prop:blocks}, the six types, the count $346$ --- and
@@ -618,9 +685,20 @@ $5$ across components with the extremal component orders available
 vertices; $k(a{+}1,3)-1$ in general) gives $3+22=25$ as the best
 partition, so every witness on $26$ or more vertices --- including
 $D$, whose connection set contains a generator --- is connected in the
-underlying adjacency. No lower bound beyond $24$ ($W_{22}$, the
+underlying adjacency. Before this note, the only lower bound for $k(6,3)$
+stated in the literature was $18$, from $k(6,3)\ge R(6,3)$
+\cite[\S1]{IRW21}. One-line assemblies of known graphs give more: $23$ by
+monotonicity from $k(5,3)=23$; $24$ from $W_{22}$, the
 $\{\I5,\TT{3}\}$-free circulant of \cite[Observation~4.2]{IRW21}, plus
-an isolated vertex) appears in the literature.
+an isolated vertex; and $26$ from $W_{22}$ together with a disjoint
+directed $3$-cycle, the $25$-vertex union of the partition $3+22$ above
+(independence number $4+1=5$, and a transitive triangle cannot use both
+parts). So the $29$ of Proposition~\ref{prop:k63} exceeds the best
+one-line assembly by $3$. \emph{(Correction, 2026-11-17: through v0.17.0
+this paragraph ended ``No lower bound beyond $24$ ($W_{22}$ \dots\ plus
+an isolated vertex) appears in the literature.'' Read literally that was
+false, since the literature stated only $18$; and it missed $26$, which
+follows in one line. Proposition~\ref{prop:k63} and its proof are unaffected.)}
 
 \section{Certification}\label{sec:certification}
 
@@ -646,20 +724,40 @@ generator \texttt{make\_structured.py}, the proof checker
 \texttt{verify\_witness.py}, and the audits \texttt{audit\_cnf.py} and
 \texttt{audit\_multiset.py} --- and the review log together with the
 referee verdict for $k(6,3)$. Retained by the author and not
-redistributed are the queue files, the $70$ block-class representatives
-the generators consume, the rest of the checking and audit pipeline, and
+redistributed are the queue files, the $72$ block-class representatives
+the generators consume ($70$ block files and two witness files), the
+rest of the checking and audit pipeline, and
 the audit and $k(3,4)$ referee records. So the lower-bound half replays
 from the deposit outright, as does any certificate whose formula and
 proof the reader has; regenerating a case formula to its recorded
 \texttt{cnf\_sha256} needs the representatives, and
 \texttt{audit\_multiset.py} imports a module of the kit and does not run
-from the deposit alone.
+from the deposit alone. \emph{(Correction and update, 2026-11-17: through
+v0.17.0 this paragraph counted $70$ representatives; there are $72$, the
+$70$ block files and \texttt{witness\_bermond8.json} and
+\texttt{witness\_qr7.json}. The paragraph describes the deposit of
+v0.7.0, the version DOI above. Since commit 4794560 of 2026-11-17 the
+repository also holds those $72$ representatives, the four queue files of
+the $N=21$, $22$ and $23$ layers (each command with the run-directory path
+and the solver's directory removed) and a seventh script,
+\texttt{verify\_chain.py}. With them every case formula regenerates to its
+recorded \texttt{cnf\_sha256}, and \texttt{audit\_multiset.py} runs from
+the repository. No release up to v0.17.0 holds these files. What stays
+with the author is listed in \texttt{k34-certificates/REGENERATE.md}.)}
 
 The multi-gigabyte proofs themselves are a cache, not the record: each
 regenerates from its recorded command --- deterministically, in our
 environment: the referee's eight regenerations were all byte-identical
 to the originals, matching the ledger's digests --- and the deposit
-documents the regeneration procedure and what it requires. As to
+documents the regeneration procedure and what it requires.
+\emph{(Updated 2026-11-17: one more August regeneration, of
+\texttt{s21\_587\_1} in the fix pass after the referee, was also
+byte-identical. On 2026-11-17, $17$ more proofs (the $N=24$ instance, the
+eight cubes of $N=23$ and eight of $N=21$) were regenerated byte-identical
+with the recorded commands, on the same machine with the same CaDiCaL
+build; see \texttt{k34-certificates/REGENERATE.md}. Where an original had
+been deleted, byte-identical means equal in size and SHA-256 to its ledger
+line.)} As to
 tooling, the checkers are standard-library only, so replaying a
 certificate or a witness requires only CPython; regenerating proofs
 requires CaDiCaL~3.0.1.
@@ -675,11 +773,17 @@ behind Lemma~\ref{lem:endpoints} and Proposition~\ref{prop:blocks},
 performed three independent times, with closure assertions (minutes);
 the brute-force semantics of $\mathrm{base}(4)$ and $\mathrm{base}(5)$
 over all orientations; the clause-multiset identity of all $445$ cube
-files with their re-derived specifications (this audit runs in the
-regeneration kit, not from the deposit alone); and the LRAT replay of all
-$445$ certificates by an independently written checker, with twelve of
-them re-run by a second, unrelated checker agreeing on the exact step
-count in every case. Both checkers reject all negative controls.
+files with their re-derived specifications (this audit runs from the
+repository since the additions of 2026-11-17,
+\S\ref{sec:certification}); and the LRAT replay of all $445$
+certificates by an independently written checker, with ten of them, and
+the two certificates of Lemma~\ref{lem:endpoints}, re-run by a second
+checker agreeing on the exact step count in every case. Both checkers
+reject all negative controls. \emph{(Correction, 2026-11-17: through
+v0.17.0 this read ``with twelve of them re-run by a second, unrelated
+checker'', and it said the audit runs only in the regeneration kit, which
+was true until the additions of 2026-11-17. Both checkers are ours; see
+item~1 below.)}
 
 \emph{Trusted:}
 \begin{enumerate}
@@ -687,8 +791,49 @@ count in every case. Both checkers reject all negative controls.
 RUP-with-hints with sound fixpoint treatment of hints and accept only on
 derivation of the empty clause. That this discipline is sound is a short
 argument on paper, not a machine-checked one; the mitigation is two
-independent implementations in agreement, plus negative controls
+implementations in agreement, plus negative controls
 (corrupted proof, mutated formula, dropped hint) rejected by both.
+Both are ours, written in the same campaign, in the same language, with
+the same relaxed hint rule (\S\ref{ssec:complete}), and they share no
+long passage; their agreement guards against a coding slip and only
+weakly against a shared misunderstanding. No established LRAT checker
+(cake\_lpr, drat-trim) was run on any of these proofs in August. On
+2026-11-17 the \texttt{lrat-check} program of drat-trim (commit
+2e3b2dc) accepted $30$ distinct ledger certificates: the $17$
+regenerated that day and $14$ of the stored proofs (ten of the $N=21$ layer and
+four of $N=22$; \texttt{s21\_587\_1} is in both sets), so $17$ of
+$N=21$, $4$ of $N=22$, $8$ of $N=23$ and the one of $N=24$. That program
+also accepts a proof whose last line asserts the empty clause with no
+hints, as X.~Zeng reports \cite{Zen26} and as checked here; both of our
+checkers reject such a proof, so that program is weak alone exactly
+there. No run of cake\_lpr was made here; one was made outside. On
+2026-11-18 the reviewers at erdosproblemaday.com completed a rebuild and
+check of the certificate chain from commit 4794560 of this repository
+\cite{EPD26}. By their record, all $445$ formulas regenerate to the
+ledger's \texttt{cnf\_sha256}; each was solved again, with the recorded
+options and no time limit, by CaDiCaL~3.0.1 built from source with
+gcc~13.3.0 on x86-64 Linux; and cake\_lpr (commit a36874a), which the
+record describes as an LRAT checker with a proof in the HOL4 theorem
+prover that a formula it reports verified is unsatisfiable, accepted all
+$445$ proofs, the $346$ of $N=21$ among them. Of those proofs, $307$
+equal our ledger lines in SHA-256 and byte count ($232$ of $N=21$, $66$
+of $N=22$, the $8$ of $N=23$ and the one of $N=24$); the other $138$ are
+different proofs of the same formulas. For the two formulas of
+Lemma~\ref{lem:endpoints}, written by \texttt{gen\_cnf.py}, cake\_lpr
+accepted the proofs as well. The record also compares each of the $445$
+formulas with an encoder of the reviewers' own (equal clause sets),
+checks the $72$ block representatives and reports the block counts of
+Proposition~\ref{prop:blocks} from enumerations of their own; its controls
+include a proof ending in an empty clause with no hints, which cake\_lpr
+rejects. It did not run our checkers, and it does not machine-check the
+short argument that the $346$ cases cover every graph (item~2 below). On
+that record the unsatisfiability of each formula no longer rests on our
+two checkers alone. The check is theirs and was not repeated here.
+\emph{(Correction, 2026-11-17: through
+v0.17.0 this item called the two checkers ``two independent
+implementations'' and did not say that no established checker had been
+run.)} \emph{(Addition, 2026-11-25: the sentences on the outside check of
+2026-11-18.)}
 \item \emph{The assembly of \S\ref{ssec:canon}.} The proof of
 Proposition~\ref{prop:canon} is half a page of mathematics to be read by
 a human. Every computational input to it is machine-checked; the gluing
@@ -703,16 +848,19 @@ multiset from the definitions.
 \item \emph{SHA-256 collision resistance}, for the bookkeeping that ties
 ledger lines to files. The LRAT corpus is a regenerable cache and is not
 shipped, so no shipped certificate depends on a hash for its replay; regenerating a case formula to its recorded
-\texttt{cnf\_sha256}, however, needs the block representatives, which are
-part of the private regeneration kit and not of this deposit.
+\texttt{cnf\_sha256}, however, needs the block representatives, which the
+repository holds since 2026-11-17 (\S\ref{sec:certification}).
+\emph{(Updated 2026-11-17: through v0.17.0 this said the representatives
+were part of the private regeneration kit and not of the deposit.)}
 \item \emph{CPython, the operating system, and the hardware.}
 \end{enumerate}
 
 \noindent CaDiCaL, the cube generators, and the solving pipeline are
 \emph{not} in the trusted base: nothing depends on the solver being
 correct, only on its proofs checking, and every proof was checked by
-code unrelated to the solver --- a sample of them by two such checkers
-independently.
+code unrelated to the solver, a sample of them by two such checkers, both
+ours (item~1). \emph{(Correction, 2026-11-17: through v0.17.0 this ended
+``by two such checkers independently''.)}
 
 \section{Questions}\label{sec:questions}
 
@@ -733,6 +881,25 @@ Is $W$ the unique $\{\I3,\TT{4}\}$-free oriented graph on $20$ vertices
 up to isomorphism? If not, what is the number of extremal graphs, and
 does any admit an algebraic description?
 \end{question}
+
+\noindent\emph{(Partly answered, 2026-11-17. The circulant
+$\mathrm{Cay}(\mathbb{Z}_{20},\{2,4,5,7,11,14\})$ is
+$\{\I3,\TT{4}\}$-free on $20$ vertices; every translation is an
+automorphism, so it is vertex-transitive, and its automorphism group has
+order $20$. It appears, with a census of eight cyclic witnesses on $20$
+vertices, in the working report of Erd\H{o}s Problem a Day on problem 112
+(\texttt{erdosproblemaday.com/report/112}, dated 2026-08-12, initial run
+2026-07-26), and as the witness for $k(3,4)\ge 21$ in \cite{MF26}
+(22 September 2026); the reviewers at erdosproblemaday.com pointed it out
+to us on 2026-11-16.
+The first arXiv version of \cite{IRW21} remarks that the largest
+$\{\I3,L_4\}$-free Cayley graph has $20$ vertices
+(\S\ref{ssec:question}). So the comparison with $k(4,3)$ above does not
+extend to the extremal family, and the last part of
+Question~\ref{q:unique} has the answer yes. Part~J of Certify (v0.10.0,
+\texttt{k34add-paper/}) answers the first part, $W$ is not unique, and
+bounds the second: at least thirteen extremal graphs exist, and with this
+circulant at least fourteen; its \S6 carries the matching correction.)}
 
 A related quantitative puzzle: the counting bound of
 \S\ref{ssec:decomp} caps free graphs at $24$ vertices, yet the largest
@@ -757,7 +924,15 @@ upper bound looks harder: an exhaustion in this note's style
 would need complete inventories of $\{\I5,\TT{3}\}$-free graphs on up
 to $22$ vertices, far beyond present enumeration, so progress below
 $33$ seems likelier to come from sharpening the $m^2-m+3$ argument of
-\cite{IRW21}.
+\cite{IRW21}. \emph{(Later work, noted 2026-11-17: T.~S. Orden has since
+reported $30\le k(6,3)\le 32$ \cite{Ord26}; his record says the proof has
+not been peer reviewed, and his witness and proof were not checked here. His lower bound is a
+$29$-vertex oriented graph found by simulated annealing, whose
+automorphism group his record states to be trivial, so it is not a Cayley
+digraph and lies outside the sweep above; his upper bound is a counting
+argument on the lemmas of \cite{IRW21} with one computed lemma. His
+record credits the lower bound $29$ of Proposition~\ref{prop:k63} to this
+note.)}
 
 \subsection{$k(4,4)$ and beyond}\label{ssec:qk44}
 The new value propagates through the standard recursion. By
@@ -772,9 +947,16 @@ k(4,4)\;\le\;50,
 k(3,5)\;\le\;55 ,
 \]
 which is the recursion of \cite[Lemma~2.3]{IRW21} evaluated at the new
-value. Meanwhile $k(4,4)\ge k(3,4)=21$, since a graph with no $\I3$ has
-no $\I4$,
-so $W$ is also $\{\I4,\TT{4}\}$-free. An honest feasibility assessment:
+value. Meanwhile $k(4,4)\ge 28$: the disjoint union of $W$ and $QR_7$ is
+an oriented graph on $27$ vertices with independence number $2+1=3$ and
+no $\TT{4}$, since a $\TT{4}$ is a tournament and lies inside one part.
+\emph{(Correction, 2026-11-17: through v0.17.0 this sentence gave only
+$k(4,4)\ge k(3,4)=21$, from $W$ alone. Later work: Muhamadiev Faridun has
+since given $k(4,4)\ge 34$ and $k(3,5)\ge 31$ \cite{MF26}, by circulants
+on $\mathbb{Z}_{33}$ and $\mathbb{Z}_{30}$, and the GitHub repository
+\texttt{rsvaultpudgy-create/erdos-112-lower-bounds} (11 November 2026) gives
+$k(4,4)\ge 40$ and $k(3,5)\ge 43$, by circulants on $\mathbb{Z}_{39}$ and
+$\mathbb{Z}_{42}$; all four circulants were checked here on 2026-11-17.)} An honest feasibility assessment:
 determining $k(4,4)$ or $k(3,5)$ by the present method is out of reach.
 The decomposition would require complete isomorph inventories of
 $\{\I4,\TT{3}\}$-free graphs up to $14$ vertices, or of
@@ -846,6 +1028,17 @@ P.~Schneider-Kamp,
 in: Automated Deduction --- CADE-26, Lecture Notes in Comput.\ Sci.\
 \textbf{10395}, Springer, 2017, 220--236.
 
+\bibitem[EPD26]{EPD26}
+Erd\H{o}s Problem a Day, entry of 18 November 2026 on problem~112
+(updated 19 November 2026): the certificates of this note, rebuilt and
+replayed with cake\_lpr,
+\url{https://erdosproblemaday.com/day/112-kirtchakov-k34-certificates-checked-by-a-verified-checker};
+scripts, logs and per-case results in the repository
+github.com/pw/erdosproblemaday-verification, folder
+\texttt{112/kirtchakov-certificates-cake-lpr}. The entry and the folder's
+README were read in full on 2026-11-25. Cited in \S\ref{ssec:certs} and
+\S\ref{sec:tcb} for the outside check.
+
 \bibitem[ErRa67]{ErRa67}
 P.~Erd\H{o}s and R.~Rado,
 \emph{Partition relations and transitivity domains of binary relations},
@@ -868,12 +1061,37 @@ Lecture Notes in Comput.\ Sci.\ \textbf{7261}, Springer, 2012, 50--65.
 F.~Ihringer, D.~Rajendraprasad and T.~Weinert,
 \emph{New bounds on the Ramsey number $r(I_m,L_n)$},
 Discrete Math.\ \textbf{344} (2021), no.~3, 112268. Also arXiv:1707.09556 (v3,
-April 2020), the text read here (see the second footnote).
+April 2020), the text read here (see the second footnote). The first
+arXiv version, v1 (29 July 2017), read in full on 2026-11-17, is cited in
+\S\ref{ssec:question} and \S\ref{ssec:qstruct} for two statements that
+its later versions do not contain.
 
 \bibitem[LaMi97]{LaMi97}
 J.~A. Larson and W.~J. Mitchell,
 \emph{On a problem of Erd\H{o}s and Rado},
 Ann.\ Comb.\ \textbf{1} (1997), 245--252.
+
+\bibitem[MF26]{MF26}
+Muhamadiev Faridun,
+\emph{Erd\H{o}s problem \#112: exact small values of $k(n,m)$}, file
+\texttt{RESULTS.md} of the repository gitlab.com/faridunislom/math.erdos112,
+22 September 2026. Cited in \S\ref{ssec:qstruct} and for later work
+(\S\ref{ssec:qk44}).
+
+\bibitem[Ord26]{Ord26}
+T.~S. Orden,
+\emph{New bounds on the Erd\H{o}s--Rado number $k(6,3)$:
+$30\le k(6,3)\le 32$ (Erd\H{o}s problem \#112)}, Zenodo, version~2,
+16 November 2026, doi:10.5281/zenodo.24272287 (version~1, 9 November
+2026, doi:10.5281/zenodo.24064871). Cited for later work
+(\S\ref{ssec:qk63}).
+
+\bibitem[Zen26]{Zen26}
+X.~Zeng,
+\emph{A computer-assisted proof of the oriented Ramsey value $k(3,4)=21$},
+PDF dated 5 September 2026, in the repository
+github.com/ArtificialZeng/AI-Has-Taste (commit 2537a78). Cited in
+\S\ref{sec:tcb} for the behaviour of \texttt{lrat-check}.
 
 \end{thebibliography}
 

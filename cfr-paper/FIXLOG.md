@@ -2,7 +2,7 @@
 
 Reviewer pass: 2026-08-06. Ground truth treated as authoritative: the object
 `CFR_5_25.json`, the shipped verifier `verify_cfr525.py`, the second verifier
-`/Users/kirt/Documents/reserch math/construct/florentine/verify_cfr.py`, and the
+`[archive]/construct/florentine/verify_cfr.py`, and the
 primary source (Handbook of Combinatorial Designs, 2nd ed., chapter VI.62,
 fetched and read directly this pass). No claim was strengthened; only accuracy
 and precision were adjusted. The verifier and the object file were NOT touched,
@@ -131,3 +131,67 @@ untouched", which is correct about the *search* clause and silent about the
 heading and the source-header comment now state the dependence and point at §3. The
 §1 claim about the search is still retained: no private CFR generator exists on this
 filesystem, so it is untested rather than refuted, and the note says so.
+
+## Correction round, 2026-11-17
+
+No object, verifier or pinned SHA-256 changed; `CFR_5_25.json` and `verify_cfr525.py` are
+byte-identical to their released form. Each propagation grep was run over the whole tree of this
+release after the edits; the hits it lists as remaining are dated notes that quote the old
+wording, or dated records followed by their note. Counts were re-measured after the
+fixes of the verification and the referee of 2026-11-17, across line breaks and markup; unless a
+line says otherwise they leave out this log, CORRECTIONS.md and .zenodo.json, which quote old
+wording as records.
+
+**E-1. Song 2000 is described as unread; it has been read in full.** H.-Y. Song, Comput. Math.
+Appl. 39 (2000) 31-35, read in full (author-hosted copy, all five pages; read by the release gate
+of 2026-08-14, by a review of 2026-11-11 and again for this entry). Its Table 1 gives n = 25 as
+"4, ..., 24", marked as the basic lower bound (one less than the smallest prime factor), so
+Theorem 2.1 exceeds Song 2000 as well. The note's "could not read" statements become dated
+history: the prior-art record (a statement of 6 August, kept, with an update note), the
+abstract, the Song paragraph of §5 and the reference, in both twins; a comment in the LaTeX
+header; the README sentence; the August sweep record (dated note). The note now states the
+claim against "the recorded values", the Handbook's and Song's.
+Propagation grep (`could not access`): 1 hit, the README note quoting the old words. (`which we
+could not`): 1 Part E hit, the same; 2 in Part B, unrelated. (`No priority over Song`): 3, the
+dated note of §5 in each twin and the LaTeX header comment, followed by its note. (`no priority
+over`): Part E hits are the prior-art record of 6 August (followed by its note), the abstract
+notes, the notes of §5, the header comment (followed by its note), this log's August entry and
+the sweep record (followed by its note); 2 in Part I, unrelated.
+
+**E-2. Table 62.27 of the Handbook is out of date at n = 33, 35 and 39, so exceeding it is not by
+itself evidence of novelty.** By the Handbook's Theorem 62.23(5), an (n, 6; 1) difference matrix
+over the cyclic group of order n gives a 5 x n circular Florentine rectangle. The cyclic
+difference matrices that SageMath's design database attributes to the Handbook's III.3.56,
+III.3.58 and III.3.61 give 5 x 33, 5 x 35 and 5 x 39 rectangles, where Table 62.27 records the
+lower bounds 3, 4 and 3; Song 2000's Table 1 has the same values. Each rectangle was checked
+exhaustively by the review of 2026-11-11 and again for this entry (5,280, 5,950 and 7,410 distinct
+events; a one-swap control fails). The database index has no entry of order 25. Not read, and
+needed to decide order 25: A. B. Evans, Orthomorphism Graphs of Groups (1992) and Orthogonal
+Latin Squares Based on Groups (2018); the Handbook's VI.17 (Table 17.42) and III.3 themselves;
+these need library access. Found by the review of 2026-11-11. Dated notes in the abstract, §2 and
+§5 of both twins, in the README and in the sweep record.
+Propagation grep (`new to the surveyed literature`): 2, §5 of each twin, where the August sentence
+stays, followed by its dated note. [Amended after the referee of 2026-11-17: the abstract repeated
+the sentence in text rewritten by this round; it now states what the August survey found, that the
+literature surveyed in August 2026 did not contain the array.]
+
+**E-3. The sweep record said "F_c(25) = 4".** The table entry is the range "4 ⋯ 24", lower
+bound 4, as the note quotes it. Dated note in the sweep record. Found by the review of 2026-11-11.
+Propagation grep (`F_c(25) = 4`): 3 hits, the sweep record line and its note, and this log's
+August entry, which says no passage asserts it.
+
+**E-4. The sweep record called the two verifiers "independent standard-library checkers".** The
+v0.15.0 round measured them as not code-disjoint (26 of the shipped checker's 104 executable lines
+appear in the second; CORRECTIONS.md, v0.15.0 section). Dated note in the sweep record. Found by
+the propagation grep of this round.
+Propagation grep (`independent standard-library checkers`): 1 hit, the sweep record, followed by
+its note.
+
+**E-5. A local path in this log.** The header of this log named the second verifier by an absolute
+path of the author's computer; its prefix now reads `[archive]/` by the rule printed in
+CORRECTIONS.md (R1). No other byte of that line changed.
+
+Not taken in this round: a later-work note on the Lean formalization `CFR525.lean`
+(github.com/Dugongue/MathProofs, 2026-09-16), whose array a review of 2026-11-11 found equivalent
+to this note's under the symmetries of the problem; it does not cite this note. It is optional,
+and its comparison was not re-run for this entry.

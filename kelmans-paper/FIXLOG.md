@@ -345,3 +345,43 @@ and in `kelmans-certificates/verdict-n04-20.md`. The control log is untouched an
 to its released form; only the note's description of it was wrong.
 Propagation grep (`arithmetic slip`): 1 site, this log's own quotation of the superseded clause
 above. 0 elsewhere in tracked text, 0 in extracted text across all thirteen shipped PDFs.
+
+## Correction round, 2026-11-17
+
+No count, certificate, checker or control changed. Each propagation grep was run over the whole
+tree of this release after the edits; the hits it lists as remaining are dated notes that quote
+the old wording, dated records, or true statements about the checkers against the searcher.
+
+**I-2. The two Python certificate checkers were called independent of each other.** The note
+(§1.2 and §5), the README and the certificates' REGENERATE.md said `verify_cert.py` and
+`refcert.py` were written independently of each other, share no code, or are "two unrelated
+checkers". Their own record says otherwise: `refcert.py:is_3connected` and
+`verify_cert.py:is_3_connected` are the same 85-token routine under renaming
+(`kelmans-certificates/verdict-n22-24.md` §6.1, disclosed 2026-08-13 in the verdict and the two
+docstrings, but not carried to the note). Both checkers share no code with the searcher
+`p3span.c`, as their docstrings state. Corrected with dated notes in both twins, the README and
+REGENERATE.md; the n ≤ 20 verdict record gains dated notes. Found by the site independence audit
+of 2026-11-10 (its item 9).
+Propagation grep (`unrelated checkers`, `two such checkers independently`): 1 hit, a dated note.
+(`share no code`, `shares no code`, `sharing no code`): Part I hits are the dated notes, the
+records, and statements about the checkers against the searcher; the front matter's
+"share no code with the searchers" is about that pair and is true.
+[Addition after the release gate of 2026-11-17: the comment over checker B in REGENERATE.md §1 still called it "independent"; it now states what the two checkers share, with a dated note. Propagation grep (`checker B, independent`): 0.]
+[Addition after a gate of 2026-11-25: §3.4 of both twins still said that every load-bearing check of the referee used code "sharing nothing with the search pipeline beyond the `graph6` format specification". The verdict record says otherwise for the certificate cross-check as deposited: `refcert.py` and `verify_cert.py` share their 3-connectivity routine, and the record calls that gate load-bearing (`kelmans-certificates/verdict-n22-24.md`, §6.1). Each twin now carries a dated note; the PDF is rebuilt. Propagation grep (`sharing nothing with the search`): 2 outside this log and CORRECTIONS.md, §3.4 of each twin, each followed by its note.]
+
+**I-3. "Two pipelines sharing no code" (the C searchers): untested, not refuted.** That the
+search pipeline `p3span.c` and the referee's `refcheck.c` share no code rests on their disjoint
+function inventories, apart from `main` (verdict-n22-24); it was never measured with a tool, and
+neither searcher is deposited. The note now says "two pipelines with disjoint function
+inventories" and states the claim as untested, not refuted, in §1.2 (twice), §2.2 and §5 of both
+twins; the README bullet is reheaded; the sweep record gains a dated note. Found by the site
+independence audit of 2026-11-10 (its item 9, quoting the brief of 2026-08-14: "reasoned to be
+true from disjoint function inventories, but never measured with a tool").
+Propagation grep (`no shared code`): Part I hits are the README note and the n ≤ 20 verdict record,
+followed by its note. (`written independently`): Part I hits are dated notes.
+[Addition after the release gate of 2026-11-17: (`no code shared`): in Part I, the 2026-08-06 entry of the sweep record, now followed by a dated note that quotes it, and line 88 of `kelmans-certificates/verdict-n22-24.md`, a dated record that says it of the C pair, which this decision leaves untested, not refuted; the two other hits are about other programs, in Parts C and M. (Corrected 2026-11-25: this line gave the count as 1.)]
+
+Not taken in this round: the front matter's sentence that the adversarial referee of §3.4 was "a
+separate agent instance given no access to the search pipeline's code". The same phrase was
+narrowed in Parts G and B this round because their records do not support it; the records of this
+part's referee were not checked here (listed as open in CORRECTIONS.md).

@@ -11,9 +11,11 @@ Everything below runs on a laptop. Checking the certificate corpus needs **only 
 
 ## 1. Check the certificates (no compiler, no generator, ~1 minute)
 
-Two checkers ship, written independently of each other and of the searchers; they share no
-code and use different graph6 decoders, different adjacency representations and different
-rejection orders.
+Two checkers ship, written separately from the searchers. They use different graph6
+decoders, different adjacency representations and different rejection orders, but they are
+not independent of each other: they share their 3-connectivity routine, the same 85-token
+routine under renaming (`verdict-n22-24.md` §6.1). *(Correction, 2026-11-17: this paragraph
+said they were written independently of each other and share no code.)*
 
 ```bash
 # checker A: verifies packing shape AND lambda(G) = floor(n/3), 3-connectivity on by default
@@ -28,7 +30,8 @@ python3 kelmans-scripts/verify_cert.py \
 python3 kelmans-scripts/verify_cert.py kelmans-certificates/certs_n24.txt
 # -> VERIFIED 9776 certificates (9776 distinct graphs) by order: [(24, 9776)]
 
-# checker B, independent: same corpus, different code
+# checker B: same corpus, separately written code that shares checker A's 3-connectivity
+# routine (corrected 2026-11-17: this line called checker B "independent")
 for n in 18 20 22 24; do
   python3 kelmans-scripts/refcert.py kelmans-certificates/certs_n$n.txt --n $n --check3c
 done

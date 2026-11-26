@@ -16,6 +16,10 @@ provenance for the wedge note; the decision log is `wedge-paper/FIXLOG.md`.
   This supports the note's framing exactly: the sub-threshold regime is named
   Monte-Carlo-inaccessible and answered with an estimator, not a re-verifiable
   bracket.
+  [Correction, 2026-11-17: the framing is theirs, and it does not describe this
+  note's own operating points, where the pre-registered 10^7-shot Monte Carlo run
+  resolves P_L (at d = 5, p = 10^-3 to about 12 percent either side). See the
+  note, §4.]
 
 ## Nearest neighbours — none produces the certified object
 

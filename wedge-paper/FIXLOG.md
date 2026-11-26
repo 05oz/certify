@@ -109,3 +109,43 @@ certificates and the whole-bracket backstop at d=3, established 2026-08-14, are
 stated, as is the limit that L at d=5 is not backstopped. The tamper-control layer
 is shown by enumeration to share no text with either engine. No certified value
 changed.
+
+## Correction round, 2026-11-17
+
+**W-3. The note framed its own operating points as beyond direct Monte Carlo.** Mullan,
+Weippert and Brown say the deep sub-threshold regime is not amenable to direct Monte Carlo
+simulation; that statement is theirs and stays theirs, quoted as such in §1. But at this note's
+operating points the pre-registered `10^7`-shot run of Table 2 resolves `P_L`: at d = 5,
+p = 10^-3 its 95% interval is about 626 times the bracket width 9.93e-9, so about 6.2e-6 wide on
+a value of 2.61e-5, about 12 percent either side (about 3.4 percent at d = 3). What the
+certificate adds there is exactness and an interval about 626 times narrower. The 12 percent is
+derived from the note's own Table 2 ratio; the binomial 95% half-width at 10^7 shots, 1.96
+sqrt(P(1-P)/N) with P = 2.614e-5, gives 12.1 percent and a width ratio of 638, consistent with
+the recorded 626 (the run record itself is not in this repository). Found by our own reading
+of 2026-11-17. Corrected in the abstract (dated note), §1 ("defeats", "blocks"), §4 (the
+sentence "it is exactly the regime [MWB] call inaccessible to sampling" goes) and the
+acknowledgments, in both twins; the README section (added sentence); the August sweep record
+(dated note). Part K carries the matching correction (its FIXLOG, K-5). No certified value
+changed.
+Propagation grep (`inaccessible`): Part H hits are §1's attributed quotation of [MWB], the
+README's attributed sentence, the sweep record (followed by its note) and the dated notes.
+(`defeats`): Part H and K hits are the dated notes, one in each twin of each part (Part K's
+attributed credit sentence says "defeat"); Part L's use is about a different matter. (`exactly the regime`): 2, the dated notes.
+[Amended after the referee of 2026-11-17: the dated notes now say that Mullan, Weippert and Brown's
+statement concerns the low error rates needed for utility-scale computation (their abstract) and
+that this note's operating points are not in that regime, instead of "kept here as theirs".
+Propagation grep (`kept here as theirs`): 0.]
+[Addition after the release gate of 2026-11-17: the acknowledgments, corrected in this round, carried no dated note; each twin now has one. Propagation grep (`The question this note answers`): 0 outside the dated notes.]
+
+**W-4. The reference to the Lean-QEC paper gave wrong initials and a wrong title.** The entry
+[LeanQEC] read "K. Ehatamm, S. Lee, Y. Wu and R. Tao, *Lean-QEC: machine-checked quantum
+error-correcting code distances via a verified SAT reduction*". arXiv:2605.16523 is M. Ehatamm,
+Y. Lee, X. Wu and R. Tao, *End-to-End Formalization of Quantum Error Correction* (arXiv listing
+and the repository's CITATION.bib, read 2026-11-17); Part N cites it correctly. Corrected with a
+dated note in both twins. Found by the referee of the 2026-11-17 round. Part K carries the same
+correction (K-6).
+Propagation grep (`K. Ehatamm`, `K.~Ehatamm`): 0 outside this log. (`verified SAT reduction`): 3,
+§3 of each twin, which describes Lean-QEC's method in those words (Part B describes it the same
+way, a SAT encoding whose refutation is replayed in the Lean kernel), and the August sweep record;
+in this log, S7 and this entry. (Re-measured by the fix session of 2026-11-17; the first version
+of this line said the hits were the dated notes.)

@@ -167,7 +167,7 @@ exclude this file, whose entries quote the superseded wording.
   `tamper_demo.py` docstring updated. The 09-01 tamper logs keep the old label as historical records. Propagation outside
   FIXLOG: "would change DEM" 0; "eleven corruptions" 1 (README, describing the staging run); "11 corruptions" 0.
 - **F-31 (metadata, R9).** `PROPOSED.zenodo.json`: title now "Certify vSTAGING-TAG: Part STAGING-LETTER — …",
-  `publication_date` "STAGING-SET-ON-RELEASE-DAY", description rewritten for F-23–F-28. Version and Part letter are Kirt's
+  `publication_date` "STAGING-SET-ON-RELEASE-DAY", description rewritten for F-23–F-28. Version and Part letter are [author]'s
   batch decision; the pre-push hook refuses the placeholder title. Draft CITATION.cff delta and root-README index entry are
   in `_staging-not-for-repo/STAGING-NOTES.md` (certify-repo is outside this session's write scope). The §13 tag diff
   remains a release-time step.
@@ -214,7 +214,7 @@ exclude this file, whose entries quote the superseded wording.
   2026-09-01" → "An internal referee pass"; Kornstein's "posted on 2026-10-15" removed. The as-of dates that §8.4 requires
   stay. Propagation in note.md: "The referee pass of 2026-09-01" 0; "posted on 2026-10-15" 0.
 - **F-36 (owner decision marked, not resolved).** An owner decision, recorded in `_staging-not-for-repo/STAGING-NOTES.md`
-  §1, is open and is Kirt's. README and note carry a "STAGING BLOCKER — owner decision (Kirt)" paragraph pointing at that
+  §1, is open and is [author]'s. README and note carry a "STAGING BLOCKER — owner decision ([author])" paragraph pointing at that
   section; this session did not act on the question. *(Reworded in round 3; see F-38.)*
 - **F-37 (V8 and re-run record).** All checkers re-run on the staged copies after these edits (VERIFY.log): full
   `run_all.py` under Python 3.14.7, `--fast` under 3.9.6, `lemma_b_check.py` on all 14 objects, the tamper battery on d3_r3
@@ -667,3 +667,18 @@ changed.
   or `note.pdf` changed, so this session ran no checker, and V8 stands as round 8 recorded it (R8.10; `note.pdf` is
   byte-identical). `SHA256SUMS` was rebuilt because `README.md` and `VERIFY.log` changed, and it is the last shipped file
   written (VERIFY.log R9.1, R9.6). Propagation outside FIXLOG: "rounds 2, 3, 4, 5, 7 and 8" 0.
+
+## Correction round, 2026-11-17
+
+**N-P1. Local paths and the login name.** Seven files of `colorcode-dcirc-certificates/` (five solver
+and ladder logs of 2026-09-01, 2026-09-25 and 2026-10-07, `ilp_anchor.log`, and `VERIFY.log`)
+carried absolute paths of the author's computer or the author's login name as a word. They were
+replaced in place by fixed placeholders (`[archive]/`, `[archive]`, `[scratch]/`, `[author]`) by
+the rule printed in `CORRECTIONS.md` and in `colorcode-dcirc-certificates/README.md`; 77 lines
+changed, none added or removed, every other byte as written, and `SHA256SUMS` was rebuilt for the
+changed files and the README. Two lines of this log (in its entries on F-23 to F-28 and on the
+staging blocker) used the login name as a word and now read `[author]` by the same rule; no other
+byte of this log changed. No certificate, proof, checker or result changed. Recorded without action by
+the organization audit of 2026-11-11; found as a defect by a release gate of this program on
+2026-11-17 (the paths) and by the propagation grep of this round (the login
+name).

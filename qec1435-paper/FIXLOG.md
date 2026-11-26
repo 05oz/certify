@@ -138,3 +138,20 @@ the round's own edit, all caught before the tag:
 3. The parser span was written `verify_1435.py:49-53 == gen_hyper.py:13-17`, the
    notation this round uses for byte-identical runs. The five lines are identical
    only up to a uniform four-space indentation shift. The claim now says so.
+
+## Correction round, 2026-11-17
+
+**D-3. An addition: the SDP bounds of Anglès Munné and Huber on the same family were not cited.**
+G. Anglès Munné and F. Huber, *SDP bounds on quantum codes: rational certificates*,
+arXiv:2603.19901v1 (20 March 2026), read in full for this entry, with its certificate repository
+(github.com/ganglesmunne/SDP_bounds_on_quantum_codes_rational_certificates, whose tree and
+commits a review of 2026-11-11 read; the certificates were not replayed). Their Table 1 gives
+4 ≤ K ≤ 9 at n = 14, distance 5, and their Eq. (40) gives K ≤ 8 for pure codes. A [[14,3,5]] code
+has K = 8, so neither bound excludes it, and "The existence of [[14,3,5]] remains open" stands. The
+paper predates the sweep of 2026-08-05, which did not find it. Its predecessor, Munné, Nemec and
+Huber, arXiv:2408.10323, was not read and is not cited; by the account of arXiv:2603.19901 its
+bounds concern ((7,1,4)), ((8,9,3)) and ((10,5,4)). Found by a review of 2026-11-11. Added as dated
+notes in the status record and §1.1 of both twins, as a reference, and as a dated note in the sweep
+record. No result of this note changed.
+Propagation grep (`remains open`): unchanged, and true; the new text says why the cited bounds do
+not decide the question.

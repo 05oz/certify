@@ -10,7 +10,9 @@
 %%   ZX-duality certificate. This CONFIRMS the value Bravyi et al. assert from
 %%   an uncertified integer program; it does not correct it. A first lower
 %%   bound of any kind for [[360,12,<=24]] (16 <= d <= 24, upper end cited,
-%%   lower end certified) is added. The profile-normalisation certificates are
+%%   lower end certified) is added. [Correction 2026-11-17: the word "first"
+%%   is withdrawn; others have since reported d = 24; see Section 1.4.] The
+%%   profile-normalisation certificates are
 %%   verified by a fourth standard-library checker, check_prof.py, which
 %%   rebuilds H_X, H_Z from the polynomial spec and regenerates the CNF.
 %%   Additional full-text sources read for this extension:
@@ -102,9 +104,15 @@ single Apple~M4 laptop (10 cores, 16\,GB). The three checkers named in
 \S\ref{sec:tcb} import only the Python standard library and import nothing from
 the generating pipeline; \texttt{check\_witness.py} and \texttt{check\_duality.py}
 share no substantive code with it, while \texttt{check\_lower.py} shares 36 of
-its 358 executable lines, the CSS-CNF construction among them. They were
-exercised against the corpus by a separate agent instance
-that was given no access to the pipeline. This is a factual methods statement,
+its 359 executable lines (358 before the D4 guard of 2026-11-17,
+\S\ref{sec:defects}), the CSS-CNF construction among them. They were
+exercised against the corpus by an auditing agent acting as an independent
+re-checker, whose report is \texttt{INDEPENDENT-VERIFICATION.md}
+(\S\ref{sec:audit}). \emph{(Correction, 2026-11-17: through v0.17.0 this
+sentence said the auditor was ``a separate agent instance that was given no
+access to the pipeline''. The audit's report states no access rule, and it
+records reading the pipeline's own outputs, which it did not take on trust.)}
+This is a factual methods statement,
 and it is part of the point of the paper: the artifacts are designed so that
 the provenance of the \emph{search} is irrelevant to the validity of the
 \emph{result}. External tools used by the pipeline only: CaDiCaL~3.0.1
@@ -156,8 +164,11 @@ weight-$12$ $X$- and $Z$-witnesses, and in each sector a single
 \emph{symmetry-free} LRAT proof ($868$\,MB for $X$, $672$\,MB for $Z$) of
 $\dX,\dZ\ge 12$, so that no symmetry lemma enters the trusted base for this
 code. For $[[288,12,18]]$ we determine the distance exactly: $d=18$, certified
-end to end and, as far as our sweep could determine, for the first time in a
-form a third party can replay. The upper bound is a weight-$18$ witness; the
+end to end in a form a third party can replay. \emph{(Correction, 2026-11-17:
+through v0.17.0 this sentence also said ``as far as our sweep could
+determine, for the first time''; a formal Lean statement of the lower bound,
+whose proof rests on four unproved lemmas, was public two months before this
+note (\S\ref{ssec:credit}).)} The upper bound is a weight-$18$ witness; the
 lower bound $\dX\ge18$ is a two-rung ladder in a profile-normalisation
 encoding, closed by two on-paper lemmas whose hypotheses are machine-checked
 --- Lemma~P, that every $X$-logical has even weight, and Lemma~S, the
@@ -171,9 +182,13 @@ out. One dependency we flag rather than bury: the exclusion of a weight-$16$
 logical --- the rung that reaches $18$ rather than $16$ --- rests on the
 profile-normalisation encoding alone; an independent, differently structured
 encoding corroborates the ladder only to $\dX\ge12$. The same construction
-yields the first lower bound of any kind for $[[360,12,\le24]]$: we certify
+yields a lower bound for $[[360,12,\le24]]$: we certify
 $16\le d\le24$, the lower end by this method and the upper end cited from
-Bravyi et al.
+Bravyi et al. \emph{(Correction, 2026-11-17: through v0.17.0 this read ``the
+first lower bound of any kind''; others have since reported $d=24$ for this
+code (\S\ref{ssec:credit}).)} \emph{(Correction, 2026-11-25: nor was it the
+first. Lower bounds of $11$, solver-asserted, and of $6$, from a theorem, were
+on record before it; see \S\ref{ssec:bb360}.)}
 
 We state the trusted base explicitly, separating what is machine-checked per
 certificate from the facts that are assumed, and we report the four defects
@@ -184,10 +199,13 @@ whose public repository reports a completed gross-code verification as of
 2026-07-10; and we claim no novelty for the profile-normalisation encoding
 against automated symmetry-breaking tools, which we did not benchmark. What is
 offered here is a certificate format and a trusted base --- four
-standard-library readers, $1{,}144$ lines in total, with no solver and no proof
-assistant in them --- the first independently-replayable determination that
-$d([[288,12,18]])=18$, the first lower bound of any kind for
+standard-library readers, $1{,}146$ lines in total, with no solver and no proof
+assistant in them --- an independently replayable determination that
+$d([[288,12,18]])=18$ with no admitted lemma, a lower bound for
 $[[360,12,\le24]]$, and artifacts that outlive the tools that produced them.
+\emph{(Correction, 2026-11-17: through v0.17.0 this sentence said ``the first''
+twice and counted $1{,}144$ lines; the D4 guard of \S\ref{sec:defects} added
+two lines to \texttt{check\_lower.py}.)}
 \end{abstract}
 
 \maketitle
@@ -343,12 +361,21 @@ contribution is to \emph{confirm} their value with one, not to change it. The
 strongest lower bound previously \emph{reported} by a method capable in
 principle of certifying was $d\ge11$, from Chen, Jafari and Lai
 \cite{ChenJafariLai} at a $7200$\,s timeout, solver-asserted, with no proof
-files in their repository and with every configuration running out of time. As
-far as the sweep of \S\ref{ssec:credit} could determine, ours is the first
-machine-checkable determination of this distance on record. The same
-construction gives the first lower bound of any kind for $[[360,12,\le24]]$,
-whose exact distance is unknown: we certify $16\le d\le24$, the lower end by the
-identical method and the upper end cited from \cite{BCGMRY}. Section~\ref{sec:288}
+files in their repository and with every configuration running out of time.
+Ours determines this distance with replayable artifacts and two lemmas proved
+on paper (\S\ref{sec:288}), with no admitted step; a Lean statement of the
+lower bound, whose proof leaves four rank lemmas as \texttt{sorry}, was public
+before it (\S\ref{ssec:credit}). The same construction gives a lower
+bound for $[[360,12,\le24]]$, whose exact distance was unknown in August 2026:
+we certify $16\le d\le24$, the lower end
+by the identical method and the upper end cited from \cite{BCGMRY}.
+\emph{(Correction, 2026-11-17: through v0.17.0 these sentences read ``ours is
+the first machine-checkable determination of this distance on record'' and
+``the first lower bound of any kind for $[[360,12,\le24]]$, whose exact
+distance is unknown''. See \S\ref{ssec:credit} for the Lean file and for the
+later reports of $d=24$.)} \emph{(Correction, 2026-11-25: the bound was not
+the first of any kind either; see \S\ref{ssec:bb360} for the two lower bounds
+on record before it.)} Section~\ref{sec:288}
 states the one genuine dependency plainly --- the weight-$16$ exclusion is
 proved only in the \texttt{prof} encoding, corroborated by an independent
 encoding to $\dX\ge12$ but not at the top of the ladder.
@@ -382,7 +409,9 @@ and the five-qubit code, was already known. This note contributes
 \emph{certificates for known numbers} --- including the exact value $d=18$ at
 $n=288$, new only in the sense of being independently checkable --- plus one
 genuinely new bound, $d\ge16$ for $[[360,12,\le24]]$, whose exact distance
-remains open. For $[[360,12,\le24]]$ the parity-check matrices are rebuilt from
+was open when this note was released (for later reports of $d=24$, see the end
+of this subsection). \emph{(Correction, 2026-11-17: through v0.17.0 this ended
+``whose exact distance remains open''.)} For $[[360,12,\le24]]$ the parity-check matrices are rebuilt from
 the polynomial specification by \texttt{check\_prof.py} and are not separately
 shipped.
 
@@ -424,6 +453,48 @@ problem to have. It is the reason we describe our contribution as a trusted
 base rather than a first, and we have made these statements as specific as we
 can so that they can be checked and, when they go stale, corrected.
 
+\emph{(Later facts, noted 2026-11-17.)} \textbf{$[[288,12,18]]$.} The same
+repository has held, since 2026-06-04 (last changed 2026-06-10), a file
+\texttt{LeanQEC/Stabilizer/Examples/BB/BB288.lean} that states $18\le d$ for this
+code as a Lean theorem. The theorem rests on four rank lemmas left as
+\texttt{sorry} (stated without proof), three lemmas proved by
+\texttt{native\_decide} and two by
+\texttt{bv\_decide} (read at main \texttt{8d115519} on 2026-11-17), and the
+repository's README lists reaching $[[288,12,18]]$ as a later goal. Our sweep
+of 2026-08-04 inspected the tree at \texttt{c73827d}, which already held this
+file, and did not name it. The difference is this: our determination rests on
+replayable artifacts and two lemmas proved on paper (Lemmas P and S of
+\S\ref{sec:288}), with no admitted step, and needs no proof assistant; theirs
+is a formal Lean statement whose proof leaves four rank lemmas as
+\texttt{sorry}. The sentences of
+this note that called ours the first machine-checkable determination on record
+are corrected accordingly. \textbf{$[[360,12,\le24]]$.} \emph{(Updated
+2026-11-25.)} Since this note, $d=24$
+has been reported for this code by G.~Lee's bicycle-race database
+(\texttt{github.com/gideonlsx/bicycle-race}, first release 2026-10-11), by
+Crocker (Zenodo 10.5281/zenodo.23405904, version~1.3 of 2026-10-15; first
+version 2026-10-13), by Daugherty, Ryan and Ward (Zenodo
+10.5281/zenodo.23382175, 2026-10-14), by tropidist (B.~Cheng, N.~Guo and
+F.~Pan; paper arXiv:2611.08247, 2026-11-05; the result file for this code is
+in the first commit of \texttt{github.com/Fanerst/tropidist}, dated
+2026-10-07, and, by GitHub's event record, that repository was made public on
+2026-11-05) and by
+QEDist~0.1 (J.~Y.~Lee, \texttt{github.com/yeon-lee/QEDist}, repository
+created 2026-11-16), whose catalogue records a completed exclusion through weight
+$23$ in $36.6$\,s; QEDist's documents call such results execution records
+and note that they rely on the correctness of the recorded search
+implementation. The Error Correction Zoo's pull request 460 (2026-11-16)
+reports a local run with QEDist and
+dist-m4ri. Their matrices have not been compared with ours, with one
+exception noted on 2026-11-25: Crocker's record defines the same parity-check
+matrices as \texttt{check\_prof.py} builds for this code, entry for entry. What this note
+certifies for that code stays $d\ge16$. \emph{(Addition, 2026-11-25: the
+manuscript of Daugherty, Ryan and Ward states that the certificates they ship
+prove $19\le d\le24$ for this code, a lower bound above the $16$ certified
+here, and that their exact value $24$ comes from an exhaustive enumeration and
+not from a shipped certificate. Their certificates were not replayed for this
+correction.)}
+
 \emph{Mathematical programming, independently.} Cruz-Benito, Cross, Kremer and
 Faro \cite{CruzBenito} (1 June 2026, IBM) revisit the gross-code distance with
 a mixed-integer linear program and close it to a MIP gap of zero, confirming
@@ -441,8 +512,10 @@ bounds of $11$ under a $7200$\,s budget. Their results are solver-asserted ---
 their repository \texttt{guluchen/QDistSAT} contains no proof or certificate
 files --- and their $d\ge11$ is the strongest quantity previously published for
 that code \emph{as a lower bound}, as against the exact value $d=18$ asserted
-in \cite{BCGMRY}. Our determination $d=18$ improves on it and, for the first
-time, backs the distance of this code with a replayable artifact.
+in \cite{BCGMRY}. Our determination $d=18$ improves on it and backs the
+distance of this code with a replayable artifact. \emph{(Correction,
+2026-11-17: through v0.17.0 this said ``for the first time''; see the later
+facts above.)}
 
 \emph{The even-weight lemma, and symmetry breaking.} The ladder that reaches
 $d=18$ uses two facts, neither of which is ours. Lemma~P --- that a CSS code
@@ -519,14 +592,17 @@ Lex-leader symmetry-breaking predicates; cyclic-symmetry search
 \multicolumn{3}{l}{\emph{Offered as new:}}\\
 \multicolumn{3}{L{0.93\textwidth}}{The certificate format of
 \S\ref{sec:formats} and its machine-checked exactness conditions; the
-symmetry-free $\gross$ proofs; the first machine-checkable determination on
-record that $d([[288,12,18]])=18$, and the first lower bound of any kind for
+symmetry-free $\gross$ proofs; a machine-checkable determination that
+$d([[288,12,18]])=18$ with no admitted lemma, and a lower bound for
 $[[360,12,\le24]]$ --- both via the profile-normalisation ladder of
 \S\ref{sec:288}, whose two supporting lemmas (the even-weight Lemma~P and a
 standard symmetry break) are not ours; the ZX-duality permutation --- Bravyi et
 al.'s lemma, not ours --- packaged as a $\sim$$15$\,ms checkable certificate;
-and a trusted base of four standard-library Python readers, $1{,}144$ lines,
-with no solver and no proof assistant in it.}\\
+and a trusted base of four standard-library Python readers, $1{,}146$ lines,
+with no solver and no proof assistant in it. \emph{(Correction, 2026-11-17:
+through v0.17.0 this list said ``the first machine-checkable determination on
+record'' and ``the first lower bound of any kind'', and counted $1{,}144$
+lines; see \S\ref{ssec:credit} and \S\ref{sec:defects}.)}}\\
 \bottomrule
 \end{tabular}
 \medskip
@@ -538,7 +614,10 @@ with no solver and no proof assistant in it.}\\
 We do not claim any new distance \emph{value} for a code whose exact distance
 was already known: $d([[288,12,18]])=18$ is Bravyi et al.'s, and we confirm it
 rather than discover it. The one piece of genuinely new distance information is
-the lower bound $d([[360,12,\le24]])\ge16$, whose exact value remains open. We
+the lower bound $d([[360,12,\le24]])\ge16$, whose exact value was open when
+this note was released; others have since reported $d=24$
+(\S\ref{ssec:credit}). \emph{(Correction, 2026-11-17: this ended ``whose
+exact value remains open''.)} We
 do not claim priority for machine-checked quantum distance proofs. We do not
 claim novelty for the two lemmas that close the $n=288$ ladder: the even-weight
 Lemma~P is Okada--Kasai's, and the profile-normalisation Lemma~S is an instance
@@ -556,7 +635,9 @@ Theorem~\ref{thm:exact} pins the logical dimension implicitly, and the audit
 recomputed every $k$ independently. We do not claim the corpus is free of
 defects: four are reported in \S\ref{sec:defects} --- one fixed in this
 release, three not --- including a genuine latent soundness hole in a checker
-branch that no shipped certificate exercises. And we do not claim novelty for
+branch that no shipped certificate exercises. \emph{(Updated 2026-11-17: that
+hole, D4, has since been fixed in \texttt{check\_lower.py}; see
+\S\ref{sec:defects}.)} And we do not claim novelty for
 the framing itself: this is a verification contribution, and the reason to
 read it is the audit of \S\ref{sec:audit}, not the numbers in
 Table~\ref{tab:main}.
@@ -630,7 +711,8 @@ $x_{1},\dots,x_{n}$;
 \end{enumerate}
 A lower-bound certificate is a JSON file naming $\HX,\HZ,P$, the value $K$,
 the sector, and for each instance a list of forced literals and an LRAT file.
-The checker \texttt{check\_lower.py} ($488$ lines) does four things: verifies
+The checker \texttt{check\_lower.py} ($490$ lines since the D4 guard of
+2026-11-17, \S\ref{sec:defects}; $488$ before) does four things: verifies
 the side conditions of Theorem~\ref{thm:exact}; \emph{regenerates}
 $\Phi_{K}(\HZ,P)$ from the raw matrices in a fixed variable order; replays the
 LRAT against its own clause list; and, for symmetry-broken certificates,
@@ -821,7 +903,9 @@ $e\in\rowsp(S)$. The converse inclusion is immediate.
 The five-qubit code $[[5,1,3]]$ carries this path end to end: a $128$-byte
 witness and a $1{,}514$-byte LRAT for $d\ge3$. It exists to keep the non-CSS
 branch of the checker exercised; see also defect D4 in \S\ref{sec:defects},
-which is a missing guard in exactly that branch.
+which was a missing guard in exactly that branch until the fix of
+2026-11-17. \emph{(Correction, 2026-11-17: this read ``which is a missing
+guard''.)}
 
 \section{The trusted base}\label{sec:tcb}
 
@@ -831,13 +915,15 @@ code one can read (\textsc{checked}) and what is argued in prose and verified
 nowhere (\textsc{assumed}).
 
 \subsection{Software}
-Four files, $1{,}144$ lines of Python in total:
+Four files, $1{,}146$ lines of Python in total:
 \texttt{check\_witness.py} ($95$), \texttt{check\_duality.py} ($73$),
-\texttt{check\_lower.py} ($488$), and \texttt{check\_prof.py} ($488$). The
-first three, $656$ lines, are the checkers the independent audit of
+\texttt{check\_lower.py} ($490$), and \texttt{check\_prof.py} ($488$). The
+first three, $658$ lines, are the checkers the independent audit of
 \S\ref{sec:audit} read and exercised; the fourth was added with the August~6 extension to verify the
 profile-normalisation certificates behind \emph{d} = 18 at \emph{n} = 288
-and the \emph{n} = 360 lower bound. It is not code-independent of
+and the \emph{n} = 360 lower bound. \emph{(Updated 2026-11-17: the counts
+were $1{,}144$, $488$ and $656$ before the D4 guard of \S\ref{sec:defects},
+which added two lines to \texttt{check\_lower.py}.)} It is not code-independent of
 \texttt{check\_lower.py}: 88 of its 387 executable lines appear verbatim
 there, including an eight-line byte-identical run,
 \texttt{check\_prof.py:386-393 == check\_lower.py:295-302}, which is the
@@ -899,7 +985,8 @@ deleted and every certificate still verifies.
 
 \begin{remark}[The checker moved after the audit]\label{rem:checkerdrift}
 The auditor of \S\ref{sec:audit} read a $419$-line
-\texttt{check\_lower.py}; the file shipped with this release is $488$ lines.
+\texttt{check\_lower.py}; the file shipped with v0.2.1 is $488$ lines, and
+$490$ since the D4 guard of 2026-11-17 (\S\ref{sec:defects}).
 The difference is one addition: an optional truncated Bailleux--Boufkhad
 totalizer as an alternative to the Sinz cardinality encoding, added during
 exploratory work on this family. It is selected only by a certificate that
@@ -1042,7 +1129,8 @@ zero by \cite{CruzBenito}, and reproduced by SAT in
 \cite{ChenJafariLai}. A machine-checked proof of it is not new either: the
 LEAN-QEC repository reports one as of 2026-07-10 (\S\ref{ssec:credit}). What is
 offered here is the shape of the artifact --- an $868$\,MB file plus a
-$488$-line reader, with no symmetry hypothesis, no solver and no proof
+$490$-line reader ($488$ lines before the D4 guard of \S\ref{sec:defects}),
+with no symmetry hypothesis, no solver and no proof
 assistant --- and the fact that it replays inside $51$\,MB of memory.
 
 \begin{remark}[Timing variability]
@@ -1075,9 +1163,12 @@ $[[360,12,\le24]]$ and $[[756,16,\le34]]$ carry one, and the caption states that
 ``$\le d$'' marks upper-bound-only entries; the supplemental material states
 that the actual distance ``of each candidate code was computed using the integer
 linear programming method''. So $d=18$ is their value, obtained by ILP and
-without a checkable artifact. What this section adds is the artifact: the first
-determination of $d([[288,12,18]])=18$, as far as our sweep could tell, that a
-third party can replay. It confirms their value; it does not change it.
+without a checkable artifact. What this section adds is the artifact: a
+determination of $d([[288,12,18]])=18$ that a third party can replay, with no
+admitted step. It confirms their value; it does not change it.
+\emph{(Correction, 2026-11-17: through v0.17.0 this read ``the first
+determination \dots, as far as our sweep could tell, that a third party can
+replay''; see \S\ref{ssec:credit}.)}
 \end{remark}
 
 \subsection{Two lemmas}\label{ssec:PS}
@@ -1180,14 +1271,32 @@ $7200$\,s timeouts, all of which time out with $d\ge11$ the best lower bound
 reached and no proof files in their repository. The two rungs above settle the
 strictly harder exact question on one laptop, with proofs any reader can replay.
 
-\subsection{$[[360,12,\le24]]$: a first lower bound}\label{ssec:bb360}
+\subsection{$[[360,12,\le24]]$: a lower bound}\label{ssec:bb360}
 The same construction transfers to the $\ell=30$, $m=6$ member,
 $A=x^{9}+y+y^{2}$, $B=y^{3}+x^{25}+x^{26}$, which is off the $\ell=m$ diagonal;
 the profile is therefore placed on the larger cyclic factor, the axis being a
 certificate field the checker reads. Its parameters reproduce $n=360$, $k=12$.
 Bravyi et al.\ \cite{BCGMRY} give only an upper bound, listing it as
-$[[360,12,\le24]]$; no lower bound of any kind has been reported, and
-Chen--Jafari--Lai time out on it. A \texttt{prof} $K=14$ instance ($14{,}015$
+$[[360,12,\le24]]$ (for later reports of $d=24$ see \S\ref{ssec:credit}). At
+least two lower bounds were on record when this note added its own. Chen,
+Jafari and Lai \cite{ChenJafariLai} ran their battery of solver configurations
+on this code too, under the same $7200$\,s timeouts: all $46$ time out, with
+$d\ge11$ the best lower bound reached, in one configuration ($d\ge10$ in $18$
+more), solver-asserted as for $[[288,12,18]]$ (\S\ref{ssec:rest288}). And
+Symons, Rajput and Browne (arXiv:2511.13560, November 2025) prove that an
+$h$-fold cover of a bivariate bicycle code, with $h$ odd and the same $k$, has
+at least the distance of the code it covers; their table lists this code as
+the $5$-fold cover of $[[72,12,6]]$, which gives $d\ge6$, though the paper does
+not say so of this code. What this subsection adds is a certified bound above
+both. \emph{(Correction, 2026-11-17: through
+v0.17.0 this subsection was titled ``a first lower bound'' and said ``has been
+reported''.)} \emph{(Correction, 2026-11-25: through v0.17.0 this paragraph
+said that no lower bound of any kind had been reported and that Chen, Jafari
+and Lai ``time out on it''. Their result table for this code was read on
+2026-11-25, and their instance has the same parity-check rows as the matrices
+of this note after one relabelling of the sites. The paper of Symons, Rajput
+and Browne was not among the sources read in August 2026; it was read on
+2026-11-25.)} A \texttt{prof} $K=14$ instance ($14{,}015$
 vars, $79{,}397$ clauses; $43$\,MB gzipped, solver $231$\,s, replay $40$\,s,
 $428{,}498$ lemmas) certifies that no nontrivial $X$-logical has weight $\le14$,
 so $\dX\ge15$, and Lemma~P (here $|c|=90$) raises it to $\dX\ge16$; a $K=12$ rung
@@ -1198,8 +1307,9 @@ so $\dZ=\dX$ and
 \[
   16\le d\bigl([[360,12,\le24]]\bigr)\le24 ,
 \]
-the lower end certified for the first time and the upper end cited from
-\cite{BCGMRY}. Two limits are stated at point of use. First, what a shipped
+the lower end certified here and the upper end cited from
+\cite{BCGMRY}. \emph{(Correction, 2026-11-17: this said ``certified for the
+first time''; see \S\ref{ssec:credit}.)} Two limits are stated at point of use. First, what a shipped
 \texttt{prof} certificate replays directly for this code is $\dX\ge16$; unlike
 $n=288$, no standalone \texttt{check\_duality} certificate ships for $n=360$, so
 the passage from $\dX\ge16$ to $d\ge16$ rests on the duality lemma verified in
@@ -1210,9 +1320,12 @@ cross-check. It is offered at exactly that strength.
 
 \section{Independent verification}\label{sec:audit}
 
-The corpus was re-checked by a separate agent instance with no access to the
-pipeline, on the same machine, using
-\texttt{/usr/bin/python3} (CPython 3.9.6). Its report is
+The corpus was re-checked by an auditing agent acting as an independent
+re-checker, on the same machine, using
+\texttt{/usr/bin/python3} (CPython 3.9.6). \emph{(Correction, 2026-11-17:
+through v0.17.0 this said ``a separate agent instance with no access to the
+pipeline''; the audit's report states no access rule, and it records reading
+the pipeline's own outputs.)} Its report is
 \texttt{INDEPENDENT-VERIFICATION.md}. Summary: $47$ checks run, $47$ passed,
 $0$ failed; $5{,}459{,}315{,}046$ bytes ($5.08$\,GiB) of LRAT replayed in
 approximately $746$\,s of wall clock; peak resident set $79$\,MB; all $182$
@@ -1318,7 +1431,15 @@ assertion. Two lesser observations in the same vein: the symmetry branch does
 not assert that there are exactly two instances (harmless, since each is
 replayed independently), and the CSS branch does not validate the sector label
 (a typo silently selects the other branch, whose side conditions then fail, as
-negative control 9 shows).
+negative control 9 shows). \emph{(Fixed 2026-11-17: the symplectic branch now
+asserts, before encoding, that the certificate has exactly one instance and
+that its forced list is empty, as the CSS branch does. This is a change of
+checker logic. Every \texttt{check\_lower} certificate whose proof ships with
+the repository ($19$ of $23$; the other four proofs are too large for git and
+are regenerable) was re-run against the changed checker and accepted, and the
+auditor's forged five-qubit certificate is now rejected; no certificate result
+changed. The two lesser observations stand as
+written.)}
 
 \smallskip
 \noindent D4 is the interesting one. It is exactly the class of defect that the
@@ -1547,10 +1668,12 @@ in: Principles of Knowledge Representation and Reasoning (KR'96),
 Morgan Kaufmann, 1996, 148--159.
 
 \bibitem[CCKF26]{CruzBenito}
-J.~Cruz-Benito, A.~W. Cross, F.~Kremer and I.~Faro (IBM Quantum),
+J.~Cruz-Benito, A.~W. Cross, D.~Kremer and I.~Faro (IBM Quantum),
 arXiv:2606.02418, June 1, 2026. Computes the minimum distance of the gross
 code $[[144,12,12]]$ exactly by mixed-integer linear programming, closing the
 MIP gap to $0$; no optimality certificate is exported.
+\emph{(Correction, 2026-11-25: through v0.17.0 this entry gave D.~Kremer's
+initial as F.)}
 
 \bibitem[CFHKS17]{LRAT}
 L.~Cruz-Filipe, M.~J.~H. Heule, W.~A. Hunt~Jr., M.~Kaufmann and

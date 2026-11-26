@@ -13,8 +13,10 @@ which is strictly stronger than set equality: it additionally requires that
 (c) the cube-splitting clauses (the units) exactly complement the base
     formula -- file minus base == units, as multisets, no leftovers.
 
-Expected clauses are rebuilt via audit_cnf.py's independent logic (fresh
-encoding rewrite, includes re-checking each block JSON's defining property).
+Expected clauses are rebuilt via audit_cnf.py, which builds the expected clause set
+itself, importing nothing from the generators, and re-checks each block JSON's defining
+property. (Until the correction of 2026-11-17 this read "audit_cnf.py's independent
+logic (fresh encoding rewrite ...)"; see k34-paper/FIXLOG.md, G-14.)
 
 Usage: audit_multiset.py N   (N in {21, 22, 23, 24})
 Exit 0 iff every required cube file exists and passes.

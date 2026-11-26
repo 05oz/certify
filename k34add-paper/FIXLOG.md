@@ -118,3 +118,84 @@ already corrected** — that the coarse invariant fingerprint "separates all thi
 which it does not, `w1`/`w5` and `w2`/`w4` agreeing in all three columns. It also still
 had `\par` where the deposit has `\endgraf` and so would not have compiled. Both working
 copies were reconciled to the deposit and their PDF rebuilt. All four copies now match.
+
+## Correction round, 2026-11-17
+
+Prompted by the reviewers at erdosproblemaday.com, who pointed out on 2026-11-16 that the
+circulant Cay(Z_20,{2,4,5,7,11,14}) is an extremal graph and that the description of this part's
+Zenodo record said no extremal graph is vertex-transitive. No witness, checker logic or certified
+count changed; `blowup_bound.py` changed in its docstring only (its digest is published nowhere
+in the repository; checked). Each propagation grep was run over the whole tree of this release
+after the edits. Counts were re-measured after the
+fixes of the verification and the referee of 2026-11-17, across line breaks and markup; unless a
+line says otherwise they leave out this log, CORRECTIONS.md and .zenodo.json, which quote old
+wording as records.
+
+**J-3. §6 posed as open a question the circulant answers.** It said that whether some other
+extremal graph might be algebraic is not decided. Cay(Z_20,{2,4,5,7,11,14}) is {I_3,TT_4}-free on
+20 vertices, every translation is an automorphism, and its automorphism group has order 20
+(re-checked for this entry: no independent triple among 1,140, no transitive 4-set among 4,845);
+the first arXiv version of IRW (arXiv:1707.09556v1, 2017) remarks that the largest free Cayley
+graph has 20 vertices. So the last part of Part G's Question 8.1 has the answer yes. The
+replacement is the one proposed in the record of 2026-11-17, stated at the strength known: "a
+vertex-transitive extremal graph exists" (one circulant is exhibited; groups of order 20 other
+than Z_20 were not searched). Added: being vertex-transitive, the circulant is isomorphic to none
+of the thirteen rigid witnesses, so at least fourteen extremal graphs exist. Credit: the working
+report of Erdős Problem a Day on problem 112 (dated 2026-08-12, initial run 2026-07-26), which
+exhibits the circulant with a census of eight cyclic witnesses on 20 vertices; Muhamadiev Faridun's
+repository (22 September 2026); and the reviewers at erdosproblemaday.com, who pointed it out to us.
+(Widened after the referee of 2026-11-17; our sweep of 2026-10-14 and our record of
+2026-10-20 already named both sources.) Corrected in both twins with a dated note.
+Propagation grep (`is not decided here`): 1 hit, the August sweep record, followed by its note.
+
+**J-4. "The algebraic route falls short" and "the picture at (3,4) is the opposite".** What falls
+short is the tournament blow-up route; a circulant reaches the extremal order. The statements
+about the thirteen (rigid, not Cayley, not blow-ups) stay. Corrected in the abstract, §1, the
+title and opening of §4 and the closing comparison of §4, in both twins, each with a dated note;
+in the README (the blow-up sentence now ends at what `blowup_bound.py` checks); in the docstring of
+`blowup_bound.py` ("so no tournament blow-up is extremal", the phrase of the corrected record
+description); and in the August sweep record (dated note).
+Propagation grep (`algebraic route`): 5 hits, each a dated note quoting the old words.
+(`substantially non-algebraic`): 6, the August sweep record (its line and its note), the README
+note, the dated note of §6 in each twin, and the docstring of `blowup_bound.py` (its own dated
+note). (`is the opposite`): 2 Part J hits, the dated notes; 3 more in
+Part A, about a different matter.
+
+**J-5. The prior-art record called IRW the only paper on r(I_m,L_n), and the count "a fortiori
+new".** Bermond's 1974 paper, which this note cites, determined r(I_3,L_3) = 9, and IRW cite a
+further paper by Larson and Mitchell (1997), so "the only paper" is false; "a fortiori new" is a
+novelty phrase and is withdrawn. Found by our own check of 2026-10-20 and the review of
+2026-11-11, and in the record of 2026-11-17. Corrected in both twins (the sentence is removed and
+a dated note says what it said), in a comment of the LaTeX header and in the August sweep record
+(dated note). Part G's narrower "no paper on r(I_m,L_n) other than IRW" in an arXiv sweep is true
+as scoped and stays.
+Propagation grep (`the only paper on`): 6 hits, the dated note in each twin, and the sweep record
+and the LaTeX header comment, each with its line and its note. (`a fortiori new`): 5, the dated
+note in each twin, the sweep record (its line and its note) and the header comment's note. (`brand new`): 1, the sweep record, followed by its note.
+
+**J-6. README: "every one of them is rigid".** It read as a statement about all extremal graphs.
+Now "every one of the thirteen", with one sentence on the circulant and a dated note.
+Propagation grep (`every one of them is *rigid*`): 1, the README's dated note quoting the old
+words.
+
+**J-7. The record description, and the sweep record.** The description of the Zenodo record of
+v0.10.0 (doi:10.5281/zenodo.21898266) said from 12 August 2026 that no 20-vertex extremal graph is
+vertex-transitive and that none is a Cayley digraph, and concluded from the blow-up bound that the
+extremal family is substantially non-algebraic. The description was corrected on 2026-11-17
+(revision 4, with a dated note crediting the reviewers at erdosproblemaday.com), and three further
+statements of it were aligned with the corrections of v0.14.0 and v0.15.0 the same day. The note
+now carries a dated paragraph in §6 that states the same facts, and that the copy of
+`SWEEP-RECORD-K34ADD-2026-08-11.md` inside the v0.10.0 archive keeps the wrong statement; the
+repository copy (changed in place in v0.14.0, commit 54a7b43, without a dated note) gains dated
+notes, one of which now records that in-place change. [The first version of this entry, and of the
+note's paragraph, said the v0.14.0 copy carries a dated note; it did not. Corrected after the
+referee of 2026-11-17.] The note itself always limited the
+rigidity claim to the thirteen.
+Propagation grep (`no 20-vertex extremal graph is vertex-transitive`): 2, the dated paragraph in
+each twin, which quotes the old description. (`none is a Cayley digraph`): 2, the same
+paragraphs. (`corrected in v0.14.0`): 0.
+
+Not taken in this round: depositing the circulant as a fourteenth arc list, which would change
+"thirteen" in many places (a release decision); and the attribution of the uniqueness of the
+7-vertex TT_4-free tournament to Sánchez-Flores (1998), which is unverified (the paper is not in
+our corpus) and needs a library read before it is kept or changed.

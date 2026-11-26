@@ -57,12 +57,21 @@ these orders would have yielded an explicit cubic 3-connected graph of
 order divisible by 6 with no Λ-factor. None was found. The graphs were
 generated with `geng`, and the generated counts agree exactly, at every
 order, with the published enumerations of connected cubic graphs and of
-3-connected cubic graphs. Two pipelines sharing no code — different
-connectivity tests, different search orders, both negative-controlled —
-agree on every count and report zero failures, and all 43,580 Λ-factor
+3-connected cubic graphs. Two pipelines with disjoint function
+inventories, different connectivity tests and different search orders,
+both negative-controlled, agree on every count and report zero failures,
+and all 43,580 Λ-factor
 certificates in the corpus were re-verified from the `graph6` strings
 alone by standard-library checkers sharing no code with the searcher that
-produced them (34,429 of them by two such checkers independently). At 24
+produced them (34,429 of them by two such checkers, which share their
+3-connectivity routine with each other, §5). *(Correction, 2026-11-17:
+through v0.17.0 this said the two pipelines share no code and the two
+checkers ran "independently". That the C searchers share no code was
+reasoned from their disjoint function inventories and never measured with
+a tool, and the searchers are not deposited, so it is untested, not
+refuted. The two Python checkers share their 3-connectivity routine, the
+same 85-token routine under renaming (`kelmans-certificates/verdict-n22-24.md`,
+§6.1).)* At 24
 vertices the search pipeline has completed all 98,101,019 3-connected
 cubic graphs with no failure and with counts again matching the published
 enumeration, but the independent recount is outstanding; that order is
@@ -169,8 +178,9 @@ The evidence for both theorems is a complete search: every 3-connected
 cubic graph of each order was generated, and for each the relevant
 existence questions were decided exactly — not estimated, not sampled —
 by an exhaustive procedure (§2.2). The result was then recounted end to
-end by a second pipeline written independently of the first, and the
-whole was confirmed by an adversarial referee (§3).
+end by a second pipeline written separately from the first, and the
+whole was confirmed by an adversarial referee (§3). *(Correction,
+2026-11-17: this said "written independently of the first"; see §2.2.)*
 
 One further order was searched but is *not* part of Theorems 1.1 and 1.2,
 and is recorded separately at the strength it has reached.
@@ -339,7 +349,11 @@ search; 3-vertex-path triples precomputed into per-vertex tables rather
 than generated on the fly; depth-first branching on the highest uncovered
 vertex rather than the lowest; the base claim by explicit iteration over
 avoided sets rather than by a skip counter; and a four-way probed failure
-cache rather than a single-slot one. It shares no code with the first.
+cache rather than a single-slot one. Its function inventory is disjoint
+from the first's apart from `main`; that the two share no code was
+reasoned from that and never measured with a tool, and the searchers are
+not deposited, so the claim is untested, not refuted. *(Correction,
+2026-11-17: this sentence read "It shares no code with the first.")*
 Agreement between the two is therefore agreement between two search
 orders and two data structures, not between two runs of one program.
 
@@ -448,7 +462,14 @@ re-run on the drafting date against the current binaries and checkers.
 The result rests on an adversarial referee pass by a separate agent
 instance under an explicit independence rule: every load-bearing check
 used code written in that session, sharing nothing with the search
-pipeline beyond the `graph6` format specification. The referee wrote the
+pipeline beyond the `graph6` format specification. *(Correction,
+2026-11-25: as the files are deposited, this does not hold for the
+certificate cross-check. The referee's checker `refcert.py` and
+`verify_cert.py` of the search side share their 3-connectivity routine, the
+same 85-token routine under renaming, and the record does not establish how
+that came about (`kelmans-certificates/verdict-n22-24.md`, §6.1 and §6.2;
+see §5). That the referee's C program shares no code with the searcher is
+untested, not refuted (§2.2).)* The referee wrote the
 second pipeline, ran the recount and the cross-checks and the controls
 described above, recomputed every count sum mechanically from the raw
 per-slice summary lines rather than accepting reported totals, and
@@ -497,11 +518,14 @@ What a skeptic must believe, separated from what they can replay.
 
 *Machine-checked, replayable:* the decision, for each of the 6,339,157
 graphs, of the base claim and of the strong forms listed in Theorem 1.2,
-by each of two pipelines sharing no code; the count of graphs read and of
-graphs kept at every order, by both pipelines and against two published
-enumerations; all 43,580 certificates through order 22, re-verified from
-the `graph6` strings alone, 34,429 of them by two unrelated checkers; and
-the negative controls, which both pipelines' failure paths pass.
+by each of two pipelines with disjoint function inventories; the count
+of graphs read and of graphs kept at every order, by both pipelines and
+against two published enumerations; all 43,580 certificates through order
+22, re-verified from the `graph6` strings alone, 34,429 of them by two
+checkers that share their 3-connectivity routine; and the negative
+controls, which both pipelines' failure paths pass. *(Correction,
+2026-11-17: this said "two pipelines sharing no code" and "two unrelated
+checkers"; see §2.2 and `kelmans-certificates/verdict-n22-24.md`, §6.1.)*
 
 *Trusted:*
 

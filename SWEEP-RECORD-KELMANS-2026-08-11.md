@@ -19,6 +19,10 @@ Conjecture 1.
   ≤ 20 vertices, counts cross-checked against OEIS A002851, OEIS A204198 and — at orders 10
   through 20 — McKay–Royle's published connectivity tables, negative controls on both
   failure paths.
+  [Note, 2026-11-17: "no code shared with the search side" is not true of the Python checkers:
+  refcert.py shares its 3-connectivity routine with verify_cert.py of the search side
+  (kelmans-certificates/verdict-n22-24.md §6.1); that refcheck.c shares no code with p3span.c was
+  reasoned from their function inventories and never measured with a tool.]
 * **2026-08-11 (pre-draft, independent).** All of the above re-run by the drafting agent
   immediately before the note was written: the arXiv API (abstracts mentioning P₃-factors
   or 3-vertex paths; *Kelmans* in math.CO; *Akiyama–Kano*), the citing literature of
@@ -49,6 +53,10 @@ Conjecture 1.
   arXiv-side novelty queries of the same day were not repeated a fourth time; they are
   recorded above from the two agents that ran them.
 
+[Note, 2026-11-17, on the summary below: "two pipelines sharing no code" was reasoned from
+disjoint function inventories and never measured with a tool (the searchers are not
+deposited), and the two Python certificate checkers share their 3-connectivity routine
+(`kelmans-certificates/verdict-n22-24.md` §6.1).]
 **Verification summary.** All 6,339,157 3-connected cubic graphs on at most 22 vertices
 decided for the base claim and for the applicable strong forms of Kelmans' Theorem 3.1, by
 two pipelines sharing no code, with zero failures; generated counts equal the published

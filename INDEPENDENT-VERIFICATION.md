@@ -382,7 +382,7 @@ qubits 1–3 excluded from the X-support. The shipped `five_qubit/lower_K2.json`
 (I verified), so **no shipped certificate is affected** — but the checker would accept a forged one.
 **Fix: mirror the CSS guard in the `stab_lower` branch** (`assert len(cert["instances"]) == 1 and
 cert["instances"][0]["forced"] == []`). Severity: latent checker bug; no impact on any current
-result. Two lesser observations in the same vein: `verify_symmetry` does not assert
+result. [Fixed 2026-11-17, with exactly this assertion; see §8 of the paper and CORRECTIONS.md.] Two lesser observations in the same vein: `verify_symmetry` does not assert
 `len(instances) == 2` (extra instances are harmless, since each is independently replayed), and the
 `css_lower` branch does not re-check that `cert["sector"]` is one of `"X"`/`"Z"` (a typo would
 silently select the Z branch — though the side conditions then fail, as negative control #9 shows).

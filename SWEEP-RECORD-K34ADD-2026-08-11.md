@@ -13,6 +13,12 @@ and the tournament-blow-up bound.
   r(I_m,L_n). Since the value is brand new, the *number of extremal graphs* for
   it is a fortiori new. Web sweep on the drafting date returned nothing on the
   count or uniqueness of 20-vertex {I_3,TT_4}-free oriented graphs.
+  [Correction, 2026-11-17: IRW is not the only paper on r(I_m,L_n): Bermond
+  (Discrete Math. 9 (1974), 313-321) determined r(I_3,L_3) = 9, and IRW cite a
+  further one by Larson and Mitchell (1997). "Brand new" and "a fortiori new" are
+  withdrawn. The first arXiv version of IRW (v1, 29 July 2017) remarks that the
+  largest {I_3,L_4}-free Cayley graph has 20 vertices; this sweep did not read
+  it. See the note, prior-art record and §6.]
 * The QR_7 forcing lemma is elementary and NOT claimed as new: it combines the
   local {I_3,TT_4}-freeness argument with two classical tournament facts —
   v(4) = 8 (tournament Ramsey; Erdős–Moser 1964) and the uniqueness of the
@@ -68,3 +74,15 @@ vertices, six short of the extremal order 20, so the extremal family is
 substantially non-algebraic. Whether every extremal witness must contain a QR_7
 block (equivalently, whether the all-vertices-≤6-non-neighbours instance is
 unsatisfiable) is left open.
+[Correction, 2026-11-17: the question left undecided above is decided. The
+circulant Cay(Z_20,{2,4,5,7,11,14}) is {I_3,TT_4}-free on 20 vertices and
+vertex-transitive, so an extremal graph is algebraic. It appears in the working
+report of Erdős Problem a Day on problem 112 (dated 2026-08-12, initial run
+2026-07-26) and in Muhamadiev Faridun's repository (22 September 2026); the
+reviewers at erdosproblemaday.com pointed it out to us on 2026-11-16. Until
+v0.14.0 the sentence on rigidity above ended "so no vertex-transitive or
+otherwise canonical 20-vertex extremal object exists"; v0.14.0 replaced that
+clause in place without a dated note, and the copy of this file in the v0.10.0
+archive keeps it. The conclusion "so the extremal family is
+substantially non-algebraic" is withdrawn: the blow-up bound shows only that no
+tournament blow-up is extremal. See the note, §4 and §6.]

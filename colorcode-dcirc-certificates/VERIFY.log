@@ -2245,15 +2245,15 @@ STAGING-NOTES, the out-of-scope distances, the build machine's use, and work of 
 the session's script. Run before this section was appended; the section itself was scanned after the append, and its only
 hits are its own quotations of the hits below (session evidence). Hits, each benign:
   added lines scanned: 497 in 7 files
-  'kirt': 1
-  colorcode-dcirc-paper/note.md | *Part ⟨STAGING: letter — Kirt's batch decision⟩ of Certify. Draft of October 28, 2026. Staged for the pre-release battery; not r
+  '[author]': 1
+  colorcode-dcirc-paper/note.md | *Part ⟨STAGING: letter — [author]'s batch decision⟩ of Certify. Draft of October 28, 2026. Staged for the pre-release battery; not r
   'v0.1': 2
   SWEEP-RECORD-COLORCODE-DCIRC-2026-10-20.md | no colour-code term. The v0.1 files and the v2.0 data zip were not read. No effect.
   SWEEP-RECORD-COLORCODE-DCIRC-2026-10-20.md | - The files of Crocker's v0.1 record 23489148 were not read.
-  "kirt's": 1
-  colorcode-dcirc-paper/note.md | *Part ⟨STAGING: letter — Kirt's batch decision⟩ of Certify. Draft of October 28, 2026. Staged for the pre-release battery; not r
+  "[author]'s": 1
+  colorcode-dcirc-paper/note.md | *Part ⟨STAGING: letter — [author]'s batch decision⟩ of Certify. Draft of October 28, 2026. Staged for the pre-release battery; not r
   total hits: 4
-  'kirt' and "kirt's": the note's existing Part placeholder line (line 6), whose date only changed; it is removed on release
+  '[author]' and "[author]'s": the note's existing Part placeholder line (line 6), whose date only changed; it is removed on release
   day (STAGING-NOTES WORK 7). 'v0.1': version 0.1 of Crocker's record 23489148, not a version of this program's releases.
   An earlier run found one more hit, the review's fix label in FIXLOG F-54's heading; it was removed.
 
@@ -2558,7 +2558,7 @@ files scanned: 179
       [draft: root README.md]:747 | `zefoz-certificates/zefoz_checker2.py`, `zefoz_checker_pilot.py`; Part N
   [other-lanes] 'magnet': 1
       [draft: root CITATION.cff]:44 | certified demagnetization tensors, certified ZEFOZ brackets, and
-  [people-private] 'kirt': 2
+  [people-private] '[author]': 2
       [draft: root README.md]:5 | Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of th
       [draft: the library entry]:3 | D. Kirtchakov, <span class="title">How much distance does the Kishony&ndash;Fowler colour-code
   [people-private] '05oz': 12

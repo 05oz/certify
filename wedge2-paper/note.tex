@@ -141,8 +141,9 @@ the exact values passed.
 \section{The question}\label{sec:question}
 
 Part H \cite{PartH} asked whether the logical error probability $\PL$ of a
-quantum error-correcting code, in the deep sub-threshold regime that defeats
-direct Monte Carlo sampling \cite{MWB}, can be pinned by a certificate a
+quantum error-correcting code, in the deep sub-threshold regime that Mullan,
+Weippert and Brown \cite{MWB} describe as beyond direct Monte Carlo sampling,
+can be pinned by a certificate a
 skeptic replays with nothing but a standard-library Python interpreter. Its
 answer was a two-sided exact-rational bracket $L \le \PL \le U$, built from
 exhaustively enumerated uncorrectable-set counts $A_w$ up to a truncation
@@ -505,7 +506,13 @@ question, the decoder convention, the DEMs, the operating points, and the
 kill-test record are all Part H's, and the supersession is of our own
 published bracket, not of any external result. The framing that
 sub-threshold logical error rates defeat direct sampling is Mullan,
-Weippert, and Brown's \cite{MWB}. The lookup-table decoder is Tomita and
+Weippert, and Brown's \cite{MWB}, whose statement concerns the low error
+rates needed for utility-scale computation; the operating points of Part~H
+and of this note are not in that regime: there a $10^7$-shot Monte Carlo run
+resolves $\PL$ (at $d=5$, $p=10^{-3}$ to about $12$ percent either side), and
+what the exact value adds is exactness. \emph{(Correction, 2026-11-17: through v0.17.0
+\S\ref{sec:question} said the regime ``defeats'' direct Monte Carlo
+sampling, in our voice; see Part~H, \S4.)} The lookup-table decoder is Tomita and
 Svore's \cite{TS}. The coset-enumerator lineage of the character sum is
 classical \cite{JP}. The detector error models were produced with Stim
 (Craig Gidney), used as an untrusted generator. The computation and drafting
@@ -554,9 +561,11 @@ Willow}, arXiv:2512.10814 (2026).
 \bibitem[CAHR]{CAHR} \emph{Reconstruction of detector error model for
 quantum error correction}, arXiv:2606.16288 (2026).
 
-\bibitem[LeanQEC]{LeanQEC} K. Ehatamm, S. Lee, Y. Wu and R. Tao,
-\emph{Lean-QEC: machine-checked quantum error-correcting code distances via
-a verified SAT reduction}, arXiv:2605.16523 (2026).
+\bibitem[LeanQEC]{LeanQEC} M. Ehatamm, Y. Lee, X. Wu and R. Tao,
+\emph{End-to-end formalization of quantum error correction},
+arXiv:2605.16523 (2026). \emph{(Correction, 2026-11-17: through v0.17.0
+this entry gave the authors' initials as K., S. and Y. and a title that is
+not the paper's.)}
 
 \bibitem[VeriQEC]{VeriQEC} C. Huang et al., \emph{Veri-QEC: verifying error
 correction and detection conditions for quantum error correcting codes},

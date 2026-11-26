@@ -33,7 +33,13 @@ GF(4), automorphism groups, linear programming bound, certificates.
 > same day: no published existence or nonexistence result for [[14,3,5]]
 > was found beyond the CSS case of [Koh26], and no published automorphism
 > restriction for it was found. A negative cannot be proved this way; we
-> record the scope of the search rather than a claim.
+> record the scope of the search rather than a claim. *(Addition,
+> 2026-11-17: the sweep missed one source on the same family of codes.
+> Anglès Munné and Huber [MH26] (March 2026) give upper bounds on the size K of
+> n-qubit codes with rational semidefinite-programming certificates; at
+> n = 14 and distance 5 they give K ≤ 9, and K ≤ 8 for pure codes. A
+> [[14,3,5]] code has K = 8, so neither bound excludes it, and its existence
+> remains open. See §1.1.)*
 
 ## Abstract
 
@@ -89,6 +95,12 @@ n = 14 [Koh26]. On the quantum side, automorphism groups of stabilizer
 codes have been studied in their own right — Hao [Hao21] proves
 nonexistence results for stabilizer codes with highly transitive
 automorphism groups — but that work contains nothing at length 14.
+Anglès Munné and Huber [MH26] give upper bounds on the size K of n-qubit codes,
+stabilizer or not, with rational certificates from semidefinite
+programming; at n = 14 and distance 5 they give K ≤ 9 in general and K ≤ 8
+for pure codes, and a [[14,3,5]] code has K = 2³ = 8, so their bounds do
+not exclude it. *(Addition, 2026-11-17: [MH26] predates the sweep of
+August 5, 2026, which did not find it.)*
 
 **The existence of [[14,3,5]] remains open.** This note proves a
 restriction on what such a code could look like, and ships the
@@ -616,3 +628,8 @@ defective; the certified enumerations above do not depend on it.
   January 28, 2026. Exhaustive enumeration of all CSS codes up to
   n = 14; Table VI at (n,k) = (14,3): two codes of distance 4, none
   higher.
+- [MH26] G. Anglès Munné and F. Huber, *SDP bounds on quantum codes:
+  rational certificates*, arXiv:2603.19901v1, March 2026; certificates in
+  the repository github.com/ganglesmunne/SDP_bounds_on_quantum_codes_rational_certificates.
+  Table 1, (n, δ) = (14, 5): 4 ≤ K ≤ 9; Eq. (40): K ≤ 8 for pure codes.
+  Added 2026-11-17.

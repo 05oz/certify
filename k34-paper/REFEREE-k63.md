@@ -36,7 +36,7 @@ cannot push the lower bound any higher. (Copies also exist in `method/erdos-112/
 
 ## 2. Independent checker (written from raw definitions — did NOT reuse the shipped score-sequence TT_3 criterion)
 
-Checker: `/private/tmp/.../scratchpad/referee_k63.py`. For each witness it (a) re-derives Cayley
+Checker: `[scratch]/referee_k63.py`. For each witness it (a) re-derives Cayley
 arcs from scratch and compares to the shipped list; (b) tests TT_3-freeness by **two** independent
 methods that must agree — a direct pattern search for `x→y, y→z, x→z`, and a full scan of every
 C(N,3) triple classifying each 3-vertex tournament as transitive vs. 3-cycle; (c) computes the
@@ -97,6 +97,10 @@ and NO lower bound for r(I_6,L_3);** their only m=6 statement is the upper bound
 - The note's **upper bound 33 is IRW's** (m²−m+3 at m=6) — correctly attributed, not claimed as ours.
 - The only lower bound implied by the prior literature is the trivial `k(6,3) ≥ R(6,3) = R(3,6) = 18`
   (from Hunter's R(n,m) ≤ k(n,m)). **The note's 29 improves this by 11.**
+  [Correction, 2026-11-17: 18 is the only bound the literature stated, but not the strongest
+  that its constructions give in one line. IRW's 22-vertex circulant together with a disjoint
+  directed 3-cycle has 25 vertices, independence number 5 and no TT_3, so k(6,3) ≥ 26; the 29
+  exceeds that by 3. See the note, §5.2.]
 - Targeted searches (recent arXiv 2024–2026; oriented-Ramsey / circulant constructions; the
   Mathon-type digraph-Ramsey paper arXiv:2408.04067, which concerns *multicolor directed* Ramsey
   numbers, a different quantity) surfaced **no published lower bound of 29, nor any lower bound for
@@ -108,6 +112,8 @@ and NO lower bound for r(I_6,L_3);** their only m=6 statement is the upper bound
 published anywhere located; 29 ≤ k(6,3) is new. (Standard referee caveat: web search cannot prove a
 negative with certainty, but the canonical source and the Erdős-problem page both stop short of any
 m=6 lower bound.)
+[Correction, 2026-11-17: as noted above, k(6,3) ≥ 26 follows in one line from IRW's
+constructions, although no source states it.]
 
 ## 4. The exact defensible sentence
 
@@ -119,3 +125,6 @@ m=6 lower bound.)
 
 Do **not** claim more than ≥ 29 from these witnesses (none exceeds N=28). Do **not** attribute the
 upper bound to this work.
+
+[Note, 2026-11-17: in §2, `[scratch]/` replaces the path of a temporary session folder, by the rule
+printed in CORRECTIONS.md (rule R5).]
