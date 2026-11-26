@@ -1,12 +1,12 @@
 # Certify: replayable certificates for machine-checked mathematics
 
-**Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112), erratum (v0.1.2) [doi:10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780), update (v0.2.1) [doi:10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018) · Part E (v0.5.0) [doi:10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896) · Part F (v0.6.0) [doi:10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028) · Part G (v0.7.0) [doi:10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619) · Part H (v0.8.0) [doi:10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825) · Part I (v0.9.0) [doi:10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011) · Part J (v0.10.0) [doi:10.5281/zenodo.21898266](https://doi.org/10.5281/zenodo.21898266) · Part K (v0.11.0) [doi:10.5281/zenodo.21898343](https://doi.org/10.5281/zenodo.21898343) · Part L (v0.12.0) [doi:10.5281/zenodo.21898722](https://doi.org/10.5281/zenodo.21898722) · [erratum v0.12.1: doi:10.5281/zenodo.21910159](https://doi.org/10.5281/zenodo.21910159) · Part M (v0.13.0) [doi:10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996) · Part N (v0.16.0) [doi:10.5281/zenodo.23792064](https://doi.org/10.5281/zenodo.23792064) · Part L correction and addendum (v0.17.0) [doi:10.5281/zenodo.24123940](https://doi.org/10.5281/zenodo.24123940) · correction rounds v0.14.0 [doi:10.5281/zenodo.21922469](https://doi.org/10.5281/zenodo.21922469) and v0.15.0 [doi:10.5281/zenodo.21933031](https://doi.org/10.5281/zenodo.21933031)
+**Archival records (Zenodo):** all versions [doi:10.5281/zenodo.21799111](https://doi.org/10.5281/zenodo.21799111) · Part A (v0.1.x) [doi:10.5281/zenodo.21799112](https://doi.org/10.5281/zenodo.21799112), erratum (v0.1.2) [doi:10.5281/zenodo.21831894](https://doi.org/10.5281/zenodo.21831894) · Part B (v0.2.0) [doi:10.5281/zenodo.21799780](https://doi.org/10.5281/zenodo.21799780), update (v0.2.1) [doi:10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995) · Part C (v0.3.0) [doi:10.5281/zenodo.21816010](https://doi.org/10.5281/zenodo.21816010) · Part D (v0.4.0) [doi:10.5281/zenodo.21816018](https://doi.org/10.5281/zenodo.21816018) · Part E (v0.5.0) [doi:10.5281/zenodo.21831896](https://doi.org/10.5281/zenodo.21831896) · Part F (v0.6.0) [doi:10.5281/zenodo.21832028](https://doi.org/10.5281/zenodo.21832028) · Part G (v0.7.0) [doi:10.5281/zenodo.21890619](https://doi.org/10.5281/zenodo.21890619) · Part H (v0.8.0) [doi:10.5281/zenodo.21895825](https://doi.org/10.5281/zenodo.21895825) · Part I (v0.9.0) [doi:10.5281/zenodo.21897011](https://doi.org/10.5281/zenodo.21897011) · Part J (v0.10.0) [doi:10.5281/zenodo.21898266](https://doi.org/10.5281/zenodo.21898266) · Part K (v0.11.0) [doi:10.5281/zenodo.21898343](https://doi.org/10.5281/zenodo.21898343) · Part L (v0.12.0) [doi:10.5281/zenodo.21898722](https://doi.org/10.5281/zenodo.21898722) · [erratum v0.12.1: doi:10.5281/zenodo.21910159](https://doi.org/10.5281/zenodo.21910159) · Part M (v0.13.0) [doi:10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996) · Part N (v0.16.0) [doi:10.5281/zenodo.23792064](https://doi.org/10.5281/zenodo.23792064) · Part L correction and addendum (v0.17.0) [doi:10.5281/zenodo.24123940](https://doi.org/10.5281/zenodo.24123940) · correction rounds v0.14.0 [doi:10.5281/zenodo.21922469](https://doi.org/10.5281/zenodo.21922469), v0.15.0 [doi:10.5281/zenodo.21933031](https://doi.org/10.5281/zenodo.21933031) and v0.18.0 [doi:10.5281/zenodo.24547538](https://doi.org/10.5281/zenodo.24547538)
 
-Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-11-25.
+Author: Daniel Kirtchakov (Independent researcher, Half Ounce Research) — daniel@halfounce.io. Repository: https://github.com/05oz/certify. Date of this snapshot: 2026-11-26.
 
 > **Part A erratum — v0.1.2 (2026-08-06).** The Theorem D fiber count of the note over the pullback of `{Δ₂ = 0}` was wrong (stated as 2). The correct set-theoretic fiber sizes are **{3, 1, 0}**; over `{Δ₂ = 0}` the fiber has **three distinct** points (an *apparent* branch locus). No other claim depended on it. v0.1.2 supersedes v0.1.0/v0.1.1 on this point only. Details and independent re-verification: [`paper/ERRATUM-v0.1.2.md`](paper/ERRATUM-v0.1.2.md), scripts in [`scripts/erratum-check/`](scripts/erratum-check/).
 
-Fourteen parts, A to N, live here, sharing a method rather than a subject: **produce an artifact a skeptic can re-check without trusting the tool that made it, then say exactly what still has to be believed.** The two parts that came first are compared in the table below; every part is listed in the parts index further down.
+Fifteen parts, A to O, live here, sharing a method rather than a subject: **produce an artifact a skeptic can re-check without trusting the tool that made it, then say exactly what still has to be believed.** The two parts that came first are compared in the table below; every part is listed in the parts index further down.
 
 | | Part A — Alpöge Keller map (v0.1.2) | Part B — quantum code distances (v0.2.1) |
 |---|---|---|
@@ -26,7 +26,7 @@ Every mathematical claim in either preprint maps to a script whose `assert` stat
 ## Parts index
 
 Dates are the Zenodo publication dates of the records. Each part's folders hold its note (PDF and Markdown, and the LaTeX source for every part but N), its
-certificates and its checkers; the dated novelty sweep of each part is the `SWEEP-RECORD-*.md` file at the top level.
+certificates and its checkers; the dated novelty sweep of each part is the `SWEEP-RECORD-*.md` file at the top level (for Part O, section 6 of `k36/note.md`).
 
 | Part | Subject | Releases: version, DOI, date | Folders |
 |---|---|---|---|
@@ -44,7 +44,8 @@ certificates and its checkers; the dated novelty sweep of each part is the `SWEE
 | L | Certified Newell demagnetization-tensor tables | v0.12.0, [10.5281/zenodo.21898722](https://doi.org/10.5281/zenodo.21898722), 2026-08-12; erratum v0.12.1, [10.5281/zenodo.21910159](https://doi.org/10.5281/zenodo.21910159), 2026-08-12; correction and addendum v0.17.0, [10.5281/zenodo.24123940](https://doi.org/10.5281/zenodo.24123940), 2026-11-10 | `demag-paper/`, `demag-certificates/`, `demag-scripts/` |
 | M | Certified ZEFOZ brackets for ¹⁶⁷Er³⁺:Y₂SiO₅ | v0.13.0, [10.5281/zenodo.21898996](https://doi.org/10.5281/zenodo.21898996), 2026-08-12 | `zefoz-paper/`, `zefoz-certificates/`, `zefoz-scripts/` |
 | N | Circuit-level distances of the Kishony–Fowler colour-code circuit, d = 3 to 15 | v0.16.0, [10.5281/zenodo.23792064](https://doi.org/10.5281/zenodo.23792064), 2026-10-29 | `colorcode-dcirc-paper/`, `colorcode-dcirc-certificates/` |
-| Corrections | Correction rounds across the parts, indexed in [CORRECTIONS.md](CORRECTIONS.md) | v0.14.0, [10.5281/zenodo.21922469](https://doi.org/10.5281/zenodo.21922469), 2026-08-13; v0.15.0, [10.5281/zenodo.21933031](https://doi.org/10.5281/zenodo.21933031), 2026-08-14; v0.18.0 (this release), 2026-11-25 | top level |
+| O | An explicit oriented graph gives k(3,6) ≥ 73 (Erdős Problem #112) | v0.19.0 (this release), 2026-11-26 | `k36/` |
+| Corrections | Correction rounds across the parts, indexed in [CORRECTIONS.md](CORRECTIONS.md) | v0.14.0, [10.5281/zenodo.21922469](https://doi.org/10.5281/zenodo.21922469), 2026-08-13; v0.15.0, [10.5281/zenodo.21933031](https://doi.org/10.5281/zenodo.21933031), 2026-08-14; v0.18.0, [10.5281/zenodo.24547538](https://doi.org/10.5281/zenodo.24547538), 2026-11-25 | top level |
 
 Zenodo archived release v0.2.1 twice: [10.5281/zenodo.21832017](https://doi.org/10.5281/zenodo.21832017) is a
 byte-identical second record of [10.5281/zenodo.21831995](https://doi.org/10.5281/zenodo.21831995), which is the one to cite.
@@ -693,6 +694,24 @@ Paper: [`colorcode-dcirc-paper/note.pdf`](colorcode-dcirc-paper/note.pdf).
   and `colorcode-dcirc-certificates/VERIFY.log`. Dated record:
   [`colorcode-dcirc-paper/PROVENANCE.md`](colorcode-dcirc-paper/PROVENANCE.md).
 
+## Part O: an explicit oriented graph gives k(3,6) ≥ 73, Erdős Problem #112 (v0.19.0)
+
+**k(3,6) = r(I₃, L₆) ≥ 73.** A Cayley digraph G72 on ℤ₂₄ × ℤ₃ with 25 generators has no three pairwise
+non-adjacent vertices (a short proof by hand: the non-neighbour differences have sum-free ℤ₂₄
+coordinates) and no transitive tournament on six vertices (checked on the whole graph by two
+independently written standard-library programs; by vertex-transitivity it is a check of a
+25-vertex subdigraph). The largest published lower bound found is 71 (T. S. Orden, Zenodo,
+2026-11-20, doi:10.5281/zenodo.24390891). Paper: [`k36/note.pdf`](k36/note.pdf), with its Markdown
+twin [`k36/note.md`](k36/note.md).
+
+- **Credit.** The part also records two graphs for k(7,3) ≥ 39 and k(8,3) ≥ 47. Those bounds are
+  Orden's, published first in the record above; the two graphs are his up to the explicit
+  relabellings given in the note, which `k36/scripts/check_same_graphs.py` checks.
+- **Replay now:** from `k36/`, the seven commands of section 4 of the note (standard-library
+  Python 3.9 or later; Part G's checker is `k34-scripts/verify_witness.py` of this repository).
+  The fast ones take under a second; Part G's brute-force checker takes a few minutes in all.
+- **One machine.** Every check ran on one machine; a replay on a second machine has not been made.
+
 ## Layout
 
 ```
@@ -822,6 +841,12 @@ colorcode-dcirc-certificates/ 24 objects, 25 witnesses, 16 lower-bound records, 
                               lifter); the build's own CNF encoder and the solver drivers
                               are not included
 SWEEP-RECORD-COLORCODE-DCIRC-2026-10-20.md  dated novelty sweep
+
+  -- Part O: an explicit oriented graph gives k(3,6) >= 73, Erdős Problem #112 (v0.19.0) --
+k36/                          note (Markdown, LaTeX, PDF); certificates/ (three JSON arc lists:
+                              k36_N72.json, k73_N38.json, k83_N46.json); scripts/ (verify_bounds.py,
+                              check_constructions.py, test_check_constructions.py,
+                              check_same_graphs.py; standard library only)
 ```
 
 For Part A, the reduction library and the system generators are intentionally not part of this repository; the published claims are the certificates themselves plus the verification scripts, which are self-contained. For Part B, the generating pipeline **is** included (`qec-scripts/certify.py`, `qec_lib.py`, `run_all.sh`) precisely because it is *not* trusted: it can be deleted and every certificate still verifies.
@@ -839,7 +864,7 @@ The **trusted base is operating-system-independent**: every checker in this repo
 with no OS-specific calls on any default verification path — the one opt-in exception is noted
 below — and verification requires nothing else. **Part A** (`scripts/`) is the one part whose
 checkers need a third-party package — standard library plus SymPy. **The checkers of every other
-part, B through N, are standard library only.** Checked import-by-import: Part B
+part, B through O, are standard library only.** Checked import-by-import: Part B
 `qec-scripts/check_witness.py`, `check_lower.py`, `check_duality.py`, `check_prof.py`,
 `verify_manifest.py`; Part C `tt3-scripts/verify_minimizer.py`, `verify_sweep.py`; Part D
 `qec1435-scripts/verify_1435.py`; Part E `cfr-certificates/verify_cfr525.py`; Part F
@@ -849,7 +874,7 @@ part, B through N, are standard library only.** Checked import-by-import: Part B
 Part K `wedge2-certificates/check_wedge2.py`; Part L `demag-certificates/check_demag.py`, `demag-scripts/check_remainder_bound.py`, `series_terms.py`; Part M
 `zefoz-certificates/zefoz_checker2.py`, `zefoz_checker_pilot.py`; Part N
 `colorcode-dcirc-certificates/run_all.py`, `certs/check_dcirc.py`, `certs/dem_from_circuit.py`,
-`certs/extcode_from_circuit.py`, `certs/purex_from_object.py`, `certs/lemma_b_check.py`. Between
+`certs/extcode_from_circuit.py`, `certs/purex_from_object.py`, `certs/lemma_b_check.py`; Part O `k36/scripts/verify_bounds.py`, `check_constructions.py`, `check_same_graphs.py`. Between
 them they import nothing outside the Python standard library (re-confirmed by AST scan over all
 23 files, 2026-08-12; Part N's six on 2026-10-29; Part L's `check_remainder_bound.py` and
 `series_terms.py` on 2026-11-10).

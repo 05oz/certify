@@ -1,8 +1,8 @@
 {
-  "title": "Certify v0.18.0: correction round for Parts A, B, D, E, G, H, I, J and K, with one checker guard and local paths removed from logs",
-  "description": "This release is a correction round. It corrects statements in Parts A, B, D, E, G, H, I, J and K of Certify, adds one guard to a Part B checker, and removes local file paths from logs and records of Parts B, E, G and N. No certified value changed, and every corrected statement in the notes carries a dated note (Part A's draft-only header, which made no claim, was removed without one); CORRECTIONS.md lists each correction with the one who found it. Part G (k(3,4) = 21): section 5.2 said that no lower bound for k(6,3) beyond 24 appears in the literature; the literature stated 18, and a one-line union of known graphs gives 26, so the bound 29 of the note exceeds that by 3. Section 8.3 now gives k(4,4) >= 28. The note now credits the first arXiv version of Ihringer, Rajendraprasad and Weinert (2017), which remarks that the largest {I_3,L_4}-free Cayley graph has 20 vertices and states r(I_3,L_4) <= 24; the reviewers at erdosproblemaday.com pointed out the remark. The header's claim that the referee had no access to the pipeline's code, the count 'twelve' for the second checker (ten ledger certificates and two small ones), the word 'unrelated' for two checkers of our own, and '11 of 11' regeneration attempts (nine are on record) are corrected; the note now says that no established LRAT checker ran in August and that drat-trim's lrat-check accepted 30 ledger certificates on 2026-11-17; it also records an outside check completed on 2026-11-18 by the reviewers at erdosproblemaday.com, in which, by their record, the verified LRAT checker cake_lpr accepted a proof of each of the 445 formulas, regenerated from this repository. The note's Question 8.1 is answered in part: the circulant Cay(Z_20,{2,4,5,7,11,14}) is an extremal graph; it appears in the working report of Erdos Problem a Day on problem 112 and in Muhamadiev Faridun's repository, and the reviewers at erdosproblemaday.com pointed it out to us. The regeneration inputs added on 2026-11-17 (72 block-class representatives, four queue files, verify_chain.py) are in this release. Part J: the note now says that a vertex-transitive extremal graph exists, withdraws the conclusion that the extremal family is non-algebraic, and corrects its prior-art record. Part E: H.-Y. Song's 2000 paper has been read in full and gives the same lower bound 4 for n = 25; the Handbook table the note compares with is out of date at n = 33, 35 and 39, so exceeding it is not by itself evidence of novelty. Part D: the semidefinite-programming bounds of Anglès Munné and Huber (2026) on the same family are now cited; they do not exclude [[14,3,5]]. Part B: the Lean-QEC repository has stated 18 <= d for [[288,12,18]] since June 2026, with four unproved lemmas, so the word 'first' is withdrawn; d = 24 for [[360,12]] has since been reported by others and is credited; the statement that no lower bound had been reported for [[360,12]] is withdrawn, because Chen, Jafari and Lai (2026) had reported a solver-asserted d >= 11 at a timeout and a theorem of Symons, Rajput and Browne (2025) gives d >= 6, both below the certified 16; check_lower.py now asserts, in its symplectic branch, one instance with no forced literals, the fix its audit proposed (finding D4); every certificate whose proof ships with the repository passes the changed checker. Parts H and K: at their own operating points a 10^7-shot Monte Carlo run resolves the logical error probability to about 12 percent, so what the certificate adds there is exactness; their reference to the Lean-QEC paper is corrected. Part I: the two Python certificate checkers share a routine, and the claim that the two C pipelines share no code is untested. Part A: the draft-only marking is removed from the public preprint. Local paths: 82 lines in 11 files named folders of the author's computer or used the author's login name; each is now a fixed placeholder, by a rule printed in CORRECTIONS.md, and the hashes that pin those files are updated. Computations and drafting carried out with Claude (Anthropic), directed by the author.",
+  "title": "Certify v0.19.0: Part O, an explicit oriented graph gives k(3,6) >= 73 (Erdős Problem #112)",
+  "description": "<p>Part O of Certify. An explicit Cayley digraph on Z_24 x Z_3 with 25 generators has no three pairwise non-adjacent vertices and no transitive tournament on six vertices, so k(3,6) = r(I_3, L_6) &gt;= 73 (Erdős Problem #112). The largest published lower bound found is 71 (T. S. Orden, Zenodo, 2026-11-20, doi:10.5281/zenodo.24390891). The first property has a short proof by hand; the second is checked on the whole graph by two independently written standard-library programs, and by vertex-transitivity it is a check of a 25-vertex subdigraph. Every check ran on one machine.</p><p>The release also records two graphs for k(7,3) &gt;= 39 and k(8,3) &gt;= 47. Those bounds are Orden's, published first; the two graphs are his up to explicit relabellings, which a shipped script checks.</p><p>Files: k36/note.pdf (paper), k36/note.md and k36/note.tex, k36/certificates/ (three JSON arc lists), k36/scripts/ (four standard-library scripts). This version also adds the DOI of v0.18.0 to the README and CITATION.cff.</p>",
   "upload_type": "software",
-  "publication_date": "2026-11-25",
+  "publication_date": "2026-11-26",
   "creators": [
     {
       "name": "Kirtchakov, Daniel",
@@ -12,13 +12,11 @@
   ],
   "license": "Apache-2.0",
   "keywords": [
-    "certified computation",
-    "corrections",
-    "erratum",
-    "machine-checked mathematics",
-    "LRAT",
     "Erdos problem 112",
-    "quantum error correction",
+    "oriented Ramsey number",
+    "transitive tournament",
+    "Cayley digraph",
+    "certified computation",
     "replayable certificates"
   ]
 }
